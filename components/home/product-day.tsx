@@ -30,7 +30,7 @@ export function ProductDay() {
   const product = {
     id: sku.id,
     name: model.name,
-    configuration: `${sku.storage} · ${sku.color} · eSIM`,
+    configuration: [sku.storage, sku.color, sku.sim].filter(Boolean).join(' · '),
     price: sku.price,
     image: sku.image,
     href,

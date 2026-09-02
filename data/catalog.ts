@@ -1,4 +1,9 @@
 import type { FeaturedProduct, ProductModel, ProductSku } from '@/types/catalog';
+import { iphoneCatalog } from './iphone-catalog';
+import { samsungCatalog } from './samsung-catalog';
+import { macbookCatalog } from './macbook-catalog';
+import { audioCatalog } from './audio-catalog';
+import { watchCatalog } from './watch-catalog';
 
 export const productModels: ProductModel[] = [
   { id: 'iphone-17-pro', slug: 'iphone-17-pro', name: 'iPhone 17 Pro', brand: 'Apple', category: 'smartphones' },
@@ -7,16 +12,25 @@ export const productModels: ProductModel[] = [
   { id: 'macbook-air', slug: 'macbook-air', name: 'MacBook Air 13', brand: 'Apple', category: 'laptops' },
   { id: 'airpods-pro', slug: 'airpods-pro', name: 'AirPods Pro', brand: 'Apple', category: 'audio' },
   { id: 'apple-watch', slug: 'apple-watch', name: 'Apple Watch Series 11', brand: 'Apple', category: 'watches' },
+  { id: 'samsung-s25-ultra', slug: 'samsung-galaxy-s25-ultra', name: 'Samsung Galaxy S25 Ultra', brand: 'Samsung', category: 'smartphones' },
 ];
 
 const allCities = { magnitogorsk: 4, beloretsk: 2, troitsk: 1 };
+const slug = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const iphonePro = iphoneCatalog.find((item) => item.model === 'iPhone 17 Pro' && item.storage === '256 GB' && item.color === 'Cosmic Orange') ?? iphoneCatalog.find((item) => item.model === 'iPhone 17 Pro')!;
+const iphone = iphoneCatalog.find((item) => item.model === 'iPhone 17' && item.storage === '256 GB' && item.color === 'Black') ?? iphoneCatalog.find((item) => item.model === 'iPhone 17')!;
+const samsung = samsungCatalog.find((item) => item.model === 'Samsung Galaxy S25 Ultra' && item.storage === '256 GB') ?? samsungCatalog.find((item) => item.model === 'Samsung Galaxy S25 Ultra')!;
+const macbook = macbookCatalog.find((item) => item.model === 'MacBook Air 13 M5' && item.storage === '512 GB') ?? macbookCatalog.find((item) => item.model === 'MacBook Air 13 M5')!;
+const airpods = audioCatalog.find((item) => item.model === 'AirPods Pro 3') ?? audioCatalog[0];
+const watch = watchCatalog.find((item) => item.model === 'Apple Watch Series 11') ?? watchCatalog[0];
+
 export const productSkus: ProductSku[] = [
-  { id: '17p-256-orange', modelId: 'iphone-17-pro', storage: '256 GB', color: 'Cosmic Orange', colorSlug: 'orange', sim: 'esim', price: 109990, oldPrice: 119990, image: '/images/king-product-iphone.webp', availability: allCities },
-  { id: '17-256-black', modelId: 'iphone-17', storage: '256 GB', color: 'Black', colorSlug: 'black', sim: 'esim', price: 89990, image: '/images/king-product-iphone.webp', availability: allCities },
-  { id: '16p-256-titanium', modelId: 'iphone-16-pro', storage: '256 GB', color: 'Black Titanium', colorSlug: 'titanium', sim: 'esim', price: 94990, oldPrice: 102990, image: '/images/king-product-iphone.webp', availability: allCities },
-  { id: 'mba-16-256', modelId: 'macbook-air', storage: '16 / 256 GB', color: 'Silver', colorSlug: 'silver', price: 99990, image: '/images/king-category-computers.webp', availability: allCities },
-  { id: 'airpods-pro-white', modelId: 'airpods-pro', color: 'White', colorSlug: 'white', price: 23990, image: '/images/king-product-headphones.webp', availability: allCities },
-  { id: 'watch-46-black', modelId: 'apple-watch', storage: '46 mm', color: 'Jet Black', colorSlug: 'black', price: 42990, image: '/images/king-category-watches.webp', availability: allCities },
+  { id: iphonePro.id, modelId: 'iphone-17-pro', storage: iphonePro.storage, color: iphonePro.color, colorSlug: slug(iphonePro.color), sim: 'esim', price: iphonePro.price, image: iphonePro.image, availability: allCities },
+  { id: iphone.id, modelId: 'iphone-17', storage: iphone.storage, color: iphone.color, colorSlug: slug(iphone.color), sim: 'esim', price: iphone.price, image: iphone.image, availability: allCities },
+  { id: samsung.id, modelId: 'samsung-s25-ultra', storage: samsung.storage, color: samsung.color, colorSlug: slug(samsung.color), sim: 'dual-sim', price: samsung.price, image: samsung.image, availability: allCities },
+  { id: macbook.id, modelId: 'macbook-air', storage: `${macbook.ram} / ${macbook.storage}`, color: macbook.color, colorSlug: slug(macbook.color), price: macbook.price, image: macbook.image, availability: allCities },
+  { id: airpods.id, modelId: 'airpods-pro', color: airpods.color, colorSlug: slug(airpods.color), price: airpods.price ?? 0, image: airpods.image, availability: allCities },
+  { id: watch.id, modelId: 'apple-watch', storage: watch.size, color: watch.color, colorSlug: slug(watch.color), price: watch.price, image: watch.image, availability: allCities },
 ];
 
 export const featuredProducts: FeaturedProduct[] = productSkus.map((sku) => ({

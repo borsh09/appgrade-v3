@@ -55,6 +55,32 @@ const categoryTiles = [
   },
 ];
 
+const offerRail = [
+  { title: 'Розыгрыш BMW 3', image: '/images/king-discount-day.webp', href: '/catalog' },
+  { title: 'iPhone 17 Pro', image: '/images/king-banner-product.webp', href: '/catalog/iphones' },
+  { title: 'Подарки при покупке', image: '/images/king-gifts.webp', href: '/catalog' },
+  { title: 'Наши клиенты', image: '/images/king-review-poster.webp', href: '/catalog' },
+  { title: 'Кэшбэк с покупок', image: '/images/king-cashback.webp', href: '/catalog' },
+  { title: 'Рассрочка без %', image: '/images/king-promo-codes.webp', href: '/catalog' },
+  { title: 'Trade-in', image: '/images/king-trade-in.webp', href: '#trade-in' },
+  { title: 'Гарантия низкой цены', image: '/images/king-lifetime-warranty.webp', href: '/catalog' },
+];
+
+export function OfferRail() {
+  return (
+    <section className="offer-rail-section" aria-label="Акции и предложения">
+      <div className="container offer-rail">
+        {offerRail.map((item) => (
+          <Link href={item.href} className="offer-rail-item" key={item.title}>
+            <span className="offer-rail-image"><Image src={item.image} alt="" fill unoptimized sizes="92px" /></span>
+            <span>{item.title}</span>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export function CategoryShowcase() {
   return (
     <section

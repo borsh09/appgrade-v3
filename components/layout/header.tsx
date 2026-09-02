@@ -5,12 +5,14 @@ import {
   ArrowRight,
   ChevronDown,
   Heart,
+  Home as HomeIcon,
+  MapPin,
   Menu,
   Search,
   ShoppingBag,
   X,
 } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { CitySelect } from '@/components/shared/city-select';
 import { useCommerce } from '@/components/providers/commerce-provider';
 import { searchIndex } from '@/data/search-index';
@@ -40,8 +42,10 @@ const menuCategories = [
 const money = new Intl.NumberFormat('ru-RU');
 
 export function Header() {
+  const searchRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false),
     [catalogOpen, setCatalogOpen] = useState(false),
+    [mobileCatalogOpen, setMobileCatalogOpen] = useState(false),
     [query, setQuery] = useState(''),
     [searchOpen, setSearchOpen] = useState(false),
     [scrolled, setScrolled] = useState(false);
@@ -57,6 +61,19 @@ export function Header() {
       6,
     );
   }, [query]);
+  useEffect(() => {
+    const closeSearch = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) setSearchOpen(false);
+    };
+    document.addEventListener('mousedown', closeSearch);
+    return () => document.removeEventListener('mousedown', closeSearch);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
   useEffect(() => {
     const update = () => setScrolled(window.scrollY > 56);
     update();
@@ -106,7 +123,7 @@ export function Header() {
           >
             Каталог <ChevronDown size={15} />
           </button>
-          <div className="header-search-wrap">
+          <div className="header-search-wrap" ref={searchRef}>
             <label className="header-search">
               <span className="sr-only">Поиск по каталогу</span>
               <input
@@ -237,11 +254,33 @@ export function Header() {
         aria-hidden={!open}
       >
         <div className="container">
+          <label className="mobile-search">
+            <span className="sr-only">Поиск по каталогу</span>
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              type="search"
+              placeholder="Найти товар"
+            />
+            <Search size={18} aria-hidden="true" />
+          </label>
           <CitySelect />
           <nav>
-            <Link onClick={() => setOpen(false)} href="/catalog">
-              Каталог<span>↗</span>
-            </Link>
+            <button
+              className="mobile-catalog-toggle"
+              type="button"
+              aria-expanded={mobileCatalogOpen}
+              onClick={() => setMobileCatalogOpen((value) => !value)}
+            >
+              <span>Каталог</span>
+              <ChevronDown size={18} aria-hidden="true" />
+            </button>
+            <div className={`mobile-catalog-links${mobileCatalogOpen ? ' is-open' : ''}`} aria-label="Категории каталога">
+              {menuCategories.map((item) => {
+                const href = item === 'iPhone' ? '/catalog/iphones' : item === 'Samsung' ? '/catalog/samsung' : item === 'Xiaomi' ? '/catalog/xiaomi' : item === 'Google Pixel' ? '/catalog/google' : item === 'MacBook Рё iMac' ? '/catalog/macbooks' : item === 'iPad' ? '/catalog/ipads' : item === 'РќР°СѓС€РЅРёРєРё Рё Р°СѓРґРёРѕ' ? '/catalog/audio' : item === 'РЎРјР°СЂС‚-С‡Р°СЃС‹' ? '/catalog/watches' : item === 'РРіСЂРѕРІС‹Рµ РїСЂРёСЃС‚Р°РІРєРё' ? '/catalog/playstation' : item === 'Dyson' ? '/catalog/dyson' : item === 'Р¤РѕС‚РѕР°РїРїР°СЂР°С‚С‹' ? '/catalog/cameras' : `/catalog?category=${encodeURIComponent(item)}`;
+                return <Link key={`mobile-${item}`} onClick={() => setOpen(false)} href={href}>{item}<span>↗</span></Link>;
+              })}
+            </div>
             <Link onClick={() => setOpen(false)} href="/favorites">
               Избранное ({favoriteCount})<span>↗</span>
             </Link>
@@ -267,6 +306,15 @@ export function Header() {
           </nav>
         </div>
       </div>
+      <nav className="mobile-bottom-nav" aria-label="Основная навигация">
+        <Link href="/" aria-label="Главная"><HomeIcon size={19} /><span>Главная</span></Link>
+        <Link href="/favorites" aria-label="Избранное"><Heart size={19} /><span>Избранное</span>{favoriteCount > 0 && <b>{favoriteCount}</b>}</Link>
+        <button type="button" className="mobile-bottom-menu" onClick={() => setOpen(!open)} aria-label={open ? 'Закрыть меню' : 'Открыть меню'}>
+          {open ? <X size={21} /> : <Menu size={21} />}<span>Меню</span>
+        </button>
+        <Link href="/#контакты" aria-label="Магазины"><MapPin size={19} /><span>Магазины</span></Link>
+        <Link href="/cart" aria-label="Корзина"><ShoppingBag size={19} /><span>Корзина</span>{cartCount > 0 && <b>{cartCount}</b>}</Link>
+      </nav>
     </header>
   );
 }

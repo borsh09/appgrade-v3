@@ -12,7 +12,7 @@ import { CITY_LIST } from '@/config/cities';
 import { useCity } from '@/components/providers/city-provider';
 import { ProductCard } from './product-card';
 import { HeroSection } from './hero-section';
-import { BrandStrip, CategoryShowcase, PromoMosaic } from './retail-sections';
+import { BrandStrip, CategoryShowcase, OfferRail, PromoMosaic } from './retail-sections';
 import { ProductDay } from './product-day';
 import { RevealEffects } from './reveal-effects';
 export function HomePage() {
@@ -21,6 +21,7 @@ export function HomePage() {
     <main>
       <RevealEffects />
       <HeroSection />
+      <OfferRail />
       <CategoryShowcase />
       <ProductDay />
       <section id="каталог" className="products-section">
