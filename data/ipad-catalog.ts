@@ -1,0 +1,6 @@
+export interface IpadCatalogSku { id:string; model:string; modelSlug:string; chip:string; size:string; storage:string; color:string; connectivity:string; price:number; image:string; gallery:string[] }
+const rows=[['iPad 11 A16','A16','11','128 GB',39990],['iPad 11 A16','A16','11','256 GB',49990],['iPad Air 11 M4','M4','11','128 GB',59990],['iPad Air 11 M4','M4','11','256 GB',70990],['iPad Air 13 M4','M4','13','128 GB',72990],['iPad Air 13 M4','M4','13','256 GB',82990]] as const;
+const colors:Record<string,string[]>={'iPad 11 A16':['Blue','Pink','Yellow','Silver'],'iPad Air 11 M4':['Blue','Purple','Starlight','Space Gray'],'iPad Air 13 M4':['Blue','Purple','Starlight','Space Gray']};
+export const ipadSlugify=(v:string)=>v.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+export const ipadCatalog:IpadCatalogSku[]=rows.flatMap(([model,chip,size,storage,price])=>colors[model].map(color=>{const folder=ipadSlugify(`${model}-${color}`);const gallery=[1,2,3].map(i=>`/images/products/gallery/${folder}/view-${i}.jpg`);return{id:ipadSlugify(`${model}-${storage}-${color}`),model,modelSlug:ipadSlugify(model),chip,size,storage,color,connectivity:'Wi‑Fi',price,image:gallery[0],gallery}}));
+export const ipadModels=[...new Map(ipadCatalog.map(s=>[s.modelSlug,s.model])).entries()].map(([slug,name])=>({slug,name}));

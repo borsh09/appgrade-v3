@@ -4,6 +4,7 @@ import './globals.css';
 import { CityProvider } from '@/components/providers/city-provider';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
+import { CommerceProvider } from '@/components/providers/commerce-provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -38,7 +39,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CityProvider><Header />{children}<Footer /></CityProvider>
+        <CityProvider><CommerceProvider><Header />{children}<Footer /></CommerceProvider></CityProvider>
       </body>
     </html>
   );

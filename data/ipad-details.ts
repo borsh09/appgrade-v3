@@ -1,0 +1,6 @@
+export const getIpadDetails=(model:string)=>({
+  eyebrow:model.includes('Air')?'Мощность M4 в тонком корпусе.':'Яркий, быстрый и универсальный.',
+  lead:model.includes('Air')?'iPad Air с чипом M4 легко справляется с учёбой, творчеством, монтажом и многозадачностью. Поддерживает Apple Pencil Pro и Magic Keyboard.':'iPad с чипом A16 создан для повседневных задач, видео, игр, заметок и творчества с Apple Pencil.',
+  highlights:model.includes('Air')?[['M4','чип Apple'],[model.includes('13')?'13″':'11″','Liquid Retina'],['12 GB','объединённой памяти'],['Wi‑Fi 7','быстрое подключение']]:[['A16','чип Apple'],['11″','Liquid Retina'],['до 10 ч','работы'],['USB‑C','универсальный разъём']],
+  specs:model.includes('Air')?[['Дисплей',model.includes('13')?'13-дюймовый Liquid Retina, 2732×2048, 600 нит':'11-дюймовый Liquid Retina, 2360×1640, 500 нит'],['Процессор','Apple M4: 8‑ядерный CPU, 9‑ядерный GPU'],['Камеры','12 Мп основная и 12 Мп фронтальная Center Stage'],['Аксессуары','Apple Pencil Pro, Apple Pencil USB‑C, Magic Keyboard']]:[['Дисплей','11-дюймовый Liquid Retina, 2360×1640, 500 нит'],['Процессор','Apple A16: 5‑ядерный CPU, 4‑ядерный GPU'],['Камеры','12 Мп основная и 12 Мп фронтальная'],['Аксессуары','Apple Pencil USB‑C, Magic Keyboard Folio']]
+});
