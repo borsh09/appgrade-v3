@@ -39,19 +39,21 @@ export function generateStaticParams() {
   ].map((model) => ({ model }));
 }
 
-export default function IphoneModelRoute({
-  params,
-  searchParams,
+export default async function IphoneModelRoute({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
 }: {
-  params: { model: string };
-  searchParams: {
+  params: Promise<{ model: string }>;
+  searchParams: Promise<{
     storage?: string;
     color?: string;
     sim?: string;
     ram?: string;
     size?: string;
-  };
+  }>;
 }) {
+  const params = await paramsPromise;
+  const searchParams = await searchParamsPromise;
   const xiaomiVariants = xiaomiCatalog.filter(
     (sku) => sku.modelSlug === params.model,
   );
