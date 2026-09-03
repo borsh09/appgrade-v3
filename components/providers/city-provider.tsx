@@ -8,28 +8,55 @@ import {
   useState,
 } from 'react';
 
-import type { StoreId } from '@/config/stores';
-import { STORES } from '@/config/stores';
+import {
+  STORES,
+  type StoreId,
+} from '@/config/stores';
+
+type LegacyCity = {
+  id: StoreId;
+  name: string;
+};
 
 type CityContextValue = {
+  /*
+   * Новый API.
+   *
+   * Может быть null только до первого выбора города.
+   */
   cityId: StoreId | null;
+
+  /*
+   * Старый API.
+   *
+   * Нужен существующим каталогам:
+   *
+   * city.id
+   * city.name
+   */
+  city: LegacyCity;
+
   citySelected: boolean;
 
   setCityId: (cityId: StoreId) => void;
 
+  citySelectorOpen: boolean;
+
   openCitySelector: () => void;
   closeCitySelector: () => void;
-
-  citySelectorOpen: boolean;
 
   currentStore:
     | (typeof STORES)[StoreId]
     | null;
 };
 
-const CityContext = createContext<CityContextValue | null>(null);
+const CityContext =
+  createContext<CityContextValue | null>(null);
 
 const STORAGE_KEY = 'appgrade-city';
+
+const DEFAULT_CITY: StoreId =
+  'magnitogorsk';
 
 export function CityProvider({
   children,
@@ -39,26 +66,54 @@ export function CityProvider({
   const [cityId, setCityIdState] =
     useState<StoreId | null>(null);
 
-  const [citySelectorOpen, setCitySelectorOpen] =
+  const [
+    citySelectorOpen,
+    setCitySelectorOpen,
+  ] = useState(false);
+
+  const [hydrated, setHydrated] =
     useState(false);
 
-  const [hydrated, setHydrated] = useState(false);
+  /*
+   * =========================================================
+   * LOAD CITY
+   * =========================================================
+   */
 
   useEffect(() => {
-    const savedCity = window.localStorage.getItem(
-      STORAGE_KEY,
-    ) as StoreId | null;
+    const savedCity =
+      window.localStorage.getItem(
+        STORAGE_KEY,
+      ) as StoreId | null;
 
-    if (savedCity && STORES[savedCity]) {
+    if (
+      savedCity &&
+      Object.prototype.hasOwnProperty.call(
+        STORES,
+        savedCity,
+      )
+    ) {
       setCityIdState(savedCity);
     } else {
+      /*
+       * Первый визит.
+       * Просим пользователя выбрать город.
+       */
       setCitySelectorOpen(true);
     }
 
     setHydrated(true);
   }, []);
 
-  const setCityId = (nextCityId: StoreId) => {
+  /*
+   * =========================================================
+   * SET CITY
+   * =========================================================
+   */
+
+  const setCityId = (
+    nextCityId: StoreId,
+  ) => {
     setCityIdState(nextCityId);
 
     window.localStorage.setItem(
@@ -69,6 +124,49 @@ export function CityProvider({
     setCitySelectorOpen(false);
   };
 
+  /*
+   * =========================================================
+   * SAFE CITY ID
+   * =========================================================
+   *
+   * Старому каталогу всегда нужен город.
+   *
+   * Пока пользователь не выбрал его,
+   * технически используем Магнитогорск.
+   *
+   * При этом CityGate всё равно будет открыт.
+   */
+
+  const resolvedCityId: StoreId =
+    cityId ?? DEFAULT_CITY;
+
+  /*
+   * =========================================================
+   * LEGACY CITY OBJECT
+   * =========================================================
+   *
+   * Именно такой объект ожидают старые компоненты:
+   *
+   * city.id
+   * city.name
+   */
+
+  const city = useMemo<LegacyCity>(
+    () => ({
+      id: resolvedCityId,
+
+      name:
+        STORES[resolvedCityId].city,
+    }),
+    [resolvedCityId],
+  );
+
+  /*
+   * =========================================================
+   * CURRENT STORE
+   * =========================================================
+   */
+
   const currentStore = useMemo(() => {
     if (!cityId) {
       return null;
@@ -77,40 +175,67 @@ export function CityProvider({
     return STORES[cityId];
   }, [cityId]);
 
-  const value = useMemo(
-    () => ({
-      cityId,
+  /*
+   * =========================================================
+   * CONTEXT VALUE
+   * =========================================================
+   */
 
-      citySelected: cityId !== null,
+  const value =
+    useMemo<CityContextValue>(
+      () => ({
+        /*
+         * Новый API
+         */
+        cityId,
 
-      setCityId,
+        /*
+         * Старый API
+         */
+        city,
 
-      citySelectorOpen,
+        citySelected:
+          cityId !== null,
 
-      openCitySelector: () =>
-        setCitySelectorOpen(true),
+        setCityId,
 
-      closeCitySelector: () =>
-        setCitySelectorOpen(false),
+        citySelectorOpen,
 
-      currentStore,
-    }),
-    [cityId, citySelectorOpen, currentStore],
-  );
+        openCitySelector: () =>
+          setCitySelectorOpen(true),
 
+        closeCitySelector: () =>
+          setCitySelectorOpen(false),
+
+        currentStore,
+      }),
+      [
+        cityId,
+        city,
+        citySelectorOpen,
+        currentStore,
+      ],
+    );
+
+  /*
+   * Не отдаём приложение до чтения localStorage.
+   */
   if (!hydrated) {
     return null;
   }
 
   return (
-    <CityContext.Provider value={value}>
+    <CityContext.Provider
+      value={value}
+    >
       {children}
     </CityContext.Provider>
   );
 }
 
 export function useCity() {
-  const context = useContext(CityContext);
+  const context =
+    useContext(CityContext);
 
   if (!context) {
     throw new Error(

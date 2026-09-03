@@ -1,23 +1,64 @@
 'use client';
 
-import { MapPin } from 'lucide-react';
-import { CITY_LIST, type CityId } from '@/config/cities';
+import {
+  CITY_LIST,
+} from '@/config/cities';
+
 import { useCity } from '@/components/providers/city-provider';
 
-export function CitySelect({ compact = false }: { compact?: boolean }) {
-  const { cityId, setCityId } = useCity();
+import type { StoreId } from '@/config/stores';
+
+export function CitySelect({
+  compact = false,
+}: {
+  compact?: boolean;
+}) {
+  const {
+    cityId,
+    setCityId,
+  } = useCity();
+
   return (
-    <label className="city-select">
-      <MapPin size={16} strokeWidth={1.7} />
-      <span className="sr-only">Город</span>
+    <label
+      className={
+        compact
+          ? 'city-select compact'
+          : 'city-select'
+      }
+    >
+      {!compact && (
+        <span>
+          Ваш город
+        </span>
+      )}
+
       <select
+        value={cityId ?? ''}
+        onChange={(event) => {
+          const nextCity =
+            event.target.value as StoreId;
+
+          if (nextCity) {
+            setCityId(nextCity);
+          }
+        }}
         aria-label="Выберите город"
-        value={cityId}
-        onChange={(e) => setCityId(e.target.value as CityId)}
       >
+        {!cityId && (
+          <option
+            value=""
+            disabled
+          >
+            Выберите город
+          </option>
+        )}
+
         {CITY_LIST.map((city) => (
-          <option key={city.id} value={city.id}>
-            {compact ? city.shortName : city.name}
+          <option
+            key={city.id}
+            value={city.id}
+          >
+            {city.name}
           </option>
         ))}
       </select>
