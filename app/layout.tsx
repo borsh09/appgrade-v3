@@ -4,7 +4,7 @@ import { CityProvider } from '@/components/providers/city-provider';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { CommerceProvider } from '@/components/providers/commerce-provider';
-
+import { CityGate } from '@/components/shared/city-gate';
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
   (process.env.VERCEL_URL
@@ -42,6 +42,7 @@ export default function RootLayout({
       <body className="antialiased">
         <CityProvider>
           <CommerceProvider>
+             <CityGate />
             <Header />
             {children}
             <Footer />

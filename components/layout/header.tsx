@@ -1,30 +1,30 @@
 'use client';
+
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
+
 import {
-  ArrowRight,
   ChevronDown,
   Heart,
-  Home as HomeIcon,
   MapPin,
   Menu,
   Search,
   ShoppingBag,
   X,
 } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { CitySelect } from '@/components/shared/city-select';
+
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+
 import { useCommerce } from '@/components/providers/commerce-provider';
+import { useCity } from '@/components/providers/city-provider';
+
 import { searchIndex } from '@/data/search-index';
 
-const nav = [
-  'Новинки',
-  'Акции',
-  'Trade-In',
-  'Магазины',
-  'Доставка',
-  'Контакты',
-];
 const menuCategories = [
   'iPhone',
   'Samsung',
@@ -39,118 +39,230 @@ const menuCategories = [
   'Фотоаппараты',
   'Аксессуары',
 ];
+
 const money = new Intl.NumberFormat('ru-RU');
+
+function getCategoryHref(item: string) {
+  if (item === 'iPhone') {
+    return '/catalog/iphones';
+  }
+
+  if (item === 'Samsung') {
+    return '/catalog/samsung';
+  }
+
+  if (item === 'Xiaomi') {
+    return '/catalog/xiaomi';
+  }
+
+  if (item === 'Google Pixel') {
+    return '/catalog/google';
+  }
+
+  if (item === 'MacBook и iMac') {
+    return '/catalog/macbooks';
+  }
+
+  if (item === 'iPad') {
+    return '/catalog/ipads';
+  }
+
+  if (item === 'Наушники и аудио') {
+    return '/catalog/audio';
+  }
+
+  if (item === 'Смарт-часы') {
+    return '/catalog/watches';
+  }
+
+  if (item === 'Игровые приставки') {
+    return '/catalog/playstation';
+  }
+
+  if (item === 'Dyson') {
+    return '/catalog/dyson';
+  }
+
+  if (item === 'Фотоаппараты') {
+    return '/catalog/cameras';
+  }
+
+  return `/catalog?category=${encodeURIComponent(item)}`;
+}
 
 export function Header() {
   const searchRef = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(false),
-    [catalogOpen, setCatalogOpen] = useState(false),
-    [mobileCatalogOpen, setMobileCatalogOpen] = useState(false),
-    [query, setQuery] = useState(''),
-    [searchOpen, setSearchOpen] = useState(false),
-    [scrolled, setScrolled] = useState(false);
-  const { cartCount, favoriteCount } = useCommerce();
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [catalogOpen, setCatalogOpen] = useState(false);
+
+  const [mobileCatalogOpen, setMobileCatalogOpen] =
+    useState(false);
+
+  const [query, setQuery] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  const {
+    cartCount,
+    favoriteCount,
+  } = useCommerce();
+
+  const {
+    currentStore,
+    openCitySelector,
+  } = useCity();
+
   const results = useMemo(() => {
-    const q = query.trim().toLocaleLowerCase('ru');
-    if (q.length < 2) return [];
-    const found = searchIndex.filter((item) =>
-      `${item.name} ${item.detail}`.toLocaleLowerCase('ru').includes(q),
-    );
-    return [...new Map(found.map((item) => [item.name, item])).values()].slice(
-      0,
-      6,
-    );
+    const q = query
+      .trim()
+      .toLocaleLowerCase('ru');
+
+    if (q.length < 2) {
+      return [];
+    }
+
+    const found = searchIndex.filter((item) => {
+      const searchString =
+        `${item.name} ${item.detail}`.toLocaleLowerCase('ru');
+
+      return searchString.includes(q);
+    });
+
+    return [
+      ...new Map(
+        found.map((item) => [
+          item.name,
+          item,
+        ]),
+      ).values(),
+    ].slice(0, 6);
   }, [query]);
+
   useEffect(() => {
     const closeSearch = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) setSearchOpen(false);
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(
+          event.target as Node,
+        )
+      ) {
+        setSearchOpen(false);
+      }
     };
-    document.addEventListener('mousedown', closeSearch);
-    return () => document.removeEventListener('mousedown', closeSearch);
+
+    document.addEventListener(
+      'mousedown',
+      closeSearch,
+    );
+
+    return () => {
+      document.removeEventListener(
+        'mousedown',
+        closeSearch,
+      );
+    };
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [open]);
+    document.body.style.overflow =
+      menuOpen ? 'hidden' : '';
 
-  useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 56);
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    return () => window.removeEventListener('scroll', update);
-  }, []);
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
   return (
-    <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
-      <div className="header-utility">
-        <div className="container">
-          <div className="utility-left">
-            <CitySelect compact />
-            <Link href="/#контакты">Сервис и поддержка</Link>
-          </div>
-          <nav aria-label="Дополнительная навигация">
-            {nav.map((item) => (
-              <Link
-                key={item}
-                href={
-                  item === 'Trade-In'
-                    ? '/#trade-in'
-                    : item === 'Контакты' || item === 'Магазины'
-                      ? '/#контакты'
-                      : '/catalog'
-                }
-              >
-                {item}
-              </Link>
-            ))}
-          </nav>
-          <div className="utility-contact">
-            <span>Магнитогорск · Белорецк · Троицк</span>
-            <Link href="/#контакты">Написать нам</Link>
-          </div>
-        </div>
-      </div>
-      <div className="header-commerce">
-        <div className="container commerce-inner">
-          <Link href="/" className="logo" aria-label="APPGRADE — на главную">
-            <span>APP</span>GRADE
+    <header className="appgrade-header">
+      <div className="container appgrade-header-inner">
+        <div className="appgrade-header-left">
+
+          {/* LOGO */}
+
+          <Link
+            href="/"
+            className="appgrade-header-logo appgrade-header-logo-real"
+            aria-label="APPGRADE — на главную"
+          >
+            <Image
+              src="/images/appgrade-logo-white.png"
+              alt="APPGRADE"
+              width={190}
+              height={54}
+              priority
+            />
           </Link>
+
+          {/* CATALOG */}
+
           <button
             type="button"
-            className={`catalog-trigger${catalogOpen ? ' is-open' : ''}`}
+            className={`appgrade-catalog-button ${
+              catalogOpen
+                ? 'is-open'
+                : ''
+            }`}
+            onClick={() =>
+              setCatalogOpen(
+                (value) => !value,
+              )
+            }
             aria-expanded={catalogOpen}
-            onClick={() => setCatalogOpen(!catalogOpen)}
           >
-            Каталог <ChevronDown size={15} />
+            Каталог
+
+            <ChevronDown size={16} />
           </button>
-          <div className="header-search-wrap" ref={searchRef}>
-            <label className="header-search">
-              <span className="sr-only">Поиск по каталогу</span>
-              <input
-                value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                  setSearchOpen(true);
-                }}
-                onFocus={() => setSearchOpen(true)}
-                type="search"
-                placeholder="Найти смартфон, ноутбук или аксессуар"
-              />
-              <Search size={20} />
-            </label>
-            {searchOpen && query.trim().length >= 2 && (
-              <div className="search-suggestions">
-                {results.length ? (
+        </div>
+
+        {/* SEARCH */}
+
+        <div
+          className="appgrade-header-search-wrap"
+          ref={searchRef}
+        >
+          <label className="appgrade-header-search">
+            <span className="sr-only">
+              Поиск по каталогу
+            </span>
+
+            <input
+              value={query}
+              onChange={(event) => {
+                setQuery(
+                  event.target.value,
+                );
+
+                setSearchOpen(true);
+              }}
+              onFocus={() =>
+                setSearchOpen(true)
+              }
+              type="search"
+              placeholder="Поиск по каталогу"
+            />
+
+            <Search size={19} />
+          </label>
+
+          {searchOpen &&
+            query.trim().length >= 2 && (
+              <div className="appgrade-search-results">
+
+                {results.length > 0 ? (
                   results.map((item) => (
                     <Link
                       href={item.href}
                       key={item.id}
                       onClick={() => {
-                        setSearchOpen(false);
+                        setSearchOpen(
+                          false,
+                        );
+
                         setQuery('');
                       }}
                     >
-                      <span className="search-suggestion-image">
+                      <span className="appgrade-search-image">
                         <Image
                           src={item.image}
                           alt=""
@@ -159,162 +271,333 @@ export function Header() {
                           sizes="48px"
                         />
                       </span>
-                      <span>
-                        <strong>{item.name}</strong>
-                        <small>{item.detail}</small>
+
+                      <span className="appgrade-search-copy">
+                        <strong>
+                          {item.name}
+                        </strong>
+
+                        <small>
+                          {item.detail}
+                        </small>
                       </span>
-                      <b>{money.format(item.price)} ₽</b>
+
+                      <b>
+                        {money.format(
+                          item.price,
+                        )}{' '}
+                        ₽
+                      </b>
                     </Link>
                   ))
                 ) : (
-                  <p>Ничего не найдено</p>
+                  <p className="appgrade-search-empty">
+                    Ничего не найдено
+                  </p>
                 )}
+
               </div>
             )}
+        </div>
+
+        {/* RIGHT */}
+
+        <div className="appgrade-header-right">
+
+          {/* CURRENT CITY */}
+
+          <button
+            type="button"
+            className="appgrade-header-city-button"
+            onClick={openCitySelector}
+            aria-label="Изменить город"
+          >
+            <MapPin size={15} />
+
+            <span>
+              {currentStore?.city ??
+                'Выберите город'}
+            </span>
+
+            <ChevronDown size={14} />
+          </button>
+
+          {/* FAVORITES */}
+
+          <Link
+            href="/favorites"
+            className="appgrade-header-icon appgrade-header-favorite"
+            aria-label="Избранное"
+          >
+            <Heart size={20} />
+
+            {favoriteCount > 0 && (
+              <span>
+                {favoriteCount}
+              </span>
+            )}
+          </Link>
+
+          {/* CART */}
+
+          <Link
+            href="/cart"
+            className="appgrade-header-icon"
+            aria-label="Корзина"
+          >
+            <ShoppingBag size={20} />
+
+            {cartCount > 0 && (
+              <span>
+                {cartCount}
+              </span>
+            )}
+          </Link>
+
+          {/* MOBILE MENU */}
+
+          <button
+            type="button"
+            className="appgrade-header-icon appgrade-menu-trigger"
+            onClick={() =>
+              setMenuOpen(
+                (value) => !value,
+              )
+            }
+            aria-label={
+              menuOpen
+                ? 'Закрыть меню'
+                : 'Открыть меню'
+            }
+          >
+            {menuOpen ? (
+              <X size={21} />
+            ) : (
+              <Menu size={21} />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* DESKTOP CATALOG DROPDOWN */}
+
+      <div
+        className={`appgrade-catalog-dropdown ${
+          catalogOpen
+            ? 'is-open'
+            : ''
+        }`}
+      >
+        <div className="container appgrade-catalog-dropdown-inner">
+          <div className="appgrade-catalog-heading">
+            <span>Каталог</span>
+
+            <h2>
+              Выберите категорию
+            </h2>
           </div>
-          <div className="header-actions">
-            <Link
-              className="icon-button desktop-only"
-              aria-label="Избранное"
-              href="/favorites"
-            >
-              <Heart size={20} />
-              {favoriteCount > 0 && <span>{favoriteCount}</span>}
-            </Link>
-            <Link className="icon-button bag" aria-label="Корзина" href="/cart">
-              <ShoppingBag size={20} />
-              <span>{cartCount}</span>
-            </Link>
+
+          <div className="appgrade-catalog-grid">
+            {menuCategories.map(
+              (item) => (
+                <Link
+                  key={item}
+                  href={getCategoryHref(
+                    item,
+                  )}
+                  onClick={() =>
+                    setCatalogOpen(
+                      false,
+                    )
+                  }
+                >
+                  {item}
+
+                  <span>
+                    ↗
+                  </span>
+                </Link>
+              ),
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* MOBILE MENU */}
+
+      <div
+        className={`appgrade-mobile-menu ${
+          menuOpen
+            ? 'is-open'
+            : ''
+        }`}
+      >
+        <div className="appgrade-mobile-menu-inner">
+
+          <div className="appgrade-mobile-menu-top">
+            <span>
+              Меню
+            </span>
+
             <button
-              className="icon-button menu-button"
-              aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
-              onClick={() => setOpen(!open)}
+              type="button"
+              onClick={() =>
+                setMenuOpen(false)
+              }
+              aria-label="Закрыть меню"
             >
-              {open ? <X size={22} /> : <Menu size={22} />}
+              <X size={22} />
             </button>
           </div>
-        </div>
-      </div>
-      <div
-        className={`catalog-dropdown${catalogOpen ? ' is-open' : ''}`}
-        aria-hidden={!catalogOpen}
-      >
-        <div className="container catalog-dropdown-inner">
-          <div>
-            <p>КАТАЛОГ</p>
-            <h2>Выберите категорию</h2>
-          </div>
-          <nav>
-            {menuCategories.map((item) => (
-              <Link
-                key={item}
-                href={
-                  item === 'iPhone'
-                    ? '/catalog/iphones'
-                    : item === 'Samsung'
-                      ? '/catalog/samsung'
-                      : item === 'Xiaomi'
-                        ? '/catalog/xiaomi'
-                        : item === 'Google Pixel'
-                          ? '/catalog/google'
-                          : item === 'MacBook и iMac'
-                            ? '/catalog/macbooks'
-                            : item === 'iPad'
-                              ? '/catalog/ipads'
-                              : item === 'Наушники и аудио'
-                                ? '/catalog/audio'
-                                : item === 'Смарт-часы'
-                                  ? '/catalog/watches'
-                                  : item === 'Игровые приставки'
-                                    ? '/catalog/playstation'
-                                    : item === 'Dyson'
-                                      ? '/catalog/dyson'
-                                      : item === 'Фотоаппараты'
-                                        ? '/catalog/cameras'
-                                        : `/catalog?category=${encodeURIComponent(item)}`
-                }
-                onClick={() => setCatalogOpen(false)}
-              >
-                {item}
-                <span>↗</span>
-              </Link>
-            ))}
-          </nav>
-          <Link
-            className="catalog-dropdown-all"
-            href="/catalog"
-            onClick={() => setCatalogOpen(false)}
-          >
-            Весь каталог <ArrowRight size={16} />
-          </Link>
-        </div>
-      </div>
-      <div
-        className={`mobile-menu ${open ? 'is-open' : ''}`}
-        aria-hidden={!open}
-      >
-        <div className="container">
-          <label className="mobile-search">
-            <span className="sr-only">Поиск по каталогу</span>
+
+          {/* MOBILE SEARCH */}
+
+          <label className="appgrade-mobile-search">
             <input
               value={query}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={(event) =>
+                setQuery(
+                  event.target.value,
+                )
+              }
               type="search"
               placeholder="Найти товар"
             />
-            <Search size={18} aria-hidden="true" />
+
+            <Search size={18} />
           </label>
-          <CitySelect />
-          <nav>
+
+          {/* MOBILE CITY */}
+
+          <button
+            type="button"
+            className="appgrade-mobile-city-button"
+            onClick={() => {
+              setMenuOpen(false);
+
+              openCitySelector();
+            }}
+          >
+            <span className="appgrade-mobile-city-button-icon">
+              <MapPin size={18} />
+            </span>
+
+            <span className="appgrade-mobile-city-button-copy">
+              <small>
+                Ваш город
+              </small>
+
+              <strong>
+                {currentStore?.city ??
+                  'Выбрать город'}
+              </strong>
+            </span>
+
+            <ChevronDown size={17} />
+          </button>
+
+          {/* MOBILE NAVIGATION */}
+
+          <nav className="appgrade-mobile-links">
+
             <button
-              className="mobile-catalog-toggle"
               type="button"
-              aria-expanded={mobileCatalogOpen}
-              onClick={() => setMobileCatalogOpen((value) => !value)}
+              className="appgrade-mobile-catalog-toggle"
+              onClick={() =>
+                setMobileCatalogOpen(
+                  (value) => !value,
+                )
+              }
             >
-              <span>Каталог</span>
-              <ChevronDown size={18} aria-hidden="true" />
+              Каталог
+
+              <ChevronDown
+                size={18}
+                style={{
+                  transform:
+                    mobileCatalogOpen
+                      ? 'rotate(180deg)'
+                      : undefined,
+                }}
+              />
             </button>
-            <div className={`mobile-catalog-links${mobileCatalogOpen ? ' is-open' : ''}`} aria-label="Категории каталога">
-              {menuCategories.map((item) => {
-                const href = item === 'iPhone' ? '/catalog/iphones' : item === 'Samsung' ? '/catalog/samsung' : item === 'Xiaomi' ? '/catalog/xiaomi' : item === 'Google Pixel' ? '/catalog/google' : item === 'MacBook Рё iMac' ? '/catalog/macbooks' : item === 'iPad' ? '/catalog/ipads' : item === 'РќР°СѓС€РЅРёРєРё Рё Р°СѓРґРёРѕ' ? '/catalog/audio' : item === 'РЎРјР°СЂС‚-С‡Р°СЃС‹' ? '/catalog/watches' : item === 'РРіСЂРѕРІС‹Рµ РїСЂРёСЃС‚Р°РІРєРё' ? '/catalog/playstation' : item === 'Dyson' ? '/catalog/dyson' : item === 'Р¤РѕС‚РѕР°РїРїР°СЂР°С‚С‹' ? '/catalog/cameras' : `/catalog?category=${encodeURIComponent(item)}`;
-                return <Link key={`mobile-${item}`} onClick={() => setOpen(false)} href={href}>{item}<span>↗</span></Link>;
-              })}
-            </div>
-            <Link onClick={() => setOpen(false)} href="/favorites">
-              Избранное ({favoriteCount})<span>↗</span>
+
+            {mobileCatalogOpen && (
+              <div className="appgrade-mobile-categories">
+
+                {menuCategories.map(
+                  (item) => (
+                    <Link
+                      key={item}
+                      href={getCategoryHref(
+                        item,
+                      )}
+                      onClick={() => {
+                        setMenuOpen(
+                          false,
+                        );
+
+                        setMobileCatalogOpen(
+                          false,
+                        );
+                      }}
+                    >
+                      {item}
+                    </Link>
+                  ),
+                )}
+
+              </div>
+            )}
+
+            <Link
+              href="/trade-in"
+              onClick={() =>
+                setMenuOpen(false)
+              }
+            >
+              Trade-In
             </Link>
-            <Link onClick={() => setOpen(false)} href="/cart">
-              Корзина ({cartCount})<span>↗</span>
+
+            <Link
+              href="/catalog"
+              onClick={() =>
+                setMenuOpen(false)
+              }
+            >
+              Новинки
             </Link>
-            {nav.map((item) => (
-              <Link
-                onClick={() => setOpen(false)}
-                key={item}
-                href={
-                  item === 'Trade-In'
-                    ? '/#trade-in'
-                    : item === 'Контакты' || item === 'Магазины'
-                      ? '/#контакты'
-                      : '/catalog'
-                }
-              >
-                {item}
-                <span>↗</span>
-              </Link>
-            ))}
+
+            <Link
+              href="/#контакты"
+              onClick={() =>
+                setMenuOpen(false)
+              }
+            >
+              Магазин
+            </Link>
+
+            <Link
+              href="/#reviews"
+              onClick={() =>
+                setMenuOpen(false)
+              }
+            >
+              Отзывы
+            </Link>
+
+            <Link
+              href="/#контакты"
+              onClick={() =>
+                setMenuOpen(false)
+              }
+            >
+              Контакты
+            </Link>
+
           </nav>
         </div>
       </div>
-      <nav className="mobile-bottom-nav" aria-label="Основная навигация">
-        <Link href="/" aria-label="Главная"><HomeIcon size={19} /><span>Главная</span></Link>
-        <Link href="/favorites" aria-label="Избранное"><Heart size={19} /><span>Избранное</span>{favoriteCount > 0 && <b>{favoriteCount}</b>}</Link>
-        <button type="button" className="mobile-bottom-menu" onClick={() => setOpen(!open)} aria-label={open ? 'Закрыть меню' : 'Открыть меню'}>
-          {open ? <X size={21} /> : <Menu size={21} />}<span>Меню</span>
-        </button>
-        <Link href="/#контакты" aria-label="Магазины"><MapPin size={19} /><span>Магазины</span></Link>
-        <Link href="/cart" aria-label="Корзина"><ShoppingBag size={19} /><span>Корзина</span>{cartCount > 0 && <b>{cartCount}</b>}</Link>
-      </nav>
     </header>
   );
 }

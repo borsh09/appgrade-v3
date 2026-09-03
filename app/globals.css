@@ -6413,3 +6413,8511 @@ body {
   .product-day-info h3 { font-size: 28px; }
 }
 @keyframes catalog-links-in { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* =========================================================
+   APPGRADE — VIDEO HERO
+   ========================================================= */
+
+.appgrade-video-hero {
+  width: 100%;
+  padding: 14px 0 32px;
+  background: #f5f5f5;
+}
+
+.appgrade-video-hero-container {
+  width: 100%;
+}
+
+.appgrade-video-hero-media {
+  position: relative;
+  width: 100%;
+  min-height: min(700px, 72svh);
+
+  overflow: hidden;
+
+  border-radius: 30px;
+  background: #111;
+
+  isolation: isolate;
+}
+
+.appgrade-video-hero-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  transform: scale(1.015);
+}
+
+.appgrade-video-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.54) 0%,
+      rgba(0, 0, 0, 0.28) 38%,
+      rgba(0, 0, 0, 0.06) 70%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0) 42%
+    );
+}
+
+.appgrade-video-hero-content {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  min-height: min(700px, 72svh);
+
+  padding: clamp(34px, 4.5vw, 64px);
+}
+
+.appgrade-video-hero-copy {
+  width: min(560px, 52%);
+  color: #fff;
+}
+
+.appgrade-video-hero-kicker {
+  display: inline-block;
+
+  margin-bottom: 18px;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+
+  opacity: 0.78;
+}
+
+.appgrade-video-hero-copy h1 {
+  margin: 0;
+
+  font-size: clamp(48px, 5.2vw, 78px);
+  font-weight: 650;
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+.appgrade-video-hero-copy p {
+  max-width: 520px;
+
+  margin: 22px 0 0;
+
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.5;
+
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.appgrade-video-hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 30px;
+}
+
+.appgrade-video-primary,
+.appgrade-video-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  min-height: 50px;
+
+  padding: 0 22px;
+
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.appgrade-video-primary {
+  background: #fff;
+  color: #111;
+}
+
+.appgrade-video-primary:hover {
+  transform: translateY(-2px);
+  background: #f2f2f2;
+}
+
+.appgrade-video-secondary {
+  border: 1px solid rgba(255, 255, 255, 0.24);
+
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+
+  backdrop-filter: blur(12px);
+}
+
+.appgrade-video-secondary:hover {
+  transform: translateY(-2px);
+
+  background: rgba(255, 255, 255, 0.16);
+
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
+.appgrade-video-sound {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  flex-shrink: 0;
+
+  min-height: 42px;
+
+  padding: 0 15px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+
+  background: rgba(10, 10, 10, 0.22);
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  backdrop-filter: blur(14px);
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.appgrade-video-sound:hover {
+  transform: translateY(-2px);
+
+  background: rgba(10, 10, 10, 0.38);
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1024px) {
+  .appgrade-video-hero-media,
+  .appgrade-video-hero-content {
+    min-height: 640px;
+  }
+
+  .appgrade-video-hero-copy {
+    width: 65%;
+  }
+
+  .appgrade-video-hero-copy h1 {
+    font-size: clamp(46px, 7vw, 68px);
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .appgrade-video-hero {
+    padding: 8px 0 20px;
+  }
+
+  .appgrade-video-hero .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .appgrade-video-hero-media {
+    min-height: 72svh;
+    max-height: 720px;
+
+    border-radius: 24px;
+  }
+
+  .appgrade-video-hero-video {
+    object-position: center center;
+  }
+
+  .appgrade-video-hero-overlay {
+    background:
+      linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.78) 0%,
+        rgba(0, 0, 0, 0.44) 30%,
+        rgba(0, 0, 0, 0.08) 65%,
+        rgba(0, 0, 0, 0.02) 100%
+      );
+  }
+
+  .appgrade-video-hero-content {
+    align-items: flex-end;
+
+    min-height: 72svh;
+    max-height: 720px;
+
+    padding: 24px;
+  }
+
+  .appgrade-video-hero-copy {
+    width: 100%;
+    padding-right: 0;
+  }
+
+  .appgrade-video-hero-kicker {
+    margin-bottom: 12px;
+
+    font-size: 10px;
+  }
+
+  .appgrade-video-hero-copy h1 {
+    font-size: clamp(42px, 12.5vw, 58px);
+    line-height: 0.96;
+    letter-spacing: -0.055em;
+  }
+
+  .appgrade-video-hero-copy p {
+    max-width: 390px;
+
+    margin-top: 16px;
+
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .appgrade-video-hero-actions {
+    gap: 8px;
+
+    margin-top: 22px;
+  }
+
+  .appgrade-video-primary,
+  .appgrade-video-secondary {
+    min-height: 46px;
+
+    padding: 0 17px;
+
+    font-size: 13px;
+  }
+
+  .appgrade-video-sound {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+
+    width: 42px;
+    min-height: 42px;
+
+    padding: 0;
+
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .appgrade-video-sound span {
+    display: none;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+  .appgrade-video-hero-media,
+  .appgrade-video-hero-content {
+    min-height: 640px;
+  }
+
+  .appgrade-video-hero-content {
+    padding: 20px;
+  }
+
+  .appgrade-video-hero-copy h1 {
+    font-size: 46px;
+  }
+
+  .appgrade-video-hero-copy p {
+    font-size: 14px;
+  }
+
+  .appgrade-video-primary {
+    flex: 1;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .appgrade-video-primary,
+  .appgrade-video-secondary,
+  .appgrade-video-sound {
+    transition: none;
+  }
+}
+
+
+/* =========================================================
+   APPGRADE — NEW HEADER
+   ========================================================= */
+
+.appgrade-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  width: 100%;
+
+  background: rgba(255, 255, 255, 0.92);
+
+  border-bottom: 1px solid rgba(15, 15, 15, 0.06);
+
+  backdrop-filter: blur(18px);
+}
+
+.appgrade-header-inner {
+  display: grid;
+  grid-template-columns: auto minmax(260px, 1fr) auto;
+  align-items: center;
+
+  gap: 18px;
+
+  min-height: 78px;
+}
+
+.appgrade-header-left,
+.appgrade-header-right {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.appgrade-header-logo {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 44px;
+
+  padding: 0 18px;
+
+  border-radius: 999px;
+
+  background: #f3f3f1;
+  color: #111;
+
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+
+  white-space: nowrap;
+}
+
+.appgrade-header-logo span {
+  color: #e5332a;
+}
+
+.appgrade-catalog-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  min-height: 44px;
+
+  padding: 0 18px;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: #111;
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+.appgrade-catalog-button:hover {
+  transform: translateY(-1px);
+  background: #222;
+}
+
+.appgrade-catalog-button svg {
+  transition: transform 180ms ease;
+}
+
+.appgrade-catalog-button.is-open svg {
+  transform: rotate(180deg);
+}
+
+/* SEARCH */
+
+.appgrade-header-search-wrap {
+  position: relative;
+  min-width: 0;
+}
+
+.appgrade-header-search {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+  min-height: 48px;
+
+  padding: 0 18px;
+
+  border: 1px solid rgba(15, 15, 15, 0.08);
+  border-radius: 999px;
+
+  background: #f3f3f1;
+
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.appgrade-header-search:focus-within {
+  background: #fff;
+  border-color: rgba(15, 15, 15, 0.2);
+}
+
+.appgrade-header-search input {
+  width: 100%;
+  min-width: 0;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+  color: #111;
+
+  font-size: 14px;
+}
+
+.appgrade-header-search input::placeholder {
+  color: #8a8a87;
+}
+
+.appgrade-header-search svg {
+  flex-shrink: 0;
+  color: #555;
+}
+
+.appgrade-search-results {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(15, 15, 15, 0.08);
+  border-radius: 22px;
+
+  background: #fff;
+
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+}
+
+.appgrade-search-results > a {
+  display: grid;
+  grid-template-columns: 46px 1fr auto;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 12px 14px;
+
+  border-bottom: 1px solid #f0f0ee;
+
+  transition: background-color 140ms ease;
+}
+
+.appgrade-search-results > a:last-child {
+  border-bottom: 0;
+}
+
+.appgrade-search-results > a:hover {
+  background: #f7f7f5;
+}
+
+.appgrade-search-image {
+  position: relative;
+
+  width: 46px;
+  height: 46px;
+
+  overflow: hidden;
+
+  border-radius: 12px;
+
+  background: #f4f4f2;
+}
+
+.appgrade-search-image img {
+  object-fit: contain;
+}
+
+.appgrade-search-copy {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+
+  gap: 2px;
+}
+
+.appgrade-search-copy strong {
+  overflow: hidden;
+
+  color: #111;
+
+  font-size: 13px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.appgrade-search-copy small {
+  overflow: hidden;
+
+  color: #888;
+
+  font-size: 11px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.appgrade-search-results b {
+  color: #111;
+
+  font-size: 12px;
+
+  white-space: nowrap;
+}
+
+.appgrade-search-empty {
+  margin: 0;
+  padding: 18px;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+/* ACTIONS */
+
+.appgrade-header-city {
+  display: flex;
+  align-items: center;
+}
+
+.appgrade-header-icon {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: #f3f3f1;
+  color: #111;
+
+  cursor: pointer;
+
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.appgrade-header-icon:hover {
+  transform: translateY(-1px);
+  background: #eaeae7;
+}
+
+.appgrade-header-icon > span {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 18px;
+  height: 18px;
+
+  padding: 0 4px;
+
+  border: 2px solid #fff;
+  border-radius: 999px;
+
+  background: #111;
+  color: #fff;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.appgrade-menu-trigger {
+  display: none;
+}
+
+/* CATALOG DROPDOWN */
+
+.appgrade-catalog-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+
+  visibility: hidden;
+
+  padding: 0 0 20px;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transform: translateY(-8px);
+
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    visibility 180ms ease;
+}
+
+.appgrade-catalog-dropdown.is-open {
+  visibility: visible;
+
+  opacity: 1;
+  pointer-events: auto;
+
+  transform: translateY(0);
+}
+
+.appgrade-catalog-dropdown-inner {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+
+  gap: 40px;
+
+  padding: 32px;
+
+  border: 1px solid rgba(15, 15, 15, 0.07);
+  border-radius: 28px;
+
+  background: #fff;
+
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.12);
+}
+
+.appgrade-catalog-heading span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #999;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.appgrade-catalog-heading h2 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: 30px;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.appgrade-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 8px;
+}
+
+.appgrade-catalog-grid a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 48px;
+
+  padding: 0 14px;
+
+  border-radius: 14px;
+
+  color: #222;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  transition:
+    background-color 150ms ease,
+    transform 150ms ease;
+}
+
+.appgrade-catalog-grid a:hover {
+  transform: translateX(2px);
+  background: #f4f4f2;
+}
+
+/* MOBILE MENU */
+
+.appgrade-mobile-menu {
+  display: none;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .appgrade-header-inner {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .appgrade-header-city,
+  .appgrade-header-favorite {
+    display: none;
+  }
+
+  .appgrade-catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .appgrade-header {
+    background: rgba(255, 255, 255, 0.96);
+  }
+
+  .appgrade-header-inner {
+    display: flex;
+    justify-content: space-between;
+
+    min-height: 66px;
+
+    gap: 10px;
+  }
+
+  .appgrade-header-logo {
+    min-height: 40px;
+
+    padding: 0;
+
+    background: transparent;
+
+    font-size: 19px;
+  }
+
+  .appgrade-catalog-button,
+  .appgrade-header-search-wrap,
+  .appgrade-header-city,
+  .appgrade-header-favorite {
+    display: none;
+  }
+
+  .appgrade-header-left {
+    gap: 0;
+  }
+
+  .appgrade-header-right {
+    gap: 6px;
+  }
+
+  .appgrade-header-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .appgrade-menu-trigger {
+    display: inline-flex;
+  }
+
+  .appgrade-catalog-dropdown {
+    display: none;
+  }
+
+  .appgrade-mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+
+    display: block;
+
+    visibility: hidden;
+
+    background: #fff;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transform: translateY(-14px);
+
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 180ms ease;
+  }
+
+  .appgrade-mobile-menu.is-open {
+    visibility: visible;
+
+    opacity: 1;
+    pointer-events: auto;
+
+    transform: translateY(0);
+  }
+
+  .appgrade-mobile-menu-inner {
+    height: 100%;
+
+    overflow-y: auto;
+
+    padding:
+      max(18px, env(safe-area-inset-top))
+      18px
+      max(28px, env(safe-area-inset-bottom));
+  }
+
+  .appgrade-mobile-menu-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 28px;
+  }
+
+  .appgrade-mobile-menu-top > span {
+    color: #111;
+
+    font-size: 22px;
+    font-weight: 650;
+    letter-spacing: -0.04em;
+  }
+
+  .appgrade-mobile-menu-top button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    border: 0;
+    border-radius: 999px;
+
+    background: #f2f2f0;
+
+    cursor: pointer;
+  }
+
+  .appgrade-mobile-search {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    min-height: 50px;
+
+    padding: 0 16px;
+
+    border-radius: 16px;
+
+    background: #f3f3f1;
+  }
+
+  .appgrade-mobile-search input {
+    width: 100%;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    font-size: 15px;
+  }
+
+  .appgrade-mobile-city {
+    margin-top: 16px;
+  }
+
+  .appgrade-mobile-links {
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 28px;
+  }
+
+  .appgrade-mobile-links > a,
+  .appgrade-mobile-catalog-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 58px;
+
+    padding: 0;
+
+    border: 0;
+    border-bottom: 1px solid #ececea;
+
+    background: transparent;
+    color: #111;
+
+    font-size: 18px;
+    font-weight: 550;
+
+    text-align: left;
+
+    cursor: pointer;
+  }
+
+  .appgrade-mobile-categories {
+    display: flex;
+    flex-direction: column;
+
+    padding: 8px 0 12px 16px;
+
+    border-bottom: 1px solid #ececea;
+  }
+
+  .appgrade-mobile-categories a {
+    padding: 10px 0;
+
+    color: #666;
+
+    font-size: 15px;
+  }
+}
+
+/* =========================================================
+   APPGRADE — CATEGORY SHOWCASE
+   ========================================================= */
+
+.appgrade-categories {
+  padding: 72px 0 36px;
+  background: #f5f5f5;
+}
+
+.appgrade-categories-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 28px;
+}
+
+.appgrade-categories-heading > div > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #8b8b87;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.appgrade-categories-heading h2 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: clamp(38px, 4.4vw, 64px);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.appgrade-categories-heading > a {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding-bottom: 4px;
+
+  color: #111;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.appgrade-categories-heading > a svg {
+  transition: transform 160ms ease;
+}
+
+.appgrade-categories-heading > a:hover svg {
+  transform: translateX(3px);
+}
+
+/* GRID */
+
+.appgrade-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: 300px 300px;
+
+  gap: 14px;
+}
+
+.appgrade-category-card {
+  position: relative;
+
+  display: block;
+
+  overflow: hidden;
+
+  min-width: 0;
+
+  border-radius: 28px;
+
+  background: #fff;
+  color: #111;
+
+  isolation: isolate;
+
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 260ms ease;
+}
+
+.appgrade-category-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.07);
+}
+
+.appgrade-category-card.is-large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.appgrade-category-card.is-dark {
+  background:
+    radial-gradient(
+      circle at 75% 60%,
+      #333 0%,
+      #181818 38%,
+      #080808 100%
+    );
+
+  color: #fff;
+}
+
+.appgrade-category-card.is-red {
+  background: #e6332a;
+  color: #fff;
+}
+
+/* COPY */
+
+.appgrade-category-copy {
+  position: relative;
+  z-index: 2;
+
+  padding: 26px;
+}
+
+.appgrade-category-card.is-large .appgrade-category-copy {
+  padding: 36px;
+}
+
+.appgrade-category-copy > span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #888;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.appgrade-category-card.is-dark .appgrade-category-copy > span,
+.appgrade-category-card.is-red .appgrade-category-copy > span {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.appgrade-category-copy h3 {
+  margin: 0;
+
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.appgrade-category-card.is-large .appgrade-category-copy h3 {
+  font-size: clamp(42px, 4vw, 62px);
+}
+
+.appgrade-category-link {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  margin-top: 14px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  opacity: 0;
+
+  transform: translateY(5px);
+
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.appgrade-category-card:hover .appgrade-category-link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* PRODUCT IMAGE */
+
+.appgrade-category-image {
+  position: absolute;
+
+  inset: auto 0 0;
+
+  height: 73%;
+}
+
+.appgrade-category-card.is-large .appgrade-category-image {
+  height: 78%;
+}
+
+.appgrade-category-product {
+  object-fit: contain;
+  object-position: center bottom;
+
+  padding: 12px 20px 0;
+
+  transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.appgrade-category-card:hover .appgrade-category-product {
+  transform: scale(1.035);
+}
+
+.appgrade-category-card.is-large .appgrade-category-product {
+  padding: 0 40px;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .appgrade-categories-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: 420px repeat(2, 280px);
+  }
+
+  .appgrade-category-card.is-large {
+    grid-column: span 2;
+    grid-row: auto;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .appgrade-categories {
+    padding: 52px 0 24px;
+  }
+
+  .appgrade-categories-heading {
+    align-items: flex-end;
+
+    margin-bottom: 20px;
+  }
+
+  .appgrade-categories-heading h2 {
+    font-size: 40px;
+  }
+
+  .appgrade-categories-heading > a {
+    font-size: 12px;
+  }
+
+  .appgrade-categories-grid {
+    display: flex;
+
+    gap: 10px;
+
+    overflow-x: auto;
+
+    margin-left: calc(var(--container-padding, 16px) * -1);
+    margin-right: calc(var(--container-padding, 16px) * -1);
+
+    padding-left: var(--container-padding, 16px);
+    padding-right: var(--container-padding, 16px);
+    padding-bottom: 8px;
+
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+  }
+
+  .appgrade-categories-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .appgrade-category-card,
+  .appgrade-category-card.is-large {
+    flex: 0 0 min(78vw, 310px);
+
+    width: min(78vw, 310px);
+    height: 390px;
+
+    grid-column: auto;
+    grid-row: auto;
+
+    border-radius: 24px;
+
+    scroll-snap-align: start;
+  }
+
+  .appgrade-category-card.is-large {
+    flex-basis: min(88vw, 350px);
+    width: min(88vw, 350px);
+  }
+
+  .appgrade-category-copy,
+  .appgrade-category-card.is-large .appgrade-category-copy {
+    padding: 22px;
+  }
+
+  .appgrade-category-copy h3,
+  .appgrade-category-card.is-large .appgrade-category-copy h3 {
+    font-size: 32px;
+  }
+
+  .appgrade-category-link {
+    opacity: 1;
+    transform: none;
+  }
+
+  .appgrade-category-image,
+  .appgrade-category-card.is-large .appgrade-category-image {
+    height: 72%;
+  }
+
+  .appgrade-category-product,
+  .appgrade-category-card.is-large .appgrade-category-product {
+    padding: 10px 20px 0;
+  }
+}
+
+
+/* =========================================================
+   APPGRADE — PROMO BENTO
+   ========================================================= */
+
+.appgrade-promo-bento {
+  padding: 64px 0 42px;
+  background: #f5f5f5;
+}
+
+.appgrade-promo-heading {
+  margin-bottom: 26px;
+}
+
+.appgrade-promo-heading > span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #8b8b87;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.appgrade-promo-heading h2 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: clamp(38px, 4.2vw, 60px);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.appgrade-promo-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.9fr);
+
+  gap: 14px;
+}
+
+.appgrade-promo-side {
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+.appgrade-promo-card {
+  position: relative;
+
+  display: block;
+
+  overflow: hidden;
+
+  min-height: 620px;
+
+  border-radius: 30px;
+
+  isolation: isolate;
+
+  transition:
+    transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 240ms ease;
+}
+
+.appgrade-promo-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.08);
+}
+
+/* TRADE IN */
+
+.appgrade-promo-trade {
+  background:
+    radial-gradient(
+      circle at 76% 62%,
+      rgba(255, 255, 255, 0.22),
+      rgba(255, 255, 255, 0) 34%
+    ),
+    #e7342a;
+
+  color: #fff;
+}
+
+/* SMALL CARDS */
+
+.appgrade-promo-small {
+  min-height: 303px;
+}
+
+.appgrade-promo-mac {
+  background: #ececea;
+  color: #111;
+}
+
+.appgrade-promo-dyson {
+  background:
+    linear-gradient(
+      135deg,
+      #161616 0%,
+      #272727 100%
+    );
+
+  color: #fff;
+}
+
+/* COPY */
+
+.appgrade-promo-copy {
+  position: relative;
+  z-index: 3;
+
+  width: min(560px, 70%);
+
+  padding: 38px;
+}
+
+.appgrade-promo-small .appgrade-promo-copy {
+  width: 65%;
+  padding: 28px;
+}
+
+.appgrade-promo-copy > span {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: rgba(255, 255, 255, 0.66);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.appgrade-promo-mac .appgrade-promo-copy > span {
+  color: #8a8a87;
+}
+
+.appgrade-promo-copy h3 {
+  margin: 0;
+
+  font-size: clamp(40px, 4.4vw, 66px);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+}
+
+.appgrade-promo-small .appgrade-promo-copy h3 {
+  font-size: clamp(28px, 2.4vw, 38px);
+}
+
+.appgrade-promo-copy p {
+  max-width: 420px;
+
+  margin: 18px 0 0;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.appgrade-promo-mac .appgrade-promo-copy p {
+  color: #686865;
+}
+
+.appgrade-promo-link {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 24px;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.appgrade-promo-link svg {
+  transition: transform 160ms ease;
+}
+
+.appgrade-promo-card:hover .appgrade-promo-link svg {
+  transform: translateX(4px);
+}
+
+/* IMAGES */
+
+.appgrade-promo-visual {
+  position: absolute;
+  z-index: 1;
+
+  right: -3%;
+  bottom: -5%;
+
+  width: 58%;
+  height: 72%;
+}
+
+.appgrade-promo-visual img {
+  object-fit: contain;
+  object-position: right bottom;
+
+  transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.appgrade-promo-card:hover .appgrade-promo-visual img {
+  transform: scale(1.035);
+}
+
+.appgrade-promo-small .appgrade-promo-visual {
+  right: -4%;
+  bottom: -10%;
+
+  width: 48%;
+  height: 70%;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .appgrade-promo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .appgrade-promo-card {
+    min-height: 520px;
+  }
+
+  .appgrade-promo-side {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+
+  .appgrade-promo-small {
+    min-height: 340px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .appgrade-promo-bento {
+    padding: 48px 0 28px;
+  }
+
+  .appgrade-promo-heading h2 {
+    font-size: 40px;
+  }
+
+  .appgrade-promo-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .appgrade-promo-side {
+    display: flex;
+
+    gap: 10px;
+
+    overflow-x: auto;
+
+    margin-left: calc(var(--container-padding, 16px) * -1);
+    margin-right: calc(var(--container-padding, 16px) * -1);
+
+    padding-left: var(--container-padding, 16px);
+    padding-right: var(--container-padding, 16px);
+    padding-bottom: 6px;
+
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+  }
+
+  .appgrade-promo-side::-webkit-scrollbar {
+    display: none;
+  }
+
+  .appgrade-promo-card {
+    min-height: 500px;
+
+    border-radius: 24px;
+  }
+
+  .appgrade-promo-small {
+    flex: 0 0 min(80vw, 320px);
+
+    min-height: 360px;
+
+    scroll-snap-align: start;
+  }
+
+  .appgrade-promo-copy,
+  .appgrade-promo-small .appgrade-promo-copy {
+    width: 100%;
+    padding: 24px;
+  }
+
+  .appgrade-promo-copy h3 {
+    font-size: 42px;
+  }
+
+  .appgrade-promo-small .appgrade-promo-copy h3 {
+    font-size: 30px;
+  }
+
+  .appgrade-promo-copy p {
+    max-width: 300px;
+
+    font-size: 14px;
+  }
+
+  .appgrade-promo-visual {
+    right: -14%;
+    bottom: -4%;
+
+    width: 82%;
+    height: 58%;
+  }
+
+  .appgrade-promo-small .appgrade-promo-visual {
+    right: -10%;
+    bottom: -8%;
+
+    width: 66%;
+    height: 58%;
+  }
+}
+
+
+
+/* =========================================================
+   APPGRADE — NEW HEADER
+   ========================================================= */
+
+.appgrade-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid rgba(15, 15, 15, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.appgrade-header-inner {
+  display: grid;
+  grid-template-columns: auto minmax(260px, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  min-height: 78px;
+}
+
+.appgrade-header-left,
+.appgrade-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.appgrade-header-logo {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: #f3f3f1;
+  color: #111;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+}
+
+.appgrade-header-logo span {
+  color: #e6332a;
+}
+
+.appgrade-catalog-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+.appgrade-catalog-button:hover {
+  transform: translateY(-1px);
+  background: #222;
+}
+
+.appgrade-catalog-button svg {
+  transition: transform 180ms ease;
+}
+
+.appgrade-catalog-button.is-open svg {
+  transform: rotate(180deg);
+}
+
+.appgrade-header-search-wrap {
+  position: relative;
+  min-width: 0;
+}
+
+.appgrade-header-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 18px;
+  border: 1px solid rgba(15, 15, 15, 0.08);
+  border-radius: 999px;
+  background: #f3f3f1;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.appgrade-header-search:focus-within {
+  background: #fff;
+  border-color: rgba(15, 15, 15, 0.2);
+}
+
+.appgrade-header-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #111;
+  font-size: 14px;
+}
+
+.appgrade-header-search input::placeholder {
+  color: #8a8a87;
+}
+
+.appgrade-header-search svg {
+  flex-shrink: 0;
+  color: #555;
+}
+
+.appgrade-search-results {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  border: 1px solid rgba(15, 15, 15, 0.08);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+}
+
+.appgrade-search-results > a {
+  display: grid;
+  grid-template-columns: 46px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #f0f0ee;
+  transition: background-color 140ms ease;
+}
+
+.appgrade-search-results > a:last-child {
+  border-bottom: 0;
+}
+
+.appgrade-search-results > a:hover {
+  background: #f7f7f5;
+}
+
+.appgrade-search-image {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f4f4f2;
+}
+
+.appgrade-search-image img {
+  object-fit: contain;
+}
+
+.appgrade-search-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+.appgrade-search-copy strong {
+  overflow: hidden;
+  color: #111;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.appgrade-search-copy small {
+  overflow: hidden;
+  color: #888;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.appgrade-search-results b {
+  color: #111;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.appgrade-search-empty {
+  margin: 0;
+  padding: 18px;
+  color: #777;
+  font-size: 13px;
+}
+
+.appgrade-header-city {
+  display: flex;
+  align-items: center;
+}
+
+.appgrade-header-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: #f3f3f1;
+  color: #111;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.appgrade-header-icon:hover {
+  transform: translateY(-1px);
+  background: #eaeae7;
+}
+
+.appgrade-header-icon > span {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.appgrade-menu-trigger {
+  display: none;
+}
+
+.appgrade-catalog-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  visibility: hidden;
+  padding: 0 0 20px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    visibility 180ms ease;
+}
+
+.appgrade-catalog-dropdown.is-open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.appgrade-catalog-dropdown-inner {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 40px;
+  padding: 32px;
+  border: 1px solid rgba(15, 15, 15, 0.07);
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.12);
+}
+
+.appgrade-catalog-heading span {
+  display: block;
+  margin-bottom: 8px;
+  color: #999;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.appgrade-catalog-heading h2 {
+  margin: 0;
+  color: #111;
+  font-size: 30px;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.appgrade-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.appgrade-catalog-grid a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 14px;
+  color: #222;
+  font-size: 13px;
+  font-weight: 500;
+  transition:
+    background-color 150ms ease,
+    transform 150ms ease;
+}
+
+.appgrade-catalog-grid a:hover {
+  transform: translateX(2px);
+  background: #f4f4f2;
+}
+
+.appgrade-mobile-menu {
+  display: none;
+}
+
+/* =========================================================
+   APPGRADE — VIDEO / POSTER HERO
+   ========================================================= */
+
+.appgrade-video-hero {
+  width: 100%;
+  padding: 14px 0 32px;
+  background: #f5f5f5;
+}
+
+.appgrade-video-hero-container {
+  width: 100%;
+}
+
+.appgrade-video-hero-media {
+  position: relative;
+  width: 100%;
+  min-height: min(700px, 72svh);
+  overflow: hidden;
+  border-radius: 30px;
+  background: #111;
+  isolation: isolate;
+}
+
+.appgrade-video-hero-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.015);
+}
+
+.appgrade-video-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.54) 0%,
+      rgba(0, 0, 0, 0.28) 38%,
+      rgba(0, 0, 0, 0.06) 70%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0) 42%
+    );
+}
+
+.appgrade-video-hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  min-height: min(700px, 72svh);
+  padding: clamp(34px, 4.5vw, 64px);
+}
+
+.appgrade-video-hero-copy {
+  width: min(560px, 52%);
+  color: #fff;
+}
+
+.appgrade-video-hero-kicker {
+  display: inline-block;
+  margin-bottom: 18px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.78;
+}
+
+.appgrade-video-hero-copy h1 {
+  margin: 0;
+  font-size: clamp(48px, 5.2vw, 78px);
+  font-weight: 650;
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+.appgrade-video-hero-copy p {
+  max-width: 520px;
+  margin: 22px 0 0;
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.appgrade-video-hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.appgrade-video-primary,
+.appgrade-video-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.appgrade-video-primary {
+  background: #fff;
+  color: #111;
+}
+
+.appgrade-video-primary:hover {
+  transform: translateY(-2px);
+  background: #f2f2f2;
+}
+
+.appgrade-video-secondary {
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  backdrop-filter: blur(12px);
+}
+
+.appgrade-video-secondary:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
+.appgrade-video-sound {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  min-height: 42px;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.22);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  backdrop-filter: blur(14px);
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.appgrade-video-sound:hover {
+  transform: translateY(-2px);
+  background: rgba(10, 10, 10, 0.38);
+}
+
+/* =========================================================
+   APPGRADE — CATEGORY SHOWCASE
+   ========================================================= */
+
+.appgrade-categories {
+  padding: 72px 0 36px;
+  background: #f5f5f5;
+}
+
+.appgrade-categories-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.appgrade-categories-heading > div > span {
+  display: block;
+  margin-bottom: 9px;
+  color: #8b8b87;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.appgrade-categories-heading h2 {
+  margin: 0;
+  color: #111;
+  font-size: clamp(38px, 4.4vw, 64px);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.appgrade-categories-heading > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 4px;
+  color: #111;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.appgrade-categories-heading > a svg {
+  transition: transform 160ms ease;
+}
+
+.appgrade-categories-heading > a:hover svg {
+  transform: translateX(3px);
+}
+
+.appgrade-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: 300px 300px;
+  gap: 14px;
+}
+
+.appgrade-category-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  min-width: 0;
+  border-radius: 28px;
+  background: #fff;
+  color: #111;
+  isolation: isolate;
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 260ms ease;
+}
+
+.appgrade-category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.07);
+}
+
+.appgrade-category-card.is-large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.appgrade-category-card.is-dark {
+  background:
+    radial-gradient(
+      circle at 75% 60%,
+      #333 0%,
+      #181818 38%,
+      #080808 100%
+    );
+  color: #fff;
+}
+
+.appgrade-category-card.is-red {
+  background:
+    linear-gradient(
+      145deg,
+      #2a2a2a 0%,
+      #111 100%
+    );
+  color: #fff;
+}
+
+.appgrade-category-copy {
+  position: relative;
+  z-index: 2;
+  padding: 26px;
+}
+
+.appgrade-category-card.is-large .appgrade-category-copy {
+  padding: 36px;
+}
+
+.appgrade-category-copy > span {
+  display: block;
+  margin-bottom: 7px;
+  color: #888;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.appgrade-category-card.is-dark .appgrade-category-copy > span,
+.appgrade-category-card.is-red .appgrade-category-copy > span {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.appgrade-category-copy h3 {
+  margin: 0;
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.appgrade-category-card.is-large .appgrade-category-copy h3 {
+  font-size: clamp(42px, 4vw, 62px);
+}
+
+.appgrade-category-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(5px);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.appgrade-category-card:hover .appgrade-category-link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.appgrade-category-image {
+  position: absolute;
+  inset: auto 0 0;
+  height: 73%;
+}
+
+.appgrade-category-card.is-large .appgrade-category-image {
+  height: 78%;
+}
+
+.appgrade-category-product {
+  object-fit: contain;
+  object-position: center bottom;
+  padding: 24px;
+  mix-blend-mode: normal;
+  transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.appgrade-category-card:hover .appgrade-category-product {
+  transform: scale(1.035);
+}
+
+.appgrade-category-card.is-large .appgrade-category-product {
+  padding: 60px;
+}
+
+/* =========================================================
+   APPGRADE — PROMO BENTO
+   ========================================================= */
+
+.appgrade-promo-bento {
+  padding: 64px 0 42px;
+  background: #f5f5f5;
+}
+
+.appgrade-promo-heading {
+  margin-bottom: 26px;
+}
+
+.appgrade-promo-heading > span {
+  display: block;
+  margin-bottom: 8px;
+  color: #8b8b87;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.appgrade-promo-heading h2 {
+  margin: 0;
+  color: #111;
+  font-size: clamp(38px, 4.2vw, 60px);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.appgrade-promo-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.9fr);
+  gap: 14px;
+}
+
+.appgrade-promo-side {
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.appgrade-promo-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  min-height: 620px;
+  border-radius: 30px;
+  isolation: isolate;
+  transition:
+    transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 240ms ease;
+}
+
+.appgrade-promo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.08);
+}
+
+.appgrade-promo-trade {
+  background:
+    radial-gradient(
+      circle at 76% 62%,
+      rgba(255, 255, 255, 0.22),
+      rgba(255, 255, 255, 0) 34%
+    ),
+    #e7342a;
+  color: #fff;
+}
+
+.appgrade-promo-small {
+  min-height: 303px;
+}
+
+.appgrade-promo-mac {
+  background: #ececea;
+  color: #111;
+}
+
+.appgrade-promo-dyson {
+  background:
+    linear-gradient(
+      135deg,
+      #161616 0%,
+      #272727 100%
+    );
+  color: #fff;
+}
+
+.appgrade-promo-copy {
+  position: relative;
+  z-index: 3;
+  width: min(560px, 70%);
+  padding: 38px;
+}
+
+.appgrade-promo-small .appgrade-promo-copy {
+  width: 65%;
+  padding: 28px;
+}
+
+.appgrade-promo-copy > span {
+  display: block;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.appgrade-promo-mac .appgrade-promo-copy > span {
+  color: #8a8a87;
+}
+
+.appgrade-promo-copy h3 {
+  margin: 0;
+  font-size: clamp(40px, 4.4vw, 66px);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+}
+
+.appgrade-promo-small .appgrade-promo-copy h3 {
+  font-size: clamp(28px, 2.4vw, 38px);
+}
+
+.appgrade-promo-copy p {
+  max-width: 420px;
+  margin: 18px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.appgrade-promo-mac .appgrade-promo-copy p {
+  color: #686865;
+}
+
+.appgrade-promo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.appgrade-promo-link svg {
+  transition: transform 160ms ease;
+}
+
+.appgrade-promo-card:hover .appgrade-promo-link svg {
+  transform: translateX(4px);
+}
+
+.appgrade-promo-visual {
+  position: absolute;
+  z-index: 1;
+  right: -3%;
+  bottom: -5%;
+  width: 58%;
+  height: 72%;
+}
+
+.appgrade-promo-visual img {
+  object-fit: contain;
+  object-position: right bottom;
+  transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.appgrade-promo-card:hover .appgrade-promo-visual img {
+  transform: scale(1.035);
+}
+
+.appgrade-promo-small .appgrade-promo-visual {
+  right: -4%;
+  bottom: -10%;
+  width: 48%;
+  height: 70%;
+}
+
+/* =========================================================
+   SHARED SECTION KICKER
+   ========================================================= */
+
+.section-kicker {
+  display: block;
+  margin-bottom: 9px;
+  color: #8b8b87;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.section-kicker-light {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .appgrade-header-inner {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .appgrade-header-city,
+  .appgrade-header-favorite {
+    display: none;
+  }
+
+  .appgrade-catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .appgrade-categories-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: 420px repeat(2, 280px);
+  }
+
+  .appgrade-category-card.is-large {
+    grid-column: span 2;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 1000px) {
+  .appgrade-promo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .appgrade-promo-card {
+    min-height: 520px;
+  }
+
+  .appgrade-promo-side {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+
+  .appgrade-promo-small {
+    min-height: 340px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .appgrade-video-hero-media,
+  .appgrade-video-hero-content {
+    min-height: 640px;
+  }
+
+  .appgrade-video-hero-copy {
+    width: 65%;
+  }
+
+  .appgrade-video-hero-copy h1 {
+    font-size: clamp(46px, 7vw, 68px);
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .appgrade-header {
+    background: rgba(255, 255, 255, 0.96);
+  }
+
+  .appgrade-header-inner {
+    display: flex;
+    justify-content: space-between;
+    min-height: 66px;
+    gap: 10px;
+  }
+
+  .appgrade-header-logo {
+    min-height: 40px;
+    padding: 0;
+    background: transparent;
+    font-size: 19px;
+  }
+
+  .appgrade-catalog-button,
+  .appgrade-header-search-wrap,
+  .appgrade-header-city,
+  .appgrade-header-favorite {
+    display: none;
+  }
+
+  .appgrade-header-left {
+    gap: 0;
+  }
+
+  .appgrade-header-right {
+    gap: 6px;
+  }
+
+  .appgrade-header-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .appgrade-menu-trigger {
+    display: inline-flex;
+  }
+
+  .appgrade-catalog-dropdown {
+    display: none;
+  }
+
+  .appgrade-mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: block;
+    visibility: hidden;
+    background: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-14px);
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 180ms ease;
+  }
+
+  .appgrade-mobile-menu.is-open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .appgrade-mobile-menu-inner {
+    height: 100%;
+    overflow-y: auto;
+    padding:
+      max(18px, env(safe-area-inset-top))
+      18px
+      max(28px, env(safe-area-inset-bottom));
+  }
+
+  .appgrade-mobile-menu-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+
+  .appgrade-mobile-menu-top > span {
+    color: #111;
+    font-size: 22px;
+    font-weight: 650;
+    letter-spacing: -0.04em;
+  }
+
+  .appgrade-mobile-menu-top button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 999px;
+    background: #f2f2f0;
+    cursor: pointer;
+  }
+
+  .appgrade-mobile-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 50px;
+    padding: 0 16px;
+    border-radius: 16px;
+    background: #f3f3f1;
+  }
+
+  .appgrade-mobile-search input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 15px;
+  }
+
+  .appgrade-mobile-city {
+    margin-top: 16px;
+  }
+
+  .appgrade-mobile-links {
+    display: flex;
+    flex-direction: column;
+    margin-top: 28px;
+  }
+
+  .appgrade-mobile-links > a,
+  .appgrade-mobile-catalog-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 58px;
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid #ececea;
+    background: transparent;
+    color: #111;
+    font-size: 18px;
+    font-weight: 550;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .appgrade-mobile-categories {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0 12px 16px;
+    border-bottom: 1px solid #ececea;
+  }
+
+  .appgrade-mobile-categories a {
+    padding: 10px 0;
+    color: #666;
+    font-size: 15px;
+  }
+
+  .appgrade-video-hero {
+    padding: 8px 0 20px;
+  }
+
+  .appgrade-video-hero .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .appgrade-video-hero-media {
+    min-height: 72svh;
+    max-height: 720px;
+    border-radius: 24px;
+  }
+
+  .appgrade-video-hero-video {
+    object-position: center center;
+  }
+
+  .appgrade-video-hero-overlay {
+    background:
+      linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.78) 0%,
+        rgba(0, 0, 0, 0.44) 30%,
+        rgba(0, 0, 0, 0.08) 65%,
+        rgba(0, 0, 0, 0.02) 100%
+      );
+  }
+
+  .appgrade-video-hero-content {
+    align-items: flex-end;
+    min-height: 72svh;
+    max-height: 720px;
+    padding: 24px;
+  }
+
+  .appgrade-video-hero-copy {
+    width: 100%;
+    padding-right: 0;
+  }
+
+  .appgrade-video-hero-kicker {
+    margin-bottom: 12px;
+    font-size: 10px;
+  }
+
+  .appgrade-video-hero-copy h1 {
+    font-size: clamp(42px, 12.5vw, 58px);
+    line-height: 0.96;
+    letter-spacing: -0.055em;
+  }
+
+  .appgrade-video-hero-copy p {
+    max-width: 390px;
+    margin-top: 16px;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .appgrade-video-hero-actions {
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  .appgrade-video-primary,
+  .appgrade-video-secondary {
+    min-height: 46px;
+    padding: 0 17px;
+    font-size: 13px;
+  }
+
+  .appgrade-video-sound {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 42px;
+    min-height: 42px;
+    padding: 0;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .appgrade-video-sound span {
+    display: none;
+  }
+
+  .appgrade-categories {
+    padding: 52px 0 24px;
+  }
+
+  .appgrade-categories-heading {
+    align-items: flex-end;
+    margin-bottom: 20px;
+  }
+
+  .appgrade-categories-heading h2 {
+    font-size: 40px;
+  }
+
+  .appgrade-categories-heading > a {
+    font-size: 12px;
+  }
+
+  .appgrade-categories-grid {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    margin-left: calc(var(--container-padding, 16px) * -1);
+    margin-right: calc(var(--container-padding, 16px) * -1);
+    padding-left: var(--container-padding, 16px);
+    padding-right: var(--container-padding, 16px);
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .appgrade-categories-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .appgrade-category-card,
+  .appgrade-category-card.is-large {
+    flex: 0 0 min(78vw, 310px);
+    width: min(78vw, 310px);
+    height: 390px;
+    grid-column: auto;
+    grid-row: auto;
+    border-radius: 24px;
+    scroll-snap-align: start;
+  }
+
+  .appgrade-category-card.is-large {
+    flex-basis: min(88vw, 350px);
+    width: min(88vw, 350px);
+  }
+
+  .appgrade-category-copy,
+  .appgrade-category-card.is-large .appgrade-category-copy {
+    padding: 22px;
+  }
+
+  .appgrade-category-copy h3,
+  .appgrade-category-card.is-large .appgrade-category-copy h3 {
+    font-size: 32px;
+  }
+
+  .appgrade-category-link {
+    opacity: 1;
+    transform: none;
+  }
+
+  .appgrade-category-image,
+  .appgrade-category-card.is-large .appgrade-category-image {
+    height: 72%;
+  }
+
+  .appgrade-category-product,
+  .appgrade-category-card.is-large .appgrade-category-product {
+    padding: 16px 20px 0;
+  }
+
+  .appgrade-promo-bento {
+    padding: 48px 0 28px;
+  }
+
+  .appgrade-promo-heading h2 {
+    font-size: 40px;
+  }
+
+  .appgrade-promo-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .appgrade-promo-side {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    margin-left: calc(var(--container-padding, 16px) * -1);
+    margin-right: calc(var(--container-padding, 16px) * -1);
+    padding-left: var(--container-padding, 16px);
+    padding-right: var(--container-padding, 16px);
+    padding-bottom: 6px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .appgrade-promo-side::-webkit-scrollbar {
+    display: none;
+  }
+
+  .appgrade-promo-card {
+    min-height: 500px;
+    border-radius: 24px;
+  }
+
+  .appgrade-promo-small {
+    flex: 0 0 min(80vw, 320px);
+    min-height: 360px;
+    scroll-snap-align: start;
+  }
+
+  .appgrade-promo-copy,
+  .appgrade-promo-small .appgrade-promo-copy {
+    width: 100%;
+    padding: 24px;
+  }
+
+  .appgrade-promo-copy h3 {
+    font-size: 42px;
+  }
+
+  .appgrade-promo-small .appgrade-promo-copy h3 {
+    font-size: 30px;
+  }
+
+  .appgrade-promo-copy p {
+    max-width: 300px;
+    font-size: 14px;
+  }
+
+  .appgrade-promo-visual {
+    right: -14%;
+    bottom: -4%;
+    width: 82%;
+    height: 58%;
+  }
+
+  .appgrade-promo-small .appgrade-promo-visual {
+    right: -10%;
+    bottom: -8%;
+    width: 66%;
+    height: 58%;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+  .appgrade-video-hero-media,
+  .appgrade-video-hero-content {
+    min-height: 640px;
+  }
+
+  .appgrade-video-hero-content {
+    padding: 20px;
+  }
+
+  .appgrade-video-hero-copy h1 {
+    font-size: 46px;
+  }
+
+  .appgrade-video-hero-copy p {
+    font-size: 14px;
+  }
+
+  .appgrade-video-primary {
+    flex: 1;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .appgrade-video-primary,
+  .appgrade-video-secondary,
+  .appgrade-video-sound,
+  .appgrade-category-card,
+  .appgrade-category-product,
+  .appgrade-promo-card,
+  .appgrade-promo-visual img {
+    transition: none;
+  }
+}
+
+
+/* =========================================================
+   CATEGORY SHOWCASE — POLISH
+   ========================================================= */
+
+.appgrade-category-card {
+  background: #f3f3f1;
+}
+
+.appgrade-category-card.is-dark {
+  background:
+    radial-gradient(
+      circle at 70% 55%,
+      rgba(255, 255, 255, 0.07),
+      transparent 35%
+    ),
+    #0d0d0d;
+}
+
+.appgrade-category-card.is-dark-small {
+  background:
+    linear-gradient(
+      145deg,
+      #202020 0%,
+      #101010 100%
+    );
+
+  color: #fff;
+}
+
+.appgrade-category-card.is-dark-small .appgrade-category-copy > span {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.appgrade-category-image {
+  inset: auto 0 0;
+  height: 72%;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+.appgrade-category-product {
+  object-fit: contain;
+  object-position: center bottom;
+
+  padding: 20px;
+
+  transition:
+    transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.appgrade-category-card.is-large .appgrade-category-image {
+  height: 76%;
+}
+
+.appgrade-category-card.is-large .appgrade-category-product {
+  padding: 28px 40px 34px;
+}
+
+.appgrade-category-card.is-light .appgrade-category-product {
+  padding: 28px 34px 22px;
+}
+
+.appgrade-category-card.is-dark-small .appgrade-category-product {
+  padding: 26px 34px 22px;
+}
+
+.appgrade-category-card:hover .appgrade-category-product {
+  transform: scale(1.04);
+}
+
+.appgrade-category-copy {
+  padding: 28px;
+}
+
+.appgrade-category-card.is-large .appgrade-category-copy {
+  padding: 36px;
+}
+
+.appgrade-category-copy h3 {
+  font-size: 30px;
+}
+
+.appgrade-category-card.is-large .appgrade-category-copy h3 {
+  font-size: clamp(48px, 4.2vw, 68px);
+}
+
+.appgrade-category-link {
+  margin-top: 12px;
+}
+
+@media (max-width: 768px) {
+  .appgrade-category-product,
+  .appgrade-category-card.is-large .appgrade-category-product,
+  .appgrade-category-card.is-light .appgrade-category-product,
+  .appgrade-category-card.is-dark-small .appgrade-category-product {
+    padding: 22px;
+  }
+
+  .appgrade-category-card,
+  .appgrade-category-card.is-large {
+    height: 380px;
+  }
+
+  .appgrade-category-image,
+  .appgrade-category-card.is-large .appgrade-category-image {
+    height: 70%;
+  }
+
+  .appgrade-category-copy,
+  .appgrade-category-card.is-large .appgrade-category-copy {
+    padding: 22px;
+  }
+
+  .appgrade-category-copy h3,
+  .appgrade-category-card.is-large .appgrade-category-copy h3 {
+    font-size: 32px;
+  }
+}
+
+/* CATEGORY IMAGES — TRANSPARENT ASSETS */
+
+.appgrade-category-product {
+  object-fit: contain;
+  object-position: center bottom;
+  background: transparent;
+}
+
+.appgrade-category-card.is-large .appgrade-category-product {
+  padding: 30px 42px 34px;
+}
+
+.appgrade-category-card.is-light .appgrade-category-product {
+  padding: 28px 34px 24px;
+}
+
+.appgrade-category-card.is-dark-small .appgrade-category-product {
+  padding: 26px 34px 24px;
+}
+
+
+/* =========================================================
+   APPGRADE — SERVICE STRIP
+   ========================================================= */
+
+.appgrade-service-strip {
+  padding: 28px 0 68px;
+  background: #f5f5f5;
+}
+
+.appgrade-service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  overflow: hidden;
+
+  border: 1px solid rgba(15, 15, 15, 0.06);
+  border-radius: 26px;
+
+  background: #fff;
+}
+
+.appgrade-service-item {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  min-height: 108px;
+
+  padding: 24px;
+
+  background: #fff;
+}
+
+.appgrade-service-item:not(:last-child)::after {
+  content: '';
+
+  position: absolute;
+
+  top: 24px;
+  right: 0;
+  bottom: 24px;
+
+  width: 1px;
+
+  background: #ececea;
+}
+
+.appgrade-service-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 44px;
+
+  width: 44px;
+  height: 44px;
+
+  border-radius: 14px;
+
+  background: #f3f3f1;
+  color: #111;
+}
+
+.appgrade-service-item h3 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.2;
+
+  letter-spacing: -0.02em;
+}
+
+.appgrade-service-item p {
+  margin: 5px 0 0;
+
+  color: #8a8a87;
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* TABLET */
+
+@media (max-width: 1000px) {
+  .appgrade-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .appgrade-service-item:nth-child(2)::after {
+    display: none;
+  }
+
+  .appgrade-service-item:nth-child(-n + 2) {
+    border-bottom: 1px solid #ececea;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .appgrade-service-strip {
+    padding: 18px 0 48px;
+  }
+
+  .appgrade-service-grid {
+    grid-template-columns: 1fr;
+
+    border-radius: 22px;
+  }
+
+  .appgrade-service-item {
+    min-height: 86px;
+
+    padding: 18px;
+  }
+
+  .appgrade-service-item:not(:last-child) {
+    border-bottom: 1px solid #ececea;
+  }
+
+  .appgrade-service-item::after {
+    display: none !important;
+  }
+
+  .appgrade-service-icon {
+    flex-basis: 42px;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 13px;
+  }
+
+  .appgrade-service-item h3 {
+    font-size: 15px;
+  }
+
+  .appgrade-service-item p {
+    font-size: 12px;
+  }
+}
+/* =========================================================
+   APPGRADE — HEADER
+   ========================================================= */
+
+.appgrade-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  width: 100%;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border-bottom: 1px solid rgba(15, 15, 15, 0.06);
+
+  backdrop-filter: blur(18px);
+}
+
+.appgrade-header-inner {
+  display: grid;
+  grid-template-columns: auto minmax(260px, 1fr) auto;
+  align-items: center;
+
+  gap: 18px;
+
+  min-height: 78px;
+}
+
+.appgrade-header-left,
+.appgrade-header-right {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.appgrade-header-logo {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 44px;
+
+  padding: 0 18px;
+
+  border-radius: 999px;
+
+  background: #f3f3f1;
+  color: #111;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  letter-spacing: -0.05em;
+
+  white-space: nowrap;
+}
+
+.appgrade-header-logo span {
+  color: #e6332a;
+}
+
+.appgrade-catalog-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  min-height: 44px;
+
+  padding: 0 18px;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: #111;
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+.appgrade-catalog-button:hover {
+  transform: translateY(-1px);
+
+  background: #222;
+}
+
+.appgrade-catalog-button svg {
+  transition: transform 180ms ease;
+}
+
+.appgrade-catalog-button.is-open svg {
+  transform: rotate(180deg);
+}
+
+/* SEARCH */
+
+.appgrade-header-search-wrap {
+  position: relative;
+
+  min-width: 0;
+}
+
+.appgrade-header-search {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+  min-height: 48px;
+
+  padding: 0 18px;
+
+  border: 1px solid rgba(15, 15, 15, 0.08);
+  border-radius: 999px;
+
+  background: #f3f3f1;
+
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.appgrade-header-search:focus-within {
+  background: #fff;
+
+  border-color: rgba(15, 15, 15, 0.2);
+}
+
+.appgrade-header-search input {
+  width: 100%;
+  min-width: 0;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+  color: #111;
+
+  font-size: 14px;
+}
+
+.appgrade-header-search input::placeholder {
+  color: #8a8a87;
+}
+
+.appgrade-header-search svg {
+  flex-shrink: 0;
+
+  color: #555;
+}
+
+.appgrade-search-results {
+  position: absolute;
+
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(15, 15, 15, 0.08);
+  border-radius: 22px;
+
+  background: #fff;
+
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+}
+
+.appgrade-search-results > a {
+  display: grid;
+  grid-template-columns: 46px 1fr auto;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 12px 14px;
+
+  border-bottom: 1px solid #f0f0ee;
+
+  transition: background-color 140ms ease;
+}
+
+.appgrade-search-results > a:last-child {
+  border-bottom: 0;
+}
+
+.appgrade-search-results > a:hover {
+  background: #f7f7f5;
+}
+
+.appgrade-search-image {
+  position: relative;
+
+  width: 46px;
+  height: 46px;
+
+  overflow: hidden;
+
+  border-radius: 12px;
+
+  background: #f4f4f2;
+}
+
+.appgrade-search-image img {
+  object-fit: contain;
+}
+
+.appgrade-search-copy {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+
+  gap: 2px;
+}
+
+.appgrade-search-copy strong {
+  overflow: hidden;
+
+  color: #111;
+
+  font-size: 13px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.appgrade-search-copy small {
+  overflow: hidden;
+
+  color: #888;
+
+  font-size: 11px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.appgrade-search-results b {
+  color: #111;
+
+  font-size: 12px;
+
+  white-space: nowrap;
+}
+
+.appgrade-search-empty {
+  margin: 0;
+
+  padding: 18px;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+/* HEADER ACTIONS */
+
+.appgrade-header-city {
+  display: flex;
+  align-items: center;
+}
+
+.appgrade-header-icon {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: #f3f3f1;
+  color: #111;
+
+  cursor: pointer;
+
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.appgrade-header-icon:hover {
+  transform: translateY(-1px);
+
+  background: #eaeae7;
+}
+
+.appgrade-header-icon > span {
+  position: absolute;
+
+  top: -2px;
+  right: -2px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 18px;
+  height: 18px;
+
+  padding: 0 4px;
+
+  border: 2px solid #fff;
+  border-radius: 999px;
+
+  background: #111;
+  color: #fff;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.appgrade-menu-trigger {
+  display: none;
+}
+
+/* CATALOG DROPDOWN */
+
+.appgrade-catalog-dropdown {
+  position: absolute;
+
+  top: 100%;
+  left: 0;
+  right: 0;
+
+  visibility: hidden;
+
+  padding: 0 0 20px;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transform: translateY(-8px);
+
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    visibility 180ms ease;
+}
+
+.appgrade-catalog-dropdown.is-open {
+  visibility: visible;
+
+  opacity: 1;
+
+  pointer-events: auto;
+
+  transform: translateY(0);
+}
+
+.appgrade-catalog-dropdown-inner {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+
+  gap: 40px;
+
+  padding: 32px;
+
+  border: 1px solid rgba(15, 15, 15, 0.07);
+  border-radius: 28px;
+
+  background: #fff;
+
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.12);
+}
+
+.appgrade-catalog-heading span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #999;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.14em;
+
+  text-transform: uppercase;
+}
+
+.appgrade-catalog-heading h2 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: 30px;
+  line-height: 1.05;
+
+  letter-spacing: -0.04em;
+}
+
+.appgrade-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 8px;
+}
+
+.appgrade-catalog-grid a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 48px;
+
+  padding: 0 14px;
+
+  border-radius: 14px;
+
+  color: #222;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  transition:
+    background-color 150ms ease,
+    transform 150ms ease;
+}
+
+.appgrade-catalog-grid a:hover {
+  transform: translateX(2px);
+
+  background: #f4f4f2;
+}
+
+.appgrade-mobile-menu {
+  display: none;
+}
+
+/* =========================================================
+   APPGRADE — HERO
+   ========================================================= */
+
+.appgrade-video-hero {
+  width: 100%;
+
+  padding: 14px 0 0;
+
+  background: #f5f5f5;
+}
+
+.appgrade-video-hero-container {
+  width: 100%;
+}
+
+.appgrade-video-hero-media {
+  position: relative;
+
+  width: 100%;
+  min-height: min(700px, 72svh);
+
+  overflow: hidden;
+
+  border-radius: 30px;
+
+  background: #111;
+
+  isolation: isolate;
+}
+
+.appgrade-video-hero-video {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  transform: scale(1.015);
+}
+
+.appgrade-video-hero-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.54) 0%,
+      rgba(0, 0, 0, 0.28) 38%,
+      rgba(0, 0, 0, 0.06) 70%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0) 42%
+    );
+}
+
+.appgrade-video-hero-content {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  min-height: min(700px, 72svh);
+
+  padding: clamp(34px, 4.5vw, 64px);
+}
+
+.appgrade-video-hero-copy {
+  width: min(560px, 52%);
+
+  color: #fff;
+}
+
+.appgrade-video-hero-kicker {
+  display: inline-block;
+
+  margin-bottom: 18px;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+
+  letter-spacing: 0.16em;
+
+  text-transform: uppercase;
+
+  opacity: 0.78;
+}
+
+.appgrade-video-hero-copy h1 {
+  margin: 0;
+
+  font-size: clamp(48px, 5.2vw, 78px);
+  font-weight: 650;
+  line-height: 0.96;
+
+  letter-spacing: -0.05em;
+}
+
+.appgrade-video-hero-copy p {
+  max-width: 520px;
+
+  margin: 22px 0 0;
+
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.5;
+
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.appgrade-video-hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 30px;
+}
+
+.appgrade-video-primary,
+.appgrade-video-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  min-height: 50px;
+
+  padding: 0 22px;
+
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.appgrade-video-primary {
+  background: #fff;
+
+  color: #111;
+}
+
+.appgrade-video-primary:hover {
+  transform: translateY(-2px);
+
+  background: #f2f2f2;
+}
+
+.appgrade-video-secondary {
+  border: 1px solid rgba(255, 255, 255, 0.24);
+
+  background: rgba(255, 255, 255, 0.1);
+
+  color: #fff;
+
+  backdrop-filter: blur(12px);
+}
+
+.appgrade-video-secondary:hover {
+  transform: translateY(-2px);
+
+  background: rgba(255, 255, 255, 0.16);
+
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
+.appgrade-video-sound {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  flex-shrink: 0;
+
+  min-height: 42px;
+
+  padding: 0 15px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+
+  background: rgba(10, 10, 10, 0.22);
+
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  backdrop-filter: blur(14px);
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+/* =========================================================
+   APPGRADE — BRAND MARQUEE
+   ========================================================= */
+
+.appgrade-brand-marquee {
+  position: relative;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  border-top: 1px solid rgba(17, 17, 17, 0.06);
+  border-bottom: 1px solid rgba(17, 17, 17, 0.06);
+
+  background: #f5f5f5;
+}
+
+.appgrade-brand-marquee::before,
+.appgrade-brand-marquee::after {
+  content: '';
+
+  position: absolute;
+
+  z-index: 3;
+
+  top: 0;
+  bottom: 0;
+
+  width: 90px;
+
+  pointer-events: none;
+}
+
+.appgrade-brand-marquee::before {
+  left: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      #f5f5f5 0%,
+      rgba(245, 245, 245, 0) 100%
+    );
+}
+
+.appgrade-brand-marquee::after {
+  right: 0;
+
+  background:
+    linear-gradient(
+      270deg,
+      #f5f5f5 0%,
+      rgba(245, 245, 245, 0) 100%
+    );
+}
+
+.appgrade-brand-marquee-track {
+  display: flex;
+
+  width: max-content;
+
+  animation: appgrade-brand-scroll 34s linear infinite;
+
+  will-change: transform;
+}
+
+.appgrade-brand-marquee-group {
+  display: flex;
+  align-items: center;
+
+  flex-shrink: 0;
+}
+
+.appgrade-brand-marquee-item {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 210px;
+  min-height: 88px;
+
+  padding: 0 34px;
+
+  color: #777;
+
+  font-size: 18px;
+  font-weight: 750;
+  line-height: 1;
+
+  letter-spacing: -0.035em;
+
+  white-space: nowrap;
+
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.appgrade-brand-marquee-item::after {
+  content: '';
+
+  position: absolute;
+
+  right: 0;
+
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+
+  background: #d2d2cf;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .appgrade-brand-marquee:hover
+    .appgrade-brand-marquee-track {
+    animation-play-state: paused;
+  }
+
+  .appgrade-brand-marquee-item:hover {
+    color: #111;
+
+    transform: scale(1.04);
+  }
+}
+
+@keyframes appgrade-brand-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* =========================================================
+   APPGRADE — CATEGORIES
+   ========================================================= */
+
+.appgrade-categories {
+  padding: 64px 0 36px;
+
+  background: #f5f5f5;
+}
+
+.appgrade-categories-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 28px;
+}
+
+.appgrade-categories-heading > div > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #8b8b87;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.14em;
+
+  text-transform: uppercase;
+}
+
+.appgrade-categories-heading h2 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: clamp(38px, 4.4vw, 64px);
+  font-weight: 600;
+  line-height: 0.98;
+
+  letter-spacing: -0.055em;
+}
+
+.appgrade-categories-heading > a {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding-bottom: 4px;
+
+  color: #111;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.appgrade-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: 300px 300px;
+
+  gap: 14px;
+}
+
+.appgrade-category-card {
+  position: relative;
+
+  display: block;
+
+  overflow: hidden;
+
+  min-width: 0;
+
+  border-radius: 28px;
+
+  background: #f3f3f1;
+
+  color: #111;
+
+  isolation: isolate;
+
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 260ms ease;
+}
+
+.appgrade-category-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.07);
+}
+
+.appgrade-category-card.is-large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.appgrade-category-card.is-dark {
+  background:
+    radial-gradient(
+      circle at 70% 55%,
+      rgba(255, 255, 255, 0.07),
+      transparent 35%
+    ),
+    #0d0d0d;
+
+  color: #fff;
+}
+
+.appgrade-category-card.is-dark-small {
+  background:
+    linear-gradient(
+      145deg,
+      #202020 0%,
+      #101010 100%
+    );
+
+  color: #fff;
+}
+
+.appgrade-category-copy {
+  position: relative;
+
+  z-index: 2;
+
+  padding: 28px;
+}
+
+.appgrade-category-card.is-large .appgrade-category-copy {
+  padding: 36px;
+}
+
+.appgrade-category-copy > span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #888;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.appgrade-category-card.is-dark .appgrade-category-copy > span,
+.appgrade-category-card.is-dark-small .appgrade-category-copy > span {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.appgrade-category-copy h3 {
+  margin: 0;
+
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1;
+
+  letter-spacing: -0.04em;
+}
+
+.appgrade-category-card.is-large .appgrade-category-copy h3 {
+  font-size: clamp(48px, 4.2vw, 68px);
+}
+
+.appgrade-category-link {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  margin-top: 12px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  opacity: 0;
+
+  transform: translateY(5px);
+
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.appgrade-category-card:hover .appgrade-category-link {
+  opacity: 1;
+
+  transform: translateY(0);
+}
+
+.appgrade-category-image {
+  position: absolute;
+
+  inset: auto 0 0;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  height: 72%;
+
+  overflow: hidden;
+}
+
+.appgrade-category-card.is-large .appgrade-category-image {
+  height: 76%;
+}
+
+.appgrade-category-product {
+  object-fit: contain;
+  object-position: center bottom;
+
+  padding: 20px;
+
+  background: transparent;
+
+  transition:
+    transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.appgrade-category-card.is-large .appgrade-category-product {
+  padding: 30px 42px 34px;
+}
+
+.appgrade-category-card.is-light .appgrade-category-product {
+  padding: 28px 34px 24px;
+}
+
+.appgrade-category-card.is-dark-small .appgrade-category-product {
+  padding: 26px 34px 24px;
+}
+
+.appgrade-category-card:hover .appgrade-category-product {
+  transform: scale(1.04);
+}
+
+/* =========================================================
+   APPGRADE — PROMO BENTO
+   ========================================================= */
+
+.appgrade-promo-bento {
+  padding: 64px 0 42px;
+
+  background: #f5f5f5;
+}
+
+.appgrade-promo-heading {
+  margin-bottom: 26px;
+}
+
+.appgrade-promo-heading > span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #8b8b87;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.14em;
+
+  text-transform: uppercase;
+}
+
+.appgrade-promo-heading h2 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: clamp(38px, 4.2vw, 60px);
+  font-weight: 600;
+  line-height: 0.98;
+
+  letter-spacing: -0.05em;
+}
+
+.appgrade-promo-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.9fr);
+
+  gap: 14px;
+}
+
+.appgrade-promo-side {
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+.appgrade-promo-card {
+  position: relative;
+
+  display: block;
+
+  overflow: hidden;
+
+  min-height: 620px;
+
+  border-radius: 30px;
+
+  isolation: isolate;
+
+  transition:
+    transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 240ms ease;
+}
+
+.appgrade-promo-trade {
+  background:
+    radial-gradient(
+      circle at 76% 62%,
+      rgba(255, 255, 255, 0.22),
+      rgba(255, 255, 255, 0) 34%
+    ),
+    #e7342a;
+
+  color: #fff;
+}
+
+.appgrade-promo-small {
+  min-height: 303px;
+}
+
+.appgrade-promo-mac {
+  background: #ececea;
+
+  color: #111;
+}
+
+.appgrade-promo-dyson {
+  background:
+    linear-gradient(
+      135deg,
+      #161616 0%,
+      #272727 100%
+    );
+
+  color: #fff;
+}
+
+.appgrade-promo-copy {
+  position: relative;
+
+  z-index: 3;
+
+  width: min(560px, 70%);
+
+  padding: 38px;
+}
+
+.appgrade-promo-small .appgrade-promo-copy {
+  width: 65%;
+
+  padding: 28px;
+}
+
+.appgrade-promo-copy > span {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: rgba(255, 255, 255, 0.66);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.13em;
+
+  text-transform: uppercase;
+}
+
+.appgrade-promo-mac .appgrade-promo-copy > span {
+  color: #8a8a87;
+}
+
+.appgrade-promo-copy h3 {
+  margin: 0;
+
+  font-size: clamp(40px, 4.4vw, 66px);
+  font-weight: 600;
+  line-height: 0.96;
+
+  letter-spacing: -0.055em;
+}
+
+.appgrade-promo-small .appgrade-promo-copy h3 {
+  font-size: clamp(28px, 2.4vw, 38px);
+}
+
+.appgrade-promo-copy p {
+  max-width: 420px;
+
+  margin: 18px 0 0;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.appgrade-promo-mac .appgrade-promo-copy p {
+  color: #686865;
+}
+
+.appgrade-promo-link {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 24px;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.appgrade-promo-visual {
+  position: absolute;
+
+  z-index: 1;
+
+  right: -3%;
+  bottom: -5%;
+
+  width: 58%;
+  height: 72%;
+}
+
+.appgrade-promo-visual img {
+  object-fit: contain;
+  object-position: right bottom;
+
+  transition:
+    transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.appgrade-promo-small .appgrade-promo-visual {
+  right: -4%;
+  bottom: -10%;
+
+  width: 48%;
+  height: 70%;
+}
+
+/* =========================================================
+   APPGRADE — SERVICE STRIP
+   ========================================================= */
+
+.appgrade-service-strip {
+  padding: 28px 0 68px;
+
+  background: #f5f5f5;
+}
+
+.appgrade-service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  overflow: hidden;
+
+  border: 1px solid rgba(15, 15, 15, 0.06);
+  border-radius: 26px;
+
+  background: #fff;
+}
+
+.appgrade-service-item {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  min-height: 108px;
+
+  padding: 24px;
+
+  background: #fff;
+}
+
+.appgrade-service-item:not(:last-child)::after {
+  content: '';
+
+  position: absolute;
+
+  top: 24px;
+  right: 0;
+  bottom: 24px;
+
+  width: 1px;
+
+  background: #ececea;
+}
+
+.appgrade-service-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 44px;
+
+  width: 44px;
+  height: 44px;
+
+  border-radius: 14px;
+
+  background: #f3f3f1;
+
+  color: #111;
+}
+
+.appgrade-service-item h3 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.2;
+
+  letter-spacing: -0.02em;
+}
+
+.appgrade-service-item p {
+  margin: 5px 0 0;
+
+  color: #8a8a87;
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   SHARED
+   ========================================================= */
+
+.section-kicker {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #8b8b87;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.14em;
+
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .appgrade-header-inner {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .appgrade-header-city,
+  .appgrade-header-favorite {
+    display: none;
+  }
+
+  .appgrade-catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .appgrade-categories-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: 420px repeat(2, 280px);
+  }
+
+  .appgrade-category-card.is-large {
+    grid-column: span 2;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 1000px) {
+  .appgrade-promo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .appgrade-promo-card {
+    min-height: 520px;
+  }
+
+  .appgrade-promo-side {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+
+  .appgrade-promo-small {
+    min-height: 340px;
+  }
+
+  .appgrade-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .appgrade-service-item:nth-child(2)::after {
+    display: none;
+  }
+
+  .appgrade-service-item:nth-child(-n + 2) {
+    border-bottom: 1px solid #ececea;
+  }
+}
+
+@media (max-width: 1024px) {
+  .appgrade-video-hero-media,
+  .appgrade-video-hero-content {
+    min-height: 640px;
+  }
+
+  .appgrade-video-hero-copy {
+    width: 65%;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .appgrade-header-inner {
+    display: flex;
+    justify-content: space-between;
+
+    min-height: 66px;
+
+    gap: 10px;
+  }
+
+  .appgrade-header-logo {
+    min-height: 40px;
+
+    padding: 0;
+
+    background: transparent;
+
+    font-size: 19px;
+  }
+
+  .appgrade-catalog-button,
+  .appgrade-header-search-wrap,
+  .appgrade-header-city,
+  .appgrade-header-favorite {
+    display: none;
+  }
+
+  .appgrade-header-right {
+    gap: 6px;
+  }
+
+  .appgrade-header-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .appgrade-menu-trigger {
+    display: inline-flex;
+  }
+
+  .appgrade-catalog-dropdown {
+    display: none;
+  }
+
+  .appgrade-video-hero {
+    padding: 8px 0 0;
+  }
+
+  .appgrade-video-hero .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .appgrade-video-hero-media {
+    min-height: 72svh;
+    max-height: 720px;
+
+    border-radius: 24px;
+  }
+
+  .appgrade-video-hero-overlay {
+    background:
+      linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.78) 0%,
+        rgba(0, 0, 0, 0.44) 30%,
+        rgba(0, 0, 0, 0.08) 65%,
+        rgba(0, 0, 0, 0.02) 100%
+      );
+  }
+
+  .appgrade-video-hero-content {
+    align-items: flex-end;
+
+    min-height: 72svh;
+    max-height: 720px;
+
+    padding: 24px;
+  }
+
+  .appgrade-video-hero-copy {
+    width: 100%;
+  }
+
+  .appgrade-video-hero-copy h1 {
+    font-size: clamp(42px, 12.5vw, 58px);
+  }
+
+  .appgrade-video-sound {
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    width: 42px;
+
+    min-height: 42px;
+
+    padding: 0;
+
+    justify-content: center;
+  }
+
+  .appgrade-video-sound span {
+    display: none;
+  }
+
+  .appgrade-brand-marquee::before,
+  .appgrade-brand-marquee::after {
+    width: 38px;
+  }
+
+  .appgrade-brand-marquee-track {
+    animation-duration: 24s;
+  }
+
+  .appgrade-brand-marquee-item {
+    min-width: 150px;
+    min-height: 72px;
+
+    padding: 0 24px;
+
+    font-size: 15px;
+  }
+
+  .appgrade-categories {
+    padding: 48px 0 24px;
+  }
+
+  .appgrade-categories-heading h2 {
+    font-size: 40px;
+  }
+
+  .appgrade-categories-grid {
+    display: flex;
+
+    gap: 10px;
+
+    overflow-x: auto;
+
+    padding-bottom: 8px;
+
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+  }
+
+  .appgrade-categories-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .appgrade-category-card,
+  .appgrade-category-card.is-large {
+    flex: 0 0 min(78vw, 310px);
+
+    width: min(78vw, 310px);
+    height: 380px;
+
+    grid-column: auto;
+    grid-row: auto;
+
+    border-radius: 24px;
+
+    scroll-snap-align: start;
+  }
+
+  .appgrade-category-copy,
+  .appgrade-category-card.is-large .appgrade-category-copy {
+    padding: 22px;
+  }
+
+  .appgrade-category-copy h3,
+  .appgrade-category-card.is-large .appgrade-category-copy h3 {
+    font-size: 32px;
+  }
+
+  .appgrade-category-link {
+    opacity: 1;
+
+    transform: none;
+  }
+
+  .appgrade-category-image,
+  .appgrade-category-card.is-large .appgrade-category-image {
+    height: 70%;
+  }
+
+  .appgrade-category-product,
+  .appgrade-category-card.is-large .appgrade-category-product,
+  .appgrade-category-card.is-light .appgrade-category-product,
+  .appgrade-category-card.is-dark-small .appgrade-category-product {
+    padding: 22px;
+  }
+
+  .appgrade-promo-bento {
+    padding: 48px 0 28px;
+  }
+
+  .appgrade-promo-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .appgrade-promo-side {
+    display: flex;
+
+    gap: 10px;
+
+    overflow-x: auto;
+
+    padding-bottom: 6px;
+
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+  }
+
+  .appgrade-promo-card {
+    min-height: 500px;
+
+    border-radius: 24px;
+  }
+
+  .appgrade-promo-small {
+    flex: 0 0 min(80vw, 320px);
+
+    min-height: 360px;
+
+    scroll-snap-align: start;
+  }
+
+  .appgrade-service-strip {
+    padding: 18px 0 48px;
+  }
+
+  .appgrade-service-grid {
+    grid-template-columns: 1fr;
+
+    border-radius: 22px;
+  }
+
+  .appgrade-service-item {
+    min-height: 86px;
+
+    padding: 18px;
+  }
+
+  .appgrade-service-item:not(:last-child) {
+    border-bottom: 1px solid #ececea;
+  }
+
+  .appgrade-service-item::after {
+    display: none !important;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+  .appgrade-video-hero-media,
+  .appgrade-video-hero-content {
+    min-height: 640px;
+  }
+
+  .appgrade-video-hero-content {
+    padding: 20px;
+  }
+
+  .appgrade-video-hero-copy h1 {
+    font-size: 46px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .appgrade-brand-marquee {
+    overflow-x: auto;
+
+    scrollbar-width: none;
+  }
+
+  .appgrade-brand-marquee-track {
+    animation: none;
+  }
+
+  .appgrade-brand-marquee-group:nth-child(2) {
+    display: none;
+  }
+
+  .appgrade-category-card,
+  .appgrade-category-product,
+  .appgrade-promo-card,
+  .appgrade-promo-visual img {
+    transition: none;
+  }
+}
+
+
+/* =========================================================
+   HERO — DESKTOP IMAGE / MOBILE VIDEO
+   ========================================================= */
+
+.appgrade-hero-desktop-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.appgrade-hero-desktop-image {
+  object-fit: cover;
+  object-position: center;
+}
+
+.appgrade-hero-mobile-video {
+  display: none;
+}
+
+.appgrade-mobile-sound-button {
+  display: none;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .appgrade-hero-desktop-media {
+    display: none;
+  }
+
+  .appgrade-hero-mobile-video {
+    display: block;
+
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .appgrade-mobile-sound-button {
+    display: inline-flex;
+  }
+}
+
+/* =========================================================
+   APPGRADE — POPULAR PRODUCTS
+   ========================================================= */
+
+.appgrade-popular {
+  padding: 70px 0 60px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.appgrade-popular-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.appgrade-popular-heading > div:first-child > span {
+  display: block;
+  margin-bottom: 9px;
+
+  color: #8b8b87;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.appgrade-popular-heading h2 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: clamp(38px, 4.4vw, 62px);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.appgrade-popular-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.appgrade-popular-heading-actions > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #111;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.appgrade-popular-arrows {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.appgrade-popular-arrows button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: #fff;
+  color: #111;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+.appgrade-popular-arrows button:hover {
+  transform: translateY(-2px);
+  background: #ececea;
+}
+
+.appgrade-popular-track {
+  display: flex;
+  gap: 14px;
+
+  overflow-x: auto;
+  overflow-y: visible;
+
+  padding-bottom: 10px;
+
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+
+  scrollbar-width: none;
+}
+
+.appgrade-popular-track::-webkit-scrollbar {
+  display: none;
+}
+
+.appgrade-popular-item {
+  flex: 0 0 calc((100% - 42px) / 4);
+  min-width: 0;
+
+  scroll-snap-align: start;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .appgrade-popular-item {
+    flex-basis: calc((100% - 28px) / 3);
+  }
+}
+
+@media (max-width: 850px) {
+  .appgrade-popular-item {
+    flex-basis: calc((100% - 14px) / 2);
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .appgrade-popular {
+    padding: 52px 0 46px;
+  }
+
+  .appgrade-popular-heading {
+    align-items: flex-end;
+    margin-bottom: 20px;
+  }
+
+  .appgrade-popular-heading h2 {
+    font-size: 40px;
+  }
+
+  .appgrade-popular-heading-actions {
+    gap: 0;
+  }
+
+  .appgrade-popular-arrows {
+    display: none;
+  }
+
+  .appgrade-popular-heading-actions > a {
+    font-size: 12px;
+  }
+
+  .appgrade-popular-track {
+    gap: 10px;
+
+    margin-left: -16px;
+    margin-right: -16px;
+
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .appgrade-popular-item {
+    flex: 0 0 min(78vw, 310px);
+  }
+}
+
+@media (max-width: 420px) {
+  .appgrade-popular-item {
+    flex-basis: 82vw;
+  }
+}
+
+/* =========================================================
+   POPULAR PRODUCTS — FINAL MOBILE CAROUSEL
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .appgrade-popular {
+    padding: 48px 0 44px;
+  }
+
+  .appgrade-popular-heading {
+    align-items: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .appgrade-popular-heading h2 {
+    font-size: 38px;
+    line-height: 0.96;
+  }
+
+  .appgrade-popular-heading-actions > a {
+    font-size: 11px;
+  }
+
+  .appgrade-popular-arrows {
+    display: none;
+  }
+
+  .appgrade-popular-track {
+    display: flex;
+    gap: 10px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    margin-left: -16px;
+    margin-right: -16px;
+
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 8px;
+
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 16px;
+
+    scrollbar-width: none;
+  }
+
+  .appgrade-popular-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .appgrade-popular-item {
+    flex: 0 0 82%;
+    min-width: 0;
+
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 420px) {
+  .appgrade-popular-item {
+    flex-basis: 84%;
+  }
+}
+
+/* =========================================================
+   PROMO BENTO — FINAL POLISH
+   ========================================================= */
+
+.appgrade-promo-bento {
+  padding: 68px 0 54px;
+  background: #f5f5f5;
+}
+
+.appgrade-promo-heading {
+  margin-bottom: 26px;
+}
+
+.appgrade-promo-heading > div > span {
+  display: block;
+  margin-bottom: 9px;
+
+  color: #8b8b87;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.appgrade-promo-heading h2 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: clamp(40px, 4.4vw, 64px);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+}
+
+/* GRID */
+
+.appgrade-promo-grid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.55fr)
+    minmax(340px, 0.85fr);
+
+  gap: 14px;
+}
+
+.appgrade-promo-side {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+
+  gap: 14px;
+}
+
+/* CARD */
+
+.appgrade-promo-card {
+  position: relative;
+
+  display: block;
+
+  overflow: hidden;
+
+  min-height: 600px;
+
+  border-radius: 30px;
+
+  isolation: isolate;
+
+  transform: translateZ(0);
+
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 260ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .appgrade-promo-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+      0 24px 60px
+      rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* TRADE-IN */
+
+.appgrade-promo-trade {
+  background:
+    radial-gradient(
+      circle at 78% 65%,
+      rgba(255, 255, 255, 0.16),
+      transparent 34%
+    ),
+    #ef3128;
+
+  color: #fff;
+}
+
+.appgrade-promo-trade::after {
+  content: '';
+
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(160, 10, 6, 0.18),
+      transparent 55%
+    );
+
+  pointer-events: none;
+}
+
+/* SIDE */
+
+.appgrade-promo-small {
+  min-height: 293px;
+}
+
+.appgrade-promo-mac {
+  background: #ebecea;
+
+  color: #111;
+}
+
+.appgrade-promo-dyson {
+  background:
+    radial-gradient(
+      circle at 80% 80%,
+      #303030 0,
+      transparent 45%
+    ),
+    #121212;
+
+  color: #fff;
+}
+
+/* COPY */
+
+.appgrade-promo-copy {
+  position: relative;
+
+  z-index: 4;
+
+  width: min(560px, 67%);
+
+  padding: 40px;
+}
+
+.appgrade-promo-small .appgrade-promo-copy {
+  width: 62%;
+
+  padding: 28px;
+}
+
+.appgrade-promo-copy > span {
+  display: block;
+
+  margin-bottom: 11px;
+
+  color: rgba(255, 255, 255, 0.62);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.appgrade-promo-mac .appgrade-promo-copy > span {
+  color: #858581;
+}
+
+.appgrade-promo-copy h3 {
+  margin: 0;
+
+  font-size: clamp(48px, 4.5vw, 72px);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+}
+
+.appgrade-promo-small .appgrade-promo-copy h3 {
+  font-size: clamp(28px, 2.3vw, 38px);
+  line-height: 0.96;
+}
+
+.appgrade-promo-copy p {
+  max-width: 380px;
+
+  margin: 20px 0 0;
+
+  color: rgba(255, 255, 255, 0.75);
+
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.appgrade-promo-small .appgrade-promo-copy p {
+  margin-top: 12px;
+
+  font-size: 13px;
+}
+
+.appgrade-promo-mac .appgrade-promo-copy p {
+  color: #686864;
+}
+
+/* LINK */
+
+.appgrade-promo-link {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 26px;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.appgrade-promo-link svg {
+  transition: transform 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .appgrade-promo-card:hover
+  .appgrade-promo-link svg {
+    transform: translateX(4px);
+  }
+}
+
+/* IMAGE */
+
+.appgrade-promo-visual {
+  position: absolute;
+
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+.appgrade-promo-visual img {
+  object-fit: contain;
+
+  background: transparent;
+
+  transition:
+    transform 600ms
+    cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .appgrade-promo-card:hover
+  .appgrade-promo-visual img {
+    transform: scale(1.045);
+  }
+}
+
+.appgrade-promo-trade-image {
+  right: -3%;
+  bottom: -6%;
+
+  width: 59%;
+  height: 72%;
+}
+
+.appgrade-promo-trade-image img {
+  object-position: right bottom;
+}
+
+.appgrade-promo-mac-image {
+  right: -5%;
+  bottom: -14%;
+
+  width: 52%;
+  height: 74%;
+}
+
+.appgrade-promo-mac-image img {
+  object-position: right bottom;
+}
+
+.appgrade-promo-dyson-image {
+  right: -4%;
+  bottom: -11%;
+
+  width: 48%;
+  height: 75%;
+}
+
+.appgrade-promo-dyson-image img {
+  object-position: center bottom;
+}
+
+/* DECORATION */
+
+.appgrade-promo-trade-decoration {
+  position: absolute;
+
+  z-index: 0;
+
+  right: 28px;
+  top: 30px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  gap: 2px;
+
+  color:
+    rgba(255, 255, 255, 0.1);
+
+  font-size: clamp(38px, 5vw, 74px);
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .appgrade-promo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .appgrade-promo-card {
+    min-height: 500px;
+  }
+
+  .appgrade-promo-side {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    grid-template-rows: none;
+  }
+
+  .appgrade-promo-small {
+    min-height: 330px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .appgrade-promo-bento {
+    padding: 48px 0 34px;
+  }
+
+  .appgrade-promo-heading {
+    margin-bottom: 20px;
+  }
+
+  .appgrade-promo-heading h2 {
+    font-size: 40px;
+  }
+
+  .appgrade-promo-grid {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+  .appgrade-promo-card {
+    min-height: 500px;
+
+    border-radius: 24px;
+  }
+
+  .appgrade-promo-copy {
+    width: 100%;
+
+    padding: 25px;
+  }
+
+  .appgrade-promo-copy h3 {
+    max-width: 310px;
+
+    font-size: 46px;
+  }
+
+  .appgrade-promo-copy p {
+    max-width: 270px;
+
+    font-size: 14px;
+  }
+
+  .appgrade-promo-trade-image {
+    right: -17%;
+    bottom: -3%;
+
+    width: 88%;
+    height: 58%;
+  }
+
+  .appgrade-promo-trade-decoration {
+    top: auto;
+    right: 20px;
+    bottom: 18px;
+
+    font-size: 46px;
+  }
+
+  .appgrade-promo-side {
+    display: flex;
+
+    gap: 10px;
+
+    overflow-x: auto;
+
+    padding-bottom: 5px;
+
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+  }
+
+  .appgrade-promo-side::-webkit-scrollbar {
+    display: none;
+  }
+
+  .appgrade-promo-small {
+    flex: 0 0 min(82vw, 320px);
+
+    min-height: 350px;
+
+    scroll-snap-align: start;
+  }
+
+  .appgrade-promo-small .appgrade-promo-copy {
+    width: 100%;
+
+    padding: 23px;
+  }
+
+  .appgrade-promo-small
+  .appgrade-promo-copy h3 {
+    max-width: 240px;
+
+    font-size: 30px;
+  }
+
+  .appgrade-promo-mac-image,
+  .appgrade-promo-dyson-image {
+    right: -9%;
+    bottom: -9%;
+
+    width: 68%;
+    height: 58%;
+  }
+}
+
+
+/* =========================================================
+   APPGRADE — EDITORIAL PROMOS
+   PlayStation / Marshall / Xiaomi
+   ========================================================= */
+
+.appgrade-editorial-promos {
+  padding: 68px 0 58px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.appgrade-editorial-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 26px;
+}
+
+.appgrade-editorial-heading > div > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #8b8b87;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+
+  text-transform: uppercase;
+}
+
+.appgrade-editorial-heading h2 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: clamp(40px, 4.4vw, 64px);
+  font-weight: 600;
+  line-height: 0.96;
+
+  letter-spacing: -0.055em;
+}
+
+.appgrade-editorial-heading > a {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  padding-bottom: 4px;
+
+  color: #111;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.appgrade-editorial-track {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+.appgrade-editorial-card {
+  position: relative;
+
+  display: block;
+
+  min-width: 0;
+  min-height: 520px;
+
+  overflow: hidden;
+
+  border-radius: 28px;
+
+  background: #fff;
+  color: #111;
+
+  isolation: isolate;
+
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 260ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .appgrade-editorial-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+      0 22px 55px rgba(0, 0, 0, 0.07);
+  }
+}
+
+/* =========================================================
+   COPY
+   ========================================================= */
+
+.appgrade-editorial-copy {
+  position: relative;
+  z-index: 3;
+
+  padding: 30px;
+}
+
+.appgrade-editorial-copy > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #8a8a87;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+
+  text-transform: uppercase;
+}
+
+.appgrade-editorial-copy h3 {
+  max-width: 330px;
+
+  margin: 0;
+
+  font-size: clamp(32px, 2.8vw, 46px);
+  font-weight: 600;
+  line-height: 0.94;
+
+  letter-spacing: -0.055em;
+}
+
+.appgrade-editorial-copy p {
+  max-width: 280px;
+
+  margin: 14px 0 0;
+
+  color: #777773;
+
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.appgrade-editorial-link {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  margin-top: 20px;
+
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.appgrade-editorial-link svg {
+  transition: transform 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .appgrade-editorial-card:hover
+    .appgrade-editorial-link svg {
+    transform: translateX(4px);
+  }
+}
+
+/* =========================================================
+   IMAGES
+   ========================================================= */
+
+.appgrade-editorial-image {
+  position: absolute;
+
+  z-index: 1;
+
+  left: 20px;
+  right: 20px;
+  bottom: 12px;
+
+  height: 58%;
+
+  overflow: hidden;
+}
+
+.appgrade-editorial-image img {
+  object-fit: contain;
+  object-position: center bottom;
+
+  transition:
+    transform 550ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .appgrade-editorial-card:hover
+    .appgrade-editorial-image img {
+    transform: scale(1.035);
+  }
+}
+
+/* =========================================================
+   PLAYSTATION
+   ========================================================= */
+
+.appgrade-editorial-card.is-playstation {
+  background: #fff;
+}
+
+/*
+   PS5-картинка у тебя JPEG на белом фоне.
+   Поэтому сама карточка тоже белая —
+   граница картинки визуально пропадает.
+*/
+
+.appgrade-editorial-card.is-playstation
+  .appgrade-editorial-image {
+  left: 28px;
+  right: 28px;
+
+  height: 60%;
+}
+
+/* =========================================================
+   MARSHALL
+   ========================================================= */
+
+.appgrade-editorial-card.is-marshall {
+  background: #fff;
+}
+
+/*
+   Marshall тоже JPEG.
+   Белая карточка скрывает белое поле самого JPG.
+*/
+
+.appgrade-editorial-card.is-marshall
+  .appgrade-editorial-image {
+  left: 24px;
+  right: 24px;
+
+  height: 57%;
+}
+
+/* =========================================================
+   XIAOMI
+   ========================================================= */
+
+.appgrade-editorial-card.is-xiaomi {
+  background:
+    radial-gradient(
+      circle at 50% 82%,
+      #343434 0%,
+      #1d1d1d 38%,
+      #111 72%
+    );
+
+  color: #fff;
+}
+
+.appgrade-editorial-card.is-xiaomi
+  .appgrade-editorial-copy > span {
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.appgrade-editorial-card.is-xiaomi
+  .appgrade-editorial-copy p {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.appgrade-editorial-card.is-xiaomi
+  .appgrade-editorial-image {
+  height: 61%;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .appgrade-editorial-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .appgrade-editorial-card:last-child {
+    grid-column: span 2;
+  }
+
+  .appgrade-editorial-card:last-child
+    .appgrade-editorial-image {
+    left: 45%;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .appgrade-editorial-promos {
+    padding: 48px 0 38px;
+  }
+
+  .appgrade-editorial-heading {
+    margin-bottom: 19px;
+  }
+
+  .appgrade-editorial-heading h2 {
+    font-size: 39px;
+  }
+
+  .appgrade-editorial-heading > a {
+    font-size: 11px;
+  }
+
+  .appgrade-editorial-track {
+    display: flex;
+
+    gap: 10px;
+
+    overflow-x: auto;
+
+    margin-left: -16px;
+    margin-right: -16px;
+
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 7px;
+
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 16px;
+
+    scrollbar-width: none;
+  }
+
+  .appgrade-editorial-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .appgrade-editorial-card,
+  .appgrade-editorial-card:last-child {
+    flex: 0 0 82vw;
+
+    width: 82vw;
+    min-height: 430px;
+
+    grid-column: auto;
+
+    border-radius: 23px;
+
+    scroll-snap-align: start;
+  }
+
+  .appgrade-editorial-copy {
+    padding: 23px;
+  }
+
+  .appgrade-editorial-copy h3 {
+    max-width: 270px;
+
+    font-size: 36px;
+  }
+
+  .appgrade-editorial-copy p {
+    margin-top: 11px;
+
+    font-size: 12px;
+  }
+
+  .appgrade-editorial-link {
+    margin-top: 16px;
+  }
+
+  .appgrade-editorial-image,
+  .appgrade-editorial-card:last-child
+    .appgrade-editorial-image {
+    left: 20px;
+    right: 20px;
+    bottom: 8px;
+
+    height: 56%;
+  }
+
+  .appgrade-editorial-card.is-xiaomi
+    .appgrade-editorial-image {
+    left: 25px;
+    right: 25px;
+
+    height: 57%;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 390px) {
+  .appgrade-editorial-card,
+  .appgrade-editorial-card:last-child {
+    flex-basis: 85vw;
+
+    width: 85vw;
+  }
+}
+
+
+/* =========================================================
+   APPGRADE — TRADE-IN BANNER
+   ========================================================= */
+
+.appgrade-trade-banner-section {
+  padding: 24px 0 52px;
+  background: #f5f5f5;
+}
+
+.appgrade-trade-banner {
+  position: relative;
+
+  display: block;
+
+  min-height: 380px;
+
+  overflow: hidden;
+
+  border-radius: 30px;
+
+  background:
+    radial-gradient(
+      circle at 78% 55%,
+      rgba(255, 255, 255, 0.18),
+      transparent 32%
+    ),
+    #ef3128;
+
+  color: #fff;
+
+  isolation: isolate;
+}
+
+.appgrade-trade-banner-copy {
+  position: relative;
+  z-index: 4;
+
+  width: 56%;
+
+  padding: 42px;
+}
+
+.appgrade-trade-banner-copy > span {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.appgrade-trade-banner-copy h2 {
+  margin: 0;
+
+  font-size: clamp(42px, 4.3vw, 66px);
+  font-weight: 600;
+  line-height: 0.92;
+
+  letter-spacing: -0.055em;
+}
+
+.appgrade-trade-banner-copy p {
+  max-width: 420px;
+
+  margin: 18px 0 0;
+
+  color: rgba(255, 255, 255, 0.76);
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.appgrade-trade-banner-link {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 24px;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.appgrade-trade-banner-image {
+  position: absolute;
+
+  z-index: 2;
+
+  right: -2%;
+  bottom: -10%;
+
+  width: 46%;
+  height: 94%;
+}
+
+.appgrade-trade-banner-image img {
+  object-fit: contain;
+  object-position: right bottom;
+
+  transition: transform 500ms ease;
+}
+
+.appgrade-trade-banner:hover
+.appgrade-trade-banner-image img {
+  transform: scale(1.035);
+}
+
+.appgrade-trade-banner-word {
+  position: absolute;
+
+  z-index: 1;
+
+  right: 30px;
+  top: 24px;
+
+  color: rgba(255, 255, 255, 0.08);
+
+  font-size: clamp(70px, 10vw, 160px);
+  font-weight: 800;
+
+  letter-spacing: -0.08em;
+
+  pointer-events: none;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .appgrade-trade-banner-section {
+    padding: 18px 0 40px;
+  }
+
+  .appgrade-trade-banner {
+    min-height: 480px;
+
+    border-radius: 24px;
+  }
+
+  .appgrade-trade-banner-copy {
+    width: 100%;
+
+    padding: 24px;
+  }
+
+  .appgrade-trade-banner-copy h2 {
+    max-width: 300px;
+
+    font-size: 44px;
+  }
+
+  .appgrade-trade-banner-copy p {
+    max-width: 280px;
+
+    font-size: 13px;
+  }
+
+  .appgrade-trade-banner-image {
+    right: -14%;
+    bottom: -6%;
+
+    width: 86%;
+    height: 53%;
+  }
+
+  .appgrade-trade-banner-word {
+    display: none;
+  }
+}
+
+/* =========================================================
+   APPGRADE — CLEAN TRADE-IN
+   ========================================================= */
+
+.appgrade-trade-clean-section {
+  padding: 24px 0 54px;
+  background: #f5f5f5;
+}
+
+.appgrade-trade-clean {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  min-height: 340px;
+
+  overflow: hidden;
+
+  border-radius: 30px;
+
+  background: #ef3128;
+  color: #fff;
+
+  isolation: isolate;
+}
+
+.appgrade-trade-clean-copy {
+  position: relative;
+  z-index: 3;
+
+  width: 64%;
+
+  padding: 42px;
+}
+
+.appgrade-trade-clean-copy > span {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: rgba(255, 255, 255, 0.62);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.appgrade-trade-clean-copy h2 {
+  margin: 0;
+
+  font-size: clamp(42px, 4.4vw, 68px);
+  font-weight: 600;
+  line-height: 0.91;
+  letter-spacing: -0.055em;
+}
+
+.appgrade-trade-clean-copy p {
+  max-width: 420px;
+
+  margin: 20px 0 0;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.appgrade-trade-clean-link {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 24px;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.appgrade-trade-clean-mark {
+  position: absolute;
+
+  right: 26px;
+  bottom: -18px;
+
+  z-index: 1;
+
+  color: rgba(255, 255, 255, 0.09);
+
+  font-size: clamp(110px, 12vw, 190px);
+  font-weight: 800;
+  line-height: 0.72;
+  letter-spacing: -0.08em;
+
+  text-align: right;
+
+  pointer-events: none;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .appgrade-trade-clean-section {
+    padding: 16px 0 38px;
+  }
+
+  .appgrade-trade-clean {
+    min-height: 390px;
+
+    border-radius: 24px;
+  }
+
+  .appgrade-trade-clean-copy {
+    width: 100%;
+
+    padding: 24px;
+  }
+
+  .appgrade-trade-clean-copy h2 {
+    font-size: 42px;
+    line-height: 0.92;
+  }
+
+  .appgrade-trade-clean-copy p {
+    max-width: 260px;
+
+    margin-top: 16px;
+
+    font-size: 13px;
+  }
+
+  .appgrade-trade-clean-link {
+    margin-top: 20px;
+  }
+
+  .appgrade-trade-clean-mark {
+    right: 14px;
+    bottom: 4px;
+
+    font-size: 88px;
+  }
+}
+
+/* =========================================================
+   APPGRADE REAL LOGO
+   ========================================================= */
+
+.appgrade-header-logo-real {
+  width: 176px;
+  height: 46px;
+
+  padding: 0 18px;
+
+  overflow: hidden;
+
+  background: #050505;
+}
+
+.appgrade-header-logo-real img {
+  display: block;
+
+  width: 138px;
+  height: auto;
+
+  object-fit: contain;
+}
+
+/* HERO LOGO */
+
+.appgrade-hero-brand-logo {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 20px;
+}
+
+.appgrade-hero-brand-logo img {
+  width: auto;
+  height: 28px;
+
+  object-fit: contain;
+}
+
+/* =========================================================
+   DESKTOP IMAGE / MOBILE VIDEO
+   ========================================================= */
+
+.appgrade-hero-desktop-media {
+  position: absolute;
+  inset: 0;
+
+  z-index: 0;
+}
+
+.appgrade-hero-desktop-image {
+  object-fit: cover;
+  object-position: center;
+}
+
+.appgrade-hero-mobile-video {
+  display: none;
+}
+
+.appgrade-mobile-sound-button {
+  display: none;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .appgrade-header-logo-real {
+    width: 120px;
+    height: 38px;
+
+    padding: 0 12px;
+  }
+
+  .appgrade-header-logo-real img {
+    width: 98px;
+  }
+
+  .appgrade-hero-brand-logo {
+    margin-bottom: 14px;
+  }
+
+  .appgrade-hero-brand-logo img {
+    height: 18px;
+  }
+
+  .appgrade-hero-desktop-media {
+    display: none;
+  }
+
+  .appgrade-hero-mobile-video {
+    display: block;
+
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .appgrade-mobile-sound-button {
+    display: inline-flex;
+  }
+}
+
+/* =========================================================
+   APPGRADE — FOOTER REAL LOGO
+   ========================================================= */
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+
+  margin-bottom: 18px;
+}
+
+.footer-logo img {
+  display: block;
+
+  width: auto;
+  height: 42px;
+
+  object-fit: contain;
+}
+
+.footer-brand > p {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.55);
+
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .footer-logo img {
+    height: 32px;
+  }
+
+  .footer-brand > p {
+    font-size: 12px;
+  }
+}
+
+
+/* =========================================================
+   REVIEWS
+   ========================================================= */
+
+.appgrade-reviews {
+  padding: 72px 0;
+  background: #f5f5f5;
+}
+
+.appgrade-reviews-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.appgrade-reviews-heading > div > span,
+.appgrade-stores-heading > div > span {
+  display: block;
+  margin-bottom: 9px;
+  color: #8b8b87;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.appgrade-reviews-heading h2,
+.appgrade-stores-heading h2 {
+  margin: 0;
+  color: #111;
+  font-size: clamp(40px, 4.4vw, 64px);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+}
+
+.appgrade-reviews-source {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #777;
+  font-size: 13px;
+}
+
+.appgrade-reviews-source strong {
+  color: #111;
+  font-size: 20px;
+}
+
+.appgrade-reviews-track {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.appgrade-review-card {
+  padding: 26px;
+  border-radius: 24px;
+  background: #fff;
+}
+
+.appgrade-review-stars {
+  display: flex;
+  gap: 3px;
+  color: #111;
+}
+
+.appgrade-review-card > p {
+  margin: 20px 0 28px;
+  color: #222;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.appgrade-review-author {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.appgrade-review-author strong {
+  font-size: 14px;
+}
+
+.appgrade-review-author span {
+  color: #999;
+  font-size: 11px;
+}
+
+/* =========================================================
+   STORES
+   ========================================================= */
+
+.appgrade-stores {
+  padding: 64px 0 80px;
+  background: #f5f5f5;
+}
+
+.appgrade-stores-heading {
+  margin-bottom: 26px;
+}
+
+.appgrade-store-picker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.appgrade-store-picker button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 170px;
+  padding: 24px;
+  border: 0;
+  border-radius: 24px;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+}
+
+.appgrade-store-picker strong {
+  margin-top: auto;
+  font-size: 24px;
+  letter-spacing: -0.04em;
+}
+
+.appgrade-store-picker span {
+  margin-top: 6px;
+  color: #999;
+  font-size: 12px;
+}
+
+.appgrade-store-selected {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.7fr) minmax(0, 1.3fr);
+  overflow: hidden;
+  min-height: 430px;
+  border-radius: 28px;
+  background: #fff;
+}
+
+.appgrade-store-info {
+  padding: 34px;
+}
+
+.appgrade-store-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 70px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #777;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.appgrade-store-info > span {
+  display: block;
+  margin-bottom: 10px;
+  color: #999;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.appgrade-store-info h3 {
+  margin: 0;
+  font-size: 42px;
+  letter-spacing: -0.055em;
+}
+
+.appgrade-store-info p {
+  max-width: 300px;
+  margin: 16px 0 24px;
+  color: #777;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.appgrade-store-info > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #111;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.appgrade-store-map {
+  min-height: 430px;
+}
+
+.appgrade-store-map iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 430px;
+  border: 0;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.appgrade-footer {
+  padding: 52px 0 24px;
+  background: #080808;
+  color: #fff;
+}
+
+.appgrade-footer-main {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.appgrade-footer-brand img {
+  width: auto;
+  height: 42px;
+  object-fit: contain;
+}
+
+.appgrade-footer-brand p {
+  margin: 14px 0 0;
+  color: rgba(255,255,255,.45);
+  font-size: 12px;
+}
+
+.appgrade-footer-socials {
+  display: flex;
+  gap: 8px;
+}
+
+.appgrade-footer-socials a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: #181818;
+  color: #fff;
+}
+
+.appgrade-footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 42px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,.1);
+  color: rgba(255,255,255,.4);
+  font-size: 11px;
+}
+
+.appgrade-footer-bottom a {
+  color: inherit;
+}
+
+.appgrade-footer-made {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.appgrade-footer-made strong {
+  color: #fff;
+  font-size: 13px;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .appgrade-reviews {
+    padding: 52px 0;
+  }
+
+  .appgrade-reviews-track {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .appgrade-review-card {
+    flex: 0 0 82vw;
+    scroll-snap-align: start;
+  }
+
+  .appgrade-store-picker {
+    grid-template-columns: 1fr;
+  }
+
+  .appgrade-store-selected {
+    grid-template-columns: 1fr;
+  }
+
+  .appgrade-store-info {
+    padding: 24px;
+  }
+
+  .appgrade-store-back {
+    margin-bottom: 42px;
+  }
+
+  .appgrade-store-map,
+  .appgrade-store-map iframe {
+    min-height: 320px;
+  }
+
+  .appgrade-footer-main {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .appgrade-footer-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+
+/* =========================================================
+   APPGRADE — CITY GATE
+   ========================================================= */
+
+.appgrade-city-gate {
+  position: fixed;
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+.appgrade-city-gate-backdrop {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(18px);
+}
+
+.appgrade-city-gate-card {
+  position: relative;
+  z-index: 2;
+
+  width: min(100%, 520px);
+
+  padding: 34px;
+
+  overflow: hidden;
+
+  border-radius: 30px;
+
+  background: #111;
+  color: #fff;
+
+  box-shadow:
+    0 40px 100px rgba(0, 0, 0, 0.35);
+}
+
+.appgrade-city-gate-close {
+  position: absolute;
+
+  top: 18px;
+  right: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: rgba(255,255,255,.08);
+  color: #fff;
+
+  cursor: pointer;
+}
+
+.appgrade-city-gate-logo {
+  display: flex;
+
+  margin-bottom: 48px;
+}
+
+.appgrade-city-gate-logo img {
+  width: auto;
+  height: 30px;
+
+  object-fit: contain;
+}
+
+.appgrade-city-gate-kicker {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: rgba(255,255,255,.48);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.appgrade-city-gate h2 {
+  margin: 0;
+
+  font-size: 56px;
+  font-weight: 600;
+  line-height: .93;
+
+  letter-spacing: -.06em;
+}
+
+.appgrade-city-gate > .appgrade-city-gate-card > p {
+  max-width: 340px;
+
+  margin: 18px 0 28px;
+
+  color: rgba(255,255,255,.55);
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.appgrade-city-gate-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.appgrade-city-gate-list button {
+  display: grid;
+
+  grid-template-columns:
+    22px 1fr auto;
+
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+
+  padding: 18px;
+
+  border: 0;
+  border-radius: 17px;
+
+  background: #1c1c1c;
+  color: #fff;
+
+  cursor: pointer;
+
+  transition:
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.appgrade-city-gate-list button:hover {
+  background: #292929;
+
+  transform: translateY(-1px);
+}
+
+.appgrade-city-gate-list strong {
+  text-align: left;
+
+  font-size: 16px;
+  font-weight: 550;
+}
+
+.appgrade-city-gate-arrow {
+  opacity: .45;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .appgrade-city-gate {
+    align-items: flex-end;
+
+    padding: 8px;
+  }
+
+  .appgrade-city-gate-card {
+    width: 100%;
+
+    padding: 26px 20px 20px;
+
+    border-radius: 26px;
+  }
+
+  .appgrade-city-gate-logo {
+    margin-bottom: 40px;
+  }
+
+  .appgrade-city-gate-logo img {
+    height: 23px;
+  }
+
+  .appgrade-city-gate h2 {
+    font-size: 46px;
+  }
+
+  .appgrade-city-gate-list button {
+    padding: 17px;
+  }
+}
+
+/* =========================================================
+   HEADER — GLOBAL CITY SELECTOR
+   ========================================================= */
+
+.appgrade-header-city-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  height: 42px;
+
+  padding: 0 14px;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: #f4f4f2;
+  color: #111;
+
+  white-space: nowrap;
+
+  font-size: 12px;
+  font-weight: 550;
+
+  cursor: pointer;
+
+  transition:
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.appgrade-header-city-button:hover {
+  background: #eaeae7;
+}
+
+.appgrade-header-city-button:active {
+  transform: scale(0.98);
+}
+
+
+/* =========================================================
+   MOBILE CITY BUTTON
+   ========================================================= */
+
+.appgrade-mobile-city-button {
+  display: none;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  /*
+   * Desktop city button hidden.
+   * City selector lives inside mobile menu.
+   */
+
+  .appgrade-header-city-button {
+    display: none;
+  }
+
+  .appgrade-mobile-city-button {
+    display: grid;
+
+    grid-template-columns:
+      42px
+      minmax(0, 1fr)
+      auto;
+
+    align-items: center;
+
+    gap: 12px;
+
+    width: 100%;
+
+    margin: 12px 0 20px;
+
+    padding: 12px;
+
+    border: 0;
+    border-radius: 18px;
+
+    background: #f4f4f2;
+    color: #111;
+
+    cursor: pointer;
+  }
+
+  .appgrade-mobile-city-button-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 14px;
+
+    background: #fff;
+  }
+
+  .appgrade-mobile-city-button-copy {
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 3px;
+  }
+
+  .appgrade-mobile-city-button-copy small {
+    color: #999;
+
+    font-size: 10px;
+  }
+
+  .appgrade-mobile-city-button-copy strong {
+    color: #111;
+
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+}
+
+.appgrade-footer-vk {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* =========================================================
+   APPGRADE — STORE LOCATION
+   ========================================================= */
+
+.appgrade-stores {
+  padding: 64px 0 82px;
+  background: #f5f5f5;
+}
+
+.appgrade-stores-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 24px;
+}
+
+.appgrade-stores-heading span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #8d8d89;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.appgrade-stores-heading h2 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: clamp(42px, 5vw, 68px);
+  font-weight: 600;
+  line-height: 0.92;
+
+  letter-spacing: -0.06em;
+}
+
+.appgrade-store-change-city {
+  padding: 11px 16px;
+
+  border: 1px solid #dededb;
+  border-radius: 999px;
+
+  background: transparent;
+  color: #111;
+
+  font-size: 12px;
+  font-weight: 550;
+
+  cursor: pointer;
+}
+
+/* CARD */
+
+.appgrade-store-selected {
+  display: grid;
+
+  grid-template-columns:
+    minmax(300px, 0.72fr)
+    minmax(0, 1.28fr);
+
+  min-height: 440px;
+
+  overflow: hidden;
+
+  border-radius: 30px;
+
+  background: #fff;
+}
+
+/* INFO */
+
+.appgrade-store-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  padding: 34px;
+}
+
+.appgrade-store-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  margin-bottom: auto;
+
+  border-radius: 15px;
+
+  background: #f3f3f1;
+  color: #111;
+}
+
+.appgrade-store-label {
+  margin-top: 60px;
+  margin-bottom: 9px;
+
+  color: #999;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.14em;
+}
+
+.appgrade-store-info h3 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: clamp(38px, 4vw, 54px);
+  font-weight: 600;
+
+  line-height: 0.95;
+
+  letter-spacing: -0.055em;
+}
+
+.appgrade-store-address {
+  display: block;
+
+  margin-top: 18px;
+
+  color: #222;
+
+  font-size: 15px;
+  font-weight: 550;
+}
+
+.appgrade-store-schedule {
+  margin: 7px 0 0;
+
+  color: #8a8a86;
+
+  font-size: 12px;
+}
+
+/* ACTIONS */
+
+.appgrade-store-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  margin-top: 26px;
+}
+
+.appgrade-store-route {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 13px 17px;
+
+  border-radius: 999px;
+
+  background: #111;
+  color: #fff;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.appgrade-store-actions button {
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+  color: #888;
+
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+/* MAP */
+
+.appgrade-store-map {
+  position: relative;
+
+  min-height: 440px;
+
+  overflow: hidden;
+
+  background: #e9e9e6;
+}
+
+.appgrade-store-map iframe {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+  min-height: 440px;
+
+  border: 0;
+}
+
+/* NO MAP */
+
+.appgrade-map-placeholder {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  width: 100%;
+  min-height: 440px;
+
+  color: #111;
+
+  text-align: center;
+}
+
+.appgrade-map-placeholder strong {
+  font-size: 20px;
+}
+
+.appgrade-map-placeholder span {
+  color: #999;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .appgrade-stores {
+    padding: 48px 0 58px;
+  }
+
+  .appgrade-stores-heading {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 16px;
+  }
+
+  .appgrade-stores-heading h2 {
+    font-size: 44px;
+  }
+
+  .appgrade-store-selected {
+    grid-template-columns: 1fr;
+
+    border-radius: 24px;
+  }
+
+  .appgrade-store-info {
+    min-height: 330px;
+
+    padding: 24px;
+  }
+
+  .appgrade-store-pin {
+    margin-bottom: 44px;
+  }
+
+  .appgrade-store-label {
+    margin-top: 0;
+  }
+
+  .appgrade-store-info h3 {
+    font-size: 42px;
+  }
+
+  .appgrade-store-actions {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 14px;
+  }
+
+  .appgrade-store-map,
+  .appgrade-store-map iframe,
+  .appgrade-map-placeholder {
+    min-height: 330px;
+  }
+
+}
+
+/* =========================================================
+   APPGRADE — FIND US
+   ========================================================= */
+
+.appgrade-find-us {
+  padding: 76px 0 88px;
+
+  background: #f5f5f5;
+}
+
+.appgrade-find-us-heading {
+  margin-bottom: 28px;
+}
+
+.appgrade-find-us-heading > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #94948f;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.appgrade-find-us-heading h2 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: clamp(46px, 5.2vw, 72px);
+  font-weight: 600;
+  line-height: 0.92;
+
+  letter-spacing: -0.06em;
+}
+
+/* CARD */
+
+.appgrade-find-us-card {
+  display: grid;
+
+  grid-template-columns:
+    minmax(320px, 0.72fr)
+    minmax(0, 1.28fr);
+
+  min-height: 520px;
+
+  overflow: hidden;
+
+  border-radius: 30px;
+
+  background: #fff;
+}
+
+/* =========================================================
+   LEFT SIDE
+   ========================================================= */
+
+.appgrade-find-us-info {
+  display: flex;
+  flex-direction: column;
+
+  padding: 34px;
+}
+
+.appgrade-find-us-city-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.appgrade-find-us-city-row span {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #999;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.appgrade-find-us-city-row h3 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: 38px;
+  font-weight: 600;
+
+  letter-spacing: -0.05em;
+}
+
+.appgrade-find-us-city-row button {
+  padding: 9px 13px;
+
+  border: 1px solid #e4e4e0;
+  border-radius: 999px;
+
+  background: transparent;
+  color: #777;
+
+  white-space: nowrap;
+
+  font-size: 11px;
+
+  cursor: pointer;
+}
+
+/* DETAILS */
+
+.appgrade-find-us-details {
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+
+  margin-top: auto;
+}
+
+.appgrade-find-us-detail {
+  display: grid;
+
+  grid-template-columns: 42px 1fr;
+
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 14px 0;
+
+  border-bottom: 1px solid #eeeeeb;
+}
+
+.appgrade-find-us-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 14px;
+
+  background: #f4f4f1;
+
+  color: #111;
+}
+
+.appgrade-find-us-detail span {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #9a9a96;
+
+  font-size: 10px;
+}
+
+.appgrade-find-us-detail strong,
+.appgrade-find-us-detail a {
+  color: #111;
+
+  font-size: 13px;
+  font-weight: 550;
+
+  line-height: 1.4;
+}
+
+/* ROUTE */
+
+.appgrade-find-us-route {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  width: fit-content;
+
+  margin-top: 24px;
+
+  padding: 14px 18px;
+
+  border-radius: 999px;
+
+  background: #111;
+  color: #fff;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  transition:
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.appgrade-find-us-route:hover {
+  background: #222;
+
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   MAP
+   ========================================================= */
+
+.appgrade-find-us-map {
+  position: relative;
+
+  min-height: 520px;
+
+  overflow: hidden;
+
+  background: #e8e8e4;
+}
+
+.appgrade-find-us-map iframe {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+
+  border: 0;
+}
+
+/* PLACEHOLDER */
+
+.appgrade-find-us-placeholder {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+
+  color: #111;
+}
+
+.appgrade-find-us-placeholder strong {
+  font-size: 18px;
+}
+
+.appgrade-find-us-placeholder span {
+  color: #999;
+
+  font-size: 11px;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .appgrade-find-us {
+    padding: 54px 0 64px;
+  }
+
+  .appgrade-find-us-heading h2 {
+    font-size: 46px;
+  }
+
+  .appgrade-find-us-card {
+    grid-template-columns: 1fr;
+
+    min-height: 0;
+
+    border-radius: 24px;
+  }
+
+  .appgrade-find-us-info {
+    min-height: 410px;
+
+    padding: 24px;
+  }
+
+  .appgrade-find-us-city-row h3 {
+    font-size: 32px;
+  }
+
+  .appgrade-find-us-city-row {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .appgrade-find-us-details {
+    margin-top: 46px;
+  }
+
+  .appgrade-find-us-map,
+  .appgrade-find-us-map iframe,
+  .appgrade-find-us-placeholder {
+    min-height: 350px;
+  }
+
+}
+
+/* =========================================================
+   APPGRADE — REVIEWS
+   ========================================================= */
+
+.appgrade-reviews-new {
+  padding: 80px 0 84px;
+  background: #f5f5f5;
+}
+
+.appgrade-reviews-new-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+
+  margin-bottom: 30px;
+}
+
+.appgrade-reviews-new-heading > div > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #979793;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.appgrade-reviews-new-heading h2 {
+  margin: 0;
+
+  color: #111;
+
+  font-size: clamp(48px, 5.3vw, 74px);
+  font-weight: 600;
+  line-height: 0.9;
+
+  letter-spacing: -0.065em;
+}
+
+.appgrade-reviews-new-heading > p {
+  max-width: 300px;
+
+  margin: 0;
+
+  color: #898985;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* SOURCES */
+
+.appgrade-review-sources {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 12px;
+
+  margin-bottom: 36px;
+}
+
+.appgrade-review-source {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+
+  align-items: center;
+
+  gap: 15px;
+
+  min-height: 112px;
+
+  padding: 18px;
+
+  overflow: hidden;
+
+  border-radius: 24px;
+
+  background: #fff;
+  color: #111;
+
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.appgrade-review-source:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.06);
+}
+
+.appgrade-review-source-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 56px;
+  height: 56px;
+
+  flex-shrink: 0;
+
+  border-radius: 18px;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* YANDEX */
+
+.appgrade-review-source.is-yandex
+.appgrade-review-source-logo {
+  background: #fff0f0;
+  color: #f33;
+
+  font-size: 24px;
+}
+
+/* 2GIS */
+
+.appgrade-review-source.is-2gis
+.appgrade-review-source-logo {
+  background: #eaf8ee;
+  color: #17974c;
+
+  font-size: 11px;
+}
+
+/* AVITO */
+
+.appgrade-review-source.is-avito
+.appgrade-review-source-logo {
+  background:
+    linear-gradient(
+      135deg,
+      #7657ff 0%,
+      #a957ff 100%
+    );
+
+  color: #fff;
+
+  font-size: 21px;
+}
+
+.appgrade-review-source-copy {
+  min-width: 0;
+}
+
+.appgrade-review-source-copy > span {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #969692;
+
+  font-size: 10px;
+}
+
+.appgrade-review-source-copy > strong {
+  display: block;
+
+  color: #111;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.appgrade-review-source-copy > small {
+  display: block;
+
+  margin-top: 6px;
+
+  color: #aaa;
+
+  font-size: 9px;
+}
+
+.appgrade-review-source-arrow {
+  color: #aaa;
+
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.appgrade-review-source:hover
+.appgrade-review-source-arrow {
+  color: #111;
+
+  transform: translate(2px, -2px);
+}
+
+/* SECTION TITLE */
+
+.appgrade-review-section-title {
+  margin-bottom: 14px;
+}
+
+.appgrade-review-section-title span {
+  color: #8d8d89;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+/* CARDS */
+
+.appgrade-review-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+.appgrade-review-card-new {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 290px;
+
+  padding: 22px;
+
+  border-radius: 24px;
+
+  background: #fff;
+}
+
+.appgrade-review-card-top {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+}
+
+.appgrade-review-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #111;
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.appgrade-review-card-top > div:last-child {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.appgrade-review-card-top strong {
+  color: #111;
+
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.appgrade-review-card-top span {
+  color: #aaa;
+
+  font-size: 10px;
+}
+
+.appgrade-review-stars-new {
+  display: flex;
+
+  gap: 2px;
+
+  margin-top: 22px;
+
+  color: #111;
+}
+
+.appgrade-review-card-new > p {
+  margin: 16px 0 28px;
+
+  color: #292929;
+
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.appgrade-review-original {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  width: fit-content;
+
+  margin-top: auto;
+
+  color: #8c8c88;
+
+  font-size: 10px;
+
+  transition: color 180ms ease;
+}
+
+.appgrade-review-original:hover {
+  color: #111;
+}
+
+/* TABLET */
+
+@media (max-width: 1000px) {
+  .appgrade-review-cards {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .appgrade-reviews-new {
+    padding: 54px 0 60px;
+  }
+
+  .appgrade-reviews-new-heading {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 18px;
+
+    margin-bottom: 24px;
+  }
+
+  .appgrade-reviews-new-heading h2 {
+    font-size: 46px;
+  }
+
+  .appgrade-reviews-new-heading > p {
+    max-width: 270px;
+  }
+
+  .appgrade-review-sources {
+    display: flex;
+
+    gap: 9px;
+
+    overflow-x: auto;
+
+    margin-left: -16px;
+    margin-right: -16px;
+    margin-bottom: 32px;
+
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 6px;
+
+    scroll-padding-left: 16px;
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+  }
+
+  .appgrade-review-sources::-webkit-scrollbar {
+    display: none;
+  }
+
+  .appgrade-review-source {
+    flex: 0 0 82%;
+
+    min-height: 104px;
+
+    scroll-snap-align: start;
+  }
+
+  .appgrade-review-cards {
+    display: flex;
+
+    gap: 10px;
+
+    overflow-x: auto;
+
+    margin-left: -16px;
+    margin-right: -16px;
+
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 6px;
+
+    scroll-padding-left: 16px;
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+  }
+
+  .appgrade-review-cards::-webkit-scrollbar {
+    display: none;
+  }
+
+  .appgrade-review-card-new {
+    flex: 0 0 82%;
+
+    min-height: 270px;
+
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 420px) {
+  .appgrade-review-source {
+    flex-basis: 86%;
+  }
+
+  .appgrade-review-card-new {
+    flex-basis: 86%;
+  }
+}
