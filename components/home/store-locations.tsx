@@ -44,7 +44,10 @@ export function StoreLocations() {
           </h2>
         </div>
 
-        <div className="appgrade-find-us-card">
+        <div
+          className="appgrade-find-us-card"
+          aria-live="polite"
+        >
 
           {/* LEFT INFO */}
 

@@ -28,8 +28,11 @@ export function CityGate() {
 
   return (
     <div className="appgrade-city-gate">
-      <div
+      <button
+        type="button"
         className="appgrade-city-gate-backdrop"
+        aria-label="Закрыть выбор города"
+        disabled={!cityId}
         onClick={() => {
           if (cityId) {
             closeCitySelector();
@@ -37,7 +40,12 @@ export function CityGate() {
         }}
       />
 
-      <div className="appgrade-city-gate-card">
+      <dialog
+        open
+        className="appgrade-city-gate-card"
+        aria-labelledby="appgrade-city-gate-title"
+        aria-describedby="appgrade-city-gate-description"
+      >
         {cityId && (
           <button
             type="button"
@@ -63,13 +71,13 @@ export function CityGate() {
           Ваш город
         </span>
 
-        <h2>
+        <h2 id="appgrade-city-gate-title">
           Где вы
           <br />
           находитесь?
         </h2>
 
-        <p>
+        <p id="appgrade-city-gate-description">
           Покажем актуальные цены, наличие
           и ближайший магазин.
         </p>
@@ -79,6 +87,12 @@ export function CityGate() {
             <button
               key={store.id}
               type="button"
+              className={
+                cityId === store.id
+                  ? 'is-active'
+                  : undefined
+              }
+              aria-pressed={cityId === store.id}
               onClick={() =>
                 setCityId(store.id as StoreId)
               }
@@ -96,7 +110,7 @@ export function CityGate() {
             </button>
           ))}
         </div>
-      </div>
+      </dialog>
     </div>
   );
 }

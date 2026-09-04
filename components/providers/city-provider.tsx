@@ -81,28 +81,38 @@ export function CityProvider({
    */
 
   useEffect(() => {
-    const savedCity =
-      window.localStorage.getItem(
-        STORAGE_KEY,
-      ) as StoreId | null;
+    let savedCity: StoreId | null = null;
 
-    if (
-      savedCity &&
-      Object.prototype.hasOwnProperty.call(
-        STORES,
-        savedCity,
-      )
-    ) {
-      setCityIdState(savedCity);
-    } else {
-      /*
-       * Первый визит.
-       * Просим пользователя выбрать город.
-       */
-      setCitySelectorOpen(true);
+    try {
+      savedCity =
+        window.localStorage.getItem(
+          STORAGE_KEY,
+        ) as StoreId | null;
+    } catch {
+      /* Storage may be unavailable in a restricted browser context. */
     }
 
-    setHydrated(true);
+    const loadCity = window.setTimeout(() => {
+      if (
+        savedCity &&
+        Object.prototype.hasOwnProperty.call(
+          STORES,
+          savedCity,
+        )
+      ) {
+        setCityIdState(savedCity);
+      } else {
+        /*
+         * Первый визит.
+         * Просим пользователя выбрать город.
+         */
+        setCitySelectorOpen(true);
+      }
+
+      setHydrated(true);
+    }, 0);
+
+    return () => window.clearTimeout(loadCity);
   }, []);
 
   /*
@@ -116,10 +126,14 @@ export function CityProvider({
   ) => {
     setCityIdState(nextCityId);
 
-    window.localStorage.setItem(
-      STORAGE_KEY,
-      nextCityId,
-    );
+    try {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        nextCityId,
+      );
+    } catch {
+      /* Keep the in-memory city selection working without persistence. */
+    }
 
     setCitySelectorOpen(false);
   };
@@ -181,9 +195,7 @@ export function CityProvider({
    * =========================================================
    */
 
-  const value =
-    useMemo<CityContextValue>(
-      () => ({
+  const value: CityContextValue = {
         /*
          * Новый API
          */
@@ -208,14 +220,7 @@ export function CityProvider({
           setCitySelectorOpen(false),
 
         currentStore,
-      }),
-      [
-        cityId,
-        city,
-        citySelectorOpen,
-        currentStore,
-      ],
-    );
+      };
 
   /*
    * Не отдаём приложение до чтения localStorage.

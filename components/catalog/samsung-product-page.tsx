@@ -6,7 +6,10 @@ import { useState } from 'react';
 import { ArrowLeft, Check } from 'lucide-react';
 import type { SamsungCatalogSku } from '@/data/samsung-catalog';
 import { getSamsungDetails } from '@/data/samsung-details';
-import { AddToCartButton } from '@/components/shared/commerce-buttons';
+import {
+  AddToCartButton,
+  FavoriteButton,
+} from '@/components/shared/commerce-buttons';
 
 const money = new Intl.NumberFormat('ru-RU');
 const unique = (values: string[]) => [...new Set(values)];
@@ -161,6 +164,7 @@ export function SamsungProductPage({
             </div>
             <div className="product-actions">
               <AddToCartButton product={product} />
+              <FavoriteButton product={product} />
               <Link href="/catalog/samsung">Все модели</Link>
             </div>
             <div className="product-meta-list">
