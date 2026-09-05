@@ -263,7 +263,8 @@ export function Header() {
                   setCatalogOpen(false);
                 }}
                 type="search"
-                placeholder="Поиск"
+                placeholder="Найти технику и аксессуары"
+                aria-label="Поиск по каталогу"
               />
             </label>
 
@@ -340,6 +341,7 @@ export function Header() {
               aria-label="Избранное"
             >
               <Heart size={19} />
+              <small className="appgrade-header-action-label">Избранное</small>
 
               {favoriteCount > 0 && (
                 <span>
@@ -354,6 +356,7 @@ export function Header() {
               aria-label="Корзина"
             >
               <ShoppingBag size={19} />
+              <small className="appgrade-header-action-label">Корзина</small>
 
               {cartCount > 0 && (
                 <span>

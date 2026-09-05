@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
+import { DesktopHero } from './desktop-hero';
 import {
   ArrowRight,
   Volume2,
@@ -31,19 +32,8 @@ export function HeroSection() {
   return (
     <section className="appgrade-video-hero">
       <div className="container appgrade-video-hero-container">
-        <div className="appgrade-video-hero-media">
-
-          {/* DESKTOP IMAGE */}
-          <div className="appgrade-hero-desktop-media">
-            <Image
-              src="/images/king-banner-product.webp"
-              alt="APPGRADE"
-              fill
-              priority
-              sizes="100vw"
-              className="appgrade-hero-desktop-image"
-            />
-          </div>
+        <DesktopHero />
+        <div className="appgrade-video-hero-media appgrade-mobile-hero">
 
           {/* MOBILE VIDEO */}
           <video
@@ -53,8 +43,7 @@ export function HeroSection() {
             muted
             loop
             playsInline
-            preload="metadata"
-            poster="/images/king-banner-product.webp"
+            preload="auto"
           >
             <source
               src="/videos/hero-mobile.mp4"

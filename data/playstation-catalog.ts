@@ -26,7 +26,19 @@ const products: Array<[string, PlaystationKind, string, string, number, string]>
 ];
 
 export const playstationCatalog: PlaystationCatalogSku[] = products.map(([model, kind, configuration, color, price, folder]) => {
-  const gallery = [1, 2, 3].map((index) => `/images/products/gallery/${folder}/view-${index}.jpg`);
+  const cleanImages: Record<string, string> = {
+    'playstation-5-pro-2tb': '/images/home/ps5-pro.png',
+    'playstation-5-slim-1tb': '/images/products/clean/playstation-5-slim-1tb.png',
+    'playstation-5-slim-1tb-digital': '/images/products/clean/playstation-5-slim-1tb-digital.png',
+    'dualsense-ps5': '/images/products/clean/dualsense-ps5.png',
+    'dualsense-ps5-midnight-black': '/images/products/clean/dualsense-ps5-midnight-black.png',
+    'dualsense-ps5-cosmic-red': '/images/products/clean/dualsense-ps5-cosmic-red.png',
+    'dualsense-ps5-nova-pink': '/images/products/clean/dualsense-ps5-nova-pink.png',
+  };
+  const cleanImage = cleanImages[folder];
+  const gallery = cleanImage
+    ? [cleanImage, cleanImage, cleanImage]
+    : [1, 2, 3].map((index) => `/images/products/gallery/${folder}/view-${index}.jpg`);
   return { id: folder, model, modelSlug: playstationSlugify(model), kind, configuration, color, price, image: gallery[0], gallery };
 });
 

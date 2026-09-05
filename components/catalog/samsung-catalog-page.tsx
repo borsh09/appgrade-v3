@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import { SamsungPhoto } from './samsung-photo';
 import Link from '@/components/shared/safe-link';
 import { useMemo, useState } from 'react';
 import {
@@ -97,13 +97,9 @@ function SamsungCard({
           href={href}
           aria-label={`${sku.model}, ${sku.storage}, ${sku.color}`}
         >
-          <Image
-            className="card-product-photo samsung-product-photo"
+          <SamsungPhoto
             src={sku.image}
             alt={`${sku.model} ${sku.color}`}
-            fill
-            unoptimized
-            sizes={view === 'list' ? '280px' : '(max-width: 700px) 50vw, 33vw'}
           />
         </Link>
         <span className="retail-product-badge">В наличии</span>

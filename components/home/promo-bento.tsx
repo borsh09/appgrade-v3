@@ -10,8 +10,7 @@ const promos = [
     title: 'Играй без компромиссов.',
     text: 'PlayStation 5 и аксессуары.',
     href: '/catalog/playstation',
-    image:
-      '/images/products/gallery/playstation-5-pro-2tb/view-1.jpg',
+    image: '/images/home/ps5-pro.png',
     className: 'is-playstation',
   },
   {
@@ -74,7 +73,7 @@ export function PromoBento() {
                   src={promo.image}
                   alt={promo.eyebrow}
                   fill
-                  sizes="(max-width: 768px) 82vw, 33vw"
+                  sizes="(max-width: 439px) calc(82vw - 46px), (max-width: 768px) 300px, (max-width: 1000px) 28vw, 300px"
                 />
               </div>
             </Link>

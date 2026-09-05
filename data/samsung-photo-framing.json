@@ -1,0 +1,629 @@
+{
+  "samsung-galaxy-a17-black": {
+    "src": "/images/products/gallery/samsung-galaxy-a17-black/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      685,
+      71,
+      545,
+      1136
+    ]
+  },
+  "samsung-galaxy-a17-gray": {
+    "src": "/images/products/gallery/samsung-galaxy-a17-gray/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      685,
+      71,
+      545,
+      1136
+    ]
+  },
+  "samsung-galaxy-a17-light-blue": {
+    "src": "/images/products/gallery/samsung-galaxy-a17-light-blue/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      720,
+      55,
+      483,
+      1170
+    ]
+  },
+  "samsung-galaxy-a37-charcoal": {
+    "src": "/images/products/gallery/samsung-galaxy-a37-charcoal/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      690,
+      76,
+      547,
+      1126
+    ]
+  },
+  "samsung-galaxy-a37-gray-green": {
+    "src": "/images/products/gallery/samsung-galaxy-a37-gray-green/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      719,
+      59,
+      485,
+      1162
+    ]
+  },
+  "samsung-galaxy-a37-lavender": {
+    "src": "/images/products/gallery/samsung-galaxy-a37-lavender/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      717,
+      60,
+      484,
+      1160
+    ]
+  },
+  "samsung-galaxy-a37-white": {
+    "src": "/images/products/gallery/samsung-galaxy-a37-white/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      690,
+      76,
+      547,
+      1126
+    ]
+  },
+  "samsung-galaxy-a57-awesome-gray": {
+    "src": "/images/products/gallery/samsung-galaxy-a57-awesome-gray/view-1.jpg",
+    "width": 800,
+    "height": 800,
+    "bounds": [
+      6,
+      0,
+      788,
+      800
+    ]
+  },
+  "samsung-galaxy-a57-awesome-icyblue": {
+    "src": "/images/products/gallery/samsung-galaxy-a57-awesome-icyblue/view-2.jpg",
+    "width": 1080,
+    "height": 1080,
+    "bounds": [
+      109,
+      22,
+      854,
+      1037
+    ]
+  },
+  "samsung-galaxy-a57-awesome-navy": {
+    "src": "/images/products/gallery/samsung-galaxy-a57-awesome-navy/view-1.jpg",
+    "width": 1440,
+    "height": 802,
+    "bounds": [
+      489,
+      16,
+      466,
+      689
+    ]
+  },
+  "samsung-galaxy-s24-ultra-titanium-black": {
+    "src": "/images/products/gallery/samsung-galaxy-s24-ultra-titanium-black/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      350,
+      79,
+      1118,
+      1126
+    ]
+  },
+  "samsung-galaxy-s24-ultra-titanium-gray": {
+    "src": "/images/products/gallery/samsung-galaxy-s24-ultra-titanium-gray/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      350,
+      79,
+      1118,
+      1126
+    ]
+  },
+  "samsung-galaxy-s24-ultra-titanium-violet": {
+    "src": "/images/products/gallery/samsung-galaxy-s24-ultra-titanium-violet/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      350,
+      79,
+      1118,
+      1126
+    ]
+  },
+  "samsung-galaxy-s24-ultra-titanium-yellow": {
+    "src": "/images/products/gallery/samsung-galaxy-s24-ultra-titanium-yellow/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      350,
+      79,
+      1118,
+      1126
+    ]
+  },
+  "samsung-galaxy-s25-edge-titanium-icyblue": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-edge-titanium-icyblue/view-1.jpg",
+    "width": 1600,
+    "height": 864,
+    "bounds": [
+      392,
+      117,
+      808,
+      645
+    ]
+  },
+  "samsung-galaxy-s25-edge-titanium-jetblack": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-edge-titanium-jetblack/view-1.jpg",
+    "width": 1600,
+    "height": 864,
+    "bounds": [
+      392,
+      117,
+      808,
+      645
+    ]
+  },
+  "samsung-galaxy-s25-edge-titanium-silver": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-edge-titanium-silver/view-1.jpg",
+    "width": 1600,
+    "height": 864,
+    "bounds": [
+      392,
+      117,
+      808,
+      645
+    ]
+  },
+  "samsung-galaxy-s25-fe-icyblue": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-fe-icyblue/view-1.jpg",
+    "width": 720,
+    "height": 540,
+    "bounds": [
+      228,
+      71,
+      265,
+      402
+    ]
+  },
+  "samsung-galaxy-s25-fe-jetblack": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-fe-jetblack/view-1.jpg",
+    "width": 720,
+    "height": 540,
+    "bounds": [
+      228,
+      70,
+      265,
+      402
+    ]
+  },
+  "samsung-galaxy-s25-fe-navy": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-fe-navy/view-1.jpg",
+    "width": 720,
+    "height": 540,
+    "bounds": [
+      227,
+      70,
+      266,
+      403
+    ]
+  },
+  "samsung-galaxy-s25-fe-white": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-fe-white/view-1.jpg",
+    "width": 720,
+    "height": 540,
+    "bounds": [
+      228,
+      71,
+      265,
+      401
+    ]
+  },
+  "samsung-galaxy-s25-icyblue": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-icyblue/view-1.jpg",
+    "width": 888,
+    "height": 382,
+    "bounds": [
+      175,
+      54,
+      131,
+      273
+    ]
+  },
+  "samsung-galaxy-s25-mint": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-mint/view-1.jpg",
+    "width": 888,
+    "height": 382,
+    "bounds": [
+      175,
+      54,
+      131,
+      273
+    ]
+  },
+  "samsung-galaxy-s25-navy": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-navy/view-1.jpg",
+    "width": 888,
+    "height": 382,
+    "bounds": [
+      175,
+      54,
+      131,
+      273
+    ]
+  },
+  "samsung-galaxy-s25-plus-icyblue": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-plus-icyblue/view-1.jpg",
+    "width": 888,
+    "height": 382,
+    "bounds": [
+      170,
+      35,
+      141,
+      293
+    ]
+  },
+  "samsung-galaxy-s25-plus-mint": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-plus-mint/view-1.jpg",
+    "width": 888,
+    "height": 382,
+    "bounds": [
+      170,
+      35,
+      141,
+      293
+    ]
+  },
+  "samsung-galaxy-s25-plus-navy": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-plus-navy/view-1.jpg",
+    "width": 888,
+    "height": 382,
+    "bounds": [
+      170,
+      35,
+      141,
+      293
+    ]
+  },
+  "samsung-galaxy-s25-plus-silver-shadow": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-plus-silver-shadow/view-1.jpg",
+    "width": 888,
+    "height": 382,
+    "bounds": [
+      170,
+      35,
+      141,
+      293
+    ]
+  },
+  "samsung-galaxy-s25-silver-shadow": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-silver-shadow/view-1.jpg",
+    "width": 888,
+    "height": 382,
+    "bounds": [
+      175,
+      54,
+      131,
+      273
+    ]
+  },
+  "samsung-galaxy-s25-ultra-titanium-black": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-ultra-titanium-black/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      349,
+      77,
+      1119,
+      1128
+    ]
+  },
+  "samsung-galaxy-s25-ultra-titanium-gray": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-ultra-titanium-gray/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      349,
+      77,
+      1119,
+      1128
+    ]
+  },
+  "samsung-galaxy-s25-ultra-titanium-silverblue": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-ultra-titanium-silverblue/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      349,
+      77,
+      1119,
+      1128
+    ]
+  },
+  "samsung-galaxy-s25-ultra-titanium-whitesilver": {
+    "src": "/images/products/gallery/samsung-galaxy-s25-ultra-titanium-whitesilver/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      349,
+      77,
+      1119,
+      1128
+    ]
+  },
+  "samsung-galaxy-s26-black": {
+    "src": "/images/products/gallery/samsung-galaxy-s26-black/view-1.jpg",
+    "width": 944,
+    "height": 510,
+    "bounds": [
+      207,
+      74,
+      535,
+      398
+    ]
+  },
+  "samsung-galaxy-s26-cobalt-violet": {
+    "src": "/images/products/gallery/samsung-galaxy-s26-cobalt-violet/view-1.jpg",
+    "width": 944,
+    "height": 510,
+    "bounds": [
+      207,
+      74,
+      535,
+      398
+    ]
+  },
+  "samsung-galaxy-s26-plus-black": {
+    "src": "/images/products/gallery/samsung-galaxy-s26-plus-black/view-1.jpg",
+    "width": 944,
+    "height": 510,
+    "bounds": [
+      200,
+      47,
+      546,
+      425
+    ]
+  },
+  "samsung-galaxy-s26-plus-cobalt-violet": {
+    "src": "/images/products/gallery/samsung-galaxy-s26-plus-cobalt-violet/view-1.jpg",
+    "width": 944,
+    "height": 510,
+    "bounds": [
+      200,
+      47,
+      546,
+      425
+    ]
+  },
+  "samsung-galaxy-s26-plus-sky-blue": {
+    "src": "/images/products/gallery/samsung-galaxy-s26-plus-sky-blue/view-1.jpg",
+    "width": 944,
+    "height": 510,
+    "bounds": [
+      200,
+      47,
+      546,
+      425
+    ]
+  },
+  "samsung-galaxy-s26-plus-white": {
+    "src": "/images/products/gallery/samsung-galaxy-s26-plus-white/view-1.jpg",
+    "width": 944,
+    "height": 510,
+    "bounds": [
+      200,
+      47,
+      546,
+      425
+    ]
+  },
+  "samsung-galaxy-s26-sky-blue": {
+    "src": "/images/products/gallery/samsung-galaxy-s26-sky-blue/view-1.jpg",
+    "width": 944,
+    "height": 510,
+    "bounds": [
+      207,
+      74,
+      535,
+      398
+    ]
+  },
+  "samsung-galaxy-s26-ultra-black": {
+    "src": "/images/products/gallery/samsung-galaxy-s26-ultra-black/view-1.jpg",
+    "width": 944,
+    "height": 510,
+    "bounds": [
+      147,
+      38,
+      636,
+      434
+    ]
+  },
+  "samsung-galaxy-s26-ultra-cobalt-violet": {
+    "src": "/images/products/gallery/samsung-galaxy-s26-ultra-cobalt-violet/view-1.jpg",
+    "width": 944,
+    "height": 510,
+    "bounds": [
+      147,
+      38,
+      636,
+      434
+    ]
+  },
+  "samsung-galaxy-s26-ultra-sky-blue": {
+    "src": "/images/products/gallery/samsung-galaxy-s26-ultra-sky-blue/view-1.jpg",
+    "width": 944,
+    "height": 510,
+    "bounds": [
+      173,
+      38,
+      610,
+      434
+    ]
+  },
+  "samsung-galaxy-s26-ultra-white": {
+    "src": "/images/products/gallery/samsung-galaxy-s26-ultra-white/view-1.jpg",
+    "width": 944,
+    "height": 510,
+    "bounds": [
+      173,
+      38,
+      610,
+      434
+    ]
+  },
+  "samsung-galaxy-s26-white": {
+    "src": "/images/products/gallery/samsung-galaxy-s26-white/view-1.jpg",
+    "width": 944,
+    "height": 510,
+    "bounds": [
+      207,
+      74,
+      535,
+      398
+    ]
+  },
+  "samsung-galaxy-z-flip-8-cream": {
+    "src": "/images/products/gallery/samsung-galaxy-z-flip-8-cream/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      553,
+      129,
+      891,
+      1012
+    ]
+  },
+  "samsung-galaxy-z-flip-8-graphite": {
+    "src": "/images/products/gallery/samsung-galaxy-z-flip-8-graphite/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      688,
+      52,
+      537,
+      1178
+    ]
+  },
+  "samsung-galaxy-z-flip-8-mint": {
+    "src": "/images/products/gallery/samsung-galaxy-z-flip-8-mint/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      553,
+      117,
+      894,
+      1024
+    ]
+  },
+  "samsung-galaxy-z-flip-8-pink": {
+    "src": "/images/products/gallery/samsung-galaxy-z-flip-8-pink/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      553,
+      121,
+      894,
+      1020
+    ]
+  },
+  "samsung-galaxy-z-fold-8-cream": {
+    "src": "/images/products/gallery/samsung-galaxy-z-fold-8-cream/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      607,
+      51,
+      692,
+      1180
+    ]
+  },
+  "samsung-galaxy-z-fold-8-graphite": {
+    "src": "/images/products/gallery/samsung-galaxy-z-fold-8-graphite/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      606,
+      50,
+      693,
+      1182
+    ]
+  },
+  "samsung-galaxy-z-fold-8-lavender": {
+    "src": "/images/products/gallery/samsung-galaxy-z-fold-8-lavender/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      606,
+      50,
+      693,
+      1182
+    ]
+  },
+  "samsung-galaxy-z-fold-8-pistachio": {
+    "src": "/images/products/gallery/samsung-galaxy-z-fold-8-pistachio/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      607,
+      50,
+      692,
+      1181
+    ]
+  },
+  "samsung-galaxy-z-fold-8-ultra-cream": {
+    "src": "/images/products/gallery/samsung-galaxy-z-fold-8-ultra-cream/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      720,
+      51,
+      481,
+      1177
+    ]
+  },
+  "samsung-galaxy-z-fold-8-ultra-graphite": {
+    "src": "/images/products/gallery/samsung-galaxy-z-fold-8-ultra-graphite/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      719,
+      50,
+      482,
+      1179
+    ]
+  },
+  "samsung-galaxy-z-fold-8-ultra-green-shadow": {
+    "src": "/images/products/gallery/samsung-galaxy-z-fold-8-ultra-green-shadow/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      719,
+      50,
+      482,
+      1179
+    ]
+  },
+  "samsung-galaxy-z-fold-8-ultra-violet-shadow": {
+    "src": "/images/products/gallery/samsung-galaxy-z-fold-8-ultra-violet-shadow/view-1.jpg",
+    "width": 1920,
+    "height": 1280,
+    "bounds": [
+      719,
+      50,
+      482,
+      1179
+    ]
+  }
+}

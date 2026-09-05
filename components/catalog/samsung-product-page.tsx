@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { SamsungPhoto } from './samsung-photo';
 import Link from '@/components/shared/safe-link';
 import { useState } from 'react';
 import { ArrowLeft, Check } from 'lucide-react';
@@ -61,7 +62,9 @@ export function SamsungProductPage({
         <div className="product-layout">
           <section className="product-gallery" aria-label={`Фото ${model}`}>
             <div className="product-gallery-frame samsung-gallery-frame">
-              <Image
+              {activePhoto === 0 ? (
+                <SamsungPhoto src={selected.image} alt={`${model} ${selected.color}`} />
+              ) : <Image
                 src={gallery[activePhoto]}
                 alt={`${model} ${selected.color}, фото ${activePhoto + 1}`}
                 fill
@@ -69,7 +72,7 @@ export function SamsungProductPage({
                 quality={100}
                 unoptimized
                 sizes="(max-width: 768px) 100vw, 58vw"
-              />
+              />}
             </div>
             <div
               className="product-gallery-thumbs"
@@ -83,7 +86,7 @@ export function SamsungProductPage({
                   onClick={() => setActivePhoto(index)}
                   aria-label={`Фото ${index + 1}`}
                 >
-                  <Image src={photo} alt="" fill unoptimized sizes="66px" />
+                  {index === 0 ? <SamsungPhoto src={selected.image} alt="" /> : <Image src={photo} alt="" fill unoptimized sizes="66px" />}
                 </button>
               ))}
             </div>

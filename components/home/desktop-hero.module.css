@@ -1,0 +1,73 @@
+﻿.hero { display: none; }
+
+@media (min-width: 769px) {
+  .hero {
+    display: block;
+    position: relative;
+    height: clamp(530px, 42vw, 640px);
+    border-radius: 24px;
+    overflow: hidden;
+    isolation: isolate;
+    color: #f7f1f3;
+    background: #171014;
+    transition: background 600ms ease, color 600ms ease;
+  }
+  .launch { background: #171014; }
+  .trade { background: #eeeae4; color: #242321; }
+  .mac { background: #e8edf2; color: #18222d; }
+  .brand { position: absolute; top: 34px; left: 5%; font-size: 16px; font-weight: 700; letter-spacing: -.5px; z-index: 2; }
+  .brand span { margin-left: 22px; font-size: 8px; letter-spacing: 2px; font-weight: 400; opacity: .45; }
+  .slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity 600ms ease, visibility 600ms; }
+  .active { opacity: 1; visibility: visible; }
+  .copy { position: absolute; left: 5%; top: 26%; width: 48%; z-index: 2; }
+  .eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; margin: 0 0 23px; opacity: .6; }
+  .copy h2 { margin: 0; font-size: clamp(36px, 4.1vw, 62px); line-height: 1.12; font-weight: 500; letter-spacing: -.045em; }
+  .finish { display: block; margin-top: 8px; color: #cf9aaa; font-weight: 400; }
+  .description { max-width: 310px; margin: 24px 0 30px; font-size: 14px; line-height: 1.7; opacity: .65; }
+  .cta { display: inline-flex; align-items: center; justify-content: center; gap: 28px; min-height: 48px; padding: 0 24px; background: #f7f2f3; color: #2a1720; border-radius: 999px; font-size: 12px; font-weight: 600; transition: transform 200ms; }
+  .trade .cta, .mac .cta { background: #202327; color: #fff; }
+  .cta:hover { transform: translateY(-2px); }
+  .visual { position: absolute; width: 53%; right: 0; top: 11%; bottom: 14%; }
+  .visual img { object-fit: contain; }
+  .launchSlide .visual { width: 66%; right: -1%; top: 0; bottom: 0; }
+  .launchSlide .visual img { object-fit: cover; object-position: 48% 35%; }
+  .launchSlide .visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #171014 0%, #171014c9 12%, #17101435 33%, transparent 55%), linear-gradient(0deg, #171014 0%, #17101480 11%, transparent 32%); }
+
+
+  .caption { position: absolute; right: 5%; bottom: 87px; font-size: 9px; letter-spacing: .3px; opacity: .6; z-index: 2; }
+  .caption a:hover { text-decoration: underline; }
+  .controls { position: absolute; left: 5%; right: 5%; bottom: 25px; display: flex; align-items: center; gap: 30px; z-index: 3; }
+  .selectors { display: flex; gap: 32px; flex: 1; }
+  .selectors button { flex: 1; max-width: 190px; text-align: left; border: 0; border-top: 1px solid currentColor; background: none; color: inherit; padding: 15px 0 2px; font-size: 11px; cursor: pointer; opacity: .35; transition: opacity 200ms; }
+  .selectors button[aria-pressed='true'], .selectors button:hover { opacity: 1; }
+  .selectors button span { margin-right: 14px; font-size: 9px; opacity: .5; }
+  .pause { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid currentColor; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; opacity: .65; }
+  .hero :is(button, a):focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero, .slide, .cta { transition: none; }
+}
+
+/* Each slide owns its artwork and lighting, including during crossfades. */
+@media (min-width: 769px) {
+  .trade, .mac { color: #f7f1f3; background: #0a0c10; }
+  .launchSlide { background: #171014; }
+  .tradeSlide { background: #101214; }
+  .macSlide { background: radial-gradient(ellipse at 77% 48%, #23364b 0%, #111d2b 33%, #080d14 72%); }
+  .tradeSlide .finish { color: #b9c2c9; }
+  .macSlide .finish { color: #a1bbd6; }
+  .tradeSlide .copy { width: 49%; }
+  .tradeSlide .copy h2 { font-size: clamp(34px, 3.65vw, 55px); }
+  .trade .cta, .mac .cta { background: #f7f2f3; color: #252327; }
+  .tradeSlide .visual { width: 100%; inset: 0; }
+  .tradeSlide .visual img { object-fit: cover; object-position: center; }
+  .tradeSlide .visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #10121455 0%, transparent 48%), linear-gradient(0deg, #101214 0%, #10121485 9%, transparent 24%); }
+  .macSlide .visual { width: 68%; right: -8%; top: 6%; bottom: 5%; }
+  .macSlide .visual img { object-fit: contain; transform: rotate(-8deg); filter: drop-shadow(0 30px 30px #0007); }
+
+  .macSlide .caption { max-width: 270px; text-align: right; line-height: 1.5; }
+}
+
+
+
