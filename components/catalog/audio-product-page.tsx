@@ -1,4 +1,5 @@
 'use client';
+import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { useState } from 'react';
@@ -11,14 +12,17 @@ const unique = <T,>(items: T[]) => [...new Set(items)];
 export function AudioProductPage({
   model,
   modelSlug,
-  variants,
-  selected,
+  variants: baseVariants,
+  selected: baseSelected,
 }: {
   model: string;
   modelSlug: string;
   variants: AudioCatalogSku[];
   selected: AudioCatalogSku;
 }) {
+  const resolvePrice = usePriceResolver();
+  const selected = resolvePrice(baseSelected);
+  const variants = usePricedCatalog(baseVariants);
   const [photo, setPhoto] = useState(0);
   const colors = unique(variants.map((v) => v.color)),
     details = getAudioDetails(model, selected.brand, selected.kind);
@@ -86,7 +90,7 @@ export function AudioProductPage({
                   : 'Цена по запросу'}
               </strong>
               <span>
-                <Check size={14} />В наличии
+                <Check size={14} />Наличие уточняется
               </span>
             </div>
             {colors.length > 1 && (
@@ -122,7 +126,7 @@ export function AudioProductPage({
               </div>
               <div>
                 <span>Самовывоз</span>
-                <strong>Сегодня в магазине</strong>
+                <strong>После подтверждения</strong>
               </div>
               <div>
                 <span>Гарантия</span>

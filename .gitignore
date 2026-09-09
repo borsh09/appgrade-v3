@@ -13,6 +13,7 @@
 
 # next.js
 /.next/
+/.next-production/
 /.vinext/
 /out/
 
@@ -28,6 +29,8 @@ yarn-error.log*
 
 # local environment
 .env*
+!.env.example
+/var/
 
 # deployment and generated files
 .vercel

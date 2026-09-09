@@ -9,16 +9,15 @@ import {
 } from 'lucide-react';
 
 import { useCity } from '@/components/providers/city-provider';
+import { STORES } from '@/config/stores';
 
 export function StoreLocations() {
   const {
-    currentStore,
+    currentStore: selectedStore,
     openCitySelector,
   } = useCity();
 
-  if (!currentStore) {
-    return null;
-  }
+  const currentStore = selectedStore ?? STORES.magnitogorsk;
 
   const hasCoordinates =
     typeof currentStore.latitude === 'number' &&
@@ -81,7 +80,7 @@ export function StoreLocations() {
                   <span>Адрес</span>
 
                   <strong>
-                    {currentStore.address}
+                    {currentStore.address ?? 'Адрес уточняется'}
                   </strong>
                 </div>
               </div>
@@ -113,7 +112,7 @@ export function StoreLocations() {
                   <span>Режим работы</span>
 
                   <strong>
-                    {currentStore.schedule}
+                    {currentStore.schedule ?? 'Режим работы уточняется'}
                   </strong>
                 </div>
               </div>
@@ -131,6 +130,11 @@ export function StoreLocations() {
                 Проложить маршрут
 
                 <ArrowUpRight size={16} />
+              </a>
+            )}
+            {!currentStore.routeUrl && (
+              <a href={STORES.magnitogorsk.telegram} target="_blank" rel="noreferrer" className="appgrade-find-us-route">
+                Уточнить адрес и наличие <ArrowUpRight size={16} />
               </a>
             )}
           </div>

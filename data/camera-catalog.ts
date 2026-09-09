@@ -47,6 +47,7 @@ export const cameraCatalog: CameraCatalogSku[] = rows.map(
   ([model, color, price, cashlessPrice, file, kind]) => {
     const modelSlug = slugify(model),
       image = `/images/products/cameras/${file}`;
+    const gallery = [image, image, image];
     return {
       id: `${modelSlug}-${slugify(color)}`,
       model,
@@ -55,7 +56,7 @@ export const cameraCatalog: CameraCatalogSku[] = rows.map(
       price,
       cashlessPrice,
       image,
-      gallery: [image],
+      gallery,
       kind,
     };
   },

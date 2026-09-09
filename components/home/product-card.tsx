@@ -11,17 +11,20 @@ import type { FeaturedProduct } from '@/types/catalog';
 import { macbookCatalog } from '@/data/macbook-catalog';
 import { audioCatalog } from '@/data/audio-catalog';
 import { watchCatalog } from '@/data/watch-catalog';
+import { usePriceResolver } from '@/components/providers/price-provider';
 
 const money = new Intl.NumberFormat('ru-RU');
 
 export function ProductCard({
-  product,
+  product: baseProduct,
   index,
 }: {
   product: FeaturedProduct;
   index: number;
 }) {
   const { cityId } = useCity();
+  const resolvePrice = usePriceResolver();
+  const product = { ...baseProduct, sku: resolvePrice(baseProduct.sku) };
 
   /*
    * Город при первом рендере может быть null,
@@ -205,7 +208,7 @@ export function ProductCard({
           >
             {inStock
               ? 'В наличии'
-              : 'Под заказ'}
+              : 'Наличие уточняется'}
           </p>
 
           <h3>

@@ -23,7 +23,7 @@ export interface ProductSku {
   storage?: string;
   color: string;
   colorSlug: string;
-  sim?: 'sim' | 'esim' | 'dual-sim';
+  sim?: string;
   price: number;
   oldPrice?: number;
   image: string;

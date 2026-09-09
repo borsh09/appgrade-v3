@@ -1,4 +1,5 @@
 'use client';
+import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { useState } from 'react';
@@ -35,13 +36,16 @@ const specs: Record<string, string[][]> = {
 };
 export function GoogleProductPage({
   modelSlug,
-  variants,
-  selected,
+  variants: baseVariants,
+  selected: baseSelected,
 }: {
   modelSlug: string;
   variants: GoogleCatalogSku[];
   selected: GoogleCatalogSku;
 }) {
+  const resolvePrice = usePriceResolver();
+  const selected = resolvePrice(baseSelected);
+  const variants = usePricedCatalog(baseVariants);
   const [photo, setPhoto] = useState(0);
   const colors = unique(variants.map((v) => v.color));
   const href = `/catalog/${modelSlug}?storage=${encodeURIComponent(selected.storage)}&color=${encodeURIComponent(selected.color)}`;
@@ -101,7 +105,7 @@ export function GoogleProductPage({
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} />В наличии
+                <Check size={14} />Наличие уточняется
               </span>
             </div>
             <div className="product-options">
@@ -140,7 +144,7 @@ export function GoogleProductPage({
               </div>
               <div>
                 <span>Самовывоз</span>
-                <strong>Сегодня в магазине</strong>
+                <strong>После подтверждения</strong>
               </div>
               <div>
                 <span>Гарантия</span>

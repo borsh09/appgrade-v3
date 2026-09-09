@@ -1,0 +1,65 @@
+x-app: &app
+  build:
+    context: .
+    args:
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+  image: appgrade-local
+  init: true
+  environment: &app-env
+    DATABASE_URL: postgresql://appgrade:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}@db:5432/appgrade
+    APP_ORIGIN: ${APP_ORIGIN:-http://localhost:3000}
+  depends_on:
+    migrate:
+      condition: service_completed_successfully
+  restart: unless-stopped
+
+services:
+  db:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_USER: appgrade
+      POSTGRES_DB: appgrade
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    volumes:
+      - database:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appgrade -d appgrade"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+  migrate:
+    <<: *app
+    command: ["npm", "run", "db:migrate"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+  web:
+    <<: *app
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      <<: *app-env
+      TELEGRAM_ORDERS_BOT_TOKEN: ${TELEGRAM_ORDERS_BOT_TOKEN}
+      TELEGRAM_ORDERS_CHAT_ID: ${TELEGRAM_ORDERS_CHAT_ID}
+  price-bot:
+    <<: *app
+    command: ["npm", "run", "bot:prices"]
+    environment:
+      <<: *app-env
+      TELEGRAM_PRICE_BOT_TOKEN: ${TELEGRAM_PRICE_BOT_TOKEN}
+      TELEGRAM_PRICE_ADMIN_IDS: ${TELEGRAM_PRICE_ADMIN_IDS}
+      PRICE_UPLOAD_DIR: /app/var/price-uploads
+    volumes:
+      - uploads:/app/var/price-uploads
+  order-bot:
+    <<: *app
+    command: ["npm", "run", "bot:orders"]
+    environment:
+      <<: *app-env
+      TELEGRAM_ORDERS_BOT_TOKEN: ${TELEGRAM_ORDERS_BOT_TOKEN}
+
+volumes:
+  database:
+  uploads:

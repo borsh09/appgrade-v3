@@ -1,0 +1,12 @@
+node_modules
+.next
+.next-production
+.git
+.env*
+.tmp-*
+.dev-server*
+var
+dist
+.vinext
+.wrangler
+*.tsbuildinfo

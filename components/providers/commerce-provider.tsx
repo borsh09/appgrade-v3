@@ -1,6 +1,8 @@
 'use client';
 
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { usePriceResolver } from './price-provider';
+import { catalogItems } from '@/lib/catalog-registry';
 
 export type CommerceProduct = {
   id: string;
@@ -13,6 +15,7 @@ export type CommerceProduct = {
 
 type CartLine = CommerceProduct & { quantity: number };
 type CommerceContextValue = {
+  ready: boolean;
   cart: CartLine[];
   favorites: CommerceProduct[];
   cartCount: number;
@@ -28,7 +31,25 @@ type CommerceContextValue = {
 const CommerceContext = createContext<CommerceContextValue | null>(null);
 const STORAGE_KEY = 'appgrade-commerce-v1';
 
+function restoreProducts(values: unknown[]): CartLine[] {
+  return values.flatMap(value => {
+    if (!value || typeof value !== 'object') return [];
+    const item = value as CartLine;
+    if (![item.id, item.name, item.configuration, item.image, item.href].every(v => typeof v === 'string') || !Number.isFinite(item.price)) return [];
+    let sku = catalogItems.find(s => s.id === item.id);
+    if (!sku && item.id.startsWith('/catalog/')) {
+      const url = new URL(item.id, 'https://appgrade.invalid');
+      const matches = catalogItems.filter(s => url.pathname === `/catalog/${s.modelSlug}` &&
+        [...url.searchParams].every(([key, value]) => key in s && s[key as keyof typeof s] === value));
+      if (matches.length === 1) sku = matches[0];
+    }
+    if (!sku) return [];
+    return [{ ...item, id: sku.id, quantity: Number.isInteger(item.quantity) ? Math.max(1, Math.min(99, item.quantity)) : 1 }];
+  }).filter((item, index, all) => all.findIndex(other => other.id === item.id) === index);
+}
+
 export function CommerceProvider({ children }: { children: React.ReactNode }) {
+  const resolvePrice = usePriceResolver();
   const [cart, setCart] = useState<CartLine[]>([]);
   const [favorites, setFavorites] = useState<CommerceProduct[]>([]);
   const [ready, setReady] = useState(false);
@@ -37,8 +58,8 @@ export function CommerceProvider({ children }: { children: React.ReactNode }) {
     queueMicrotask(() => {
       try {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}');
-        if (Array.isArray(saved.cart)) setCart(saved.cart);
-        if (Array.isArray(saved.favorites)) setFavorites(saved.favorites);
+        if (Array.isArray(saved.cart)) setCart(restoreProducts(saved.cart));
+        if (Array.isArray(saved.favorites)) setFavorites(restoreProducts(saved.favorites));
       } catch {
         /* Ignore damaged local data. */
       }
@@ -47,14 +68,16 @@ export function CommerceProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (ready)
+    if (ready) try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ cart, favorites }));
+    } catch { /* Keep the cart usable when browser storage is unavailable. */ }
   }, [cart, favorites, ready]);
 
   const value = useMemo<CommerceContextValue>(
     () => ({
-      cart,
-      favorites,
+      ready,
+      cart: cart.map(resolvePrice),
+      favorites: favorites.map(resolvePrice),
       cartCount: cart.reduce((sum, item) => sum + item.quantity, 0),
       favoriteCount: favorites.length,
       addToCart: (product) =>
@@ -70,7 +93,7 @@ export function CommerceProvider({ children }: { children: React.ReactNode }) {
           quantity < 1
             ? current.filter((item) => item.id !== id)
             : current.map((item) =>
-                item.id === id ? { ...item, quantity } : item,
+                item.id === id && Number.isFinite(quantity) ? { ...item, quantity: Math.max(1, Math.min(99, Math.trunc(quantity))) } : item,
               ),
         ),
       toggleFavorite: (product) =>
@@ -82,7 +105,7 @@ export function CommerceProvider({ children }: { children: React.ReactNode }) {
       isInCart: (id) => cart.some((item) => item.id === id),
       isFavorite: (id) => favorites.some((item) => item.id === id),
     }),
-    [cart, favorites],
+    [cart, favorites, resolvePrice, ready],
   );
 
   return (

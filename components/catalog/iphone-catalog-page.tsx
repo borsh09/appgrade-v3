@@ -1,4 +1,5 @@
 'use client';
+import { usePricedCatalog } from '@/components/providers/price-provider';
 
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
@@ -14,7 +15,7 @@ import {
   X,
 } from 'lucide-react';
 import {
-  iphoneCatalog,
+  iphoneCatalog as baseCatalog,
   iphoneModels,
   type IphoneCatalogSku,
 } from '@/data/iphone-catalog';
@@ -91,7 +92,7 @@ function ProductCard({
             sizes={view === 'list' ? '280px' : '(max-width: 700px) 50vw, 33vw'}
           />
         </Link>
-        <span className="retail-product-badge">В наличии</span>
+        <span className="retail-product-badge">Наличие уточняется</span>
         <div className="retail-card-tools">
           <FavoriteButton product={product} />
           <button
@@ -129,7 +130,7 @@ function ProductCard({
           <AddToCartButton product={product} />
         </div>
         <p className="retail-stock">
-          <span /> Сегодня в магазине
+          <span /> После подтверждения
         </p>
       </div>
     </article>
@@ -137,6 +138,7 @@ function ProductCard({
 }
 
 export function IphoneCatalogPage() {
+  const iphoneCatalog = usePricedCatalog(baseCatalog);
   const { city } = useCity();
   const [filterOpen, setFilterOpen] = useState(false);
   const [todayOnly, setTodayOnly] = useState(false);
@@ -158,11 +160,11 @@ export function IphoneCatalogPage() {
           };
         })
         .sort((a, b) => modelRank(b.name) - modelRank(a.name)),
-    [],
+    [iphoneCatalog],
   );
   const storageOptions = useMemo(
     () => [...new Set(iphoneCatalog.map((sku) => sku.storage))],
-    [],
+    [iphoneCatalog],
   );
   const simOptions = useMemo(
     () => [
@@ -170,7 +172,7 @@ export function IphoneCatalogPage() {
         iphoneCatalog.map((sku) => sku.sim).filter((value) => value !== '—'),
       ),
     ],
-    [],
+    [iphoneCatalog],
   );
   const products = useMemo(() => {
     const filtered = iphoneCatalog.filter(
@@ -188,7 +190,7 @@ export function IphoneCatalogPage() {
             ? modelRank(b.model) - modelRank(a.model)
             : modelRank(b.model) - modelRank(a.model) || a.price - b.price,
     );
-  }, [models, storages, sims, sort]);
+  }, [models, storages, sims, sort, iphoneCatalog]);
   const toggle = (
     value: string,
     selected: string[],

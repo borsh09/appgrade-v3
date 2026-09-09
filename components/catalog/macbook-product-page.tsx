@@ -1,4 +1,5 @@
 'use client';
+import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
@@ -14,14 +15,17 @@ const unique = (values: string[]) => [...new Set(values)];
 export function MacbookProductPage({
   model,
   modelSlug,
-  variants,
-  selected,
+  variants: baseVariants,
+  selected: baseSelected,
 }: {
   model: string;
   modelSlug: string;
   variants: MacbookCatalogSku[];
   selected: MacbookCatalogSku;
 }) {
+  const resolvePrice = usePriceResolver();
+  const selected = resolvePrice(baseSelected);
+  const variants = usePricedCatalog(baseVariants);
   const storages = unique(variants.map((variant) => variant.storage));
   const colors = unique(variants.map((variant) => variant.color));
   const rams = unique(variants.map((variant) => variant.ram));
@@ -94,7 +98,7 @@ export function MacbookProductPage({
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} /> В наличии
+                <Check size={14} /> Наличие уточняется
               </span>
             </div>
             <div className="product-options">
@@ -162,7 +166,7 @@ export function MacbookProductPage({
               </div>
               <div>
                 <span>Самовывоз</span>
-                <strong>Сегодня в магазине</strong>
+                <strong>После подтверждения</strong>
               </div>
               <div>
                 <span>Конфигураций</span>

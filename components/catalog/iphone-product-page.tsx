@@ -1,4 +1,5 @@
 'use client';
+import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
@@ -24,9 +25,12 @@ const unique = (values: string[]) => [
 export function IphoneProductPage({
   model,
   modelSlug,
-  variants,
-  selected,
+  variants: baseVariants,
+  selected: baseSelected,
 }: IphoneProductPageProps) {
+  const resolvePrice = usePriceResolver();
+  const selected = resolvePrice(baseSelected);
+  const variants = usePricedCatalog(baseVariants);
   const storages = unique(variants.map((variant) => variant.storage));
   const colors = unique(variants.map((variant) => variant.color));
   const sims = unique(variants.map((variant) => variant.sim));
@@ -118,12 +122,12 @@ export function IphoneProductPage({
             <p className="catalog-overline">APPLE · IPHONE</p>
             <h1>{model}</h1>
             <p className="product-lead">
-              Выберите конфигурацию — цена и наличие обновятся автоматически.
+              Выберите конфигурацию — цена обновится автоматически. Наличие подтвердит менеджер.
             </p>
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} /> В наличии
+                <Check size={14} /> Наличие уточняется
               </span>
             </div>
             <div className="product-options">
@@ -193,7 +197,7 @@ export function IphoneProductPage({
               </div>
               <div>
                 <span>Самовывоз</span>
-                <strong>Сегодня в магазине</strong>
+                <strong>После подтверждения</strong>
               </div>
               <div>
                 <span>Конфигураций</span>

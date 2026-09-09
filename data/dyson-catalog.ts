@@ -119,6 +119,7 @@ export const dysonCatalog: DysonCatalogSku[] = [
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
   const image = `/images/products/dyson/${file}`;
+  const gallery = [image, image, image];
   return {
     id: `${modelSlug}-${colorSlug}`,
     model: String(model),
@@ -128,6 +129,6 @@ export const dysonCatalog: DysonCatalogSku[] = [
     price: Number(price),
     cashlessPrice: Number(cashlessPrice),
     image,
-    gallery: [image],
+    gallery,
   };
 });

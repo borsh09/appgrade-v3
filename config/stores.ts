@@ -1,21 +1,20 @@
-export type StoreId =
-  | 'magnitogorsk'
-  | 'beloretsk'
-  | 'troitsk';
+import type { CityId } from './cities';
+
+export type StoreId = CityId;
 
 export type Store = {
   id: StoreId;
 
   city: string;
-  address: string;
+  address?: string;
 
-  phone: string;
-  schedule: string;
+  phone?: string;
+  schedule?: string;
 
   latitude?: number;
   longitude?: number;
 
-  routeUrl: string;
+  routeUrl?: string;
   twoGisUrl?: string;
 
   telegram?: string;
@@ -24,6 +23,10 @@ export type Store = {
 };
 
 export const STORES: Record<StoreId, Store> = {
+  sibay: {
+    id: 'sibay',
+    city: 'Сибай',
+  },
   magnitogorsk: {
     id: 'magnitogorsk',
 

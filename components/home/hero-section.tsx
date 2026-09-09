@@ -66,11 +66,11 @@ export function HeroSection() {
                 />
               </div>
 
-              <h1>
+              <h2>
                 То самое
                 <br />
                 обновление
-              </h1>
+              </h2>
 
               <p>
                 iPhone, MacBook, AirPods и не только — в APPGRADE.

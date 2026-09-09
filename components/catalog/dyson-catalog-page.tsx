@@ -1,10 +1,11 @@
 'use client';
+import { usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { useMemo, useState } from 'react';
 import { ChevronDown, Grid2X2, List, MapPin } from 'lucide-react';
 import {
-  dysonCatalog,
+  dysonCatalog as baseCatalog,
   type DysonCatalogSku,
   type DysonKind,
 } from '@/data/dyson-catalog';
@@ -17,7 +18,7 @@ const money = new Intl.NumberFormat('ru-RU');
 function Card({ sku, view }: { sku: DysonCatalogSku; view: 'grid' | 'list' }) {
   const href = `/catalog/${sku.modelSlug}?color=${encodeURIComponent(sku.color)}`;
   const product = {
-    id: href,
+    id: sku.id,
     name: sku.model,
     configuration: `${sku.kind} · ${sku.color}`,
     price: sku.price,
@@ -38,7 +39,7 @@ function Card({ sku, view }: { sku: DysonCatalogSku; view: 'grid' | 'list' }) {
             sizes="(max-width:700px) 100vw,33vw"
           />
         </Link>
-        <span className="retail-product-badge">В наличии</span>
+        <span className="retail-product-badge">Наличие уточняется</span>
         <div className="retail-card-tools">
           <FavoriteButton product={product} />
         </div>
@@ -53,19 +54,19 @@ function Card({ sku, view }: { sku: DysonCatalogSku; view: 'grid' | 'list' }) {
         <div className="retail-product-purchase">
           <div>
             <strong>{money.format(sku.price)} ₽</strong>
-            <span>по карте {money.format(sku.cashlessPrice)} ₽</span>
           </div>
           <AddToCartButton product={product} />
         </div>
         <p className="retail-stock">
           <span />
-          Сегодня в магазине
+          После подтверждения
         </p>
       </div>
     </article>
   );
 }
 export function DysonCatalogPage() {
+  const dysonCatalog = usePricedCatalog(baseCatalog);
   const { city } = useCity();
   const [kind, setKind] = useState<DysonKind | ''>('');
   const [sort, setSort] = useState('popular');
@@ -81,7 +82,7 @@ export function DysonCatalogPage() {
               ? b.price - a.price
               : 0,
         ),
-    [kind, sort],
+    [kind, sort, dysonCatalog],
   );
   return (
     <main className="retail-catalog-page dyson-catalog-page">

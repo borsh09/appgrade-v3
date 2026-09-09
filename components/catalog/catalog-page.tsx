@@ -26,35 +26,12 @@ export function CatalogPage() {
           {catalogCategories.map((category) => (
             <Link
               className={`catalog-category-card catalog-category-card-${category.id}`}
-              href={
-                category.id === 'iphone'
-                  ? '/catalog/iphones'
-                  : category.id === 'samsung'
-                    ? '/catalog/samsung'
-                    : category.id === 'xiaomi'
-                      ? '/catalog/xiaomi'
-                      : category.id === 'macbook'
-                        ? '/catalog/macbooks'
-                        : category.id === 'ipad'
-                          ? '/catalog/ipads'
-                          : category.id === 'audio'
-                            ? '/catalog/audio'
-                            : category.id === 'watches'
-                              ? '/catalog/watches'
-                              : category.id === 'gaming'
-                                ? '/catalog/playstation'
-                                : category.id === 'google'
-                                  ? '/catalog/google'
-                                  : category.id === 'dyson'
-                                    ? '/catalog/dyson'
-                                    : category.id === 'cameras'
-                                      ? '/catalog/cameras'
-                                      : `/catalog?category=${category.id}`
-              }
+              href={category.href}
               key={category.id}
             >
               <div className="catalog-category-copy">
                 <h2>{category.title}</h2>
+                <p>{category.href.startsWith('/#') ? 'Уточнить ассортимент в магазине' : category.description}</p>
               </div>
               <Image
                 src={category.image}
@@ -73,6 +50,7 @@ export function CatalogPage() {
             Напишите менеджеру — проверим наличие, подберём конфигурацию и
             предложим альтернативы в вашем городе.
           </span>
+          <Link href="/#контакты">Связаться с магазином →</Link>
         </section>
       </div>
     </main>

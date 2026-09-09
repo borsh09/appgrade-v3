@@ -1,4 +1,5 @@
 export const CITIES = {
+  sibay: { id: 'sibay', name: 'Сибай', shortName: 'Сибай' },
   magnitogorsk: { id: 'magnitogorsk', name: 'Магнитогорск', shortName: 'Магнитогорск' },
   beloretsk: { id: 'beloretsk', name: 'Белорецк', shortName: 'Белорецк' },
   troitsk: { id: 'troitsk', name: 'Троицк', shortName: 'Троицк' },

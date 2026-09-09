@@ -39,7 +39,17 @@ export function generateStaticParams() {
   ].map((model) => ({ model }));
 }
 
-export default async function IphoneModelRoute({
+export async function generateMetadata({ params }: { params: Promise<{ model: string }> }): Promise<Metadata> {
+  const { model } = await params;
+  const product = catalogItems.find(item => item.modelSlug === model);
+  if (!product) notFound();
+  return {
+    title: `${product.model} — APPGRADE`,
+    description: `${product.model}: выбор конфигурации, актуальная цена и оформление заказа в APPGRADE.`,
+  };
+}
+
+export default async function ProductModelRoute({
   params: paramsPromise,
   searchParams: searchParamsPromise,
 }: {
@@ -234,7 +244,7 @@ export default async function IphoneModelRoute({
         (!searchParams.color || sku.color === searchParams.color) &&
         (!searchParams.sim || sku.sim === searchParams.sim),
     ) ?? variants[0];
-  if (!selected) return null;
+  if (!selected) notFound();
   return (
     <IphoneProductPage
       model={model}
@@ -244,3 +254,6 @@ export default async function IphoneModelRoute({
     />
   );
 }
+import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
+import { catalogItems } from '@/lib/catalog-registry';

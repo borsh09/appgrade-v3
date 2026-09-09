@@ -1,4 +1,5 @@
 'use client';
+import { usePricedCatalog } from '@/components/providers/price-provider';
 
 import { SamsungPhoto } from './samsung-photo';
 import Link from '@/components/shared/safe-link';
@@ -12,7 +13,7 @@ import {
   X,
 } from 'lucide-react';
 import {
-  samsungCatalog,
+  samsungCatalog as baseCatalog,
   samsungModels,
   type SamsungCatalogSku,
 } from '@/data/samsung-catalog';
@@ -102,7 +103,7 @@ function SamsungCard({
             alt={`${sku.model} ${sku.color}`}
           />
         </Link>
-        <span className="retail-product-badge">В наличии</span>
+        <span className="retail-product-badge">Наличие уточняется</span>
         <div className="retail-card-tools">
           <FavoriteButton product={product} />
         </div>
@@ -131,7 +132,7 @@ function SamsungCard({
           <AddToCartButton product={product} />
         </div>
         <p className="retail-stock">
-          <span /> Сегодня в магазине
+          <span /> После подтверждения
         </p>
       </div>
     </article>
@@ -139,6 +140,7 @@ function SamsungCard({
 }
 
 export function SamsungCatalogPage() {
+  const samsungCatalog = usePricedCatalog(baseCatalog);
   const { city } = useCity();
   const [filterOpen, setFilterOpen] = useState(false);
   const [view, setView] = useState<'grid' | 'list'>('grid');
@@ -159,11 +161,11 @@ export function SamsungCatalogPage() {
           };
         })
         .sort((a, b) => seriesRank(b.name) - seriesRank(a.name)),
-    [],
+    [samsungCatalog],
   );
   const storageOptions = useMemo(
     () => [...new Set(samsungCatalog.map((sku) => sku.storage))],
-    [],
+    [samsungCatalog],
   );
   const products = useMemo(
     () =>
@@ -182,7 +184,7 @@ export function SamsungCatalogPage() {
               ? b.price - a.price
               : seriesRank(b.model) - seriesRank(a.model) || a.price - b.price,
         ),
-    [models, storages, series, sort],
+    [models, storages, series, sort, samsungCatalog],
   );
   const toggle = (
     value: string,

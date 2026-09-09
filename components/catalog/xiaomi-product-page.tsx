@@ -1,4 +1,6 @@
 'use client';
+import { useState } from 'react';
+import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
@@ -37,13 +39,17 @@ const specs: Record<string, string[][]> = {
 
 export function XiaomiProductPage({
   modelSlug,
-  variants,
-  selected,
+  variants: baseVariants,
+  selected: baseSelected,
 }: {
   modelSlug: string;
   variants: XiaomiCatalogSku[];
   selected: XiaomiCatalogSku;
 }) {
+  const resolvePrice = usePriceResolver();
+  const selected = resolvePrice(baseSelected);
+  const [photo, setPhoto] = useState(0);
+  const variants = usePricedCatalog(baseVariants);
   const colors = unique(variants.map((sku) => sku.color));
   const href = `/catalog/${modelSlug}?storage=${encodeURIComponent(selected.storage)}&color=${encodeURIComponent(selected.color)}`;
   const product = {
@@ -65,13 +71,20 @@ export function XiaomiProductPage({
           <section className="product-gallery">
             <div className="product-gallery-frame xiaomi-gallery-frame">
               <Image
-                src={selected.image}
+                src={selected.gallery[photo] ?? selected.image}
                 alt={`${selected.model} ${selected.color}`}
                 fill
                 priority
                 unoptimized
                 sizes="(max-width:768px) 100vw,58vw"
               />
+            </div>
+            <div className="product-gallery-thumbs" aria-label="Ракурсы товара">
+              {selected.gallery.slice(0, 3).map((src, index) => (
+                <button type="button" className={photo === index ? 'active' : ''} onClick={() => setPhoto(index)} key={`${src}-${index}`} aria-label={`Ракурс ${index + 1}`}>
+                  <Image src={src} alt="" width={72} height={72} unoptimized />
+                </button>
+              ))}
             </div>
             <div className="product-gallery-note">
               <span>XIAOMI</span>
@@ -88,7 +101,7 @@ export function XiaomiProductPage({
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} />В наличии
+                <Check size={14} />Наличие уточняется
               </span>
             </div>
             <div className="product-options">
@@ -131,7 +144,7 @@ export function XiaomiProductPage({
               </div>
               <div>
                 <span>Самовывоз</span>
-                <strong>Сегодня в магазине</strong>
+                <strong>После подтверждения</strong>
               </div>
               <div>
                 <span>Гарантия</span>

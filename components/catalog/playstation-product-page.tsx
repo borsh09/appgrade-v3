@@ -1,4 +1,5 @@
 'use client';
+import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { useState } from 'react';
@@ -15,12 +16,15 @@ const consoleSpecs = [
 ];
 
 export function PlaystationProductPage({
-  selected,
-  variants,
+  selected: baseSelected,
+  variants: baseVariants,
 }: {
   selected: PlaystationCatalogSku;
   variants: PlaystationCatalogSku[];
 }) {
+  const resolvePrice = usePriceResolver();
+  const selected = resolvePrice(baseSelected);
+  const variants = usePricedCatalog(baseVariants);
   const [photo, setPhoto] = useState(0);
   const isConsole = selected.kind === 'Консоли';
   const specs = isConsole
@@ -98,7 +102,7 @@ export function PlaystationProductPage({
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} />В наличии
+                <Check size={14} />Наличие уточняется
               </span>
             </div>
             <div className="product-options">
@@ -143,7 +147,7 @@ export function PlaystationProductPage({
               </div>
               <div>
                 <span>Самовывоз</span>
-                <strong>Сегодня в магазине</strong>
+                <strong>После подтверждения</strong>
               </div>
               <div>
                 <span>Гарантия</span>

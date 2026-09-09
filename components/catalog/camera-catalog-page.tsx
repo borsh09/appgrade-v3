@@ -1,9 +1,10 @@
 'use client';
+import { usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { useMemo, useState } from 'react';
 import { ChevronDown, Grid2X2, List, MapPin } from 'lucide-react';
-import { cameraCatalog, type CameraCatalogSku } from '@/data/camera-catalog';
+import { cameraCatalog as baseCatalog, type CameraCatalogSku } from '@/data/camera-catalog';
 import { useCity } from '@/components/providers/city-provider';
 import {
   AddToCartButton,
@@ -13,7 +14,7 @@ const money = new Intl.NumberFormat('ru-RU');
 function Card({ sku, view }: { sku: CameraCatalogSku; view: 'grid' | 'list' }) {
   const href = `/catalog/${sku.modelSlug}?color=${encodeURIComponent(sku.color)}`,
     product = {
-      id: href,
+      id: sku.id,
       name: sku.model,
       configuration: `${sku.kind} · ${sku.color}`,
       price: sku.price,
@@ -34,7 +35,7 @@ function Card({ sku, view }: { sku: CameraCatalogSku; view: 'grid' | 'list' }) {
             sizes="(max-width:700px) 100vw,33vw"
           />
         </Link>
-        <span className="retail-product-badge">В наличии</span>
+        <span className="retail-product-badge">Наличие уточняется</span>
         <div className="retail-card-tools">
           <FavoriteButton product={product} />
         </div>
@@ -49,19 +50,19 @@ function Card({ sku, view }: { sku: CameraCatalogSku; view: 'grid' | 'list' }) {
         <div className="retail-product-purchase">
           <div>
             <strong>{money.format(sku.price)} ₽</strong>
-            <span>по карте {money.format(sku.cashlessPrice)} ₽</span>
           </div>
           <AddToCartButton product={product} />
         </div>
         <p className="retail-stock">
           <span />
-          Сегодня в магазине
+          После подтверждения
         </p>
       </div>
     </article>
   );
 }
 export function CameraCatalogPage() {
+  const cameraCatalog = usePricedCatalog(baseCatalog);
   const { city } = useCity();
   const [type, setType] = useState('');
   const [sort, setSort] = useState('popular');
@@ -77,7 +78,7 @@ export function CameraCatalogPage() {
               ? b.price - a.price
               : 0,
         ),
-    [type, sort],
+    [type, sort, cameraCatalog],
   );
   return (
     <main className="retail-catalog-page camera-catalog-page">

@@ -1,10 +1,11 @@
 'use client';
+import { usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { useMemo, useState } from 'react';
 import { ChevronDown, Grid2X2, List, MapPin } from 'lucide-react';
 import {
-  watchCatalog,
+  watchCatalog as baseCatalog,
   watchModels,
   type WatchCatalogSku,
 } from '@/data/watch-catalog';
@@ -48,7 +49,7 @@ function Card({ sku, view }: { sku: WatchCatalogSku; view: 'grid' | 'list' }) {
             sizes="(max-width:700px) 50vw,33vw"
           />
         </Link>
-        <span className="retail-product-badge">В наличии</span>
+        <span className="retail-product-badge">Наличие уточняется</span>
         <div className="retail-card-tools">
           <FavoriteButton product={product} />
         </div>
@@ -79,13 +80,14 @@ function Card({ sku, view }: { sku: WatchCatalogSku; view: 'grid' | 'list' }) {
         </div>
         <p className="retail-stock">
           <span />
-          Сегодня в магазине
+          После подтверждения
         </p>
       </div>
     </article>
   );
 }
 export function WatchCatalogPage() {
+  const watchCatalog = usePricedCatalog(baseCatalog);
   const { city } = useCity();
   const [model, setModel] = useState(''),
     [size, setSize] = useState(''),
@@ -101,7 +103,7 @@ export function WatchCatalogPage() {
         .sort((a, b) =>
           sort === 'desc' ? b.price - a.price : a.price - b.price,
         ),
-    [model, size, sort],
+    [model, size, sort, watchCatalog],
   );
   return (
     <main className="retail-catalog-page watch-catalog-page">

@@ -1,10 +1,11 @@
 'use client';
+import { usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { useMemo, useState } from 'react';
 import { ChevronDown, Grid2X2, List, MapPin } from 'lucide-react';
 import {
-  ipadCatalog,
+  ipadCatalog as baseCatalog,
   ipadModels,
   type IpadCatalogSku,
 } from '@/data/ipad-catalog';
@@ -48,7 +49,7 @@ function Card({ sku, view }: { sku: IpadCatalogSku; view: 'grid' | 'list' }) {
             sizes="(max-width:700px) 100vw,33vw"
           />
         </Link>
-        <span className="retail-product-badge">В наличии</span>
+        <span className="retail-product-badge">Наличие уточняется</span>
         <div className="retail-card-tools">
           <FavoriteButton product={product} />
         </div>
@@ -79,13 +80,14 @@ function Card({ sku, view }: { sku: IpadCatalogSku; view: 'grid' | 'list' }) {
         </div>
         <p className="retail-stock">
           <span />
-          Сегодня в магазине
+          После подтверждения
         </p>
       </div>
     </article>
   );
 }
 export function IpadCatalogPage() {
+  const ipadCatalog = usePricedCatalog(baseCatalog);
   const { city } = useCity();
   const [model, setModel] = useState(''),
     [storage, setStorage] = useState(''),
@@ -106,7 +108,7 @@ export function IpadCatalogPage() {
               ? b.price - a.price
               : b.model.localeCompare(a.model) || a.price - b.price,
         ),
-    [model, storage, sort],
+    [model, storage, sort, ipadCatalog],
   );
   return (
     <main className="retail-catalog-page ipad-catalog-page">

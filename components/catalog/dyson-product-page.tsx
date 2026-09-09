@@ -1,4 +1,6 @@
 'use client';
+import { useState } from 'react';
+import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { ArrowLeft, Check } from 'lucide-react';
@@ -6,15 +8,19 @@ import type { DysonCatalogSku } from '@/data/dyson-catalog';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
 const money = new Intl.NumberFormat('ru-RU');
 export function DysonProductPage({
-  selected,
-  variants,
+  selected: baseSelected,
+  variants: baseVariants,
 }: {
   selected: DysonCatalogSku;
   variants: DysonCatalogSku[];
 }) {
+  const resolvePrice = usePriceResolver();
+  const selected = resolvePrice(baseSelected);
+  const [photo, setPhoto] = useState(0);
+  const variants = usePricedCatalog(baseVariants);
   const href = `/catalog/${selected.modelSlug}?color=${encodeURIComponent(selected.color)}`;
   const product = {
-    id: href,
+    id: selected.id,
     name: selected.model,
     configuration: `${selected.kind} · ${selected.color}`,
     price: selected.price,
@@ -34,13 +40,20 @@ export function DysonProductPage({
           <section className="product-gallery">
             <div className="product-gallery-frame dyson-gallery-frame">
               <Image
-                src={selected.image}
+                src={selected.gallery[photo] ?? selected.image}
                 alt={`${selected.model} ${selected.color}`}
                 fill
                 priority
                 unoptimized
                 sizes="(max-width:768px) 100vw,58vw"
               />
+            </div>
+            <div className="product-gallery-thumbs" aria-label="Ракурсы товара">
+              {selected.gallery.slice(0, 3).map((src, index) => (
+                <button type="button" className={photo === index ? 'active' : ''} onClick={() => setPhoto(index)} key={`${src}-${index}`} aria-label={`Ракурс ${index + 1}`}>
+                  <Image src={src} alt="" width={72} height={72} unoptimized />
+                </button>
+              ))}
             </div>
             <div className="product-gallery-note">
               <span>DYSON</span>
@@ -59,7 +72,7 @@ export function DysonProductPage({
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} />В наличии
+                <Check size={14} />Наличие уточняется
               </span>
             </div>
             <div className="product-options">
@@ -82,12 +95,6 @@ export function DysonProductPage({
                   ))}
                 </div>
               </div>
-              <div className="product-option">
-                <div className="product-option-head">
-                  <span>Оплата картой / QR / рассрочка</span>
-                  <b>{money.format(selected.cashlessPrice)} ₽</b>
-                </div>
-              </div>
             </div>
             <div className="product-actions">
               <AddToCartButton product={product} />
@@ -100,7 +107,7 @@ export function DysonProductPage({
               </div>
               <div>
                 <span>Самовывоз</span>
-                <strong>Сегодня в магазине</strong>
+                <strong>После подтверждения</strong>
               </div>
               <div>
                 <span>Гарантия</span>

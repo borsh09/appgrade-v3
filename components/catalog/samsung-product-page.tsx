@@ -1,4 +1,5 @@
 'use client';
+import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 
 import Image from 'next/image';
 import { SamsungPhoto } from './samsung-photo';
@@ -25,9 +26,12 @@ type SamsungProductPageProps = {
 export function SamsungProductPage({
   model,
   modelSlug,
-  variants,
-  selected,
+  variants: baseVariants,
+  selected: baseSelected,
 }: SamsungProductPageProps) {
+  const resolvePrice = usePriceResolver();
+  const selected = resolvePrice(baseSelected);
+  const variants = usePricedCatalog(baseVariants);
   const storages = unique(variants.map((variant) => variant.storage));
   const colors = unique(variants.map((variant) => variant.color));
   const rams = unique(variants.map((variant) => variant.ram));
@@ -106,7 +110,7 @@ export function SamsungProductPage({
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} /> В наличии
+                <Check size={14} /> Наличие уточняется
               </span>
             </div>
             <div className="product-options">
@@ -177,7 +181,7 @@ export function SamsungProductPage({
               </div>
               <div>
                 <span>Самовывоз</span>
-                <strong>Сегодня в магазине</strong>
+                <strong>После подтверждения</strong>
               </div>
               <div>
                 <span>Конфигураций</span>

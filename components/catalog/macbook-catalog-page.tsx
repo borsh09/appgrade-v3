@@ -1,4 +1,5 @@
 'use client';
+import { usePricedCatalog } from '@/components/providers/price-provider';
 
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
@@ -12,7 +13,7 @@ import {
   X,
 } from 'lucide-react';
 import {
-  macbookCatalog,
+  macbookCatalog as baseCatalog,
   macbookModels,
   type MacbookCatalogSku,
 } from '@/data/macbook-catalog';
@@ -71,7 +72,7 @@ function MacbookCard({
             sizes={view === 'list' ? '280px' : '(max-width: 700px) 50vw, 33vw'}
           />
         </Link>
-        <span className="retail-product-badge">В наличии</span>
+        <span className="retail-product-badge">Наличие уточняется</span>
         <div className="retail-card-tools">
           <FavoriteButton product={product} />
         </div>
@@ -102,7 +103,7 @@ function MacbookCard({
           <AddToCartButton product={product} />
         </div>
         <p className="retail-stock">
-          <span /> Сегодня в магазине
+          <span /> После подтверждения
         </p>
       </div>
     </article>
@@ -110,6 +111,7 @@ function MacbookCard({
 }
 
 export function MacbookCatalogPage() {
+  const macbookCatalog = usePricedCatalog(baseCatalog);
   const { city } = useCity();
   const [filterOpen, setFilterOpen] = useState(false);
   const [view, setView] = useState<'grid' | 'list'>('grid');
@@ -119,7 +121,7 @@ export function MacbookCatalogPage() {
   const [sizes, setSizes] = useState<string[]>([]);
   const storageOptions = useMemo(
     () => [...new Set(macbookCatalog.map((sku) => sku.storage))],
-    [],
+    [macbookCatalog],
   );
   const products = useMemo(
     () =>
@@ -138,7 +140,7 @@ export function MacbookCatalogPage() {
               ? b.price - a.price
               : rank(b.model) - rank(a.model) || a.price - b.price,
         ),
-    [models, storages, sizes, sort],
+    [models, storages, sizes, sort, macbookCatalog],
   );
   const toggle = (
     value: string,

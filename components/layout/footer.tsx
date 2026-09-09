@@ -58,8 +58,8 @@ export function Footer() {
           © 2026 APPGRADE
         </span>
 
-        <Link href="/privacy">
-          Политика конфиденциальности
+        <Link href="/#контакты">
+          Контакты магазинов
         </Link>
 
         <a

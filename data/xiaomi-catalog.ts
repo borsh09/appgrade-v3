@@ -78,6 +78,7 @@ export const xiaomiCatalog: XiaomiCatalogSku[] = rows.map(
   ([model, ram, storage, color, price, file, chip]) => {
     const modelSlug = xiaomiSlugify(model);
     const image = `/images/products/xiaomi/${file}`;
+    const gallery = [image, image, image];
     return {
       id: `${modelSlug}-${xiaomiSlugify(storage)}-${xiaomiSlugify(color)}`,
       model,
@@ -87,7 +88,7 @@ export const xiaomiCatalog: XiaomiCatalogSku[] = rows.map(
       color,
       price,
       image,
-      gallery: [image],
+      gallery,
       chip,
     };
   },

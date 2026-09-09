@@ -1,9 +1,10 @@
 'use client';
+import { usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { useMemo, useState } from 'react';
 import { ChevronDown, Grid2X2, List, MapPin } from 'lucide-react';
-import { googleCatalog, type GoogleCatalogSku } from '@/data/google-catalog';
+import { googleCatalog as baseCatalog, type GoogleCatalogSku } from '@/data/google-catalog';
 import { useCity } from '@/components/providers/city-provider';
 import {
   AddToCartButton,
@@ -24,7 +25,7 @@ const colorHex: Record<string, string> = {
 function Card({ sku, view }: { sku: GoogleCatalogSku; view: 'grid' | 'list' }) {
   const href = `/catalog/${sku.modelSlug}?storage=${encodeURIComponent(sku.storage)}&color=${encodeURIComponent(sku.color)}`;
   const product = {
-    id: href,
+    id: sku.id,
     name: sku.model,
     configuration: `${sku.storage} · ${sku.color}`,
     price: sku.price,
@@ -45,7 +46,7 @@ function Card({ sku, view }: { sku: GoogleCatalogSku; view: 'grid' | 'list' }) {
             sizes="(max-width:700px) 100vw,33vw"
           />
         </Link>
-        <span className="retail-product-badge">В наличии</span>
+        <span className="retail-product-badge">Наличие уточняется</span>
         <div className="retail-card-tools">
           <FavoriteButton product={product} />
         </div>
@@ -74,13 +75,14 @@ function Card({ sku, view }: { sku: GoogleCatalogSku; view: 'grid' | 'list' }) {
         </div>
         <p className="retail-stock">
           <span />
-          Сегодня в магазине
+          После подтверждения
         </p>
       </div>
     </article>
   );
 }
 export function GoogleCatalogPage() {
+  const googleCatalog = usePricedCatalog(baseCatalog);
   const { city } = useCity();
   const [model, setModel] = useState(''),
     [view, setView] = useState<'grid' | 'list'>('grid'),
@@ -96,7 +98,7 @@ export function GoogleCatalogPage() {
               ? b.price - a.price
               : 0,
         ),
-    [model, sort],
+    [model, sort, googleCatalog],
   );
   const models = [
     ...new Map(googleCatalog.map((s) => [s.modelSlug, s.model])).entries(),

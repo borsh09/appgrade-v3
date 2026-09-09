@@ -75,7 +75,7 @@ export function DesktopHero() {
             <Link className={styles.cta} href={slide.href}>{slide.action}<ArrowRight size={18} /></Link>
           </div>
           <div className={styles.visual}>
-            <Image src={slide.image} alt={slide.alt} fill sizes="(min-width: 769px) 65vw, 1px" />
+            <Image src={slide.image} alt={slide.alt} fill loading="eager" sizes="(min-width: 769px) 65vw, 1px" />
           </div>
           <p className={styles.caption}>{slide.source ? <Link href={slide.source} target="_blank" rel="noreferrer">{slide.caption}</Link> : slide.caption}</p>
         </div>

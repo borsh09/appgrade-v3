@@ -1,11 +1,12 @@
 'use client';
+import { usePricedCatalog } from '@/components/providers/price-provider';
 
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { useMemo, useState } from 'react';
 import { ChevronDown, Grid2X2, List, MapPin } from 'lucide-react';
 import {
-  audioCatalog,
+  audioCatalog as baseCatalog,
   type AudioCatalogSku,
   type AudioKind,
 } from '@/data/audio-catalog';
@@ -62,7 +63,7 @@ function Card({ sku, view }: { sku: AudioCatalogSku; view: 'grid' | 'list' }) {
             sizes="(max-width:700px) 100vw,33vw"
           />
         </Link>
-        <span className="retail-product-badge">В наличии</span>
+        <span className="retail-product-badge">Наличие уточняется</span>
         <div className="retail-card-tools">
           <FavoriteButton product={product} />
         </div>
@@ -95,7 +96,7 @@ function Card({ sku, view }: { sku: AudioCatalogSku; view: 'grid' | 'list' }) {
         </div>
         <p className="retail-stock">
           <span />
-          Сегодня в магазине
+          После подтверждения
         </p>
       </div>
     </article>
@@ -103,6 +104,7 @@ function Card({ sku, view }: { sku: AudioCatalogSku; view: 'grid' | 'list' }) {
 }
 
 export function AudioCatalogPage() {
+  const audioCatalog = usePricedCatalog(baseCatalog);
   const { city } = useCity();
   const [kind, setKind] = useState<AudioKind | ''>('');
   const [brand, setBrand] = useState('');
@@ -129,7 +131,7 @@ export function AudioCatalogPage() {
                 a.model.localeCompare(b.model) ||
                 a.color.localeCompare(b.color),
         ),
-    [kind, brand, sort],
+    [kind, brand, sort, audioCatalog],
   );
   const variantCount = (value?: AudioKind) =>
     audioCatalog.filter((sku) => !value || sku.kind === value).length;

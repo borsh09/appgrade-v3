@@ -1,11 +1,12 @@
 'use client';
+import { usePricedCatalog } from '@/components/providers/price-provider';
 
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { useMemo, useState } from 'react';
 import { ChevronDown, Gamepad2, Grid2X2, List, MapPin } from 'lucide-react';
 import {
-  playstationCatalog,
+  playstationCatalog as baseCatalog,
   type PlaystationKind,
   type PlaystationCatalogSku,
 } from '@/data/playstation-catalog';
@@ -53,7 +54,7 @@ function Card({
             sizes="(max-width:700px) 100vw,33vw"
           />
         </Link>
-        <span className="retail-product-badge">В наличии</span>
+        <span className="retail-product-badge">Наличие уточняется</span>
         <div className="retail-card-tools">
           <FavoriteButton product={product} />
         </div>
@@ -82,7 +83,7 @@ function Card({
         </div>
         <p className="retail-stock">
           <span />
-          Сегодня в магазине
+          После подтверждения
         </p>
       </div>
     </article>
@@ -90,6 +91,7 @@ function Card({
 }
 
 export function PlaystationCatalogPage() {
+  const playstationCatalog = usePricedCatalog(baseCatalog);
   const { city } = useCity();
   const [kind, setKind] = useState<PlaystationKind | ''>('');
   const [view, setView] = useState<'grid' | 'list'>('grid');
@@ -105,7 +107,7 @@ export function PlaystationCatalogPage() {
               ? b.price - a.price
               : 0,
         ),
-    [kind, sort],
+    [kind, sort, playstationCatalog],
   );
   const count = (value?: PlaystationKind) =>
     playstationCatalog.filter((sku) => !value || sku.kind === value).length;

@@ -1,4 +1,5 @@
 'use client';
+import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { useState } from 'react';
@@ -9,13 +10,16 @@ const money = new Intl.NumberFormat('ru-RU');
 const unique = (items: string[]) => [...new Set(items)];
 export function WatchProductPage({
   modelSlug,
-  variants,
-  selected,
+  variants: baseVariants,
+  selected: baseSelected,
 }: {
   modelSlug: string;
   variants: WatchCatalogSku[];
   selected: WatchCatalogSku;
 }) {
+  const resolvePrice = usePriceResolver();
+  const selected = resolvePrice(baseSelected);
+  const variants = usePricedCatalog(baseVariants);
   const [photo, setPhoto] = useState(0);
   const sizes = unique(variants.map((v) => v.size)),
     colors = unique(variants.map((v) => v.color));
@@ -79,7 +83,7 @@ export function WatchProductPage({
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} />В наличии
+                <Check size={14} />Наличие уточняется
               </span>
             </div>
             <div className="product-options">

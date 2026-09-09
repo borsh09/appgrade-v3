@@ -32,6 +32,8 @@ import {
 
 import { useCommerce } from '@/components/providers/commerce-provider';
 import { useCity } from '@/components/providers/city-provider';
+import { ORDER_SERVICES } from '@/config/order-services';
+import { OrderAvailability } from './order-availability';
 
 /* =========================================================
    FORMAT
@@ -77,7 +79,7 @@ type Service = {
    SERVICES
    ========================================================= */
 
-const SERVICES: Service[] = [
+const SERVICE_DETAILS: Service[] = [
   {
     id: 'transfer',
     title: 'Перенос данных',
@@ -166,6 +168,12 @@ const SERVICES: Service[] = [
    HELPERS
    ========================================================= */
 
+const SERVICES = SERVICE_DETAILS.map(service => ({
+  ...service,
+  title: ORDER_SERVICES[service.id].title,
+  price: ORDER_SERVICES[service.id].price,
+}));
+
 function getAppleDeviceType(item: {
   name: string;
   href?: string;
@@ -230,8 +238,29 @@ function productWord(
    ========================================================= */
 
 export function CartPage() {
+  const [ordersAvailable, setOrdersAvailable] = useState<boolean | null>(null);
+  useEffect(() => {
+    const controller = new AbortController();
+    const check = async () => {
+      try {
+        const response = await fetch('/api/health', { cache: 'no-store', signal: controller.signal });
+        const result = await response.json();
+        setOrdersAvailable(response.ok && result.ordersAvailable === true);
+      } catch {
+        if (!controller.signal.aborted) setOrdersAvailable(false);
+      }
+    };
+    void check();
+    window.addEventListener('focus', check);
+    return () => { controller.abort(); window.removeEventListener('focus', check); };
+  }, []);
+  const requestIdentity = useRef({ fingerprint: '', key: '' });
+  const [submitError, setSubmitError] = useState('');
+  const [orderId, setOrderId] = useState('');
+  const [telegramUsername, setTelegramUsername] = useState('');
   const {
     cart,
+    ready,
     removeFromCart,
     setQuantity,
   } = useCommerce();
@@ -517,10 +546,9 @@ export function CartPage() {
     name.trim().length >= 2;
 
   const phoneReady =
-    phone.replace(
-      /\D/g,
-      '',
-    ).length >= 10;
+    /^\+?[\d\s()-]+$/.test(phone) &&
+    phone.replace(/\D/g, '').length >= 10 &&
+    phone.replace(/\D/g, '').length <= 15;
 
   const deliveryReady =
     fulfillment ===
@@ -532,7 +560,8 @@ export function CartPage() {
   const checkoutReady =
     nameReady &&
     phoneReady &&
-    deliveryReady;
+    deliveryReady &&
+    (contactMethod !== 'telegram' || /^@?[a-zA-Z][a-zA-Z0-9_]{4,31}$/.test(telegramUsername.trim()));
 
   /* =======================================================
      PROGRESS
@@ -629,6 +658,7 @@ export function CartPage() {
 
       if (
         !cart.length ||
+        ordersAvailable !== true ||
         !checkoutReady ||
         sending
       ) {
@@ -654,47 +684,16 @@ export function CartPage() {
           ? commentValue.trim()
           : '';
 
-      const selectedServiceNames =
-        SERVICES.filter(
-          (service) =>
-            selectedServices.includes(
-              service.id,
-            ),
-        ).map(
-          (service) =>
-            `${service.title} — ${money.format(
-              service.price,
-            )} ₽`,
-        );
-
-      const commentParts =
-        [
-          comment,
-
-          fulfillment ===
-          'delivery'
-            ? `Адрес доставки: ${deliveryAddress}`
-            : '',
-
-          `Связаться: ${
-            contactMethod ===
-            'telegram'
-              ? 'Telegram'
-              : 'по телефону'
-          }`,
-        ].filter(
-          Boolean,
-        );
-
       const payload = {
+        deliveryAddress,
+        contactMethod,
+        telegramUsername: contactMethod === 'telegram' ? telegramUsername : '',
+        serviceIds: selectedServices,
         customer: {
           name,
           phone,
 
-          comment:
-            commentParts.join(
-              '\n',
-            ),
+          comment,
         },
 
         city: {
@@ -711,9 +710,6 @@ export function CartPage() {
         },
 
         fulfillment,
-
-        services:
-          selectedServiceNames,
 
         items:
           cart.map(
@@ -741,6 +737,10 @@ export function CartPage() {
       };
 
       try {
+        const fingerprint = JSON.stringify(payload);
+        if (requestIdentity.current.fingerprint !== fingerprint) {
+          requestIdentity.current = { fingerprint, key: crypto.randomUUID() };
+        }
         const response =
           await fetch(
             '/api/orders',
@@ -755,23 +755,27 @@ export function CartPage() {
 
               body:
                 JSON.stringify(
-                  payload,
+                  { ...payload, requestKey: requestIdentity.current.key },
                 ),
             },
           );
 
+        const result = await response.json();
         if (
           !response.ok
         ) {
+          if (response.status === 409) window.dispatchEvent(new Event('appgrade-prices-refresh'));
           throw new Error(
-            'Order request failed',
+            result.error || 'Не удалось отправить заявку.',
           );
         }
 
+        setOrderId(result.orderId);
         setSubmitStatus(
           'success',
         );
-      } catch {
+      } catch (error) {
+        setSubmitError(error instanceof Error ? error.message : 'Не удалось отправить заявку.');
         setSubmitStatus(
           'error',
         );
@@ -842,7 +846,7 @@ export function CartPage() {
             EMPTY CART
             ================================================= */}
 
-        {!cart.length ? (
+        {!ready ? <p aria-live="polite">Загружаем корзину…</p> : !cart.length ? (
           <div className="appgrade-cart-empty">
             <div className="appgrade-cart-empty-icon">
               <ShoppingBag
@@ -1483,7 +1487,7 @@ export function CartPage() {
 
                         <small>
                           {currentStore?.address ??
-                            city.name}
+                            'Адрес уточняется'}
                         </small>
                       </div>
                     </button>
@@ -1524,6 +1528,8 @@ export function CartPage() {
                   {/* DELIVERY ADDRESS */}
 
                   <div
+                    inert={fulfillment !== 'delivery'}
+                    aria-hidden={fulfillment !== 'delivery'}
                     className={`appgrade-delivery-reveal ${
                       fulfillment ===
                       'delivery'
@@ -1586,6 +1592,7 @@ export function CartPage() {
                   </div>
 
                   {/* FORM */}
+                  <OrderAvailability available={ordersAvailable} />
 
                   <form
                     id="appgrade-order-form"
@@ -1621,6 +1628,7 @@ export function CartPage() {
                         <input
                           type="text"
                           name="name"
+                          maxLength={100}
                           value={
                             name
                           }
@@ -1674,6 +1682,7 @@ export function CartPage() {
                         <input
                           type="tel"
                           name="phone"
+                          maxLength={30}
                           value={
                             phone
                           }
@@ -1758,6 +1767,12 @@ export function CartPage() {
                     </div>
 
                     {/* COMMENT */}
+                    {contactMethod === 'telegram' && (
+                      <div className="appgrade-order-fields"><label>
+                        <span>Ваш Telegram</span>
+                        <input name="telegramUsername" value={telegramUsername} onChange={event => setTelegramUsername(event.target.value)} placeholder="@username" pattern="@?[a-zA-Z][a-zA-Z0-9_]{4,31}" maxLength={33} required />
+                      </label></div>
+                    )}
 
                     <label className="appgrade-order-comment">
                       <span>
@@ -1766,6 +1781,7 @@ export function CartPage() {
 
                       <textarea
                         name="comment"
+                        maxLength={1000}
                         rows={3}
                         placeholder="Например: связаться после 18:00"
                       />
@@ -1939,18 +1955,20 @@ export function CartPage() {
                 </div>
 
                 {/* SUBMIT */}
+                <OrderAvailability available={ordersAvailable} />
 
                 <button
                   type="submit"
                   form="appgrade-order-form"
                   className="appgrade-cart-submit"
                   disabled={
+                    ordersAvailable !== true ||
                     sending ||
                     !checkoutReady
                   }
                 >
                   <span>
-                    {sending
+                    {ordersAvailable === null ? 'Проверяем доступность…' : ordersAvailable === false ? 'Приём заявок недоступен' : sending
                       ? 'Отправляем...'
                       : checkoutReady
                         ? 'Оформить заявку'
@@ -1983,7 +2001,7 @@ export function CartPage() {
                       </strong>
 
                       <span>
-                        Менеджер скоро свяжется с вами.
+                        Заказ № {orderId}. Менеджер скоро свяжется с вами.
                       </span>
                     </div>
                   </div>
@@ -1994,7 +2012,7 @@ export function CartPage() {
                 {submitStatus ===
                   'error' && (
                   <div className="appgrade-cart-message is-error">
-                    Не удалось отправить заявку.
+                    {submitError || 'Не удалось отправить заявку.'}
                   </div>
                 )}
 

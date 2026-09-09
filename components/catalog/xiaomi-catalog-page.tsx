@@ -1,4 +1,5 @@
 'use client';
+import { usePricedCatalog } from '@/components/providers/price-provider';
 
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
@@ -10,7 +11,7 @@ import {
   FavoriteButton,
 } from '@/components/shared/commerce-buttons';
 import {
-  xiaomiCatalog,
+  xiaomiCatalog as baseCatalog,
   xiaomiModels,
   type XiaomiCatalogSku,
 } from '@/data/xiaomi-catalog';
@@ -49,7 +50,7 @@ function Card({ sku, view }: { sku: XiaomiCatalogSku; view: 'grid' | 'list' }) {
             sizes="(max-width:700px) 50vw,33vw"
           />
         </Link>
-        <span className="retail-product-badge">В наличии</span>
+        <span className="retail-product-badge">Наличие уточняется</span>
         <div className="retail-card-tools">
           <FavoriteButton product={product} />
         </div>
@@ -80,7 +81,7 @@ function Card({ sku, view }: { sku: XiaomiCatalogSku; view: 'grid' | 'list' }) {
         </div>
         <p className="retail-stock">
           <span />
-          Сегодня в магазине
+          После подтверждения
         </p>
       </div>
     </article>
@@ -88,6 +89,7 @@ function Card({ sku, view }: { sku: XiaomiCatalogSku; view: 'grid' | 'list' }) {
 }
 
 export function XiaomiCatalogPage() {
+  const xiaomiCatalog = usePricedCatalog(baseCatalog);
   const { city } = useCity();
   const [model, setModel] = useState('');
   const [series, setSeries] = useState('');
@@ -105,7 +107,7 @@ export function XiaomiCatalogPage() {
               ? b.price - a.price
               : 0,
         ),
-    [model, series, sort],
+    [model, series, sort, xiaomiCatalog],
   );
   return (
     <main className="retail-catalog-page xiaomi-catalog-page">

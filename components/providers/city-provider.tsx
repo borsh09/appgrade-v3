@@ -71,8 +71,6 @@ export function CityProvider({
     setCitySelectorOpen,
   ] = useState(false);
 
-  const [hydrated, setHydrated] =
-    useState(false);
 
   /*
    * =========================================================
@@ -109,7 +107,6 @@ export function CityProvider({
         setCitySelectorOpen(true);
       }
 
-      setHydrated(true);
     }, 0);
 
     return () => window.clearTimeout(loadCity);
@@ -221,13 +218,6 @@ export function CityProvider({
 
         currentStore,
       };
-
-  /*
-   * Не отдаём приложение до чтения localStorage.
-   */
-  if (!hydrated) {
-    return null;
-  }
 
   return (
     <CityContext.Provider

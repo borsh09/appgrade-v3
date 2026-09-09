@@ -1,4 +1,5 @@
 'use client';
+import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { useState } from 'react';
@@ -11,14 +12,17 @@ const unique = (v: string[]) => [...new Set(v)];
 export function IpadProductPage({
   model,
   modelSlug,
-  variants,
-  selected,
+  variants: baseVariants,
+  selected: baseSelected,
 }: {
   model: string;
   modelSlug: string;
   variants: IpadCatalogSku[];
   selected: IpadCatalogSku;
 }) {
+  const resolvePrice = usePriceResolver();
+  const selected = resolvePrice(baseSelected);
+  const variants = usePricedCatalog(baseVariants);
   const [photo, setPhoto] = useState(0);
   const storages = unique(variants.map((v) => v.storage)),
     colors = unique(variants.map((v) => v.color)),
@@ -88,7 +92,7 @@ export function IpadProductPage({
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} />В наличии
+                <Check size={14} />Наличие уточняется
               </span>
             </div>
             <div className="product-options">
@@ -139,7 +143,7 @@ export function IpadProductPage({
               </div>
               <div>
                 <span>Самовывоз</span>
-                <strong>Сегодня в магазине</strong>
+                <strong>После подтверждения</strong>
               </div>
               <div>
                 <span>Гарантия</span>

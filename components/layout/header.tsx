@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { catalogCategories } from '@/data/catalog-navigation';
 import Link from '@/components/shared/safe-link';
 
 import {
@@ -23,43 +24,19 @@ import {
 import { useCommerce } from '@/components/providers/commerce-provider';
 import { useCity } from '@/components/providers/city-provider';
 
-import { searchIndex } from '@/data/search-index';
+import { searchIndex as baseSearchIndex } from '@/data/search-index';
+import { usePricedCatalog } from '@/components/providers/price-provider';
 
-const menuCategories = [
-  'iPhone',
-  'Samsung',
-  'Xiaomi',
-  'Google Pixel',
-  'MacBook и iMac',
-  'iPad',
-  'Наушники и аудио',
-  'Смарт-часы',
-  'Игровые приставки',
-  'Dyson',
-  'Фотоаппараты',
-  'Аксессуары',
-];
+const menuCategories = catalogCategories;
 
 const money = new Intl.NumberFormat('ru-RU');
 
-function getCategoryHref(item: string) {
-  if (item === 'iPhone') return '/catalog/iphones';
-  if (item === 'Samsung') return '/catalog/samsung';
-  if (item === 'Xiaomi') return '/catalog/xiaomi';
-  if (item === 'Google Pixel') return '/catalog/google';
-  if (item === 'MacBook и iMac') return '/catalog/macbooks';
-  if (item === 'iPad') return '/catalog/ipads';
-  if (item === 'Наушники и аудио') return '/catalog/audio';
-  if (item === 'Смарт-часы') return '/catalog/watches';
-  if (item === 'Игровые приставки') return '/catalog/playstation';
-  if (item === 'Dyson') return '/catalog/dyson';
-  if (item === 'Фотоаппараты') return '/catalog/cameras';
 
-  return `/catalog?category=${encodeURIComponent(item)}`;
-}
 
 export function Header() {
+  const searchIndex = usePricedCatalog(baseSearchIndex);
   const searchRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDialogElement>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [catalogOpen, setCatalogOpen] = useState(false);
@@ -100,13 +77,13 @@ export function Header() {
 
     return [
       ...new Map(
-        found.map((item) => [
+        [...found].sort((a, b) => (b.price || Infinity) - (a.price || Infinity)).map((item) => [
           item.name,
           item,
         ]),
       ).values(),
     ].slice(0, 6);
-  }, [query]);
+  }, [query, searchIndex]);
 
   /* =========================================================
      CLOSE SEARCH
@@ -140,11 +117,33 @@ export function Header() {
      ========================================================= */
 
   useEffect(() => {
-    document.body.style.overflow =
-      menuOpen ? 'hidden' : '';
-
+    if (!menuOpen) return;
+    const menu = mobileMenuRef.current;
+    if (!menu) return;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    const background = [...document.querySelectorAll<HTMLElement>('body > header, body > main, body > footer')];
+    const previousInert = background.map(element => element.inert);
+    background.forEach(element => { element.inert = true; });
+    document.body.style.overflow = 'hidden';
+    const focusFrame = window.requestAnimationFrame(() => menu.querySelector<HTMLElement>('button')?.focus());
+    const trapFocus = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab') return;
+      const focusable = [...menu.querySelectorAll<HTMLElement>('a[href], button, input')]
+        .filter(element => !element.closest('[inert]') && !element.hasAttribute('disabled') && element.getClientRects().length > 0);
+      const first = focusable[0];
+      const last = focusable.at(-1);
+      if (!menu.contains(document.activeElement)) { event.preventDefault(); first?.focus(); return; }
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    };
+    menu.addEventListener('keydown', trapFocus);
     return () => {
-      document.body.style.overflow = '';
+      window.cancelAnimationFrame(focusFrame);
+      menu.removeEventListener('keydown', trapFocus);
+      background.forEach((element, index) => { element.inert = previousInert[index]; });
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus();
     };
   }, [menuOpen]);
 
@@ -234,6 +233,7 @@ export function Header() {
                 setSearchOpen(false);
               }}
               aria-expanded={catalogOpen}
+              aria-controls="appgrade-desktop-catalog"
             >
               Каталог
 
@@ -303,7 +303,7 @@ export function Header() {
                       </span>
 
                       <b>
-                        {money.format(item.price)} ₽
+                        {item.price > 0 ? `${money.format(item.price)} ₽` : 'Цена уточняется'}
                       </b>
                     </Link>
                   ))
@@ -388,6 +388,8 @@ export function Header() {
             =================================================== */}
 
         <div
+          id="appgrade-desktop-catalog"
+          inert={!catalogOpen}
           className={`appgrade-catalog-dropdown ${
             catalogOpen ? 'is-open' : ''
           }`}
@@ -407,11 +409,11 @@ export function Header() {
             <div className="appgrade-catalog-grid">
               {menuCategories.map((item) => (
                 <Link
-                  key={item}
-                  href={getCategoryHref(item)}
+                  key={item.id}
+                  href={item.href}
                   onClick={() => setCatalogOpen(false)}
                 >
-                  {item}
+                  {item.title}
 
                   <span>
                     ↗
@@ -428,12 +430,22 @@ export function Header() {
           MOBILE MENU
           ===================================================== */}
 
-      <div
+      <dialog
+        open={menuOpen}
         id="appgrade-mobile-menu"
+        ref={mobileMenuRef}
+        aria-modal={menuOpen || undefined}
+        aria-label="Меню сайта"
+        onTransitionEnd={(event) => {
+          if (menuOpen && event.target === event.currentTarget && !event.currentTarget.contains(document.activeElement)) {
+            event.currentTarget.querySelector<HTMLButtonElement>('button')?.focus();
+          }
+        }}
         className={`appgrade-mobile-menu ${
           menuOpen ? 'is-open' : ''
         }`}
         aria-hidden={!menuOpen}
+        inert={!menuOpen}
       >
         <div className="appgrade-mobile-menu-inner">
 
@@ -504,6 +516,7 @@ export function Header() {
                 setQuery(event.target.value)
               }
               placeholder="Найти товар"
+              aria-label="Поиск по каталогу"
             />
 
             {query && (
@@ -553,7 +566,7 @@ export function Header() {
                     </span>
 
                     <b>
-                      {money.format(item.price)} ₽
+                      {item.price > 0 ? `${money.format(item.price)} ₽` : 'Цена уточняется'}
                     </b>
                   </Link>
                 ))
@@ -572,6 +585,8 @@ export function Header() {
 
             <button
               type="button"
+              aria-expanded={mobileCatalogOpen}
+              aria-controls="appgrade-mobile-categories"
               className={`appgrade-mobile-catalog-toggle ${
                 mobileCatalogOpen ? 'is-open' : ''
               }`}
@@ -589,6 +604,8 @@ export function Header() {
             </button>
 
             <div
+              id="appgrade-mobile-categories"
+              inert={!mobileCatalogOpen}
               className={`appgrade-mobile-categories ${
                 mobileCatalogOpen ? 'is-open' : ''
               }`}
@@ -597,11 +614,11 @@ export function Header() {
 
                 {menuCategories.map((item) => (
                   <Link
-                    key={item}
-                    href={getCategoryHref(item)}
+                    key={item.id}
+                    href={item.href}
                     onClick={closeMobileMenu}
                   >
-                    {item}
+                    {item.title}
                   </Link>
                 ))}
 
@@ -628,7 +645,7 @@ export function Header() {
               onClick={closeMobileMenu}
             >
               <span>
-                Новинки
+                Весь каталог
               </span>
 
               <span>
@@ -704,7 +721,7 @@ export function Header() {
 
           </div>
         </div>
-      </div>
+      </dialog>
     </>
   );
 }

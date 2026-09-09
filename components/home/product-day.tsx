@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import { featuredProducts } from '@/data/catalog';
 import { useCity } from '@/components/providers/city-provider';
+import { usePriceResolver } from '@/components/providers/price-provider';
 import {
   AddToCartButton,
   FavoriteButton,
@@ -14,7 +15,9 @@ const money = new Intl.NumberFormat('ru-RU');
 export function ProductDay() {
   const { city } = useCity();
   const [activeIndex, setActiveIndex] = useState(0);
-  const { model, sku } = featuredProducts[activeIndex];
+  const resolvePrice = usePriceResolver();
+  const { model, sku: baseSku } = featuredProducts[activeIndex];
+  const sku = resolvePrice(baseSku);
   const changeProduct = (direction: number) =>
     setActiveIndex(
       (current) =>

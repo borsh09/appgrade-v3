@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useEffect, useRef } from 'react';
 import {
   ArrowRight,
   MapPin,
@@ -15,6 +16,7 @@ import {
 import { useCity } from '@/components/providers/city-provider';
 
 export function CityGate() {
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const {
     cityId,
     citySelectorOpen,
@@ -22,26 +24,33 @@ export function CityGate() {
     closeCitySelector,
   } = useCity();
 
+  useEffect(() => {
+    if (!citySelectorOpen) return;
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    dialog.showModal();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      dialog.close();
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [citySelectorOpen]);
+
   if (!citySelectorOpen) {
     return null;
   }
 
   return (
     <div className="appgrade-city-gate">
-      <button
-        type="button"
-        className="appgrade-city-gate-backdrop"
-        aria-label="Закрыть выбор города"
-        disabled={!cityId}
-        onClick={() => {
-          if (cityId) {
-            closeCitySelector();
-          }
-        }}
-      />
+
 
       <dialog
-        open
+        ref={dialogRef}
+        onCancel={(event) => {
+          event.preventDefault();
+          if (cityId) closeCitySelector();
+        }}
         className="appgrade-city-gate-card"
         aria-labelledby="appgrade-city-gate-title"
         aria-describedby="appgrade-city-gate-description"

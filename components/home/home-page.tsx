@@ -14,6 +14,7 @@ import { RevealEffects } from './reveal-effects';
 export function HomePage() {
   return (
     <main>
+      <h1 className="sr-only">APPGRADE — магазин техники и аксессуаров</h1>
       <RevealEffects />
 
       <HeroSection />
