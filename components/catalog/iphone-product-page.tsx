@@ -1,4 +1,5 @@
 'use client';
+import { ProductVariants } from './product-variants';
 import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 
 import Image from 'next/image';
@@ -84,7 +85,6 @@ export function IphoneProductPage({
                 fill
                 priority
                 quality={100}
-                unoptimized
                 sizes="(max-width: 768px) 100vw, 58vw"
               />
             </div>
@@ -107,7 +107,6 @@ export function IphoneProductPage({
                       alt=""
                       fill
                       sizes="64px"
-                      unoptimized
                     />
                   </button>
                 ))}
@@ -122,70 +121,15 @@ export function IphoneProductPage({
             <p className="catalog-overline">APPLE · IPHONE</p>
             <h1>{model}</h1>
             <p className="product-lead">
-              Выберите конфигурацию — цена обновится автоматически. Наличие подтвердит менеджер.
+              Выберите конфигурацию — цена обновится автоматически. Товар в наличии.
             </p>
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} /> Наличие уточняется
+                <Check size={14} /> В наличии
               </span>
             </div>
-            <div className="product-options">
-              <div className="product-option">
-                <div className="product-option-head">
-                  <span>Память</span>
-                  <b>{selected.storage}</b>
-                </div>
-                <div className="product-option-values">
-                  {storages.map((value) => (
-                    <Link
-                      className={value === selected.storage ? 'selected' : ''}
-                      href={hrefFor('storage', value)}
-                      key={value}
-                    >
-                      {value}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              <div className="product-option">
-                <div className="product-option-head">
-                  <span>Цвет</span>
-                  <b>{selected.color}</b>
-                </div>
-                <div className="product-option-values color-values">
-                  {colors.map((value) => (
-                    <Link
-                      className={value === selected.color ? 'selected' : ''}
-                      href={hrefFor('color', value)}
-                      key={value}
-                    >
-                      <i data-color={value} />
-                      {value}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              {sims.length > 0 && (
-                <div className="product-option">
-                  <div className="product-option-head">
-                    <span>SIM</span>
-                    <b>{selected.sim}</b>
-                  </div>
-                  <div className="product-option-values">
-                    {sims.map((value) => (
-                      <Link
-                        className={value === selected.sim ? 'selected' : ''}
-                        href={hrefFor('sim', value)}
-                        key={value}
-                      >
-                        {value}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+            <ProductVariants selectedId={selected.id} />
             <div className="product-actions">
               <AddToCartButton product={product} />
               <Link href="/catalog/iphones">Все модели</Link>

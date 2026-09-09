@@ -9,6 +9,8 @@ import { googleCatalog } from '@/data/google-catalog';
 import { xiaomiCatalog } from '@/data/xiaomi-catalog';
 import { cameraCatalog } from '@/data/camera-catalog';
 import { dysonCatalog } from '@/data/dyson-catalog';
+import { additionalCatalog } from '@/data/additional-catalog';
+import baseline from '@/data/price-baseline.json';
 
 export type CatalogItem = {
   id: string;
@@ -22,23 +24,29 @@ export type CatalogItem = {
   size?: string;
   connectivity?: string;
   configuration?: string;
+  priceAlias?: string;
+  image: string;
+  gallery?: string[];
+  category?: string;
+  legacySlug?: string;
 };
 export const catalogItems: CatalogItem[] = [
-  ...iphoneCatalog,
-  ...samsungCatalog,
-  ...macbookCatalog,
-  ...ipadCatalog,
-  ...watchCatalog,
-  ...audioCatalog,
-  ...playstationCatalog,
-  ...googleCatalog,
-  ...xiaomiCatalog,
-  ...cameraCatalog,
-  ...dysonCatalog,
+  ...iphoneCatalog.map(item => ({ ...item, category: 'iphones' })),
+  ...samsungCatalog.map(item => ({ ...item, category: 'samsung' })),
+  ...macbookCatalog.map(item => ({ ...item, category: 'macbooks' })),
+  ...ipadCatalog.map(item => ({ ...item, category: 'ipads' })),
+  ...watchCatalog.map(item => ({ ...item, category: 'watches' })),
+  ...audioCatalog.map(item => ({ ...item, category: 'audio' })),
+  ...playstationCatalog.map(item => ({ ...item, category: 'playstation' })),
+  ...googleCatalog.map(item => ({ ...item, category: 'google' })),
+  ...xiaomiCatalog.map(item => ({ ...item, category: 'xiaomi' })),
+  ...cameraCatalog.map(item => ({ ...item, category: 'cameras' })),
+  ...dysonCatalog.map(item => ({ ...item, category: 'dyson' })),
+  ...additionalCatalog,
 ];
 export const catalogById = new Map(catalogItems.map((item) => [item.id, item]));
 export const basePrices = Object.fromEntries(
-  catalogItems.map((item) => [item.id, item.price]),
+  catalogItems.map((item) => [item.id, (baseline as Record<string, number>)[item.id] ?? item.price]),
 );
 
 export function normalizeProductName(value: string) {
@@ -58,6 +66,7 @@ export function normalizeProductName(value: string) {
 // Exact aliases only. A row without a color applies to all colors of that
 // configuration; an explicit color is never dropped to force a match.
 export function priceAliases(item: CatalogItem): string[] {
+  if (item.priceAlias) return [normalizeProductName(item.priceAlias)];
   let name = item.model;
   if (name.startsWith('Samsung')) {
     name += ` ${item.ram}/${item.storage}`;
@@ -81,6 +90,8 @@ export function priceAliases(item: CatalogItem): string[] {
   if (item.model.startsWith('iPhone') && item.sim && item.sim !== '—')
     name += ` ${item.sim}`;
   const names = [name, `${name} ${item.color}`];
+  if (item.model === 'Instax Mini Evo' && item.color === 'Gentle Rose')
+    names.push('Instax Mini Evo Rose');
   if (
     item.model.startsWith('Samsung Galaxy A') ||
     item.model.startsWith('Samsung Galaxy Z')

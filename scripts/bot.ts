@@ -49,6 +49,7 @@ const deliver = async () => {
   delivering = true;
   try {
     await deliverOrders(bot);
+    await database().query("INSERT INTO appgrade_bot_health(role,heartbeat_at) VALUES('orders',now()) ON CONFLICT(role) DO UPDATE SET heartbeat_at=now()");
   } catch {
     console.error('Order delivery temporarily unavailable');
   } finally {
@@ -91,6 +92,7 @@ try {
   }
 } finally {
   if (interval) clearInterval(interval);
+  if (role === 'orders') await database().query("DELETE FROM appgrade_bot_health WHERE role='orders'");
   while (delivering) await sleep(100);
   await lock.query('SELECT pg_advisory_unlock($1)', [lockId]);
   lock.release();

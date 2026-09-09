@@ -1,4 +1,5 @@
 'use client';
+import { ProductVariants } from './product-variants';
 import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 
 import Image from 'next/image';
@@ -74,7 +75,6 @@ export function SamsungProductPage({
                 fill
                 priority
                 quality={100}
-                unoptimized
                 sizes="(max-width: 768px) 100vw, 58vw"
               />}
             </div>
@@ -90,7 +90,7 @@ export function SamsungProductPage({
                   onClick={() => setActivePhoto(index)}
                   aria-label={`Фото ${index + 1}`}
                 >
-                  {index === 0 ? <SamsungPhoto src={selected.image} alt="" /> : <Image src={photo} alt="" fill unoptimized sizes="66px" />}
+                  {index === 0 ? <SamsungPhoto src={selected.image} alt="" /> : <Image src={photo} alt="" fill sizes="66px" />}
                 </button>
               ))}
             </div>
@@ -110,65 +110,10 @@ export function SamsungProductPage({
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} /> Наличие уточняется
+                <Check size={14} /> В наличии
               </span>
             </div>
-            <div className="product-options">
-              <div className="product-option">
-                <div className="product-option-head">
-                  <span>Память</span>
-                  <b>{selected.storage}</b>
-                </div>
-                <div className="product-option-values">
-                  {storages.map((value) => (
-                    <Link
-                      className={value === selected.storage ? 'selected' : ''}
-                      href={hrefFor('storage', value)}
-                      key={value}
-                    >
-                      {value}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              {rams.length > 1 && (
-                <div className="product-option">
-                  <div className="product-option-head">
-                    <span>Оперативная память</span>
-                    <b>{selected.ram}</b>
-                  </div>
-                  <div className="product-option-values">
-                    {rams.map((value) => (
-                      <Link
-                        className={value === selected.ram ? 'selected' : ''}
-                        href={hrefFor('ram', value)}
-                        key={value}
-                      >
-                        {value}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-              <div className="product-option">
-                <div className="product-option-head">
-                  <span>Цвет</span>
-                  <b>{selected.color}</b>
-                </div>
-                <div className="product-option-values color-values">
-                  {colors.map((value) => (
-                    <Link
-                      className={value === selected.color ? 'selected' : ''}
-                      href={hrefFor('color', value)}
-                      key={value}
-                    >
-                      <i data-color={value} />
-                      {value}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <ProductVariants selectedId={selected.id} />
             <div className="product-actions">
               <AddToCartButton product={product} />
               <FavoriteButton product={product} />

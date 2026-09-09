@@ -1,4 +1,6 @@
+import { productHref } from '@/lib/product-selection';
 import { iphoneCatalog } from '@/data/iphone-catalog';
+import { additionalCatalog } from '@/data/additional-catalog';
 import { samsungCatalog } from '@/data/samsung-catalog';
 import { macbookCatalog } from '@/data/macbook-catalog';
 import { ipadCatalog } from '@/data/ipad-catalog';
@@ -11,13 +13,21 @@ import { cameraCatalog } from '@/data/camera-catalog';
 import { xiaomiCatalog } from '@/data/xiaomi-catalog';
 
 export const searchIndex = [
+  ...additionalCatalog.map(item => ({
+    id: item.id,
+    name: item.model,
+    detail: 'В наличии',
+    price: item.price ?? 0,
+    image: item.image,
+    href: productHref(item),
+  })),
   ...iphoneCatalog.map((item) => ({
     id: item.id,
     name: item.model,
     detail: `${item.storage} · ${item.color}`,
     price: item.price,
     image: item.image,
-    href: `/catalog/${item.modelSlug}?storage=${encodeURIComponent(item.storage)}&color=${encodeURIComponent(item.color)}&sim=${encodeURIComponent(item.sim)}`,
+    href: productHref(item),
   })),
   ...samsungCatalog.map((item) => ({
     id: item.id,
@@ -25,7 +35,7 @@ export const searchIndex = [
     detail: `${item.ram} / ${item.storage} · ${item.color}`,
     price: item.price,
     image: item.image,
-    href: `/catalog/${item.modelSlug}?storage=${encodeURIComponent(item.storage)}&color=${encodeURIComponent(item.color)}&ram=${encodeURIComponent(item.ram)}`,
+    href: productHref(item),
   })),
   ...xiaomiCatalog.map((item) => ({
     id: item.id,
@@ -33,7 +43,7 @@ export const searchIndex = [
     detail: `${item.ram} / ${item.storage} · ${item.color}`,
     price: item.price,
     image: item.image,
-    href: `/catalog/${item.modelSlug}?storage=${encodeURIComponent(item.storage)}&color=${encodeURIComponent(item.color)}`,
+    href: productHref(item),
   })),
   ...macbookCatalog.map((item) => ({
     id: item.id,
@@ -41,7 +51,7 @@ export const searchIndex = [
     detail: `${item.ram} / ${item.storage} · ${item.color}`,
     price: item.price,
     image: item.image,
-    href: `/catalog/${item.modelSlug}?storage=${encodeURIComponent(item.storage)}&color=${encodeURIComponent(item.color)}&ram=${encodeURIComponent(item.ram)}`,
+    href: productHref(item),
   })),
   ...ipadCatalog.map((item) => ({
     id: item.id,
@@ -49,7 +59,7 @@ export const searchIndex = [
     detail: `${item.storage} · ${item.color} · ${item.connectivity}`,
     price: item.price,
     image: item.image,
-    href: `/catalog/${item.modelSlug}?storage=${encodeURIComponent(item.storage)}&color=${encodeURIComponent(item.color)}`,
+    href: productHref(item),
   })),
   ...audioCatalog.map((item) => ({
     id: item.id,
@@ -57,7 +67,7 @@ export const searchIndex = [
     detail: `${item.kind} · ${item.color}`,
     price: item.price ?? 0,
     image: item.image,
-    href: `/catalog/${item.modelSlug}?color=${encodeURIComponent(item.color)}`,
+    href: productHref(item),
   })),
   ...watchCatalog.map((item) => ({
     id: item.id,
@@ -65,7 +75,7 @@ export const searchIndex = [
     detail: `${item.size} · ${item.color}`,
     price: item.price,
     image: item.image,
-    href: `/catalog/${item.modelSlug}?size=${encodeURIComponent(item.size)}&color=${encodeURIComponent(item.color)}`,
+    href: productHref(item),
   })),
   ...playstationCatalog.map((item) => ({
     id: item.id,
@@ -73,7 +83,7 @@ export const searchIndex = [
     detail: item.configuration,
     price: item.price,
     image: item.image,
-    href: `/catalog/${item.modelSlug}`,
+    href: productHref(item),
   })),
   ...googleCatalog.map((item) => ({
     id: item.id,
@@ -81,7 +91,7 @@ export const searchIndex = [
     detail: `${item.storage} · ${item.color}`,
     price: item.price,
     image: item.image,
-    href: `/catalog/${item.modelSlug}?storage=${encodeURIComponent(item.storage)}&color=${encodeURIComponent(item.color)}`,
+    href: productHref(item),
   })),
   ...dysonCatalog.map((item) => ({
     id: item.id,
@@ -89,7 +99,7 @@ export const searchIndex = [
     detail: `${item.kind} · ${item.color}`,
     price: item.price,
     image: item.image,
-    href: `/catalog/${item.modelSlug}?color=${encodeURIComponent(item.color)}`,
+    href: productHref(item),
   })),
   ...cameraCatalog.map((item) => ({
     id: item.id,
@@ -97,6 +107,6 @@ export const searchIndex = [
     detail: `${item.kind} · ${item.color}`,
     price: item.price,
     image: item.image,
-    href: `/catalog/${item.modelSlug}?color=${encodeURIComponent(item.color)}`,
+    href: productHref(item),
   })),
 ];

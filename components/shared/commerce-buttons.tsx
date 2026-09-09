@@ -1,6 +1,8 @@
 'use client';
 
 import { Check, Heart, ShoppingBag } from 'lucide-react';
+import { track } from '@/lib/analytics';
+import { usePriceResolver, useStock } from '@/components/providers/price-provider';
 import {
   type CommerceProduct,
   useCommerce,
@@ -14,14 +16,19 @@ export function AddToCartButton({
   compact?: boolean;
 }) {
   const { addToCart, isInCart } = useCommerce();
+  const resolve=usePriceResolver();
+  const current=resolve(product);
+  const stock=useStock();
+  const unavailable=stock(product.id)===0 || current.price===null || current.price<=0;
   const added = isInCart(product.id);
   return (
     <button
       className={added ? 'is-added' : ''}
       type="button"
+      disabled={unavailable}
       onClick={(event) => {
         event.stopPropagation();
-        addToCart(product);
+        if(!unavailable) {addToCart(current);if(!added)track('add_to_cart');}
       }}
       aria-label={
         added
@@ -30,7 +37,7 @@ export function AddToCartButton({
       }
     >
       {added ? <Check size={18} /> : <ShoppingBag size={18} />}
-      {!compact && <span>{added ? 'В корзине' : 'В корзину'}</span>}
+      {!compact && <span>{unavailable ? 'Недоступен' : added ? 'В корзине' : 'В корзину'}</span>}
     </button>
   );
 }

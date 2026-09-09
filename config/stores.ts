@@ -26,6 +26,9 @@ export const STORES: Record<StoreId, Store> = {
   sibay: {
     id: 'sibay',
     city: 'Сибай',
+    address: process.env.NEXT_PUBLIC_SIBAY_ADDRESS || undefined,
+    phone: process.env.NEXT_PUBLIC_SIBAY_PHONE || undefined,
+    schedule: process.env.NEXT_PUBLIC_SIBAY_SCHEDULE || undefined,
   },
   magnitogorsk: {
     id: 'magnitogorsk',

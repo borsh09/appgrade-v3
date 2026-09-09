@@ -1,4 +1,7 @@
+import { selectProduct } from '@/lib/product-selection';
 import { iphoneCatalog } from '@/data/iphone-catalog';
+import { additionalCatalog } from '@/data/additional-catalog';
+import { AdditionalProductPage } from '@/components/catalog/supplemental-product-page';
 import { IphoneProductPage } from '@/components/catalog/iphone-product-page';
 import { samsungCatalog } from '@/data/samsung-catalog';
 import { SamsungProductPage } from '@/components/catalog/samsung-product-page';
@@ -24,6 +27,7 @@ import { XiaomiProductPage } from '@/components/catalog/xiaomi-product-page';
 export function generateStaticParams() {
   return [
     ...new Set([
+      ...additionalCatalog.map((sku) => sku.modelSlug),
       ...iphoneCatalog.map((sku) => sku.modelSlug),
       ...samsungCatalog.map((sku) => sku.modelSlug),
       ...macbookCatalog.map((sku) => sku.modelSlug),
@@ -55,6 +59,9 @@ export default async function ProductModelRoute({
 }: {
   params: Promise<{ model: string }>;
   searchParams: Promise<{
+    sku?: string;
+    configuration?: string;
+    connectivity?: string;
     storage?: string;
     color?: string;
     sim?: string;
@@ -64,16 +71,17 @@ export default async function ProductModelRoute({
 }) {
   const params = await paramsPromise;
   const searchParams = await searchParamsPromise;
+  const legacy = additionalCatalog.find(item => item.legacySlug === params.model && item.legacySlug !== item.modelSlug);
+  const candidates = catalogItems.filter(item => item.modelSlug === (legacy?.modelSlug ?? params.model));
+  const target = selectProduct(candidates, legacy ? { ...searchParams, sku: searchParams.sku ?? legacy.id } : searchParams);
+  if (!target) notFound();
+  if (target.priceAlias) return <AdditionalProductPage selected={target} variants={candidates} />;
   const xiaomiVariants = xiaomiCatalog.filter(
     (sku) => sku.modelSlug === params.model,
   );
   if (xiaomiVariants.length) {
     const selectedXiaomi =
-      xiaomiVariants.find(
-        (sku) =>
-          (!searchParams.storage || sku.storage === searchParams.storage) &&
-          (!searchParams.color || sku.color === searchParams.color),
-      ) ?? xiaomiVariants[0];
+      xiaomiVariants.find(sku => sku.id === target.id)!;
     return (
       <XiaomiProductPage
         modelSlug={params.model}
@@ -87,9 +95,7 @@ export default async function ProductModelRoute({
   );
   if (cameraVariants.length) {
     const selectedCamera =
-      cameraVariants.find(
-        (sku) => !searchParams.color || sku.color === searchParams.color,
-      ) ?? cameraVariants[0];
+      cameraVariants.find(sku => sku.id === target.id)!;
     return (
       <CameraProductPage selected={selectedCamera} variants={cameraVariants} />
     );
@@ -99,9 +105,7 @@ export default async function ProductModelRoute({
   );
   if (dysonVariants.length) {
     const selectedDyson =
-      dysonVariants.find(
-        (sku) => !searchParams.color || sku.color === searchParams.color,
-      ) ?? dysonVariants[0];
+      dysonVariants.find(sku => sku.id === target.id)!;
     return (
       <DysonProductPage selected={selectedDyson} variants={dysonVariants} />
     );
@@ -111,11 +115,7 @@ export default async function ProductModelRoute({
   );
   if (googleVariants.length) {
     const selectedGoogle =
-      googleVariants.find(
-        (sku) =>
-          (!searchParams.storage || sku.storage === searchParams.storage) &&
-          (!searchParams.color || sku.color === searchParams.color),
-      ) ?? googleVariants[0];
+      googleVariants.find(sku => sku.id === target.id)!;
     return (
       <GoogleProductPage
         modelSlug={params.model}
@@ -129,9 +129,7 @@ export default async function ProductModelRoute({
   );
   if (playstationVariants.length) {
     const selectedPlaystation =
-      playstationVariants.find(
-        (sku) => !searchParams.color || sku.color === searchParams.color,
-      ) ?? playstationVariants[0];
+      playstationVariants.find(sku => sku.id === target.id)!;
     return (
       <PlaystationProductPage
         selected={selectedPlaystation}
@@ -144,11 +142,7 @@ export default async function ProductModelRoute({
   );
   if (watchVariants.length) {
     const selectedWatch =
-      watchVariants.find(
-        (sku) =>
-          (!searchParams.color || sku.color === searchParams.color) &&
-          (!searchParams.size || sku.size === searchParams.size),
-      ) ?? watchVariants[0];
+      watchVariants.find(sku => sku.id === target.id)!;
     return (
       <WatchProductPage
         modelSlug={params.model}
@@ -162,9 +156,7 @@ export default async function ProductModelRoute({
   );
   if (audioVariants.length) {
     const selectedAudio =
-      audioVariants.find(
-        (sku) => !searchParams.color || sku.color === searchParams.color,
-      ) ?? audioVariants[0];
+      audioVariants.find(sku => sku.id === target.id)!;
     return (
       <AudioProductPage
         model={selectedAudio.model}
@@ -179,11 +171,7 @@ export default async function ProductModelRoute({
   );
   if (ipadVariants.length) {
     const selectedIpad =
-      ipadVariants.find(
-        (sku) =>
-          (!searchParams.storage || sku.storage === searchParams.storage) &&
-          (!searchParams.color || sku.color === searchParams.color),
-      ) ?? ipadVariants[0];
+      ipadVariants.find(sku => sku.id === target.id)!;
     return (
       <IpadProductPage
         model={selectedIpad.model}
@@ -198,12 +186,7 @@ export default async function ProductModelRoute({
   );
   if (macbookVariants.length) {
     const selectedMacbook =
-      macbookVariants.find(
-        (sku) =>
-          (!searchParams.storage || sku.storage === searchParams.storage) &&
-          (!searchParams.color || sku.color === searchParams.color) &&
-          (!searchParams.ram || sku.ram === searchParams.ram),
-      ) ?? macbookVariants[0];
+      macbookVariants.find(sku => sku.id === target.id)!;
     return (
       <MacbookProductPage
         model={selectedMacbook.model}
@@ -218,12 +201,7 @@ export default async function ProductModelRoute({
   );
   if (samsungVariants.length) {
     const selectedSamsung =
-      samsungVariants.find(
-        (sku) =>
-          (!searchParams.storage || sku.storage === searchParams.storage) &&
-          (!searchParams.color || sku.color === searchParams.color) &&
-          (!searchParams.ram || sku.ram === searchParams.ram),
-      ) ?? samsungVariants[0];
+      samsungVariants.find(sku => sku.id === target.id)!;
     return (
       <SamsungProductPage
         model={selectedSamsung.model}
@@ -238,12 +216,7 @@ export default async function ProductModelRoute({
   );
   const model = variants[0]?.model ?? params.model.replaceAll('-', ' ');
   const selected =
-    variants.find(
-      (sku) =>
-        (!searchParams.storage || sku.storage === searchParams.storage) &&
-        (!searchParams.color || sku.color === searchParams.color) &&
-        (!searchParams.sim || sku.sim === searchParams.sim),
-    ) ?? variants[0];
+    variants.find(sku => sku.id === target.id)!;
   if (!selected) notFound();
   return (
     <IphoneProductPage

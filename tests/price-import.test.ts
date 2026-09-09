@@ -44,7 +44,8 @@ void test('real workbook matches current catalog using retail columns', async ()
     basePrices,
   );
   assert.deepEqual(report.errors, []);
-  assert.equal(report.matched, 420);
+  assert.equal(report.matched, 477);
+  assert.ok(!report.warnings.some(w => w.includes('нет товара в каталоге')));
   assert.equal(
     report.changes.find((c) => c.id === 'pixel10proxl-obsidian')?.after,
     74800,

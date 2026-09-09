@@ -1,4 +1,5 @@
 'use client';
+import { ProductVariants } from './product-variants';
 import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
@@ -72,7 +73,6 @@ export function GoogleProductPage({
                 alt={`${selected.model} ${selected.color}, фото ${photo + 1}`}
                 fill
                 priority
-                unoptimized
                 sizes="(max-width:768px) 100vw,58vw"
               />
             </div>
@@ -86,7 +86,7 @@ export function GoogleProductPage({
                   aria-label={`Фото ${i + 1}`}
                   aria-pressed={photo === i}
                 >
-                  <Image src={src} alt="" fill unoptimized sizes="66px" />
+                  <Image src={src} alt="" fill sizes="66px" />
                 </button>
               ))}
             </div>
@@ -105,34 +105,10 @@ export function GoogleProductPage({
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} />Наличие уточняется
+                <Check size={14} />В наличии
               </span>
             </div>
-            <div className="product-options">
-              <div className="product-option">
-                <div className="product-option-head">
-                  <span>Память</span>
-                  <b>{selected.storage}</b>
-                </div>
-              </div>
-              <div className="product-option">
-                <div className="product-option-head">
-                  <span>Цвет</span>
-                  <b>{selected.color}</b>
-                </div>
-                <div className="product-option-values color-values">
-                  {colors.map((color) => (
-                    <Link
-                      className={color === selected.color ? 'selected' : ''}
-                      href={`/catalog/${modelSlug}?storage=${encodeURIComponent(selected.storage)}&color=${encodeURIComponent(color)}`}
-                      key={color}
-                    >
-                      {color}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <ProductVariants selectedId={selected.id} />
             <div className="product-actions">
               <AddToCartButton product={product} />
               <Link href="/catalog/google">Все модели</Link>

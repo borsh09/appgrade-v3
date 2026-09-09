@@ -61,6 +61,7 @@ export function Footer() {
         <Link href="/#контакты">
           Контакты магазинов
         </Link>
+        <Link href="/privacy">Обработка данных</Link>
 
         <a
           href="https://t.me/borschtsch09"

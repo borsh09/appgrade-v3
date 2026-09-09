@@ -11,8 +11,9 @@ export async function handleOrderUpdate(bot: Telegram, update: TelegramUpdate) {
   }
 }
 export async function deliverOrders(bot: Telegram) {
+  for(const table of ['appgrade_orders','appgrade_trade_ins'] as const) {
   const { rows } = await database().query(
-    'SELECT * FROM appgrade_orders WHERE notified_at IS NULL AND next_attempt_at <= now() ORDER BY created_at LIMIT 10',
+    `SELECT * FROM ${table} WHERE notified_at IS NULL AND next_attempt_at <= now() ORDER BY created_at LIMIT 10`,
   );
   for (const order of rows) {
     try {
@@ -20,21 +21,22 @@ export async function deliverOrders(bot: Telegram) {
       for (let i = order.sent_parts; i < messages.length; i++) {
         await bot.send(order.notification_chat, messages[i]);
         await database().query(
-          'UPDATE appgrade_orders SET sent_parts=$2 WHERE id=$1',
+          `UPDATE ${table} SET sent_parts=$2 WHERE id=$1`,
           [order.id, i + 1],
         );
       }
       await database().query(
-        'UPDATE appgrade_orders SET notified_at=now() WHERE id=$1',
+        `UPDATE ${table} SET notified_at=now() WHERE id=$1`,
         [order.id],
       );
     } catch {
       const delay = Math.min(3600, 15 * 2 ** Math.min(order.attempts, 8));
       await database().query(
-        "UPDATE appgrade_orders SET attempts=attempts+1, next_attempt_at=now()+$2 * interval '1 second' WHERE id=$1",
+        `UPDATE ${table} SET attempts=attempts+1, next_attempt_at=now()+$2 * interval '1 second' WHERE id=$1`,
         [order.id, delay],
       );
       console.error(`Order notification pending: ${order.id}`);
     }
+  }
   }
 }

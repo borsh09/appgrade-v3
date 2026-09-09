@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function IphonesRoute() {
-  return <IphoneCatalogPage />;
+  return <><IphoneCatalogPage /></>;
 }

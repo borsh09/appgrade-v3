@@ -7,6 +7,7 @@ import { CommerceProvider } from '@/components/providers/commerce-provider';
 import { CityGate } from '@/components/shared/city-gate';
 import { PriceProvider } from '@/components/providers/price-provider';
 import { siteUrl, isPublicSite } from '@/config/site';
+import { Monitoring } from '@/components/providers/monitoring';
 
 export const metadata: Metadata = {
   robots: isPublicSite ? { index: true, follow: true } : { index: false, follow: false },
@@ -42,6 +43,7 @@ export default function RootLayout({
           <PriceProvider>
           <CommerceProvider>
              <CityGate />
+             <Monitoring />
             <Header />
             {children}
             <Footer />

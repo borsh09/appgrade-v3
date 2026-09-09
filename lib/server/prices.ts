@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { randomUUID, createHash } from 'node:crypto';
 import { basePrices } from '../catalog-registry';
 import { database, transaction } from './db';
 import type { ImportReport } from './price-import';
@@ -6,6 +6,8 @@ import type { ImportReport } from './price-import';
 export type PriceSnapshot = {
   revision: string;
   prices: Record<string, number | null>;
+  inventory?: Record<string,Record<string,number>>;
+  inventoryRevision?: string;
 };
 export async function getPrices(): Promise<PriceSnapshot> {
   if (!process.env.DATABASE_URL)
@@ -14,9 +16,14 @@ export async function getPrices(): Promise<PriceSnapshot> {
     'SELECT revision, prices FROM appgrade_prices WHERE singleton = true',
   );
   if (!rows[0]) throw new Error('Database migration is required');
+  const stock=await database().query('SELECT sku,city,quantity FROM appgrade_inventory ORDER BY sku,city');
+  const inventory: Record<string,Record<string,number>>={};
+  for(const row of stock.rows)(inventory[row.sku]??={})[row.city]=row.quantity;
   return {
     revision: rows[0].revision,
     prices: { ...basePrices, ...rows[0].prices },
+    inventory,
+    inventoryRevision:createHash('sha256').update(JSON.stringify(inventory)).digest('hex'),
   };
 }
 export async function applyImport(id: string, owner: string, chat: string) {

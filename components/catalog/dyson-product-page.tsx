@@ -1,4 +1,5 @@
 'use client';
+import { ProductVariants } from './product-variants';
 import { useState } from 'react';
 import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
@@ -44,14 +45,13 @@ export function DysonProductPage({
                 alt={`${selected.model} ${selected.color}`}
                 fill
                 priority
-                unoptimized
                 sizes="(max-width:768px) 100vw,58vw"
               />
             </div>
             <div className="product-gallery-thumbs" aria-label="Ракурсы товара">
               {selected.gallery.slice(0, 3).map((src, index) => (
                 <button type="button" className={photo === index ? 'active' : ''} onClick={() => setPhoto(index)} key={`${src}-${index}`} aria-label={`Ракурс ${index + 1}`}>
-                  <Image src={src} alt="" width={72} height={72} unoptimized />
+                  <Image src={src} alt="" width={72} height={72} />
                 </button>
               ))}
             </div>
@@ -72,30 +72,10 @@ export function DysonProductPage({
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} />Наличие уточняется
+                <Check size={14} />В наличии
               </span>
             </div>
-            <div className="product-options">
-              <div className="product-option">
-                <div className="product-option-head">
-                  <span>Цвет</span>
-                  <b>{selected.color}</b>
-                </div>
-                <div className="product-option-values color-values">
-                  {variants.map((variant) => (
-                    <Link
-                      className={
-                        variant.color === selected.color ? 'selected' : ''
-                      }
-                      href={`/catalog/${selected.modelSlug}?color=${encodeURIComponent(variant.color)}`}
-                      key={variant.id}
-                    >
-                      {variant.color}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <ProductVariants selectedId={selected.id} />
             <div className="product-actions">
               <AddToCartButton product={product} />
               <Link href="/catalog/dyson">Все модели</Link>

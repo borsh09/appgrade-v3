@@ -1,4 +1,5 @@
 'use client';
+import { ProductVariants } from './product-variants';
 import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
@@ -67,7 +68,6 @@ export function PlaystationProductPage({
                 alt={`${selected.model}, фото ${photo + 1}`}
                 fill
                 priority
-                unoptimized
                 sizes="(max-width:768px) 100vw,58vw"
               />
             </div>
@@ -81,7 +81,7 @@ export function PlaystationProductPage({
                   aria-label={`Фото ${index + 1}`}
                   aria-pressed={photo === index}
                 >
-                  <Image src={src} alt="" fill unoptimized sizes="66px" />
+                  <Image src={src} alt="" fill sizes="66px" />
                 </button>
               ))}
             </div>
@@ -102,36 +102,10 @@ export function PlaystationProductPage({
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} />Наличие уточняется
+                <Check size={14} />В наличии
               </span>
             </div>
-            <div className="product-options">
-              <div className="product-option">
-                <div className="product-option-head">
-                  <span>Комплектация</span>
-                  <b>{selected.configuration}</b>
-                </div>
-              </div>
-              {colors.length > 1 && (
-                <div className="product-option">
-                  <div className="product-option-head">
-                    <span>Цвет</span>
-                    <b>{selected.color}</b>
-                  </div>
-                  <div className="product-option-values color-values">
-                    {colors.map((color) => (
-                      <Link
-                        className={color === selected.color ? 'selected' : ''}
-                        href={`/catalog/${selected.modelSlug}?color=${encodeURIComponent(color)}`}
-                        key={color}
-                      >
-                        {color}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+            <ProductVariants selectedId={selected.id} />
             <div className="product-actions">
               <AddToCartButton product={product} />
               <Link href="/catalog/playstation">Все модели</Link>

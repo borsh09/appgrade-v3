@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 
-import { useCity } from '@/components/providers/city-provider';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
 
 import type { FeaturedProduct } from '@/types/catalog';
@@ -22,17 +21,10 @@ export function ProductCard({
   product: FeaturedProduct;
   index: number;
 }) {
-  const { cityId } = useCity();
   const resolvePrice = usePriceResolver();
   const product = { ...baseProduct, sku: resolvePrice(baseProduct.sku) };
 
-  /*
-   * Город при первом рендере может быть null,
-   * пока пользователь его не выбрал.
-   */
-  const inStock = cityId
-    ? (product.sku.availability[cityId] ?? 0) > 0
-    : false;
+  const inStock = true;
 
   let href = '';
 

@@ -63,7 +63,7 @@ function Card({ sku, view }: { sku: AudioCatalogSku; view: 'grid' | 'list' }) {
             sizes="(max-width:700px) 100vw,33vw"
           />
         </Link>
-        <span className="retail-product-badge">Наличие уточняется</span>
+        <span className="retail-product-badge">В наличии</span>
         <div className="retail-card-tools">
           <FavoriteButton product={product} />
         </div>
@@ -96,7 +96,7 @@ function Card({ sku, view }: { sku: AudioCatalogSku; view: 'grid' | 'list' }) {
         </div>
         <p className="retail-stock">
           <span />
-          После подтверждения
+          В наличии
         </p>
       </div>
     </article>

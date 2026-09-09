@@ -72,7 +72,7 @@ function MacbookCard({
             sizes={view === 'list' ? '280px' : '(max-width: 700px) 50vw, 33vw'}
           />
         </Link>
-        <span className="retail-product-badge">Наличие уточняется</span>
+        <span className="retail-product-badge">В наличии</span>
         <div className="retail-card-tools">
           <FavoriteButton product={product} />
         </div>
@@ -103,7 +103,7 @@ function MacbookCard({
           <AddToCartButton product={product} />
         </div>
         <p className="retail-stock">
-          <span /> После подтверждения
+          <span /> В наличии
         </p>
       </div>
     </article>

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { database, transaction } from '@/lib/server/db';
 import { basePrices } from '@/lib/catalog-registry';
 import { OrderError, orderMessages, validateOrder } from '@/lib/server/orders';
+import { protectSubmission } from '@/lib/server/request-guard';
 
 export const runtime = 'nodejs';
 const uuid =
@@ -63,11 +64,17 @@ export async function POST(request: NextRequest) {
         );
       return NextResponse.json({ success: true, orderId: existing.rows[0].id });
     }
+    await protectSubmission(request, 'orders');
     const id = await transaction(async (client) => {
       const state = await client.query(
-        'SELECT prices FROM appgrade_prices WHERE singleton=true FOR SHARE',
+        'SELECT prices FROM appgrade_prices WHERE singleton=true FOR UPDATE',
       );
       if (!state.rows[0]) throw new Error('Database migration is required');
+      const retry=await client.query('SELECT id,request_hash FROM appgrade_orders WHERE request_key=$1',[payload.requestKey]);
+      if(retry.rows[0]) {
+        if(retry.rows[0].request_hash!==hash) throw new OrderError('Данные заказа изменились.',409);
+        return retry.rows[0].id;
+      }
       const order = validateOrder(payload, {
         ...basePrices,
         ...state.rows[0].prices,
@@ -86,6 +93,14 @@ export async function POST(request: NextRequest) {
           'Слишком много заявок. Попробуйте через 10 минут.',
           429,
         );
+      // Reserve tracked stock under row locks; untracked SKUs keep the owner's
+      // default "in stock" state until actual quantities are entered.
+      const reservedStock: {id:string;quantity:number}[]=[];
+      for (const item of [...order.items].sort((a,b)=>a.id.localeCompare(b.id))) {
+        const stock = await client.query('SELECT quantity FROM appgrade_inventory WHERE sku=$1 AND city=$2 FOR UPDATE',[item.id,order.city.id]);
+        if(stock.rows[0] && stock.rows[0].quantity<item.quantity) throw new OrderError('Недостаточно товара в выбранном городе. Обновите корзину.',409);
+        if(stock.rows[0]) reservedStock.push({id:item.id,quantity:item.quantity});
+      }
       const orderId = randomUUID();
       const { rows } = await client.query(
         `INSERT INTO appgrade_orders(id,request_key,request_hash,payload,notification_chat,messages)
@@ -94,12 +109,15 @@ export async function POST(request: NextRequest) {
           orderId,
           payload.requestKey,
           hash,
-          JSON.stringify(order),
+          JSON.stringify({...order,reservedStock}),
           chat,
           JSON.stringify(orderMessages(orderId, order)),
         ],
       );
-      if (rows[0]) return rows[0].id;
+      if (rows[0]) {
+        for(const item of order.items) await client.query('UPDATE appgrade_inventory SET quantity=quantity-$3 WHERE sku=$1 AND city=$2',[item.id,order.city.id,item.quantity]);
+        return rows[0].id;
+      }
       const duplicate = await client.query(
         'SELECT id,request_hash FROM appgrade_orders WHERE request_key=$1',
         [payload.requestKey],

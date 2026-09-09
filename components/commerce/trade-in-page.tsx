@@ -9,6 +9,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useState } from 'react';
+import { TradeInForm } from './trade-in-form';
 
 const DEVICE_TYPES = [
   'Смартфон',
@@ -159,10 +160,7 @@ export function TradeInPage() {
             </div>
 
             {ready ? (
-              <Link href="/#контакты" className="appgrade-tradein-cta">
-                Найти ближайший магазин
-                <ArrowRight size={17} />
-              </Link>
+              <TradeInForm deviceType={deviceType!} condition={condition!}/>
             ) : (
               <button className="appgrade-tradein-cta" disabled>
                 Заполните два шага

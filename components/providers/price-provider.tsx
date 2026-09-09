@@ -1,4 +1,6 @@
 'use client';
+import { basePrices } from '@/lib/catalog-registry';
+import { useCity } from './city-provider';
 import {
   createContext,
   useCallback,
@@ -9,9 +11,11 @@ import {
 } from 'react';
 
 type Prices = Record<string, number | null>;
-const PriceContext = createContext<Prices>({});
+const PriceContext = createContext<Prices>(basePrices);
+const StockContext=createContext<Record<string,Record<string,number>>>({});
 export function PriceProvider({ children }: { children: React.ReactNode }) {
-  const [prices, setPrices] = useState<Prices>({});
+  const [prices, setPrices] = useState<Prices>(basePrices);
+  const [inventory,setInventory]=useState<Record<string,Record<string,number>>>({});
   useEffect(() => {
     let active = true;
     let inFlight = false;
@@ -31,10 +35,11 @@ export function PriceProvider({ children }: { children: React.ReactNode }) {
           active &&
           typeof snapshot.revision === 'string' &&
           snapshot.prices &&
-          snapshot.revision !== revision
+          `${snapshot.revision}:${snapshot.inventoryRevision??''}` !== revision
         ) {
-          revision = snapshot.revision;
+          revision = `${snapshot.revision}:${snapshot.inventoryRevision??''}`;
           setPrices(snapshot.prices);
+          setInventory(snapshot.inventory??{});
         }
       } catch {
         /* Retain the last successfully loaded prices during an outage. */
@@ -55,7 +60,7 @@ export function PriceProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
   return (
-    <PriceContext.Provider value={prices}>{children}</PriceContext.Provider>
+    <PriceContext.Provider value={prices}><StockContext.Provider value={inventory}>{children}</StockContext.Provider></PriceContext.Provider>
   );
 }
 export function usePriceResolver() {
@@ -63,11 +68,12 @@ export function usePriceResolver() {
   return useCallback(
     <T extends { id: string; price: number | null }>(item: T): T => {
       const price = prices[item.id];
-      return typeof price === 'number' ? { ...item, price } : item;
+      return Object.hasOwn(prices, item.id) ? { ...item, price } : item;
     },
     [prices],
   );
 }
+export function useStock(){const inventory=useContext(StockContext);const {city}=useCity();return useCallback((id:string)=>inventory[id]?.[city.id],[inventory,city.id]);}
 export function usePricedCatalog<
   T extends { id: string; price: number | null },
 >(catalog: T[]): T[] {

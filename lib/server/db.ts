@@ -59,5 +59,11 @@ export async function migrate() {
     );
     CREATE TABLE IF NOT EXISTS appgrade_bot_offsets (role text PRIMARY KEY, next_offset bigint NOT NULL);
     CREATE TABLE IF NOT EXISTS appgrade_rate_limits (key text PRIMARY KEY, count integer NOT NULL, expires_at timestamptz NOT NULL);
+    CREATE TABLE IF NOT EXISTS appgrade_bot_health (role text PRIMARY KEY, heartbeat_at timestamptz NOT NULL);
+    ALTER TABLE appgrade_orders ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'new';
+    CREATE TABLE IF NOT EXISTS appgrade_inventory (sku text NOT NULL, city text NOT NULL, quantity integer NOT NULL CHECK(quantity>=0), PRIMARY KEY(sku,city));
+    CREATE TABLE IF NOT EXISTS appgrade_trade_ins (id uuid PRIMARY KEY, request_key uuid UNIQUE NOT NULL, request_hash text NOT NULL, payload jsonb NOT NULL, messages jsonb NOT NULL, notification_chat text NOT NULL, sent_parts integer NOT NULL DEFAULT 0, attempts integer NOT NULL DEFAULT 0, next_attempt_at timestamptz NOT NULL DEFAULT now(), notified_at timestamptz, status text NOT NULL DEFAULT 'new', created_at timestamptz NOT NULL DEFAULT now());
+    CREATE INDEX IF NOT EXISTS appgrade_orders_pending_idx ON appgrade_orders(next_attempt_at) WHERE notified_at IS NULL;
+    CREATE TABLE IF NOT EXISTS appgrade_metrics (day date NOT NULL DEFAULT current_date, event text NOT NULL, count integer NOT NULL DEFAULT 0, PRIMARY KEY(day,event));
   `);
 }

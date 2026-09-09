@@ -32,6 +32,7 @@ const sheets: Record<string, number> = {
   fujifilm: 3,
   dyson: 2,
   'marshall , jbl': 2,
+  yandex: 2,
 };
 
 // Evaluate the simple arithmetic used by this price workbook instead of trusting

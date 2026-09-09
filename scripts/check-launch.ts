@@ -1,8 +1,11 @@
 import './env';
 import { existsSync } from 'node:fs';
 import { STORES } from '@/config/stores';
+import { sellerConfigured } from '@/config/seller';
 
 const failures: string[] = [];
+if(!sellerConfigured)failures.push('Заполните SELLER_NAME, SELLER_INN, SELLER_ADDRESS и SELLER_PRIVACY_EMAIL');
+if(!process.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD.length<20)failures.push('Для панели управления задайте ADMIN_PASSWORD длиной не менее 20 символов');
 for (const name of ['TELEGRAM_PRICE_BOT_TOKEN', 'TELEGRAM_PRICE_ADMIN_IDS', 'TELEGRAM_ORDERS_BOT_TOKEN', 'TELEGRAM_ORDERS_CHAT_ID']) {
   if (!process.env[name]?.trim()) failures.push(`Не заполнено ${name}`);
 }

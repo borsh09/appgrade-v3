@@ -93,7 +93,7 @@ export const catalogCategories: CatalogCategory[] = [
   },
   {
     id: 'gadgets',
-    href: '/#контакты',
+    href: '/catalog/gadgets',
     title: 'Гаджеты',
     image: '/images/king-category-gadgets.webp',
     description: 'Полезные устройства',

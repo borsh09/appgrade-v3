@@ -5,6 +5,7 @@ import { searchIndex } from '@/data/search-index';
 import { featuredProducts } from '@/data/catalog';
 import { catalogById } from '@/lib/catalog-registry';
 import { catalogCategories } from '@/data/catalog-navigation';
+import { additionalCatalog } from '@/data/additional-catalog';
 
 void test('featured cards match the real SKU model and SIM configuration', () => {
   for (const { model, sku } of featuredProducts) {
@@ -32,5 +33,15 @@ void test('every search result has an existing image and resolves to its exact S
 void test('category links point to implemented routes or store contacts', () => {
   for (const category of catalogCategories) {
     assert.ok(category.href === '/#контакты' || existsSync(`app${category.href}/page.tsx`), category.href);
+  }
+});
+
+void test('new configurations are searchable, linked to categories and preserve missing prices', () => {
+  assert.equal(additionalCatalog.length, 60);
+  assert.equal(additionalCatalog.filter(item => item.price === null).length, 4);
+  for (const item of additionalCatalog) {
+    assert.ok(searchIndex.some(result => result.id === item.id));
+    assert.ok(existsSync(`app/catalog/${item.category}/page.tsx`));
+    assert.ok(item.price === null || item.price > 0);
   }
 });
