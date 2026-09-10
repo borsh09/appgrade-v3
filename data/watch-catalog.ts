@@ -11,6 +11,20 @@ export interface WatchCatalogSku {
 }
 const models = [
   {
+    model: 'Apple Watch Series 12',
+    sizes: ['42 мм'],
+    colors: ['Light Gold · ремешок Burgundy Sport Band'],
+    connectivity: 'GPS',
+    base: 37490,
+  },
+  {
+    model: 'Apple Watch Ultra 4',
+    sizes: ['49 мм'],
+    colors: ['Natural Titanium · ремешок Burgundy Trail Loop'],
+    connectivity: 'GPS + Cellular',
+    base: 74990,
+  },
+  {
     model: 'Apple Watch Series 11',
     sizes: ['42 мм', '46 мм'],
     colors: [
@@ -58,15 +72,20 @@ export const watchCatalog: WatchCatalogSku[] = models.flatMap((item) =>
   item.sizes.flatMap((size, sizeIndex) =>
     item.colors.map((color, colorIndex) => {
       const folder = galleryFolders[`${item.model}|${color}`];
-      const gallery = [1, 2, 3].map(
-        (i) => `/images/products/gallery/${folder}/view-${i}.jpg`,
-      );
+      const apple2027Prefix = item.model === 'Apple Watch Series 12'
+        ? 'watch-series-12'
+        : item.model === 'Apple Watch Ultra 4'
+          ? 'watch-ultra-4'
+          : '';
+      const gallery = apple2027Prefix
+        ? [`/images/products/apple-2027/clean/${apple2027Prefix}.png`]
+        : [1, 2, 3].map((i) => `/images/products/gallery/${folder}/view-${i}.jpg`);
       const price =
         item.base +
         sizeIndex * 3000 +
         (item.model.includes('Series') && colorIndex === 3 ? 2000 : 0);
       return {
-        id: `${watchSlugify(item.model)}-${size.replace(/\D/g, '')}-${folder}`,
+        id: `${watchSlugify(item.model)}-${size.replace(/\D/g, '')}-${folder ?? watchSlugify(color)}`,
         model: item.model,
         modelSlug: watchSlugify(item.model),
         size,

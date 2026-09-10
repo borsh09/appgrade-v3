@@ -68,7 +68,7 @@ function MacbookCard({
             src={sku.image}
             alt={`${sku.model} ${sku.color}`}
             fill
-            unoptimized
+            quality={90}
             sizes={view === 'list' ? '280px' : '(max-width: 700px) 50vw, 33vw'}
           />
         </Link>

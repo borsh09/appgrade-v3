@@ -11864,6 +11864,24 @@ body {
   aspect-ratio: 1;
 }
 
+.appgrade-apple-2027 {
+  background: linear-gradient(180deg, #f0f2f7 0%, #f5f5f5 100%);
+  border-top: 1px solid rgba(20, 24, 35, 0.06);
+  border-bottom: 1px solid rgba(20, 24, 35, 0.06);
+}
+
+.appgrade-apple-2027 .appgrade-popular-heading > div:first-child > span {
+  color: #755061;
+}
+
+.appgrade-apple-2027 .product-card {
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.appgrade-apple-2027 .product-image {
+  padding: 22px;
+}
+
 .appgrade-editorial-image img {
   object-fit: contain;
   object-position: center;
@@ -17781,3 +17799,90 @@ body {
 
 /* Reset native dialog defaults; the mobile menu owns its full-screen layout. */
 .appgrade-mobile-menu { margin: 0; padding: 0; border: 0; max-width: none; max-height: none; }
+
+/* Product photography: no decorative frame or controls over the device. */
+.appgrade-popular .product-card,
+.retail-product-card,
+.product-image-wrap,
+.retail-product-media,
+.product-gallery-frame,
+.product-gallery-thumbs button {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.product-image-wrap,
+.retail-product-media,
+.product-gallery-frame {
+  border-radius: 0 !important;
+}
+
+.product-card .product-image-wrap::after {
+  content: none;
+}
+
+.appgrade-popular .product-image,
+.retail-product-media img.card-product-photo,
+.product-gallery-frame img,
+.product-gallery-thumbs img {
+  object-fit: contain !important;
+  object-position: center !important;
+  transform: none !important;
+  filter: none !important;
+  mix-blend-mode: multiply !important;
+}
+
+.appgrade-popular .product-image,
+.retail-product-media img.card-product-photo {
+  padding: clamp(14px, 1.8vw, 28px) !important;
+}
+
+/* Every catalogue card uses the same clean, borderless photo canvas. */
+.retail-products-grid .retail-product-card {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible;
+}
+
+.retail-products-grid .retail-product-media {
+  aspect-ratio: 1 / 1 !important;
+  background: transparent !important;
+  overflow: hidden;
+}
+
+.retail-products-grid .retail-product-media::after {
+  content: none !important;
+}
+
+.retail-products-grid .retail-product-media img.card-product-photo {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  padding: clamp(14px, 1.8vw, 28px) !important;
+  transform: none !important;
+  filter: none !important;
+  mix-blend-mode: multiply !important;
+}
+
+.retail-products-grid .retail-product-card:hover img.card-product-photo {
+  transform: none !important;
+  filter: none !important;
+}
+
+@media (max-width: 650px) {
+  .retail-products-grid .retail-product-media img.card-product-photo {
+    padding: 10px !important;
+  }
+}
+
+.product-gallery-frame img {
+  padding: clamp(16px, 3vw, 40px) !important;
+}
+
+.product-gallery-thumbs button.active {
+  box-shadow: inset 0 -2px 0 var(--ink) !important;
+}

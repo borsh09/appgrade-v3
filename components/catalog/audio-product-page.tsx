@@ -27,6 +27,7 @@ export function AudioProductPage({
   const [photo, setPhoto] = useState(0);
   const colors = unique(variants.map((v) => v.color)),
     details = getAudioDetails(model, selected.brand, selected.kind);
+  const isPreorder = model.includes('AirPods 5');
   const hrefFor = (color: string) =>
     `/catalog/${modelSlug}?color=${encodeURIComponent(color)}`;
   const product = {
@@ -90,7 +91,7 @@ export function AudioProductPage({
                   : 'Цена по запросу'}
               </strong>
               <span>
-                <Check size={14} />В наличии
+                <Check size={14} />{isPreorder ? 'Предзаказ' : 'В наличии'}
               </span>
             </div>
             {colors.length > 1 && (

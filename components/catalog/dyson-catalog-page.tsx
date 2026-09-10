@@ -35,7 +35,7 @@ function Card({ sku, view }: { sku: DysonCatalogSku; view: 'grid' | 'list' }) {
             alt={`${sku.model} ${sku.color}`}
             fill
             priority
-            unoptimized
+            quality={90}
             sizes="(max-width:700px) 100vw,33vw"
           />
         </Link>

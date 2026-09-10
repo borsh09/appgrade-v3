@@ -1,6 +1,6 @@
 'use client';
 import { ProductVariants } from './product-variants';
-import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
+import { usePriceResolver } from '@/components/providers/price-provider';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { useState } from 'react';
@@ -8,10 +8,9 @@ import { ArrowLeft, Check } from 'lucide-react';
 import type { WatchCatalogSku } from '@/data/watch-catalog';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
 const money = new Intl.NumberFormat('ru-RU');
-const unique = (items: string[]) => [...new Set(items)];
 export function WatchProductPage({
   modelSlug,
-  variants: baseVariants,
+  variants: _baseVariants,
   selected: baseSelected,
 }: {
   modelSlug: string;
@@ -20,10 +19,7 @@ export function WatchProductPage({
 }) {
   const resolvePrice = usePriceResolver();
   const selected = resolvePrice(baseSelected);
-  const variants = usePricedCatalog(baseVariants);
   const [photo, setPhoto] = useState(0);
-  const sizes = unique(variants.map((v) => v.size)),
-    colors = unique(variants.map((v) => v.color));
   const hrefFor = (key: 'size' | 'color', value: string) => {
     const q = new URLSearchParams({
       size: selected.size,
@@ -41,6 +37,11 @@ export function WatchProductPage({
     image: selected.image,
     href,
   };
+  const isSeries12 = selected.model === 'Apple Watch Series 12';
+  const isUltra4 = selected.model === 'Apple Watch Ultra 4';
+  const newModel = isSeries12 || isUltra4;
+  const battery = isUltra4 ? 'до 50 ч' : 'до 24 ч';
+  const waterResistance = isUltra4 ? '100 м' : '50 м';
   return (
     <main className="iphone-product-page watch-product-page">
       <div className="container">
@@ -56,6 +57,7 @@ export function WatchProductPage({
                 alt={`${selected.model}, фото ${photo + 1}`}
                 fill
                 priority
+                quality={100}
                 sizes="(max-width:768px) 100vw,58vw"
               />
             </div>
@@ -83,7 +85,7 @@ export function WatchProductPage({
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} />В наличии
+                <Check size={14} />{newModel ? 'Предзаказ' : 'В наличии'}
               </span>
             </div>
             <ProductVariants selectedId={selected.id} />
@@ -128,16 +130,16 @@ export function WatchProductPage({
             <span>корпус</span>
           </div>
           <div>
-            <strong>OLED</strong>
-            <span>Retina</span>
+            <strong>{newModel ? 'S11' : 'OLED'}</strong>
+            <span>{newModel ? 'чип Apple' : 'Retina'}</span>
           </div>
           <div>
-            <strong>50 м</strong>
+            <strong>{waterResistance}</strong>
             <span>защита от воды</span>
           </div>
           <div>
-            <strong>watchOS</strong>
-            <span>система Apple</span>
+            <strong>{newModel ? battery : 'watchOS'}</strong>
+            <span>{newModel ? 'обычной работы' : 'система Apple'}</span>
           </div>
         </section>
         <section className="product-specifications" id="specs">
@@ -160,9 +162,25 @@ export function WatchProductPage({
                   <dd>{selected.connectivity}</dd>
                 </div>
                 <div>
-                  <dt>Память</dt>
-                  <dd>64 GB</dd>
+                  <dt>{newModel ? 'Процессор' : 'Память'}</dt>
+                  <dd>{newModel ? 'Apple S11' : '64 GB'}</dd>
                 </div>
+                {newModel && (
+                  <>
+                    <div>
+                      <dt>Датчики</dt>
+                      <dd>Health Sensing System, фоновое измерение пульса и вариабельности ритма</dd>
+                    </div>
+                    <div>
+                      <dt>Автономность</dt>
+                      <dd>{isUltra4 ? 'До 50 часов, до 84 часов в энергосберегающем режиме' : 'До 24 часов, до 38 часов в энергосберегающем режиме'}</dd>
+                    </div>
+                    <div>
+                      <dt>Восстановление</dt>
+                      <dd>Оценка Readiness по данным сна, активности и показателям организма</dd>
+                    </div>
+                  </>
+                )}
               </dl>
             </div>
           </div>

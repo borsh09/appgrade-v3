@@ -11,6 +11,42 @@ export interface IphoneCatalogSku {
 }
 
 const sourceRows = `
+iPhone 18 Pro Max 256 eSim Black|169990
+iPhone 18 Pro Max 256 eSim Burgundy|171990
+iPhone 18 Pro Max 256 Sim/eSim Black|171990
+iPhone 18 Pro Max 256 Sim/eSim Burgundy|173990
+iPhone 18 Pro Max 512 eSim Black|181990
+iPhone 18 Pro Max 512 eSim Burgundy|183990
+iPhone 18 Pro Max 512 Sim/eSim Black|183990
+iPhone 18 Pro Max 512 Sim/eSim Burgundy|185990
+iPhone 18 Pro Max 1TB eSim Black|204990
+iPhone 18 Pro Max 1TB eSim Burgundy|206990
+iPhone 18 Pro Max 1TB Sim/eSim Black|206990
+iPhone 18 Pro Max 1TB Sim/eSim Burgundy|208990
+iPhone 18 Pro Max 2TB eSim Black|229990
+iPhone 18 Pro Max 2TB eSim Burgundy|231990
+iPhone 18 Pro Max 2TB Sim/eSim Black|231990
+iPhone 18 Pro Max 2TB Sim/eSim Burgundy|233990
+iPhone Duo 256 eSim Star White|239990
+iPhone Duo 512 eSim Star White|259990
+iPhone Duo 1TB eSim Star White|289990
+iPhone Duo 2TB eSim Star White|329990
+iPhone 18 Pro 256 eSim Black|147990
+iPhone 18 Pro 256 eSim Burgundy|149990
+iPhone 18 Pro 256 Sim/eSim Black|149990
+iPhone 18 Pro 256 Sim/eSim Burgundy|151990
+iPhone 18 Pro 512 eSim Black|159990
+iPhone 18 Pro 512 eSim Burgundy|161990
+iPhone 18 Pro 512 Sim/eSim Black|161990
+iPhone 18 Pro 512 Sim/eSim Burgundy|163990
+iPhone 18 Pro 1TB eSim Black|179990
+iPhone 18 Pro 1TB eSim Burgundy|181990
+iPhone 18 Pro 1TB Sim/eSim Black|181990
+iPhone 18 Pro 1TB Sim/eSim Burgundy|183990
+iPhone 18 Pro 2TB eSim Black|199990
+iPhone 18 Pro 2TB eSim Burgundy|201990
+iPhone 18 Pro 2TB Sim/eSim Black|201990
+iPhone 18 Pro 2TB Sim/eSim Burgundy|203990
 iPhone 13 128|46990
 iPhone 14 128|49990
 iPhone 15 128|54990
@@ -135,7 +171,23 @@ const localImageNames = new Set([
 ]);
 
 const imageForSku = (sku: IphoneCatalogSku): string => {
+  const apple2027Image: Record<string, string> = {
+    'iPhone 18 Pro Max': '/images/products/apple-2027/clean/iphone-18-pro-max.png',
+    'iPhone Duo': '/images/products/apple-2027/clean/iphone-duo.png',
+    'iPhone 18 Pro': '/images/products/apple-2027/clean/iphone-18-pro.png',
+  };
+  if (apple2027Image[sku.model]) return apple2027Image[sku.model];
   const imageName = slugify(`${sku.model}-${sku.color}`);
+  if (sku.model === 'iPhone 13' && ['Pink', 'Blue', 'Midnight', 'Starlight', '(PRODUCT)RED', 'Green'].includes(sku.color)) {
+    return `/images/products/clean/iphone-13-${slugify(sku.color)}.png`;
+  }
+  if ((sku.model === 'iPhone 14' && ['Midnight', 'Blue', 'Starlight', 'Purple', '(PRODUCT)RED', 'Yellow'].includes(sku.color)) ||
+      (sku.model === 'iPhone 15' && ['Black', 'Blue', 'Green', 'Yellow', 'Pink'].includes(sku.color))) {
+    return `/images/products/clean/${slugify(sku.model)}-${slugify(sku.color)}.png`;
+  }
+  if ((sku.model === 'iPhone 16' || sku.model === 'iPhone 16 Plus') && ['Black', 'White', 'Pink', 'Teal', 'Ultramarine'].includes(sku.color)) {
+    return `/images/products/clean/iphone-16-${slugify(sku.color)}.png`;
+  }
   if (sku.model === 'iPhone 17e' && ['Black', 'White', 'Pink'].includes(sku.color)) {
     return `/images/products/gallery/${imageName}/view-1.jpg`;
   }
@@ -154,12 +206,6 @@ const imageForSku = (sku: IphoneCatalogSku): string => {
   };
   const fallback = modelFallbacks[sku.model];
   return fallback ? `/images/products/${fallback}.${fallback.startsWith('iphone-17-') ? 'jpg' : 'png'}` : sku.image;
-};
-
-const iphone13Gallery = (image: string, color: string): string[] => {
-  if (color === 'Starlight') return [image, '/images/products/iphone-13/white-2.jpg', '/images/products/iphone-13/white-3.jpg'];
-  if (color === 'Midnight') return [image, '/images/products/iphone-13/view-2.jpg', '/images/products/iphone-13/view-3.jpg'];
-  return [image, '/images/products/iphone-13/view-2.jpg', '/images/products/iphone-13/view-3.jpg'];
 };
 
 const iphone16ProGallery = (image: string, color: string): string[] => {
@@ -191,9 +237,15 @@ const importedGalleryForSku = (sku: IphoneCatalogSku): string[] | undefined => {
 };
 
 const galleryForSku = (sku: IphoneCatalogSku, image: string) => {
+  const apple2027Gallery: Record<string, string[]> = {
+    'iPhone 18 Pro Max': [image],
+    'iPhone Duo': [image],
+    'iPhone 18 Pro': [image],
+  };
+  if (apple2027Gallery[sku.model]) return apple2027Gallery[sku.model];
   const imported = importedGalleryForSku(sku);
   if (imported) return imported;
-  if (sku.model === 'iPhone 13') return iphone13Gallery(image, sku.color);
+  if (sku.model === 'iPhone 13' || sku.model === 'iPhone 14' || sku.model === 'iPhone 15' || sku.model === 'iPhone 16' || sku.model === 'iPhone 16 Plus') return [image];
   if (sku.model === 'iPhone 16 Pro' || sku.model === 'iPhone 16 Pro Max') return iphone16ProGallery(image, sku.color);
   return undefined;
 };

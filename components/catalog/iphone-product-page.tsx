@@ -19,10 +19,6 @@ type IphoneProductPageProps = {
   selected: IphoneCatalogSku;
 };
 
-const unique = (values: string[]) => [
-  ...new Set(values.filter((value) => value !== '—')),
-];
-
 export function IphoneProductPage({
   model,
   modelSlug,
@@ -32,22 +28,14 @@ export function IphoneProductPage({
   const resolvePrice = usePriceResolver();
   const selected = resolvePrice(baseSelected);
   const variants = usePricedCatalog(baseVariants);
-  const storages = unique(variants.map((variant) => variant.storage));
-  const colors = unique(variants.map((variant) => variant.color));
-  const sims = unique(variants.map((variant) => variant.sim));
-  const hasRealAngles = new Set(selected.gallery ?? []).size >= 3;
-  const gallery = hasRealAngles
-    ? selected
-        .gallery!.slice(0, 3)
-        .map((src, index) => ({ src, view: `angle-${index + 1}` }))
-    : [1, 2, 3].map((index) => ({
-        src: selected.image,
-        view: `studio-${index}`,
-      }));
+  const gallery = [...new Set(selected.gallery?.length ? selected.gallery : [selected.image])]
+    .map((src, index) => ({ src, view: `angle-${index + 1}` }));
   const [activePhoto, setActivePhoto] = useState(0);
+  const currentPhoto = gallery[activePhoto] ?? gallery[0];
   const details = getIphoneDetails(model);
+  const isPreorder = model.includes('18 Pro') || model.includes('Duo');
   const wideCanvas = /iphone-(13|14|15|16)-(?!pro)/.test(
-    gallery[activePhoto].src,
+    currentPhoto.src,
   );
 
   const hrefFor = (key: 'storage' | 'color' | 'sim', value: string) => {
@@ -77,10 +65,10 @@ export function IphoneProductPage({
         <div className="product-layout">
           <section className="product-gallery" aria-label={`Фото ${model}`}>
             <div
-              className={`product-gallery-frame product-gallery-view-${gallery[activePhoto].view} ${wideCanvas ? 'product-gallery-wide-source' : 'product-gallery-tight-source'}`}
+              className={`product-gallery-frame product-gallery-view-${currentPhoto.view} ${wideCanvas ? 'product-gallery-wide-source' : 'product-gallery-tight-source'}`}
             >
               <Image
-                src={gallery[activePhoto].src}
+                src={currentPhoto.src}
                 alt={`${model} ${selected.color}, фото ${activePhoto + 1}`}
                 fill
                 priority
@@ -121,12 +109,14 @@ export function IphoneProductPage({
             <p className="catalog-overline">APPLE · IPHONE</p>
             <h1>{model}</h1>
             <p className="product-lead">
-              Выберите конфигурацию — цена обновится автоматически. Товар в наличии.
+              {isPreorder
+                ? 'Оформите предзаказ — менеджер подтвердит сроки поставки и комплектацию.'
+                : 'Выберите конфигурацию — цена обновится автоматически. Товар в наличии.'}
             </p>
             <div className="product-price-line">
               <strong>{money.format(selected.price)} ₽</strong>
               <span>
-                <Check size={14} /> В наличии
+                <Check size={14} /> {isPreorder ? 'Предзаказ' : 'В наличии'}
               </span>
             </div>
             <ProductVariants selectedId={selected.id} />

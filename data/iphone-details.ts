@@ -18,6 +18,16 @@ const base = (chip: string, display: string, camera: string, battery: string): I
 });
 
 export function getIphoneDetails(model: string): IphoneDetailContent {
+  if (model.includes('18 Pro Max')) return base('A20 Pro', '6,9″ · 120 Гц', '48 Мп · переменная диафрагма', 'до 45 часов');
+  if (model.includes('18 Pro')) return base('A20 Pro', '6,3″ · 120 Гц', '48 Мп · переменная диафрагма', 'до 36 часов');
+  if (model.includes('Duo')) {
+    const details = base('A20 Pro', '7,6″ + 5,4″ · 120 Гц', '48 Мп · две камеры', 'до 44 часов видео');
+    details.eyebrow = 'Первый складной iPhone с двумя дисплеями';
+    details.lead = 'iPhone Duo раскрывается в большой 7,6-дюймовый OLED-дисплей и поддерживает Split View в iOS 27. Титановая рамка, чип A20 Pro, Touch ID в боковой кнопке и две камеры по 48 Мп.';
+    details.groups[1].rows[2] = ['Аутентификация', 'Touch ID в боковой кнопке'];
+    details.groups[2].rows[1] = ['Фронтальные камеры', '12 Мп Center Stage и камера FaceTime под дисплеем'];
+    return details;
+  }
   if (model.includes('17 Pro Max')) return base('A19 Pro', '6,9″ · 120 Гц', '48 Мп · три камеры', 'до 39 часов');
   if (model.includes('17 Pro')) return base('A19 Pro', '6,3″ · 120 Гц', '48 Мп · три камеры', 'до 33 часов');
   if (model.includes('17e')) return base('A19', '6,1″', '48 Мп Fusion', 'на весь день');

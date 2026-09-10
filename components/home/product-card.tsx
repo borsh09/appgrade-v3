@@ -17,14 +17,16 @@ const money = new Intl.NumberFormat('ru-RU');
 export function ProductCard({
   product: baseProduct,
   index,
+  status = 'В наличии',
 }: {
   product: FeaturedProduct;
   index: number;
+  status?: string;
 }) {
   const resolvePrice = usePriceResolver();
   const product = { ...baseProduct, sku: resolvePrice(baseProduct.sku) };
 
-  const inStock = true;
+  const inStock = status === 'В наличии';
 
   let href = '';
 
@@ -183,7 +185,7 @@ export function ProductCard({
           src={product.sku.image}
           alt={product.model.name}
           fill
-          unoptimized
+          quality={90}
           sizes="(max-width: 600px) 80vw, (max-width: 1100px) 42vw, 25vw"
           className={`product-image product-image-${index}`}
         />
@@ -198,9 +200,7 @@ export function ProductCard({
                 : 'stock muted'
             }
           >
-            {inStock
-              ? 'В наличии'
-              : 'Наличие уточняется'}
+            {status}
           </p>
 
           <h3>

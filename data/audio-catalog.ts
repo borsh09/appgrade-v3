@@ -22,6 +22,7 @@ const galleryOrderByModel: Record<string, number[]> = {
 };
 
 const products: Array<[string, AudioCatalogSku['brand'], AudioKind, number | null, string[]]> = [
+  ['AirPods 5 with Wireless Charging Case', 'Apple', 'AirPods', 19090, ['White']],
   ['AirPods Max 2 2024', 'Apple', 'AirPods', 39990, ['Midnight', 'Blue', 'Purple', 'Orange', 'Starlight']],
   ['AirPods Max 2 2026', 'Apple', 'AirPods', 44990, ['Midnight', 'Blue', 'Purple', 'Orange', 'Starlight']],
   ['AirPods 4', 'Apple', 'AirPods', 10990, ['White']],
@@ -47,6 +48,10 @@ const products: Array<[string, AudioCatalogSku['brand'], AudioKind, number | nul
 
 export const audioCatalog: AudioCatalogSku[] = products.flatMap(([model, brand, kind, price, colors]) => colors.map((color) => {
   const folder = audioSlugify(`${model}-${color}`);
+  if (model === 'AirPods 5 with Wireless Charging Case') {
+    const image = '/images/products/apple-2027/clean/airpods-5.png';
+    return { id: folder, model, modelSlug: audioSlugify(model), brand, kind, color, price, image, gallery: [image] };
+  }
   const order = galleryOrderByModel[audioSlugify(model)] ?? [1, 2, 3];
   const gallery = order.map((index) => `/images/products/gallery/${folder}/view-${index}.jpg`);
   return { id: folder, model, modelSlug: audioSlugify(model), brand, kind, color, price, image: gallery[0], gallery };
