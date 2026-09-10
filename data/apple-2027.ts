@@ -4,9 +4,9 @@ import { watchCatalog } from './watch-catalog';
 import type { FeaturedProduct, ProductCategory } from '@/types/catalog';
 
 const selections = [
-  { item: iphoneCatalog.find((sku) => sku.model === 'iPhone 18 Pro Max')!, category: 'smartphones', oldPrice: 257990 },
-  { item: iphoneCatalog.find((sku) => sku.model === 'iPhone Duo')!, category: 'smartphones', oldPrice: 257990 },
-  { item: iphoneCatalog.find((sku) => sku.model === 'iPhone 18 Pro')!, category: 'smartphones', oldPrice: 173990 },
+  { item: iphoneCatalog.find((sku) => sku.model === 'iPhone 18 Pro Max' && sku.storage === '1TB' && sku.color === 'Burgundy')!, category: 'smartphones', oldPrice: 257990 },
+  { item: iphoneCatalog.find((sku) => sku.model === 'iPhone Duo' && sku.storage === '256')!, category: 'smartphones', oldPrice: 257990 },
+  { item: iphoneCatalog.find((sku) => sku.model === 'iPhone 18 Pro' && sku.storage === '256' && sku.color === 'Black')!, category: 'smartphones', oldPrice: 173990 },
   { item: watchCatalog.find((sku) => sku.model === 'Apple Watch Series 12')!, category: 'watches' },
   { item: watchCatalog.find((sku) => sku.model === 'Apple Watch Ultra 4')!, category: 'watches' },
   { item: audioCatalog.find((sku) => sku.model === 'AirPods 5 with Wireless Charging Case')!, category: 'audio' },

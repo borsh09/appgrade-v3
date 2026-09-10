@@ -144,7 +144,14 @@ const finishesByModel: Record<string, string[]> = {
   'iPhone Air': ['Space Black', 'Cloud White', 'Light Gold', 'Sky Blue'],
 };
 
-const parsedSkus = sourceRows.trim().split('\n').map((row) => {
+const expandedSourceRows = sourceRows.trim().split('\n').flatMap((row) => {
+  if (!/^iPhone 18 Pro(?: Max)? /.test(row) || !/ (Black|Burgundy)\|/.test(row)) return [row];
+  const silver = row.replace(/ (Black|Burgundy)\|/, ' Silver|').replace(/\|(\d+)$/, (_, price) => `|${Number(price) + 1000}`);
+  const glacier = row.replace(/ (Black|Burgundy)\|/, ' Glacier|').replace(/\|(\d+)$/, (_, price) => `|${Number(price) + 500}`);
+  return [row, silver, glacier];
+});
+
+const parsedSkus = expandedSourceRows.map((row) => {
   const [fullName, rawPrice] = row.split('|');
   const storageMatch = fullName.match(/\b(?:128|256|512|1TB|2TB)\b/);
   const storage = storageMatch?.[0] ?? '';
@@ -176,6 +183,13 @@ const imageForSku = (sku: IphoneCatalogSku): string => {
     'iPhone Duo': '/images/products/apple-2027/clean/iphone-duo.png',
     'iPhone 18 Pro': '/images/products/apple-2027/clean/iphone-18-pro.png',
   };
+  const apple2027ColorImage: Record<string, string> = {
+    'iPhone 18 Pro|Silver': '/images/products/apple-2027/clean/iphone-18-pro-silver.png',
+    'iPhone 18 Pro|Glacier': '/images/products/apple-2027/clean/iphone-18-pro-glacier.png',
+    'iPhone 18 Pro Max|Silver': '/images/products/apple-2027/clean/iphone-18-pro-max-silver.png',
+    'iPhone 18 Pro Max|Glacier': '/images/products/apple-2027/clean/iphone-18-pro-max-glacier.png',
+  };
+  if (apple2027ColorImage[`${sku.model}|${sku.color}`]) return apple2027ColorImage[`${sku.model}|${sku.color}`];
   if (apple2027Image[sku.model]) return apple2027Image[sku.model];
   const imageName = slugify(`${sku.model}-${sku.color}`);
   if (sku.model === 'iPhone 13' && ['Pink', 'Blue', 'Midnight', 'Starlight', '(PRODUCT)RED', 'Green'].includes(sku.color)) {
@@ -262,12 +276,52 @@ const baseIphoneCatalog: IphoneCatalogSku[] = parsedSkus.flatMap((sku) => {
   });
 });
 
+// Keep every new iPhone variant at the front of the default catalog, then
+// distribute the remaining models in a stable mixed order.
+const newIphoneModels = new Set(['iPhone 18 Pro Max', 'iPhone Duo', 'iPhone 18 Pro']);
+const stableMix = (items: IphoneCatalogSku[]) => [...items].sort((a, b) => {
+  const score = (value: string) => {
+    let total = 7;
+    for (let index = 0; index < value.length; index += 1) total = (total * 31 + value.charCodeAt(index)) % 1000003;
+    return total;
+  };
+  return score(a.id) - score(b.id);
+});
+const mixWithoutDuplicatePairs = (items: IphoneCatalogSku[]) => {
+  const mixed = stableMix(items);
+  for (let index = 1; index < mixed.length; index += 1) {
+    if (mixed[index].model !== mixed[index - 1].model || mixed[index].color !== mixed[index - 1].color) continue;
+    const swapIndex = mixed.findIndex((candidate, candidateIndex) => candidateIndex > index && (candidate.model !== mixed[index - 1].model || candidate.color !== mixed[index - 1].color));
+    if (swapIndex > index) [mixed[index], mixed[swapIndex]] = [mixed[swapIndex], mixed[index]];
+  }
+  return mixed;
+};
+const interleaveNewModels = (items: IphoneCatalogSku[]) => {
+  const modelOrder = ['iPhone 18 Pro Max', 'iPhone Duo', 'iPhone 18 Pro'];
+  const queues = new Map(modelOrder.map((model) => [model, stableMix(items.filter((sku) => sku.model === model))]));
+  const result: IphoneCatalogSku[] = [];
+  let round = 0;
+  while (result.length < items.length) {
+    for (let offset = 0; offset < modelOrder.length; offset += 1) {
+      const model = modelOrder[(round + offset) % modelOrder.length];
+      const queue = queues.get(model);
+      if (queue?.length) result.push(queue.shift()!);
+    }
+    round += 1;
+  }
+  return result;
+};
+const orderedBaseIphoneCatalog = [
+  ...interleaveNewModels(baseIphoneCatalog.filter((sku) => newIphoneModels.has(sku.model))),
+  ...mixWithoutDuplicatePairs(baseIphoneCatalog.filter((sku) => !newIphoneModels.has(sku.model))),
+];
+
 // Every model card/page gets a small media rail. Models without dedicated
 // multi-angle assets use the first available local finishes of that model;
 // dedicated galleries above always take precedence.
-export const iphoneCatalog: IphoneCatalogSku[] = baseIphoneCatalog.map((sku) => {
+export const iphoneCatalog: IphoneCatalogSku[] = orderedBaseIphoneCatalog.map((sku) => {
   if (sku.gallery?.length) return sku;
-  const modelImages = [...new Set(baseIphoneCatalog.filter((item) => item.model === sku.model).map((item) => item.image))].slice(0, 3);
+  const modelImages = [...new Set(orderedBaseIphoneCatalog.filter((item) => item.model === sku.model).map((item) => item.image))].slice(0, 3);
   return { ...sku, gallery: modelImages.length > 1 ? modelImages : undefined };
 });
 
