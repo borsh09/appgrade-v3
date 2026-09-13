@@ -1,7 +1,7 @@
 'use client';
 import { usePricedCatalog } from '@/components/providers/price-provider';
 
-import Image from 'next/image';
+import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 import { useMemo, useState } from 'react';
 import {

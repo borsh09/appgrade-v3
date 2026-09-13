@@ -14,6 +14,40 @@ const slides = [
     video: '/videos/desktop-promo.mp4',
   },
   {
+    name: 'iPhone 18 Pro',
+    theme: 'pro',
+    type: 'image' as const,
+    title: (
+      <>
+        iPhone 18 Pro.
+      </>
+    ),
+    description:
+      'iPhone 18 Pro и 18 Pro Max доступны для предзаказа в APPGRADE.',
+    action: 'iPhone 18 Pro',
+    href: '/catalog/iphone-18-pro?storage=256&color=Black&sim=eSim',
+    secondaryAction: 'iPhone 18 Pro Max',
+    secondaryHref: '/catalog/iphone-18-pro-max?storage=256&color=Burgundy&sim=eSim',
+    image: '/images/home/iphone-18-pro-hero.png',
+    alt: 'iPhone 18 Pro и iPhone 18 Pro Max',
+  },
+  {
+    name: 'iPhone Duo',
+    theme: 'duo',
+    type: 'image' as const,
+    title: (
+      <>
+        iPhone Duo.
+      </>
+    ),
+    description:
+      'Первый складной iPhone с большим внутренним дисплеем и новым форматом работы.',
+    action: 'Открыть iPhone Duo',
+    href: '/catalog/iphone-duo?storage=256&color=Star%20White&sim=eSim',
+    image: '/images/home/iphone-duo-hero.png',
+    alt: 'Раскрытый белый iPhone Duo',
+  },
+  {
     name: 'Trade-In',
     theme: 'trade',
     type: 'image' as const,
@@ -137,28 +171,32 @@ export function DesktopHero() {
             </video>
           ) : (
             <>
-              <div className={styles.brand}>
-                APPGRADE <span>SELECTED FOR YOU</span>
-              </div>
-
               <div className={styles.copy}>
-                <p className={styles.eyebrow}>
-                  {slide.eyebrow}
-                </p>
-
                 <h2>{slide.title}</h2>
 
                 <p className={styles.description}>
                   {slide.description}
                 </p>
 
-                <Link
-                  className={styles.cta}
-                  href={slide.href}
-                >
-                  {slide.action}
-                  <ArrowRight size={18} />
-                </Link>
+                <div className={styles.actions}>
+                  <Link
+                    className={styles.cta}
+                    href={slide.href}
+                  >
+                    {slide.action}
+                    <ArrowRight size={18} />
+                  </Link>
+
+                  {'secondaryHref' in slide && (
+                    <Link
+                      className={`${styles.cta} ${styles.secondaryCta}`}
+                      href={slide.secondaryHref!}
+                    >
+                      {slide.secondaryAction}
+                      <ArrowRight size={18} />
+                    </Link>
+                  )}
+                </div>
               </div>
 
               <div className={styles.visual}>
@@ -171,9 +209,6 @@ export function DesktopHero() {
                 />
               </div>
 
-              <p className={styles.caption}>
-                {slide.caption}
-              </p>
             </>
           )}
         </div>

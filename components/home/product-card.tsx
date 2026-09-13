@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 
 import { AddToCartButton } from '@/components/shared/commerce-buttons';

@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { ChevronDown, MapPin } from 'lucide-react';
 import { useCity } from '@/components/providers/city-provider';

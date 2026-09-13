@@ -1,6 +1,5 @@
 'use client';
 
-import Link from '@/components/shared/safe-link';
 import {
   ArrowRight,
   Check,
@@ -44,7 +43,6 @@ export function TradeInPage() {
     <main className="appgrade-tradein-page">
       <div className="container">
         <header className="appgrade-tradein-hero">
-          <span>APPGRADE TRADE-IN</span>
           <h1>
             Обновиться
             <br />

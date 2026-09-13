@@ -3,9 +3,26 @@ import { test } from 'node:test';
 import { existsSync } from 'node:fs';
 import { searchIndex } from '@/data/search-index';
 import { featuredProducts } from '@/data/catalog';
-import { catalogById } from '@/lib/catalog-registry';
+import { catalogById, catalogItems } from '@/lib/catalog-registry';
 import { catalogCategories } from '@/data/catalog-navigation';
 import { additionalCatalog } from '@/data/additional-catalog';
+
+void test('every SKU has a real local product photo instead of a placeholder', () => {
+  for (const item of catalogItems) {
+    assert.ok(!item.image.includes('product-photo-pending'), `Missing photo: ${item.id}`);
+    for (const image of [item.image, ...(item.gallery ?? [])]) {
+      assert.ok(existsSync(`public${image}`), `${item.id}: ${image}`);
+    }
+  }
+});
+
+void test('catalog IDs are unique so filtering cannot retain unrelated cards', () => {
+  const ids = new Set<string>();
+  for (const item of catalogItems) {
+    assert.ok(!ids.has(item.id), `Duplicate SKU: ${item.id}`);
+    ids.add(item.id);
+  }
+});
 
 void test('featured cards match the real SKU model and SIM configuration', () => {
   for (const { model, sku } of featuredProducts) {
@@ -25,7 +42,7 @@ void test('every search result has an existing image and resolves to its exact S
     const url = new URL(item.href, 'http://localhost');
     assert.equal(url.pathname, `/catalog/${sku.modelSlug}`);
     for (const [key, value] of url.searchParams) {
-      assert.equal(sku[key as keyof typeof sku], value, `${item.id}: ${key}`);
+      assert.equal(key === 'sku' ? sku.id : sku[key as keyof typeof sku], value, `${item.id}: ${key}`);
     }
   }
 });

@@ -1819,10 +1819,6 @@ export function CartPage() {
                   </div>
                 </div>
 
-                <span className="appgrade-cart-summary-kicker">
-                  APPGRADE ORDER
-                </span>
-
                 {/* TOTAL */}
 
                 <div className="appgrade-cart-summary-title">
@@ -1968,7 +1964,7 @@ export function CartPage() {
                   }
                 >
                   <span>
-                    {ordersAvailable === null ? 'Проверяем доступность…' : ordersAvailable === false ? 'Приём заявок недоступен' : sending
+                    {ordersAvailable === null ? 'Проверяем доступность…' : ordersAvailable === false ? 'Ожидайте звонка менеджера' : sending
                       ? 'Отправляем...'
                       : checkoutReady
                         ? 'Оформить заявку'

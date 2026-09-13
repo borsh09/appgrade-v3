@@ -1,7 +1,7 @@
 'use client';
 import { ProductVariants } from './product-variants';
-import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
-import Image from 'next/image';
+import { usePriceResolver } from '@/components/providers/price-provider';
+import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 import { useState } from 'react';
 import { ArrowLeft, Check } from 'lucide-react';
@@ -9,11 +9,9 @@ import type { IpadCatalogSku } from '@/data/ipad-catalog';
 import { getIpadDetails } from '@/data/ipad-details';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
 const money = new Intl.NumberFormat('ru-RU');
-const unique = (v: string[]) => [...new Set(v)];
 export function IpadProductPage({
   model,
   modelSlug,
-  variants: baseVariants,
   selected: baseSelected,
 }: {
   model: string;
@@ -23,11 +21,8 @@ export function IpadProductPage({
 }) {
   const resolvePrice = usePriceResolver();
   const selected = resolvePrice(baseSelected);
-  const variants = usePricedCatalog(baseVariants);
   const [photo, setPhoto] = useState(0);
-  const storages = unique(variants.map((v) => v.storage)),
-    colors = unique(variants.map((v) => v.color)),
-    details = getIpadDetails(model);
+  const details = getIpadDetails(model);
   const hrefFor = (key: 'storage' | 'color', value: string) => {
     const q = new URLSearchParams({
       storage: selected.storage,
@@ -58,7 +53,7 @@ export function IpadProductPage({
                 src={selected.gallery[photo]}
                 alt={`${model} ${selected.color}, фото ${photo + 1}`}
                 fill
-                priority
+                preload
                 quality={100}
                 sizes="(max-width:768px) 100vw,58vw"
               />

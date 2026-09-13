@@ -1,16 +1,15 @@
 'use client';
 import { ProductVariants } from './product-variants';
 import { useState } from 'react';
-import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
+import { usePriceResolver } from '@/components/providers/price-provider';
 
-import Image from 'next/image';
+import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 import { ArrowLeft, Check } from 'lucide-react';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
 import type { XiaomiCatalogSku } from '@/data/xiaomi-catalog';
 
 const money = new Intl.NumberFormat('ru-RU');
-const unique = (items: string[]) => [...new Set(items)];
 const specs: Record<string, string[][]> = {
   'Xiaomi 15 Ultra': [
     ['Экран', '6,73″ WQHD+ AMOLED, 1–120 Гц'],
@@ -40,7 +39,6 @@ const specs: Record<string, string[][]> = {
 
 export function XiaomiProductPage({
   modelSlug,
-  variants: baseVariants,
   selected: baseSelected,
 }: {
   modelSlug: string;
@@ -50,8 +48,6 @@ export function XiaomiProductPage({
   const resolvePrice = usePriceResolver();
   const selected = resolvePrice(baseSelected);
   const [photo, setPhoto] = useState(0);
-  const variants = usePricedCatalog(baseVariants);
-  const colors = unique(variants.map((sku) => sku.color));
   const href = `/catalog/${modelSlug}?storage=${encodeURIComponent(selected.storage)}&color=${encodeURIComponent(selected.color)}`;
   const product = {
     id: selected.id,
@@ -75,7 +71,7 @@ export function XiaomiProductPage({
                 src={selected.gallery[photo] ?? selected.image}
                 alt={`${selected.model} ${selected.color}`}
                 fill
-                priority
+                preload
                 sizes="(max-width:768px) 100vw,58vw"
               />
             </div>

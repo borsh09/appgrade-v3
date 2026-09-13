@@ -76,10 +76,6 @@ export function CityGate() {
           />
         </div>
 
-        <span className="appgrade-city-gate-kicker">
-          Ваш город
-        </span>
-
         <h2 id="appgrade-city-gate-title">
           Где вы
           <br />

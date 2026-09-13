@@ -92,6 +92,10 @@ const slugify = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-
 const mediaFor = (model: string, color: string) => {
   if (['Samsung Galaxy S24 Ultra', 'Samsung Galaxy S25', 'Samsung Galaxy S25 FE', 'Samsung Galaxy S25 Plus', 'Samsung Galaxy S25 Ultra', 'Samsung Galaxy S25 Edge', 'Samsung Galaxy S26', 'Samsung Galaxy S26 Plus', 'Samsung Galaxy S26 Ultra', 'Samsung Galaxy A57', 'Samsung Galaxy A37', 'Samsung Galaxy A17', 'Samsung Galaxy Z Fold 8', 'Samsung Galaxy Z Flip 8', 'Samsung Galaxy Z Fold 8 Ultra'].includes(model)) {
     const root = `/images/products/gallery/${slugify(`${model}-${color}`)}`;
+    if (model.startsWith('Samsung Galaxy S25')) {
+      const image = `${root}/clean.png`;
+      return { image, gallery: [image] };
+    }
     const gallery = [1, 2, 3].map((index) => `${root}/view-${index}.${model === 'Samsung Galaxy S25 Edge' && index === 3 ? 'png' : 'jpg'}`);
     return { image: gallery[0], gallery };
   }

@@ -41,6 +41,14 @@
     background: #0a0c10;
   }
 
+  .pro {
+    background: #120309;
+  }
+
+  .duo {
+    background: #07101f;
+  }
+
   .brand {
     position: absolute;
     top: 34px;
@@ -140,6 +148,20 @@
     font-size: 12px;
     font-weight: 600;
     transition: transform 200ms;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .secondaryCta {
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    background: rgba(12, 12, 14, 0.42);
+    color: #fff;
+    backdrop-filter: blur(10px);
   }
 
   .trade .cta,
@@ -271,6 +293,39 @@
 
   .tradeSlide .finish {
     color: #b9c2c9;
+  }
+
+  .proSlide .finish {
+    color: #efafc1;
+  }
+
+  .duoSlide .finish {
+    color: #b9d8ff;
+  }
+
+  .proSlide .visual,
+  .duoSlide .visual {
+    width: 100%;
+    inset: 0;
+  }
+
+  .proSlide .visual img,
+  .duoSlide .visual img {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .proSlide .visual::after,
+  .duoSlide .visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(4, 4, 6, .34) 0%, transparent 55%);
+  }
+
+  .proSlide .copy,
+  .duoSlide .copy {
+    width: 45%;
   }
 
   .macSlide .finish {

@@ -2,7 +2,7 @@
 import { ProductVariants } from './product-variants';
 import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 
-import Image from 'next/image';
+import Image from '@/components/shared/product-photo';
 import { SamsungPhoto } from './samsung-photo';
 import Link from '@/components/shared/safe-link';
 import { useState } from 'react';
@@ -15,7 +15,6 @@ import {
 } from '@/components/shared/commerce-buttons';
 
 const money = new Intl.NumberFormat('ru-RU');
-const unique = (values: string[]) => [...new Set(values)];
 
 type SamsungProductPageProps = {
   model: string;
@@ -33,9 +32,6 @@ export function SamsungProductPage({
   const resolvePrice = usePriceResolver();
   const selected = resolvePrice(baseSelected);
   const variants = usePricedCatalog(baseVariants);
-  const storages = unique(variants.map((variant) => variant.storage));
-  const colors = unique(variants.map((variant) => variant.color));
-  const rams = unique(variants.map((variant) => variant.ram));
   const gallery = selected.gallery.slice(0, 3);
   const [activePhoto, setActivePhoto] = useState(0);
   const details = getSamsungDetails(model);
@@ -73,7 +69,7 @@ export function SamsungProductPage({
                 src={gallery[activePhoto]}
                 alt={`${model} ${selected.color}, фото ${activePhoto + 1}`}
                 fill
-                priority
+                preload
                 quality={100}
                 sizes="(max-width: 768px) 100vw, 58vw"
               />}

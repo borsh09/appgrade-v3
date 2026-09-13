@@ -2,7 +2,7 @@
 import { ProductVariants } from './product-variants';
 import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 
-import Image from 'next/image';
+import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 import { useState } from 'react';
 import { ArrowLeft, Check } from 'lucide-react';
@@ -11,7 +11,6 @@ import { getMacbookDetails } from '@/data/macbook-details';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
 
 const money = new Intl.NumberFormat('ru-RU');
-const unique = (values: string[]) => [...new Set(values)];
 
 export function MacbookProductPage({
   model,
@@ -27,9 +26,6 @@ export function MacbookProductPage({
   const resolvePrice = usePriceResolver();
   const selected = resolvePrice(baseSelected);
   const variants = usePricedCatalog(baseVariants);
-  const storages = unique(variants.map((variant) => variant.storage));
-  const colors = unique(variants.map((variant) => variant.color));
-  const rams = unique(variants.map((variant) => variant.ram));
   const [activePhoto, setActivePhoto] = useState(0);
   const details = getMacbookDetails(model);
   const hrefFor = (key: 'storage' | 'color' | 'ram', value: string) => {
@@ -62,7 +58,7 @@ export function MacbookProductPage({
                 src={selected.gallery[activePhoto]}
                 alt={`${model} ${selected.color}, фото ${activePhoto + 1}`}
                 fill
-                priority
+                preload
                 quality={100}
                 sizes="(max-width: 768px) 100vw, 58vw"
               />

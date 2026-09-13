@@ -1,8 +1,8 @@
 'use client';
 import { ProductVariants } from './product-variants';
 import { useState } from 'react';
-import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
-import Image from 'next/image';
+import { usePriceResolver } from '@/components/providers/price-provider';
+import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 import { ArrowLeft, Check } from 'lucide-react';
 import type { DysonCatalogSku } from '@/data/dyson-catalog';
@@ -10,7 +10,6 @@ import { AddToCartButton } from '@/components/shared/commerce-buttons';
 const money = new Intl.NumberFormat('ru-RU');
 export function DysonProductPage({
   selected: baseSelected,
-  variants: baseVariants,
 }: {
   selected: DysonCatalogSku;
   variants: DysonCatalogSku[];
@@ -18,7 +17,6 @@ export function DysonProductPage({
   const resolvePrice = usePriceResolver();
   const selected = resolvePrice(baseSelected);
   const [photo, setPhoto] = useState(0);
-  const variants = usePricedCatalog(baseVariants);
   const href = `/catalog/${selected.modelSlug}?color=${encodeURIComponent(selected.color)}`;
   const product = {
     id: selected.id,
@@ -44,7 +42,7 @@ export function DysonProductPage({
                 src={selected.gallery[photo] ?? selected.image}
                 alt={`${selected.model} ${selected.color}`}
                 fill
-                priority
+                preload
                 sizes="(max-width:768px) 100vw,58vw"
               />
             </div>

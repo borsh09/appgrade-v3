@@ -1,14 +1,13 @@
 'use client';
 import { ProductVariants } from './product-variants';
-import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
-import Image from 'next/image';
+import { usePriceResolver } from '@/components/providers/price-provider';
+import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 import { useState } from 'react';
 import { ArrowLeft, Check } from 'lucide-react';
 import type { GoogleCatalogSku } from '@/data/google-catalog';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
 const money = new Intl.NumberFormat('ru-RU');
-const unique = <T,>(items: T[]) => [...new Set(items)];
 const specs: Record<string, string[][]> = {
   'Google Pixel 10 Pro XL': [
     ['Экран', '6,8″ Super Actua LTPO OLED, 1–120 Гц'],
@@ -37,7 +36,6 @@ const specs: Record<string, string[][]> = {
 };
 export function GoogleProductPage({
   modelSlug,
-  variants: baseVariants,
   selected: baseSelected,
 }: {
   modelSlug: string;
@@ -46,9 +44,7 @@ export function GoogleProductPage({
 }) {
   const resolvePrice = usePriceResolver();
   const selected = resolvePrice(baseSelected);
-  const variants = usePricedCatalog(baseVariants);
   const [photo, setPhoto] = useState(0);
-  const colors = unique(variants.map((v) => v.color));
   const href = `/catalog/${modelSlug}?storage=${encodeURIComponent(selected.storage)}&color=${encodeURIComponent(selected.color)}`;
   const product = {
     id: selected.id,
@@ -72,7 +68,7 @@ export function GoogleProductPage({
                 src={selected.gallery[photo]}
                 alt={`${selected.model} ${selected.color}, фото ${photo + 1}`}
                 fill
-                priority
+                preload
                 sizes="(max-width:768px) 100vw,58vw"
               />
             </div>

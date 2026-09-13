@@ -1,7 +1,7 @@
 'use client';
 import { usePricedCatalog } from '@/components/providers/price-provider';
 
-import Image from 'next/image';
+import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 import { useMemo, useState } from 'react';
 import { ChevronDown, Grid2X2, List, MapPin } from 'lucide-react';
@@ -58,7 +58,7 @@ function Card({ sku, view }: { sku: AudioCatalogSku; view: 'grid' | 'list' }) {
             src={sku.image}
             alt={`${sku.model} ${sku.color}`}
             fill
-            priority
+            preload
             quality={90}
             sizes="(max-width:700px) 100vw,33vw"
           />

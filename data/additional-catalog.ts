@@ -1,4 +1,5 @@
 import rows from './additional-catalog.json';
+import photoSources from './product-photo-sources.json';
 
 export interface AdditionalCatalogSku {
   id: string;
@@ -23,7 +24,7 @@ function normalizeRow(row: AdditionalCatalogSku): AdditionalCatalogSku {
   let model = row.model;
   const item = { ...row, legacySlug: row.modelSlug };
   const phone = model.match(/^(iPhone .+?) (\d+|\d+TB) (eSim|Sim\/eSim) (.+)$/);
-  const memory = model.match(/^(.*?) (\d+)\/(\d+|\d+TB)(.*)$/);
+  const memory = model.match(/^(.*?) (\d+)\/(\d+TB|\d+)(.*)$/);
   const watch = model.match(/^(Apple Watch .+?) (\d+)$/);
   if (phone) {
     [, model, item.storage, item.sim, item.color] = phone;
@@ -38,6 +39,14 @@ function normalizeRow(row: AdditionalCatalogSku): AdditionalCatalogSku {
     item.size = watch[2];
   }
   item.model = model.replace(/ Pro Plus/g, ' Pro+');
+  const photo = photoSources[item.id as keyof typeof photoSources] ?? photoSources[item.model as keyof typeof photoSources];
+  if (photo && item.image.endsWith('product-photo-pending.svg')) item.image = photo.image;
+  const displayNames: Record<string, string> = {
+    'PS V2': 'PlayStation VR2',
+    'Яндекс станция 2 с часами': 'Яндекс Станция Мини 2 с часами',
+    'Яндекс станция 3 Про с часами': 'Яндекс Станция Мини 3 Про с часами',
+  };
+  item.model = displayNames[item.model] ?? item.model;
   // Cyrillic product names already have a stable transliterated route.
   if (/^[a-z]/i.test(model)) item.modelSlug = item.model.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   return item;

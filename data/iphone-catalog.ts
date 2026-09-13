@@ -145,7 +145,9 @@ const finishesByModel: Record<string, string[]> = {
 };
 
 const expandedSourceRows = sourceRows.trim().split('\n').flatMap((row) => {
-  if (!/^iPhone 18 Pro(?: Max)? /.test(row) || !/ (Black|Burgundy)\|/.test(row)) return [row];
+  // Expand once from the previously authoritative (last) source row,
+  // preserving the prices used by catalogById before duplicate removal.
+  if (!/^iPhone 18 Pro(?: Max)? /.test(row) || !/ Burgundy\|/.test(row)) return [row];
   const silver = row.replace(/ (Black|Burgundy)\|/, ' Silver|').replace(/\|(\d+)$/, (_, price) => `|${Number(price) + 1000}`);
   const glacier = row.replace(/ (Black|Burgundy)\|/, ' Glacier|').replace(/\|(\d+)$/, (_, price) => `|${Number(price) + 500}`);
   return [row, silver, glacier];
@@ -196,8 +198,9 @@ const imageForSku = (sku: IphoneCatalogSku): string => {
     return `/images/products/clean/iphone-13-${slugify(sku.color)}.png`;
   }
   if ((sku.model === 'iPhone 14' && ['Midnight', 'Blue', 'Starlight', 'Purple', '(PRODUCT)RED', 'Yellow'].includes(sku.color)) ||
-      (sku.model === 'iPhone 15' && ['Black', 'Blue', 'Green', 'Yellow', 'Pink'].includes(sku.color))) {
-    return `/images/products/clean/${slugify(sku.model)}-${slugify(sku.color)}.png`;
+      ((sku.model === 'iPhone 15' || sku.model === 'iPhone 15 Plus') && ['Black', 'Blue', 'Green', 'Yellow', 'Pink'].includes(sku.color))) {
+    const imageModel = sku.model === 'iPhone 15 Plus' ? 'iPhone 15' : sku.model;
+    return `/images/products/clean/${slugify(imageModel)}-${slugify(sku.color)}.png`;
   }
   if ((sku.model === 'iPhone 16' || sku.model === 'iPhone 16 Plus') && ['Black', 'White', 'Pink', 'Teal', 'Ultramarine'].includes(sku.color)) {
     return `/images/products/clean/iphone-16-${slugify(sku.color)}.png`;
@@ -259,7 +262,7 @@ const galleryForSku = (sku: IphoneCatalogSku, image: string) => {
   if (apple2027Gallery[sku.model]) return apple2027Gallery[sku.model];
   const imported = importedGalleryForSku(sku);
   if (imported) return imported;
-  if (sku.model === 'iPhone 13' || sku.model === 'iPhone 14' || sku.model === 'iPhone 15' || sku.model === 'iPhone 16' || sku.model === 'iPhone 16 Plus') return [image];
+  if (sku.model === 'iPhone 13' || sku.model === 'iPhone 14' || sku.model === 'iPhone 15' || sku.model === 'iPhone 15 Plus' || sku.model === 'iPhone 16' || sku.model === 'iPhone 16 Plus') return [image];
   if (sku.model === 'iPhone 16 Pro' || sku.model === 'iPhone 16 Pro Max') return iphone16ProGallery(image, sku.color);
   return undefined;
 };

@@ -6,7 +6,6 @@ import Link from '@/components/shared/safe-link';
 
 import {
   ChevronDown,
-  Heart,
   MapPin,
   Menu,
   Search,
@@ -47,7 +46,6 @@ export function Header() {
 
   const {
     cartCount,
-    favoriteCount,
   } = useCommerce();
 
   const {
@@ -336,27 +334,11 @@ export function Header() {
             </button>
 
             <Link
-              href="/favorites"
-              className="appgrade-header-icon appgrade-header-favorite"
-              aria-label="Избранное"
-            >
-              <Heart size={19} />
-              <small className="appgrade-header-action-label">Избранное</small>
-
-              {favoriteCount > 0 && (
-                <span>
-                  {favoriteCount}
-                </span>
-              )}
-            </Link>
-
-            <Link
               href="/cart"
               className="appgrade-header-icon"
               aria-label="Корзина"
             >
               <ShoppingBag size={19} />
-              <small className="appgrade-header-action-label">Корзина</small>
 
               {cartCount > 0 && (
                 <span>
@@ -684,23 +666,6 @@ export function Header() {
           {/* BOTTOM */}
 
           <div className="appgrade-mobile-menu-bottom">
-
-            <Link
-              href="/favorites"
-              onClick={closeMobileMenu}
-            >
-              <Heart size={16} />
-
-              <span>
-                Избранное
-              </span>
-
-              {favoriteCount > 0 && (
-                <b>
-                  {favoriteCount}
-                </b>
-              )}
-            </Link>
 
             <Link
               href="/cart"

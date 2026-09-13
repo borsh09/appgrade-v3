@@ -9,6 +9,10 @@ export function ProductVariants({ selectedId }: { selectedId: string }) {
   const variants=catalogItems.filter(item=>item.modelSlug===selected.modelSlug);
   return <div className="product-options">{variantFields.map(key=> {
     const values=[...new Map(variants.filter(item=>item[key] && item[key]!=='—').map(item=>[normalizeProductName(item[key]!),item[key]!])).values()];
+    if (key === 'storage' || key === 'ram' || key === 'size') {
+      const capacity = (value: string) => parseFloat(value) * (/tb|тб/i.test(value) ? 1024 : 1);
+      values.sort((a, b) => capacity(a) - capacity(b));
+    }
     if(!values.length) return null;
     return <div className="product-option" key={key}><div className="product-option-head"><span>{labels[key]}</span><b>{selected[key] || 'Не указан'}</b></div><div className="product-option-values">{values.map(value=> <Link key={value} href={optionHref(variants,selected,key,value)!} className={normalizeProductName(value)===normalizeProductName(selected[key]??'')?'selected':''}>{value}</Link>)}</div></div>;
   })}</div>;

@@ -41,7 +41,7 @@ void test('normalization preserves storage and SIM distinctions', () => {
 void test('real workbook matches current catalog using retail columns', async () => {
   const report = await inspectPriceWorkbook(
     await readFile('PRICE KINGSTORE, APPGRADE 14.19.xlsx'),
-    basePrices,
+    { ...basePrices, 'pixel10proxl-obsidian': 1, 'pixel10-indigo': 1 },
   );
   assert.deepEqual(report.errors, []);
   assert.equal(report.matched, 477);

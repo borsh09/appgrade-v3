@@ -1,7 +1,7 @@
 'use client';
 import { ProductVariants } from './product-variants';
-import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
-import Image from 'next/image';
+import { usePriceResolver } from '@/components/providers/price-provider';
+import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 import { useState } from 'react';
 import { ArrowLeft, Check } from 'lucide-react';
@@ -18,14 +18,12 @@ const consoleSpecs = [
 
 export function PlaystationProductPage({
   selected: baseSelected,
-  variants: baseVariants,
 }: {
   selected: PlaystationCatalogSku;
   variants: PlaystationCatalogSku[];
 }) {
   const resolvePrice = usePriceResolver();
   const selected = resolvePrice(baseSelected);
-  const variants = usePricedCatalog(baseVariants);
   const [photo, setPhoto] = useState(0);
   const isConsole = selected.kind === 'Консоли';
   const specs = isConsole
@@ -43,7 +41,6 @@ export function PlaystationProductPage({
           ['Триггеры', 'Адаптивные L2/R2'],
           ['Микрофон', 'Встроенный'],
         ];
-  const colors = [...new Set(variants.map((variant) => variant.color))];
   const href = `/catalog/${selected.modelSlug}?color=${encodeURIComponent(selected.color)}`;
   const product = {
     id: selected.id,
@@ -67,7 +64,7 @@ export function PlaystationProductPage({
                 src={selected.gallery[photo]}
                 alt={`${selected.model}, фото ${photo + 1}`}
                 fill
-                priority
+                preload
                 sizes="(max-width:768px) 100vw,58vw"
               />
             </div>

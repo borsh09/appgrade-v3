@@ -1,0 +1,189 @@
+{
+  "Redmi Note 14 Pro+ 5G": {
+    "page": "https://www.mi.com/global/product/redmi-note-14-pro-plus-5g/",
+    "image": "/images/products/xiaomi/redmi-black.png"
+  },
+  "additional-redmi-note-14-pro-plus-5g-8-256-gold": {
+    "page": "https://www.mi.com/ae-en/product-list/phone/redmi/",
+    "url": "https://i02.appmifile.com/253_item_ae/18/09/2025/4b8c8cd2f4ce959e730e70040bd30517.png",
+    "image": "/images/products/completed/redmi-note-14-pro-plus-gold.png"
+  },
+  "Samsung Galaxy S25": {
+    "page": "https://ads-store.ru/",
+    "image": "/images/products/gallery/samsung-galaxy-s25-navy/clean.png"
+  },
+  "Xiaomi 15": {
+    "page": "https://www.mi.com/global/product/xiaomi-15/",
+    "image": "/images/products/xiaomi/15-main.png"
+  },
+  "Xiaomi 13T Pro": {
+    "page": "https://www.mi.com/global/product/xiaomi-13t-pro-leica/specs/",
+    "url": "https://i02.appmifile.com/420_item_my/02/04/2024/77eb426beeedfa2dd9c4db0c37ab522f.png",
+    "image": "/images/products/completed/xiaomi-13t-pro-black.png"
+  },
+  "Apple Watch Ultra 2": {
+    "page": "https://www.apple.com/uk/newsroom/2023/09/apple-unveils-apple-watch-ultra-2/",
+    "url": "https://www.apple.com/newsroom/images/2023/09/apple-unveils-apple-watch-ultra-2/article/Apple-Watch-Ultra-2-hero-230912_Full-Bleed-Image.jpg.large_2x.jpg",
+    "image": "/images/products/completed/watch-ultra-2.jpg"
+  },
+  "Яндекс станция Дуо": {
+    "page": "https://alice.yandex.ru/compare-stations",
+    "url": "https://avatars.mds.yandex.net/get-lpc/10116223/d2401f2c-e3ee-49b4-853c-1e6f300af675/orig",
+    "image": "/images/products/completed/station-duo.png"
+  },
+  "Яндекс станция 2": {
+    "page": "https://alice.yandex.ru/compare-stations",
+    "url": "https://avatars.mds.yandex.net/get-lpc/10704932/30a6b68d-cb00-4a6f-9e9c-60bf0550b578/orig",
+    "image": "/images/products/completed/station-2.png"
+  },
+  "Яндекс станция мини 3 с часами": {
+    "page": "https://alice.yandex.ru/compare-stations",
+    "url": "https://avatars.mds.yandex.net/get-lpc/1635340/a5ee5bf6-e79b-4183-be86-db8043ecee01/orig",
+    "image": "/images/products/completed/station-mini-3.png"
+  },
+  "Яндекс станция 2 с часами": {
+    "page": "https://alice.yandex.ru/compare-stations",
+    "url": "https://avatars.mds.yandex.net/get-lpc/10116223/2cebc7a1-81d0-4a64-bfa4-a954a9c53a7e/orig",
+    "image": "/images/products/completed/station-mini-2-clock.png"
+  },
+  "PS V2": {
+    "page": "https://ads-store.ru/product/sony-playstation-vr-2/",
+    "image": "/images/products/completed/ps-vr2.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/95/15/1595/images/1225/1225.970.webp"
+  },
+  "Xiaomi 15T Pro": {
+    "page": "https://www.mi.com/global/product/xiaomi-15t-pro/specs/",
+    "url": "https://i02.appmifile.com/526_item_jp/03/09/2025/d9db9379df90f7cbbd9742c9e1fd22d1.png",
+    "image": "/images/products/completed/xiaomi-15t-pro-black.png"
+  },
+  "Xiaomi 12": {
+    "page": "https://www.mi.com/global/product/xiaomi-12/specs/",
+    "url": "https://i01.appmifile.com/webfile/globalimg/pic/Xiaomi12_Black-front.png",
+    "image": "/images/products/completed/xiaomi-12-black.png"
+  },
+  "Redmi Note 14 5G": {
+    "page": "https://www.mi.com/global/product/redmi-note-14-5g/specs/",
+    "url": "https://www.orange.pl/medias/sys_master/root/images/hc4/h1c/14537214492702/xiaomi-redmi-note-14-5g-black-front-1.png",
+    "image": "/images/products/completed/redmi-note-14-5g-black.png"
+  },
+  "Redmi Note 14 Pro": {
+    "page": "https://www.mi.com/global/product/redmi-note-14-pro/specs/",
+    "url": "https://mi-srbija.rs/storage/product/thumbs/84/33/redmi-note-14-pro-16210-2000x1864.jpg",
+    "image": "/images/products/completed/redmi-note-14-pro-black.jpg"
+  },
+  "Redmi Note 14S": {
+    "page": "https://www.mi.com/global/product/redmi-note-14s/specs/",
+    "url": "https://mtscdn.ru/upload/iblock/438/j37f4elrwkjbo10fsbdfomo0a6stw097.png",
+    "image": "/images/products/completed/redmi-note-14s-black.png"
+  },
+  "Redmi Note 14": {
+    "page": "https://www.mi.com/global/product/redmi-note-14/specs/",
+    "url": "https://castore.uz/upload/iblock/091/gspajr7qattno8agki3d1in3n7q20a0s/smartfon-xiaomi-redmi-note-14-8-256gb-midnight-black.png",
+    "image": "/images/products/completed/redmi-note-14-black.jpg"
+  },
+  "Redmi Note 15 Pro+ 5G": {
+    "page": "https://www.mi.com/global/product/redmi-note-15-pro-plus-5g/specs/",
+    "url": "https://ssr.col.movistar.es/api/v3/get-pic/content/dam/movistar/estaticos/imagenes/dispositivos/xiaomi/redmi-series/redmi-note-15-pro-plus-5g-negro-01.png?hash=mmxj1ecn&oe=png",
+    "image": "/images/products/completed/redmi-note-15-pro-plus-5g-black.png"
+  },
+  "Redmi Note 15 5G": {
+    "page": "https://www.mi.com/global/product/redmi-note-15-5g/specs/",
+    "url": "https://i02.appmifile.com/964_item_pe/06/02/2026/1128ef0128e63913e45778e2b1a30659.png",
+    "image": "/images/products/completed/redmi-note-15-5g-black.png"
+  },
+  "Xiaomi Pad 8 Pro": {
+    "page": "https://www.mi.com/global/product/xiaomi-pad-8-pro/specs/",
+    "url": "https://i02.appmifile.com/910_item_jp/25/02/2026/d369da1a293bc0d73d03c9b373d3103e.png",
+    "image": "/images/products/completed/xiaomi-pad-8-pro-gray.png"
+  },
+  "Xiaomi Pad 7": {
+    "page": "https://www.mi.com/global/product/xiaomi-pad-7/specs/",
+    "url": "https://i02.appmifile.com/90_item_sg/24/02/2025/38b4fbc3f01c7f217c755231143d5930.png",
+    "image": "/images/products/completed/xiaomi-pad-7-gray.png"
+  },
+  "Pencil pro": {
+    "page": "https://ads-store.ru/product/stilus-apple-pencil-pro/",
+    "image": "/images/products/completed/pencil-pro.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/00/15/1500/images/4049/4049.970.webp"
+  },
+  "Pencil USB-C": {
+    "page": "https://ads-store.ru/product/stilus-apple-pencil-usb-c/",
+    "image": "/images/products/completed/pencil-usb-c.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/02/15/1502/images/3583/3583.970.webp"
+  },
+  "Apple Watch SE 2": {
+    "page": "https://ads-store.ru/product/umnye-chasy-apple-watch-se-2024-44mm-midnight-aluminum-case-with-midnight-sport-band-s-m/",
+    "image": "/images/products/completed/watch-se-2.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/98/20/2098/images/2162/2162.970.webp"
+  },
+  "Apple Watch Series 10": {
+    "page": "https://ads-store.ru/product/umnye-chasy-apple-watch-series-10-46mm-silver-aluminum-case-with-denim-sport-band-m-l/",
+    "image": "/images/products/completed/watch-10.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/41/32/3241/images/2624/2624.970.webp"
+  },
+  "PS Portal": {
+    "page": "https://ads-store.ru/product/sony-playstation-portal/",
+    "image": "/images/products/completed/ps-portal.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/96/15/1596/images/903/903.970.webp"
+  },
+  "Дисковод PS5": {
+    "page": "https://ads-store.ru/product/diskovod-playstation-5-disc-drive/",
+    "image": "/images/products/completed/ps5-disc-drive.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/97/15/1597/images/6514/6514.970.webp"
+  },
+  "Xiaomi 17 Ultra": {
+    "page": "https://ads-store.ru/product/smartfon-xiaomi-17-ultra-16-512gb-chernyy-black/",
+    "image": "/images/products/completed/xiaomi-17-ultra.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/68/26/2668/images/7148/7148.970.webp"
+  },
+  "Xiaomi 17": {
+    "page": "https://ads-store.ru/product/smartfon-xiaomi-17-12-512gb-chernyy-black/",
+    "image": "/images/products/completed/xiaomi-17.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/43/26/2643/images/1625/1625.970.webp"
+  },
+  "Redmi Note 15 Pro 5G": {
+    "page": "https://ads-store.ru/product/smartfon-xiaomi-redmi-note-15-pro-5g-8-256gb-chernyy-black/",
+    "image": "/images/products/completed/redmi-note-15-pro-5g.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/54/31/3154/images/5658/5658.970.webp"
+  },
+  "Redmi Note 15 Pro": {
+    "page": "https://ads-store.ru/product/smartfon-xiaomi-redmi-note-15-pro-4g-8-256gb-chernyy-midnight-black/",
+    "image": "/images/products/completed/redmi-note-15-pro.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/53/25/2553/images/3843/3843.970.webp"
+  },
+  "Redmi Note 15": {
+    "page": "https://ads-store.ru/product/smartfon-xiaomi-redmi-note-15-4g-8-128gb-chernyy-black/",
+    "image": "/images/products/completed/redmi-note-15.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/45/25/2545/images/6672/6672.970.webp"
+  },
+  "Xiaomi Pad 8": {
+    "page": "https://ads-store.ru/product/planshet-xiaomi-pad-8-wi-fi-8-128gb-seryy-gray/",
+    "image": "/images/products/completed/xiaomi-pad-8.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/84/23/2384/images/1859/1859.970.webp"
+  },
+  "Яндекс станция Макс": {
+    "page": "https://ads-store.ru/product/umnaya-kolonka-yandeks-stantsiya-maks-s-zigbee-chernyy/",
+    "image": "/images/products/completed/station-max.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/25/22/2225/images/1758/1758.970.webp"
+  },
+  "Яндекс станция Миди": {
+    "page": "https://ads-store.ru/product/umnaya-kolonka-yandeks-stantsiya-midi-s-zigbee-chernyy/",
+    "image": "/images/products/completed/station-midi.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/29/22/2229/images/2098/2098.970.webp"
+  },
+  "Яндекс станция Стрит": {
+    "page": "https://ads-store.ru/product/umnaya-portativnaya-kolonka-yandeks-stantsiya-strit-chernyy/",
+    "image": "/images/products/completed/station-street.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/38/22/2238/images/3530/3530.970.webp"
+  },
+  "Яндекс станция 3 Про с часами": {
+    "page": "https://ads-store.ru/product/umnaya-kolonka-yandeks-stantsiya-mini-3-pro-chernyy/",
+    "image": "/images/products/completed/station-mini-3-pro.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/34/22/2234/images/4151/4151.970.webp"
+  },
+  "Яндекс станция Лайт 2 с часами": {
+    "page": "https://ads-store.ru/product/umnaya-kolonka-yandeks-stantsiya-layt-2-grafit/",
+    "image": "/images/products/completed/station-lite-2.webp",
+    "url": "https://ads-store.ru/wa-data/public/shop/products/19/22/2219/images/1177/1177.970.webp"
+  }
+}

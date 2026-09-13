@@ -2,7 +2,7 @@
 import { ProductVariants } from './product-variants';
 import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 
-import Image from 'next/image';
+import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 import { useState } from 'react';
 import { ArrowLeft, Check } from 'lucide-react';
@@ -71,7 +71,7 @@ export function IphoneProductPage({
                 src={currentPhoto.src}
                 alt={`${model} ${selected.color}, фото ${activePhoto + 1}`}
                 fill
-                priority
+                preload
                 quality={100}
                 sizes="(max-width: 768px) 100vw, 58vw"
               />

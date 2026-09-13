@@ -1,5 +1,5 @@
 'use client';
-import Image from 'next/image';
+import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 import { ChevronDown, MapPin } from 'lucide-react';
 import { useCity } from '@/components/providers/city-provider';
@@ -39,7 +39,7 @@ export function XiaomiCatalogPage(){const { city }=useCity();return (<main class
               src="/images/products/xiaomi/15-ultra-main.png"
               alt="Xiaomi 15 Ultra"
               fill
-              priority
+              preload
               unoptimized
               sizes="(max-width: 700px) 80vw, 42vw"
             />

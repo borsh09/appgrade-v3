@@ -114,7 +114,6 @@ export function CategoryShowcase() {
         </div>
         <Link href="/catalog" className="category-review">
           <div>
-            <span>ВЫБОР APPGRADE</span>
             <h3>
               Техника,
               <br />
@@ -150,7 +149,6 @@ export function PromoMosaic() {
       <div className="promo-mosaic">
         <Link href="/#trade-in" className="offer-tile offer-trade">
           <div>
-            <span>TRADE-IN</span>
             <h3>
               Обновиться проще,
               <br />
@@ -164,7 +162,6 @@ export function PromoMosaic() {
         </Link>
         <Link href="/catalog/macbooks" className="offer-tile offer-device">
           <div>
-            <span>MACBOOK AIR</span>
             <h3>
               Лёгкий.
               <br />
@@ -181,7 +178,6 @@ export function PromoMosaic() {
         </Link>
         <Link href="/#контакты" className="offer-tile offer-city">
           <div>
-            <span>APPGRADE РЯДОМ</span>
             <h3>
               Четыре города.
               <br />
