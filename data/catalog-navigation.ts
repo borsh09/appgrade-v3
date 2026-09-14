@@ -81,7 +81,7 @@ export const catalogCategories: CatalogCategory[] = [
     id: 'cameras',
     href: '/catalog/cameras',
     title: 'Фотоаппараты',
-    image: '/images/products/cameras/mini13-blue.jpg',
+    image: '/images/products/cameras/evo-black.png',
     description: 'Instax и моментальная печать',
   },
   {
@@ -90,12 +90,5 @@ export const catalogCategories: CatalogCategory[] = [
     title: 'Аксессуары',
     image: '/images/king-category-accessories.webp',
     description: 'Для ваших устройств',
-  },
-  {
-    id: 'gadgets',
-    href: '/catalog/gadgets',
-    title: 'Гаджеты',
-    image: '/images/king-category-gadgets.webp',
-    description: 'Полезные устройства',
   },
 ];

@@ -18214,3 +18214,174 @@ html body .normalized-product-photo .normalized-product-photo-source img {
     border-radius: 12px;
   }
 }
+
+/* Global route loading screen */
+.appgrade-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 24px;
+  background: #050505;
+}
+.appgrade-startup-loader { position: fixed; inset: 0; z-index: 9999; transition: opacity .35s ease, visibility .35s ease; }
+.appgrade-startup-loader.is-leaving { opacity: 0; visibility: hidden; }
+
+.appgrade-loading-content {
+  display: grid;
+  justify-items: center;
+  width: min(280px, 72vw);
+  gap: 28px;
+}
+
+.appgrade-loading-content img {
+  display: block;
+  width: min(240px, 64vw);
+  height: auto;
+  object-fit: contain;
+}
+
+.appgrade-loading-track {
+  position: relative;
+  width: 100%;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.appgrade-loading-track span {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 42%;
+  border-radius: inherit;
+  background: #e5332a;
+  box-shadow: 0 0 18px rgba(229, 51, 42, 0.48);
+  animation: appgrade-loading-progress 1.15s cubic-bezier(.65, 0, .35, 1) infinite;
+}
+
+@keyframes appgrade-loading-progress {
+  0% {
+    transform: translateX(-110%);
+  }
+  55% {
+    width: 58%;
+  }
+  100% {
+    width: 42%;
+    transform: translateX(245%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .appgrade-loading-track span {
+    width: 55%;
+    animation: none;
+  }
+}
+
+/* Compact home offer carousel */
+.appgrade-promo-carousel-section { padding: 22px 0 48px; background: #f5f5f3; }
+.appgrade-promo-carousel { position: relative; height: 190px; overflow: hidden; border-radius: 26px; background: #e5332a; color: #fff; }
+.appgrade-promo-slide { position: absolute; inset: 0; display: flex; align-items: center; padding: 30px 120px 30px 38px; overflow: hidden; opacity: 0; visibility: hidden; transform: translateX(24px); transition: opacity 360ms ease, transform 480ms cubic-bezier(.22, 1, .36, 1), visibility 360ms; }
+.appgrade-promo-slide.is-active { z-index: 1; opacity: 1; visibility: visible; transform: translateX(0); }
+.appgrade-promo-slide-trade-in { background: linear-gradient(110deg, #d82922, #f04a3f); }
+.appgrade-promo-slide-installment { background: linear-gradient(110deg, #3569d4, #80a9ff); }
+.appgrade-promo-slide-service { background: linear-gradient(110deg, #171719, #46464c); }
+.appgrade-promo-slide-copy { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(280px, 570px) auto; align-items: center; column-gap: 30px; width: 82%; }
+.appgrade-promo-slide-copy h2 { grid-row: 1; margin: 0; max-width: 650px; font-size: clamp(25px, 2.6vw, 38px); font-weight: 600; line-height: 1.03; letter-spacing: -.045em; }
+.appgrade-promo-slide-copy p { grid-row: 2; margin: 10px 0 0; max-width: 500px; color: rgba(255, 255, 255, .76); font-size: 13px; line-height: 1.45; }
+.appgrade-promo-slide-copy > a { grid-column: 2; grid-row: 1 / span 2; display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 46px; padding: 0 20px; border-radius: 999px; background: #fff; color: #111; font-size: 12px; font-weight: 650; white-space: nowrap; transition: transform 180ms ease; }
+.appgrade-promo-slide-copy > a:hover { transform: translateY(-2px); }
+.appgrade-promo-slide-icon { position: absolute; right: 7%; width: 150px; height: 150px; color: rgba(255, 255, 255, .12); stroke-width: 1; transform: rotate(-8deg); }
+.appgrade-promo-carousel-controls { position: absolute; right: 18px; bottom: 16px; z-index: 3; display: flex; align-items: center; gap: 8px; }
+.appgrade-promo-carousel-controls > button { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 1px solid rgba(255, 255, 255, .28); border-radius: 50%; background: rgba(0, 0, 0, .12); color: #fff; cursor: pointer; }
+.appgrade-promo-carousel-dots { display: flex; gap: 5px; }
+.appgrade-promo-carousel-dots button { width: 6px; height: 6px; padding: 0; border: 0; border-radius: 999px; background: rgba(255, 255, 255, .42); cursor: pointer; transition: width 180ms ease, background-color 180ms ease; }
+.appgrade-promo-carousel-dots button.is-active { width: 20px; background: #fff; }
+
+@media (max-width: 768px) {
+  .appgrade-promo-carousel-section { padding: 16px 0 36px; }
+  .appgrade-promo-carousel { height: 220px; border-radius: 20px; }
+  .appgrade-promo-slide { align-items: flex-start; padding: 24px 22px 62px; }
+  .appgrade-promo-slide-copy { display: block; width: 100%; }
+  .appgrade-promo-slide-copy h2 { max-width: 86%; font-size: clamp(25px, 7.2vw, 32px); }
+  .appgrade-promo-slide-copy p { max-width: 78%; margin-top: 9px; font-size: 12px; }
+  .appgrade-promo-slide-copy > a { min-height: 38px; margin-top: 16px; padding: 0 15px; }
+  .appgrade-promo-slide-icon { right: -16px; bottom: -14px; width: 118px; height: 118px; }
+  .appgrade-promo-carousel-controls { right: 12px; bottom: 12px; }
+  .appgrade-promo-carousel-controls > button { width: 32px; height: 32px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .appgrade-promo-slide, .appgrade-promo-slide-copy > a, .appgrade-promo-carousel-dots button { transition: none; }
+}
+
+/* Trade-In calculator */
+.appgrade-tradein-page { padding: 54px 0 100px; background: radial-gradient(circle at 85% 4%, rgba(116,31,50,.1), transparent 25%), #f3f3f0; }
+.appgrade-tradein-hero { max-width: 880px; margin-bottom: 28px; }
+.appgrade-tradein-hero h1 { margin: 0 0 18px; font-size: clamp(50px,6.8vw,92px); line-height: .92; }
+.appgrade-tradein-hero p { max-width: 620px; font-size: 15px; }
+.appgrade-tradein-progress { display: flex; align-items: center; gap: 14px; max-width: 760px; margin-bottom: 20px; }
+.appgrade-tradein-progress > div { height: 6px; flex: 1; overflow: hidden; border-radius: 99px; background: #dddeda; }
+.appgrade-tradein-progress span,.appgrade-tradein-summary-meter span { display: block; height: 100%; border-radius: inherit; background: #741f32; transition: width .35s cubic-bezier(.2,.8,.2,1); }
+.appgrade-tradein-progress strong { min-width: 38px; font-size: 11px; }
+.appgrade-tradein-layout { grid-template-columns: minmax(0,1fr) 390px; gap: 18px; }
+.appgrade-tradein-form { gap: 18px; }
+.appgrade-tradein-step { padding: 30px; border: 1px solid rgba(17,17,17,.05); box-shadow: 0 12px 35px rgba(17,17,17,.035); }
+.appgrade-tradein-step-heading { align-items: center; margin-bottom: 24px; }
+.appgrade-tradein-step-heading > span { width: 34px; height: 34px; background: #741f32; font-size: 11px; font-weight: 700; }
+.appgrade-tradein-step-heading h2 { font-size: 28px; }
+.appgrade-tradein-device-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+.appgrade-tradein-device-grid button { position: relative; display: flex; min-height: 120px; padding: 18px; flex-direction: column; align-items: flex-start; justify-content: space-between; border: 1px solid #e2e2de; border-radius: 20px; background: #f7f7f5; cursor: pointer; transition: transform .2s ease,border-color .2s ease,box-shadow .2s ease; }
+.appgrade-tradein-device-grid button:hover { transform: translateY(-3px); border-color: #aaa; }
+.appgrade-tradein-device-grid button.is-active { border-color: #111; background: #fff; box-shadow: inset 0 0 0 1px #111,0 10px 25px rgba(0,0,0,.06); }
+.appgrade-tradein-device-grid button > span { font-size: 13px; font-weight: 700; }
+.appgrade-tradein-device-grid button i { position: absolute; top: 14px; right: 14px; display: grid; width: 23px; height: 23px; place-items: center; border-radius: 50%; background: #741f32; color: #fff; }
+.appgrade-tradein-model { display: block; margin-top: 22px; }
+.appgrade-tradein-model > span,.appgrade-tradein-contact-fields label > span { display: block; margin-bottom: 8px; font-size: 11px; font-weight: 700; }
+.appgrade-tradein-model input,.appgrade-tradein-contact-fields input { width: 100%; height: 56px; padding: 0 16px; border: 1px solid #deded9; border-radius: 16px; background: #f7f7f5; color: #111; font: inherit; font-size: 14px; outline: none; transition: border-color .18s ease,box-shadow .18s ease,background .18s ease; }
+.appgrade-tradein-model input:focus,.appgrade-tradein-contact-fields input:focus { border-color: #111; background: #fff; box-shadow: 0 0 0 3px rgba(17,17,17,.08); }
+.appgrade-tradein-questions { display: grid; gap: 14px; }
+.appgrade-tradein-question { min-width: 0; margin: 0; padding: 0 0 18px; border: 0; border-bottom: 1px solid #ecece8; }
+.appgrade-tradein-question:last-child { padding-bottom: 0; border-bottom: 0; }
+.appgrade-tradein-question legend { display: flex; align-items: center; gap: 9px; width: 100%; margin-bottom: 12px; font-size: 13px; font-weight: 700; }
+.appgrade-tradein-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.appgrade-tradein-pills button { display: flex; min-height: 44px; padding: 0 13px; align-items: center; gap: 8px; border: 1px solid #deded9; border-radius: 14px; background: #f7f7f5; font-size: 11px; font-weight: 600; cursor: pointer; }
+.appgrade-tradein-pills button.is-active { border-color: #111; background: #111; color: #fff; }
+.appgrade-tradein-pills button > span { display: grid; width: 15px; height: 15px; place-items: center; }
+.appgrade-tradein-summary { top: 88px; padding: 28px; border-radius: 30px; background: linear-gradient(155deg,#181818,#080808); overflow: hidden; }
+.appgrade-tradein-summary::before { content: ''; position: absolute; width: 230px; height: 230px; top: -130px; right: -80px; border-radius: 50%; background: rgba(116,31,50,.38); filter: blur(45px); pointer-events: none; }
+.appgrade-tradein-summary-top { position: relative; display: flex; justify-content: space-between; }
+.appgrade-tradein-summary-icon { margin-bottom: 30px; background: #741f32; }
+.appgrade-tradein-reset { display: grid; width: 38px; height: 38px; margin: 0; padding: 0; place-items: center; border-radius: 12px; background: rgba(255,255,255,.08); }
+.appgrade-tradein-reset:disabled { opacity: .25; cursor: default; }
+.appgrade-tradein-summary-label { margin: 0 0 7px; color: rgba(255,255,255,.5); font-size: 11px; }
+.appgrade-tradein-summary h2 { margin: 0 0 12px; font-size: clamp(31px,3vw,42px); line-height: 1.02; }
+.appgrade-tradein-summary-model { margin: 0; color: rgba(255,255,255,.66); font-size: 13px; overflow-wrap: anywhere; }
+.appgrade-tradein-summary-copy { margin: 0 0 22px; max-width: 280px; color: rgba(255,255,255,.5); font-size: 12px; line-height: 1.55; }
+.appgrade-tradein-summary-meter { height: 6px; margin: 26px 0 28px; overflow: hidden; border-radius: 99px; background: rgba(255,255,255,.1); }
+.appgrade-tradein-selection { margin: 20px 0; padding: 15px 0; }
+.appgrade-tradein-contact h3 { margin: 0 0 14px; font-size: 16px; }
+.appgrade-tradein-contact-fields { display: grid; gap: 9px; }
+.appgrade-tradein-contact-fields label > span { color: rgba(255,255,255,.65); font-size: 9px; }
+.appgrade-tradein-contact-fields input { height: 48px; border-color: rgba(255,255,255,.14); background: rgba(255,255,255,.08); color: #fff; font-size: 12px; }
+.appgrade-tradein-contact-fields input::placeholder { color: rgba(255,255,255,.3); }
+.appgrade-tradein-contact-fields input:focus { border-color: rgba(255,255,255,.5); background: rgba(255,255,255,.11); box-shadow: none; }
+.appgrade-tradein-consent { display: flex; gap: 9px; margin: 13px 0; align-items: flex-start; color: rgba(255,255,255,.5); font-size: 9px; line-height: 1.45; }
+.appgrade-tradein-consent input { flex: 0 0 auto; margin: 1px 0 0; accent-color: #741f32; }
+.appgrade-tradein-consent a { color: #fff; text-decoration: underline; }
+.appgrade-tradein-cta { background: #741f32; color: #fff; cursor: pointer; transition: transform .18s ease,background .18s ease; }
+.appgrade-tradein-cta:hover:not(:disabled) { transform: translateY(-2px); background: #8b2940; }
+.appgrade-tradein-error { display: block; margin-top: 10px; color: #d99aa7; font-size: 10px; }
+.appgrade-tradein-options button:focus-visible,.appgrade-tradein-cta:focus-visible,.appgrade-tradein-reset:focus-visible,.appgrade-tradein-device-grid button:focus-visible,.appgrade-tradein-pills button:focus-visible,.appgrade-tradein-model input:focus-visible { outline-color: #741f32; }
+.appgrade-tradein-success { display: flex; gap: 12px; padding: 17px; border-radius: 17px; background: rgba(255,255,255,.09); }
+.appgrade-tradein-success strong { display: block; margin-bottom: 5px; }
+.appgrade-tradein-success p { margin: 0; color: rgba(255,255,255,.55); font-size: 10px; line-height: 1.45; }
+.appgrade-tradein-notice { margin: 20px 0 0; }
+@media (max-width:1050px) { .appgrade-tradein-device-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width:900px) { .appgrade-tradein-layout { grid-template-columns: 1fr; } .appgrade-tradein-summary { position: static; } }
+@media (max-width:600px) { .appgrade-tradein-page { padding: 30px 0 64px; } .appgrade-tradein-hero h1 { font-size: clamp(44px,13vw,64px); } .appgrade-tradein-hero p { font-size: 13px; } .appgrade-tradein-step,.appgrade-tradein-summary { padding: 19px; border-radius: 24px; } .appgrade-tradein-step-heading h2 { font-size: 23px; } .appgrade-tradein-device-grid button { min-height: 100px; padding: 15px; border-radius: 17px; } .appgrade-tradein-pills { display: grid; grid-template-columns: 1fr; } .appgrade-tradein-pills button { justify-content: space-between; width: 100%; } }

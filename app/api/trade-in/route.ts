@@ -17,7 +17,7 @@ export async function POST(request:Request){try{
   if(previous.rows[0]){if(previous.rows[0].request_hash!==hash)throw new OrderError('Данные заявки изменились.',409);return Response.json({success:true,id:previous.rows[0].id});}
   await rateLimit('trade-in:phone',payload.customer.phone.replace(/\D/g,''),5);
   const id=randomUUID();
-  const messages=[`Trade-In ${id}\n${payload.customer.name}\n${payload.customer.phone}\n${CITIES[payload.city as keyof typeof CITIES].name}\n${payload.deviceType}: ${payload.model}\n${payload.condition}`];
+  const messages=[`Trade-In ${id}\n${payload.customer.name}\n${payload.customer.phone}\n${CITIES[payload.city as keyof typeof CITIES].name}\n${payload.deviceType}: ${payload.model}\n${payload.condition}${payload.details?`\n${payload.details}`:''}${payload.estimate!==null?`\nПредварительная оценка: до ${payload.estimate.toLocaleString('ru-RU')} ₽`:''}`];
   const inserted=await database().query('INSERT INTO appgrade_trade_ins(id,request_key,request_hash,payload,messages,notification_chat) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT(request_key) DO NOTHING RETURNING id',[id,raw.requestKey,hash,JSON.stringify(payload),JSON.stringify(messages),chat]);
   if(!inserted.rows[0]){const retry=await database().query('SELECT id,request_hash FROM appgrade_trade_ins WHERE request_key=$1',[raw.requestKey]);if(retry.rows[0].request_hash!==hash)throw new OrderError('Данные заявки изменились.',409);return Response.json({success:true,id:retry.rows[0].id});}
   return Response.json({success:true,id});
