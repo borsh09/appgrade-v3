@@ -1,0 +1,9 @@
+.agents
+.codex
+.git
+.tmp-qa
+.tmp-ref
+var
+Dockerfile
+compose.yaml
+tests

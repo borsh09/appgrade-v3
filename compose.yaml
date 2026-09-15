@@ -41,8 +41,13 @@ services:
       - "127.0.0.1:3000:3000"
     environment:
       <<: *app-env
+      ADMIN_USER: ${ADMIN_USER:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
       TELEGRAM_ORDERS_BOT_TOKEN: ${TELEGRAM_ORDERS_BOT_TOKEN}
       TELEGRAM_ORDERS_CHAT_ID: ${TELEGRAM_ORDERS_CHAT_ID}
+      PRICE_UPLOAD_DIR: /app/var/price-uploads
+    volumes:
+      - uploads:/app/var/price-uploads
   price-bot:
     <<: *app
     command: ["npm", "run", "bot:prices"]

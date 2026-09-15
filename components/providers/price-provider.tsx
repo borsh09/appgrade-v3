@@ -12,10 +12,12 @@ import {
 
 type Prices = Record<string, number | null>;
 const PriceContext = createContext<Prices>(basePrices);
+const CityPriceContext=createContext<Record<string,Record<string,number>>>({});
 const StockContext=createContext<Record<string,Record<string,number>>>({});
 export function PriceProvider({ children }: { children: React.ReactNode }) {
   const [prices, setPrices] = useState<Prices>(basePrices);
   const [inventory,setInventory]=useState<Record<string,Record<string,number>>>({});
+  const [cityPrices,setCityPrices]=useState<Record<string,Record<string,number>>>({});
   useEffect(() => {
     let active = true;
     let inFlight = false;
@@ -40,6 +42,7 @@ export function PriceProvider({ children }: { children: React.ReactNode }) {
           revision = `${snapshot.revision}:${snapshot.inventoryRevision??''}`;
           setPrices(snapshot.prices);
           setInventory(snapshot.inventory??{});
+          setCityPrices(snapshot.cityPrices??{});
         }
       } catch {
         /* Retain the last successfully loaded prices during an outage. */
@@ -60,17 +63,19 @@ export function PriceProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
   return (
-    <PriceContext.Provider value={prices}><StockContext.Provider value={inventory}>{children}</StockContext.Provider></PriceContext.Provider>
+    <PriceContext.Provider value={prices}><CityPriceContext.Provider value={cityPrices}><StockContext.Provider value={inventory}>{children}</StockContext.Provider></CityPriceContext.Provider></PriceContext.Provider>
   );
 }
 export function usePriceResolver() {
   const prices = useContext(PriceContext);
+  const cityPrices = useContext(CityPriceContext);
+  const {city}=useCity();
   return useCallback(
     <T extends { id: string; price: number | null }>(item: T): T => {
-      const price = prices[item.id];
+      const price = cityPrices[item.id]?.[city.id] ?? prices[item.id];
       return Object.hasOwn(prices, item.id) ? { ...item, price } : item;
     },
-    [prices],
+    [prices, cityPrices, city.id],
   );
 }
 export function useStock(){const inventory=useContext(StockContext);const {city}=useCity();return useCallback((id:string)=>inventory[id]?.[city.id],[inventory,city.id]);}

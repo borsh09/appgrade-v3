@@ -7,6 +7,7 @@ export type PriceSnapshot = {
   revision: string;
   prices: Record<string, number | null>;
   inventory?: Record<string,Record<string,number>>;
+  cityPrices?: Record<string,Record<string,number>>;
   inventoryRevision?: string;
 };
 export async function getPrices(): Promise<PriceSnapshot> {
@@ -16,14 +17,20 @@ export async function getPrices(): Promise<PriceSnapshot> {
     'SELECT revision, prices FROM appgrade_prices WHERE singleton = true',
   );
   if (!rows[0]) throw new Error('Database migration is required');
-  const stock=await database().query('SELECT sku,city,quantity FROM appgrade_inventory ORDER BY sku,city');
+  const [stock,cityPriceRows]=await Promise.all([
+    database().query('SELECT sku,city,quantity FROM appgrade_inventory ORDER BY sku,city'),
+    database().query('SELECT sku,city,price FROM appgrade_city_prices ORDER BY sku,city'),
+  ]);
   const inventory: Record<string,Record<string,number>>={};
   for(const row of stock.rows)(inventory[row.sku]??={})[row.city]=row.quantity;
+  const cityPrices: Record<string,Record<string,number>>={};
+  for(const row of cityPriceRows.rows)(cityPrices[row.sku]??={})[row.city]=row.price;
   return {
     revision: rows[0].revision,
     prices: { ...basePrices, ...rows[0].prices },
     inventory,
-    inventoryRevision:createHash('sha256').update(JSON.stringify(inventory)).digest('hex'),
+    cityPrices,
+    inventoryRevision:createHash('sha256').update(JSON.stringify({inventory,cityPrices})).digest('hex'),
   };
 }
 export async function applyImport(id: string, owner: string, chat: string) {

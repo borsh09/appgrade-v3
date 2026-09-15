@@ -78,6 +78,7 @@ export async function POST(request: NextRequest) {
       const order = validateOrder(payload, {
         ...basePrices,
         ...state.rows[0].prices,
+        ...Object.fromEntries((await client.query('SELECT sku,price FROM appgrade_city_prices WHERE city=$1',[payload.city?.id])).rows.map(row=>[row.sku,row.price])),
       });
       const key = createHash('sha256')
         .update(order.customer.phone.replace(/\D/g, ''))
