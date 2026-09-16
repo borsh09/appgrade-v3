@@ -50,6 +50,17 @@ void test('PostgreSQL import, rollback, idempotent order persistence and notific
     await rollbackPrices(draftId, '123');
     assert.equal((await getPrices()).prices[item.id], item.price);
     await assert.rejects(rollbackPrices(draftId, '123'));
+    const cityDraftId = randomUUID();
+    const cityRevision = (await getPrices()).revision;
+    const cityReport = { changes: [{ id: item.id, before: item.price, after: 60002 }], errors: [], warnings: [] };
+    await db.query(
+      `INSERT INTO appgrade_imports(id,update_id,owner_id,chat_id,filename,file_hash,base_revision,report,target_cities) VALUES($1,3,'123','123','city.xlsx','hash-city',$2,$3,$4)`,
+      [cityDraftId, cityRevision, JSON.stringify(cityReport), ['beloretsk', 'troitsk']],
+    );
+    await applyImport(cityDraftId, '123', '123');
+    const cityPrices = (await getPrices()).cityPrices ?? {};
+    assert.equal(cityPrices[item.id]?.beloretsk, 60002);
+    assert.equal(cityPrices[item.id]?.troitsk, 60002);
     let calls = 0;
     const blockedBot = {
       send: async () => {

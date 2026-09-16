@@ -673,6 +673,7 @@ function Prices({
   priceAction: (a: 'apply' | 'rollback', id: string) => Promise<void>;
 }) {
   const [targetCities, setTargetCities] = useState<string[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const cityEntries = Object.entries(CITIES) as [string, { name: string }][];
   return (
     <div className="admin-page">
@@ -702,9 +703,10 @@ function Prices({
                 <strong>Выберите файл .xlsx</strong>
                 <small>Исходный формат прайса APPGRADE</small>
               </span>
-              <input type="file" name="file" accept=".xlsx" required />
+              <input type="file" name="file" accept=".xlsx" required onChange={(event) => setSelectedFile(event.currentTarget.files?.[0] ?? null)} />
+              <em className="admin-file-name">{selectedFile ? selectedFile.name : 'Файл ещё не выбран'}</em>
             </label>
-            <button disabled={busy}>
+            <button disabled={busy || !selectedFile}>
               <ArrowDownToLine /> {busy ? 'Проверяем файл…' : 'Проверить прайс'}
             </button>
           </form>
