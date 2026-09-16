@@ -588,7 +588,7 @@ function Entries({
       </div>
       <label className="admin-search admin-entry-search">
         <Search />
-        <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="РџРѕРёСЃРє РїРѕ РєР»РёРµРЅС‚Сѓ, С‚РµР»РµС„РѕРЅСѓ РёР»Рё ID" />
+        <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={'\u041f\u043e\u0438\u0441\u043a \u043f\u043e \u043a\u043b\u0438\u0435\u043d\u0442\u0443, \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0443 \u0438\u043b\u0438 ID'} />
       </label>
       <section className="admin-table-card">
         <div className="admin-table admin-orders-table">
@@ -605,7 +605,7 @@ function Entries({
               <span>
                 <strong>{entry.payload.customer.name}</strong>
                 <small>{entry.payload.customer.phone}</small>
-                <small>{entry.payload.city?.name || 'Р“РѕСЂРѕРґ РЅРµ СѓРєР°Р·Р°РЅ'}</small>
+                <small>{entry.payload.city?.name || '\u0413\u043e\u0440\u043e\u0434 \u043d\u0435 \u0443\u043a\u0430\u0437\u0430\u043d'}</small>
                 <button className="admin-order-open" onClick={() => setExpandedId(expandedId === entry.id ? null : entry.id)}>
                   {expandedId === entry.id ? '\u0441\u043a\u0440\u044b\u0442\u044c' : '\u043f\u043e\u0434\u0440\u043e\u0431\u043d\u0435\u0435'}
                 </button>
