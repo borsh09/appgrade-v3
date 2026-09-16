@@ -607,7 +607,7 @@ function Entries({
                 <small>{entry.payload.customer.phone}</small>
                 <small>{entry.payload.city?.name || 'Р“РѕСЂРѕРґ РЅРµ СѓРєР°Р·Р°РЅ'}</small>
                 <button className="admin-order-open" onClick={() => setExpandedId(expandedId === entry.id ? null : entry.id)}>
-                  {expandedId === entry.id ? 'СЃРєСЂС‹С‚СЊ' : 'РїРѕРґСЂРѕР±РЅРµРµ'}
+                  {expandedId === entry.id ? '\u0441\u043a\u0440\u044b\u0442\u044c' : '\u043f\u043e\u0434\u0440\u043e\u0431\u043d\u0435\u0435'}
                 </button>
               </span>
               <span>
