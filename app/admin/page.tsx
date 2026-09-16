@@ -151,6 +151,12 @@ export default function AdminPage() {
   useEffect(() => {
     queueMicrotask(() => void load());
   }, []);
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      if (document.visibilityState === 'visible') void load();
+    }, 30_000);
+    return () => window.clearInterval(timer);
+  }, []);
   async function login(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
     setBusy(true);
@@ -544,8 +550,12 @@ function Entries({
   mutate: (body: unknown) => Promise<void>;
 }) {
   const [filter, setFilter] = useState('all');
-  const shown =
-    filter === 'all' ? entries : entries.filter((x) => x.status === filter);
+  const [query, setQuery] = useState('');
+  const shown = entries.filter((entry) => {
+    const matchesStatus = filter === 'all' || entry.status === filter;
+    const haystack = `${entry.id} ${entry.payload.customer.name} ${entry.payload.customer.phone} ${entry.payload.city?.name || ''}`.toLowerCase();
+    return matchesStatus && haystack.includes(query.toLowerCase().trim());
+  });
   return (
     <div className="admin-page">
       <div className="admin-section-tools">
@@ -570,6 +580,10 @@ function Entries({
           ))}
         </div>
       </div>
+      <label className="admin-search admin-entry-search">
+        <Search />
+        <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="РџРѕРёСЃРє РїРѕ РєР»РёРµРЅС‚Сѓ, С‚РµР»РµС„РѕРЅСѓ РёР»Рё ID" />
+      </label>
       <section className="admin-table-card">
         <div className="admin-table admin-orders-table">
           <div className="admin-table-head">
@@ -584,6 +598,7 @@ function Entries({
               <span>
                 <strong>{entry.payload.customer.name}</strong>
                 <small>{entry.payload.customer.phone}</small>
+                <small>{entry.payload.city?.name || 'Р“РѕСЂРѕРґ РЅРµ СѓРєР°Р·Р°РЅ'}</small>
               </span>
               <span>
                 <strong>{date(entry.created_at)}</strong>

@@ -18405,3 +18405,5 @@ html body .normalized-product-photo .normalized-product-photo-source img {
 .admin-city-picker input{position:static;inset:auto;width:16px;height:16px;flex:0 0 16px;opacity:1;accent-color:#e5332a;cursor:pointer}
 .admin-file-name{display:block;grid-column:1/-1;min-height:18px;padding:4px 8px;color:#555;font-size:9px;font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .admin-upload form>button:disabled{cursor:wait;opacity:.55}
+.admin-entry-search{width:min(520px,100%);margin-top:-8px}
+.admin-entry-search input{height:100%}
