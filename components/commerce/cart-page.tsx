@@ -245,7 +245,9 @@ export function CartPage() {
       try {
         const response = await fetch('/api/health', { cache: 'no-store', signal: controller.signal });
         const result = await response.json();
-        setOrdersAvailable(response.ok && result.ordersAvailable === true);
+        // The order API persists requests independently of Telegram delivery.
+        // A sleeping bot must not block checkout on the storefront.
+        setOrdersAvailable(response.ok ? result.ordersAvailable === true : true);
       } catch {
         if (!controller.signal.aborted) setOrdersAvailable(false);
       }
@@ -658,7 +660,6 @@ export function CartPage() {
 
       if (
         !cart.length ||
-        ordersAvailable !== true ||
         !checkoutReady ||
         sending
       ) {
@@ -1958,7 +1959,6 @@ export function CartPage() {
                   form="appgrade-order-form"
                   className="appgrade-cart-submit"
                   disabled={
-                    ordersAvailable !== true ||
                     sending ||
                     !checkoutReady
                   }
