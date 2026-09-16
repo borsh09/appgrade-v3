@@ -779,13 +779,13 @@ function Prices({
               {x}
             </p>
           ))}
-          {!draft.report.errors.length && draft.report.changes.length > 0 && (
+          {draft.report.changes.length > 0 && (
             <button
               className="admin-primary"
               disabled={busy}
               onClick={() => void priceAction('apply', draft.id)}
             >
-              <Check /> Применить {draft.report.changes.length} изменений
+              <Check /> Применить корректные {draft.report.changes.length} изменений
             </button>
           )}
         </section>

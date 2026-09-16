@@ -56,7 +56,7 @@ export async function applyImport(id: string, owner: string, chat: string) {
         'Цены уже изменились. Отправьте файл заново для свежего отчёта.',
       );
     const report = draft.report as ImportReport;
-    if (report.errors.length || !report.changes.length)
+    if (!report.changes.length)
       throw new Error('Нет изменений, которые можно применить.');
     const targetCities = Array.isArray(draft.target_cities) ? draft.target_cities.filter((city: unknown): city is string => typeof city === 'string') : [];
     if (targetCities.length) {
