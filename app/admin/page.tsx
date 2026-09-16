@@ -190,6 +190,11 @@ export default function AdminPage() {
   async function upload(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
+    const file = form.get('file');
+    if (!(file instanceof File) || !file.name) {
+      setError('Сначала выберите Excel-файл .xlsx.');
+      return;
+    }
     setBusy(true);
     setError('');
     try {
@@ -703,10 +708,10 @@ function Prices({
                 <strong>Выберите файл .xlsx</strong>
                 <small>Исходный формат прайса APPGRADE</small>
               </span>
-              <input type="file" name="file" accept=".xlsx" required onChange={(event) => setSelectedFile(event.currentTarget.files?.[0] ?? null)} />
+              <input type="file" name="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={(event) => setSelectedFile(event.currentTarget.files?.[0] ?? null)} />
               <em className="admin-file-name">{selectedFile ? selectedFile.name : 'Файл ещё не выбран'}</em>
             </label>
-            <button disabled={busy || !selectedFile}>
+            <button type="submit" disabled={busy}>
               <ArrowDownToLine /> {busy ? 'Проверяем файл…' : 'Проверить прайс'}
             </button>
           </form>
