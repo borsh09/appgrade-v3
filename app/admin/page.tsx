@@ -86,6 +86,7 @@ type State = {
     report: Report;
     created_at: string;
   }[];
+  audit: { id: string; owner_id: string; action: string; details: Record<string, unknown>; created_at: string }[];
 };
 type Tab = 'overview' | 'orders' | 'tradeIns' | 'prices' | 'catalog';
 const money = new Intl.NumberFormat('ru-RU');
@@ -99,7 +100,10 @@ const date = (value: string) =>
 const statuses: Record<string, string> = {
   new: 'Новый',
   confirmed: 'Подтверждён',
+  contacted: 'Связались',
+  awaiting_payment: 'Ожидает оплаты',
   completed: 'Завершён',
+  issued: 'Выдан',
   cancelled: 'Отменён',
 };
 const categoryNames: Record<string, string> = {
@@ -556,11 +560,13 @@ function Entries({
 }) {
   const [filter, setFilter] = useState('all');
   const [query, setQuery] = useState('');
+  const [cityFilter, setCityFilter] = useState('all');
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const shown = entries.filter((entry) => {
     const matchesStatus = filter === 'all' || entry.status === filter;
+    const matchesCity = cityFilter === 'all' || entry.payload.city?.name === CITIES[cityFilter as keyof typeof CITIES]?.name;
     const haystack = `${entry.id} ${entry.payload.customer.name} ${entry.payload.customer.phone} ${entry.payload.city?.name || ''}`.toLowerCase();
-    return matchesStatus && haystack.includes(query.toLowerCase().trim());
+    return matchesStatus && matchesCity && haystack.includes(query.toLowerCase().trim());
   });
   return (
     <div className={`admin-page admin-entries-page ${type === 'order' ? 'admin-orders-page' : 'admin-trade-page'}`}>
@@ -595,6 +601,10 @@ function Entries({
         <Search />
         <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={'\u041f\u043e\u0438\u0441\u043a \u043f\u043e \u043a\u043b\u0438\u0435\u043d\u0442\u0443, \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0443 \u0438\u043b\u0438 ID'} />
       </label>
+      <select className="admin-entry-city-filter" value={cityFilter} onChange={(event) => setCityFilter(event.target.value)}>
+        <option value="all">Все города</option>
+        {Object.entries(CITIES).map(([id, city]) => <option key={id} value={id}>{city.name}</option>)}
+      </select>
       <section className="admin-table-card">
         <div className="admin-table admin-orders-table">
           <div className="admin-table-head">
@@ -683,6 +693,15 @@ function Entries({
                   >
                     Завершить
                   </button>
+                )}
+                {entry.status === 'confirmed' && (
+                  <button className="ghost" disabled={busy} onClick={() => void mutate({ action: type, id: entry.id, status: 'contacted' })}>Связались</button>
+                )}
+                {entry.status === 'contacted' && (
+                  <button disabled={busy} onClick={() => void mutate({ action: type, id: entry.id, status: 'awaiting_payment' })}>Ожидает оплаты</button>
+                )}
+                {entry.status === 'awaiting_payment' && (
+                  <button disabled={busy} onClick={() => void mutate({ action: type, id: entry.id, status: 'issued' })}>Выдать заказ</button>
                 )}
               </span>
             </div>

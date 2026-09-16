@@ -11,7 +11,7 @@ const reply=(data:unknown,status=200)=>Response.json(data,{status,headers:{'Cach
 const failure=(error:unknown)=>reply({error:error instanceof OrderError?error.message:'Не удалось выполнить операцию.'},error instanceof OrderError?error.status:503);
 export async function GET(request:Request){try{
   assertAdmin(request);
-  const [prices,inventory,cityPrices,orders,leads,metrics,health,history,imports]=await Promise.all([
+  const [prices,inventory,cityPrices,orders,leads,metrics,health,history,imports,audit]=await Promise.all([
     database().query('SELECT revision,prices,updated_at FROM appgrade_prices WHERE singleton=true'),
     database().query('SELECT * FROM appgrade_inventory'),
     database().query('SELECT sku,city,price,updated_at FROM appgrade_city_prices'),
@@ -20,8 +20,9 @@ export async function GET(request:Request){try{
     database().query("SELECT * FROM appgrade_metrics WHERE day>=current_date-30 ORDER BY day DESC"),
     database().query('SELECT * FROM appgrade_bot_health'),
     database().query('SELECT id,owner_id,source,created_at FROM appgrade_price_history ORDER BY created_at DESC LIMIT 20'),
-    database().query('SELECT id,filename,status,report,target_cities,created_at FROM appgrade_imports ORDER BY created_at DESC LIMIT 20')]);
-  return reply({catalog:catalogItems,prices:{...basePrices,...prices.rows[0]?.prices},priceRevision:prices.rows[0]?.revision,priceUpdatedAt:prices.rows[0]?.updated_at,inventory:inventory.rows,cityPrices:cityPrices.rows,orders:orders.rows,tradeIns:leads.rows,metrics:metrics.rows,health:health.rows,history:history.rows,imports:imports.rows});
+    database().query('SELECT id,filename,status,report,target_cities,created_at FROM appgrade_imports ORDER BY created_at DESC LIMIT 20'),
+    database().query('SELECT id,owner_id,action,details,created_at FROM appgrade_admin_audit ORDER BY created_at DESC LIMIT 50')]);
+  return reply({catalog:catalogItems,prices:{...basePrices,...prices.rows[0]?.prices},priceRevision:prices.rows[0]?.revision,priceUpdatedAt:prices.rows[0]?.updated_at,inventory:inventory.rows,cityPrices:cityPrices.rows,orders:orders.rows,tradeIns:leads.rows,metrics:metrics.rows,health:health.rows,history:history.rows,imports:imports.rows,audit:audit.rows});
 }catch(error){return failure(error);}}
 export async function PATCH(request:Request){try{
   assertAdmin(request);assertOrigin(request);
@@ -56,17 +57,18 @@ export async function PATCH(request:Request){try{
       const result=await client.query(`UPDATE ${table} SET notified_at=NULL,sent_parts=0,attempts=0,next_attempt_at=now() WHERE id=$1`,[body.id]);
       if(!result.rowCount)throw new OrderError('Заявка не найдена.',404);
     }else if(body.action==='order'||body.action==='trade-in'){
-      if(typeof body.id!=='string'||typeof body.status!=='string'||!['new','confirmed','completed','cancelled'].includes(body.status))throw new OrderError('Некорректный статус.');
+      if(typeof body.id!=='string'||typeof body.status!=='string'||!['new','confirmed','contacted','awaiting_payment','completed','issued','cancelled'].includes(body.status))throw new OrderError('Некорректный статус.');
       const table=body.action==='order'?'appgrade_orders':'appgrade_trade_ins';
       const {rows}=await client.query(`SELECT payload,status FROM ${table} WHERE id=$1 FOR UPDATE`,[body.id]);
       if(!rows[0])throw new OrderError('Заявка не найдена.',404);
       const previous=rows[0].status;
-      const transitions:Record<string,string[]>={new:['confirmed','cancelled'],confirmed:['completed','cancelled'],completed:[],cancelled:[]};
+      const transitions:Record<string,string[]>={new:['confirmed','cancelled'],confirmed:['contacted','completed','cancelled'],contacted:['awaiting_payment','completed','cancelled'],awaiting_payment:['issued','completed','cancelled'],completed:[],issued:[],cancelled:[]};
       if(previous!==body.status && !transitions[previous]?.includes(body.status))throw new OrderError('Этот переход статуса недоступен.',409);
       if(body.action==='order'&&body.status==='cancelled'&&previous!=='cancelled'){
         for(const item of rows[0].payload.reservedStock??[])await client.query('UPDATE appgrade_inventory SET quantity=quantity+$3 WHERE sku=$1 AND city=$2',[item.id,rows[0].payload.city.id,item.quantity]);
       }
       await client.query(`UPDATE ${table} SET status=$2 WHERE id=$1`,[body.id,body.status]);
     }else throw new OrderError('Неизвестная операция.');
+    await client.query('INSERT INTO appgrade_admin_audit(id,owner_id,action,details) VALUES($1,$2,$3,$4)',[randomUUID(),'admin',String(body.action),JSON.stringify(body)]);
   });return reply({success:true});
 }catch(error){return failure(error);}}
