@@ -690,7 +690,7 @@ function Entries({
               <div className="admin-order-details">
                 <div className="admin-order-details-head">
                   <strong>Заказ № {entry.id.slice(0, 8)}</strong>
-                  <span>{date(entry.created_at)}</span>
+                  <span>{date(entry.created_at)} <button className="admin-detail-action" disabled={busy} onClick={() => void mutate({ action: 'resend-notification', type, id: entry.id })}>Отправить уведомление</button></span>
                 </div>
                 <div className="admin-order-details-grid">
                   <div><small>Клиент</small><strong>{entry.payload.customer.name}</strong><a href={`tel:${entry.payload.customer.phone}`}>{entry.payload.customer.phone}</a></div>

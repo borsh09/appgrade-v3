@@ -50,6 +50,11 @@ export async function PATCH(request:Request){try{
       if(body.quantity!==null && (!Number.isSafeInteger(body.quantity)||Number(body.quantity)<0||Number(body.quantity)>100000))throw new OrderError('Некорректный остаток.');
       if(body.quantity===null)await client.query('DELETE FROM appgrade_inventory WHERE sku=$1 AND city=$2',[body.id,body.city]);
       else await client.query('INSERT INTO appgrade_inventory(sku,city,quantity) VALUES($1,$2,$3) ON CONFLICT(sku,city) DO UPDATE SET quantity=$3',[body.id,body.city,body.quantity]);
+    }else if(body.action==='resend-notification'){
+      if(typeof body.id!=='string'||!['order','trade-in'].includes(String(body.type)))throw new OrderError('РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ тип заявки.');
+      const table=body.type==='order'?'appgrade_orders':'appgrade_trade_ins';
+      const result=await client.query(`UPDATE ${table} SET notified_at=NULL,sent_parts=0,attempts=0,next_attempt_at=now() WHERE id=$1`,[body.id]);
+      if(!result.rowCount)throw new OrderError('Заявка не найдена.',404);
     }else if(body.action==='order'||body.action==='trade-in'){
       if(typeof body.id!=='string'||typeof body.status!=='string'||!['new','confirmed','completed','cancelled'].includes(body.status))throw new OrderError('Некорректный статус.');
       const table=body.action==='order'?'appgrade_orders':'appgrade_trade_ins';
