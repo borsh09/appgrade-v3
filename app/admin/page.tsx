@@ -563,7 +563,12 @@ function Entries({
     return matchesStatus && haystack.includes(query.toLowerCase().trim());
   });
   return (
-    <div className="admin-page">
+    <div className={`admin-page admin-entries-page ${type === 'order' ? 'admin-orders-page' : 'admin-trade-page'}`}>
+      <section className="admin-entry-hero">
+        <div className="admin-entry-hero-icon">{type === 'order' ? <ShoppingBag /> : <Wrench />}</div>
+        <div><p className="admin-kicker">{type === 'order' ? 'РАБОТА С ПРОДАЖАМИ' : 'ОЦЕНКА УСТРОЙСТВ'}</p><h2>{type === 'order' ? 'Обрабатывайте заказы без потерь' : 'Ведите Trade‑In заявки в одном месте'}</h2><p>{type === 'order' ? 'Откройте заказ, свяжитесь с клиентом и обновите статус после разговора.' : 'Проверьте модель и состояние устройства, затем свяжитесь с клиентом для диагностики.'}</p></div>
+        <div className="admin-entry-hero-count"><strong>{entries.filter((entry) => entry.status === 'new').length}</strong><span>новых</span></div>
+      </section>
       <div className="admin-section-tools">
         <div>
           <h2>{title}</h2>
