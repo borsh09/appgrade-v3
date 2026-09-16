@@ -20,7 +20,7 @@ export async function GET(request:Request){try{
     database().query("SELECT * FROM appgrade_metrics WHERE day>=current_date-30 ORDER BY day DESC"),
     database().query('SELECT * FROM appgrade_bot_health'),
     database().query('SELECT id,owner_id,source,created_at FROM appgrade_price_history ORDER BY created_at DESC LIMIT 20'),
-    database().query('SELECT id,filename,status,report,created_at FROM appgrade_imports ORDER BY created_at DESC LIMIT 20')]);
+    database().query('SELECT id,filename,status,report,target_cities,created_at FROM appgrade_imports ORDER BY created_at DESC LIMIT 20')]);
   return reply({catalog:catalogItems,prices:{...basePrices,...prices.rows[0]?.prices},priceRevision:prices.rows[0]?.revision,priceUpdatedAt:prices.rows[0]?.updated_at,inventory:inventory.rows,cityPrices:cityPrices.rows,orders:orders.rows,tradeIns:leads.rows,metrics:metrics.rows,health:health.rows,history:history.rows,imports:imports.rows});
 }catch(error){return failure(error);}}
 export async function PATCH(request:Request){try{

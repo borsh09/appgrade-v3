@@ -124,6 +124,7 @@ export default function AdminPage() {
       id: string;
       filename: string;
       report: Report;
+      targetCities?: string[];
     } | null>(null),
     [checkedAt, setCheckedAt] = useState(0);
   async function api(url: string, options?: RequestInit) {
@@ -671,6 +672,8 @@ function Prices({
   upload: (e: React.SyntheticEvent<HTMLFormElement>) => Promise<void>;
   priceAction: (a: 'apply' | 'rollback', id: string) => Promise<void>;
 }) {
+  const [targetCities, setTargetCities] = useState<string[]>([]);
+  const cityEntries = Object.entries(CITIES) as [string, { name: string }][];
   return (
     <div className="admin-page">
       <div className="admin-price-grid">
@@ -687,6 +690,12 @@ function Prices({
             ошибки — цены применятся только после подтверждения.
           </p>
           <form onSubmit={upload}>
+            <fieldset className="admin-city-picker">
+              <legend>Применить прайс для городов</legend>
+              <label><input type="checkbox" checked={!targetCities.length} onChange={() => setTargetCities([])} /> Все города</label>
+              {cityEntries.map(([id, city]) => <label key={id}><input type="checkbox" checked={targetCities.includes(id)} onChange={() => setTargetCities((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id])} /> {city.name}</label>)}
+              <input type="hidden" name="cities" value={JSON.stringify(targetCities)} />
+            </fieldset>
             <label>
               <FileSpreadsheet />
               <span>

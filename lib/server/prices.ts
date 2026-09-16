@@ -58,6 +58,16 @@ export async function applyImport(id: string, owner: string, chat: string) {
     const report = draft.report as ImportReport;
     if (report.errors.length || !report.changes.length)
       throw new Error('Нет изменений, которые можно применить.');
+    const targetCities = Array.isArray(draft.target_cities) ? draft.target_cities.filter((city: unknown): city is string => typeof city === 'string') : [];
+    if (targetCities.length) {
+      for (const change of report.changes) {
+        for (const city of targetCities) {
+          await client.query('INSERT INTO appgrade_city_prices(sku,city,price) VALUES($1,$2,$3) ON CONFLICT(sku,city) DO UPDATE SET price=$3,updated_at=now()', [change.id, city, change.after]);
+        }
+      }
+      await client.query("UPDATE appgrade_imports SET status = 'applied' WHERE id = $1", [id]);
+      return `Обновлены цены для городов: ${targetCities.join(', ')}. Позиций: ${report.changes.length}.`;
+    }
     const next = { ...state[0].prices };
     for (const change of report.changes) next[change.id] = change.after;
     await client.query(
