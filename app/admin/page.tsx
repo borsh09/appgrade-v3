@@ -36,7 +36,12 @@ type Entry = {
     total?: number;
     model?: string;
     city?: { name?: string };
-    items?: { name: string; quantity: number }[];
+    fulfillment?: string;
+    deliveryAddress?: string;
+    services?: { title: string; price: number }[];
+    comment?: string;
+    telegramUsername?: string;
+    items?: { name: string; quantity: number; price?: number; configuration?: string }[];
   };
 };
 type Report = {
@@ -551,6 +556,7 @@ function Entries({
 }) {
   const [filter, setFilter] = useState('all');
   const [query, setQuery] = useState('');
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const shown = entries.filter((entry) => {
     const matchesStatus = filter === 'all' || entry.status === filter;
     const haystack = `${entry.id} ${entry.payload.customer.name} ${entry.payload.customer.phone} ${entry.payload.city?.name || ''}`.toLowerCase();
@@ -594,11 +600,15 @@ function Entries({
             <span>Действия</span>
           </div>
           {shown.map((entry) => (
-            <div className="admin-table-row" key={entry.id}>
+            <div className="admin-order-group" key={entry.id}>
+            <div className="admin-table-row">
               <span>
                 <strong>{entry.payload.customer.name}</strong>
                 <small>{entry.payload.customer.phone}</small>
                 <small>{entry.payload.city?.name || 'Р“РѕСЂРѕРґ РЅРµ СѓРєР°Р·Р°РЅ'}</small>
+                <button className="admin-order-open" onClick={() => setExpandedId(expandedId === entry.id ? null : entry.id)}>
+                  {expandedId === entry.id ? 'СЃРєСЂС‹С‚СЊ' : 'РїРѕРґСЂРѕР±РЅРµРµ'}
+                </button>
               </span>
               <span>
                 <strong>{date(entry.created_at)}</strong>
@@ -670,6 +680,26 @@ function Entries({
                   </button>
                 )}
               </span>
+            </div>
+            {expandedId === entry.id && (
+              <div className="admin-order-details">
+                <div className="admin-order-details-head">
+                  <strong>Заказ № {entry.id.slice(0, 8)}</strong>
+                  <span>{date(entry.created_at)}</span>
+                </div>
+                <div className="admin-order-details-grid">
+                  <div><small>Клиент</small><strong>{entry.payload.customer.name}</strong><a href={`tel:${entry.payload.customer.phone}`}>{entry.payload.customer.phone}</a></div>
+                  <div><small>Связь</small><strong>{entry.payload.telegramUsername ? `Telegram: @${entry.payload.telegramUsername.replace(/^@/, '')}` : 'Телефонный звонок'}</strong></div>
+                  <div><small>Получение</small><strong>{entry.payload.fulfillment === 'delivery' ? 'Доставка' : 'Самовывоз'}</strong><span>{entry.payload.deliveryAddress || entry.payload.city?.name || 'Адрес не указан'}</span></div>
+                </div>
+                <div className="admin-order-items">
+                  <small>Состав заказа</small>
+                  {entry.payload.items?.map((item, index) => <div key={`${item.name}-${index}`}><span>{item.name}{item.configuration ? ` · ${item.configuration}` : ''} × {item.quantity}</span><b>{item.price ? `${money.format(item.price * item.quantity)} ₽` : ''}</b></div>)}
+                  {entry.payload.services?.map((service) => <div key={service.title}><span>Услуга: {service.title}</span><b>{money.format(service.price)} ₽</b></div>)}
+                </div>
+                {entry.payload.comment && <p className="admin-order-comment"><small>Комментарий клиента</small>{entry.payload.comment}</p>}
+              </div>
+            )}
             </div>
           ))}
           {!shown.length && <Empty text="В этой категории пока ничего нет." />}
