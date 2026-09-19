@@ -18208,6 +18208,45 @@ html body .normalized-product-photo .normalized-product-photo-source img {
   background: #f2f3f6 !important;
 }
 
+/* Product photos sit directly on the white page: no card, frame or inset panel. */
+.retail-products-grid .retail-product-media,
+.appgrade-popular .product-image-wrap,
+.product-gallery-frame,
+.product-gallery-thumbs button {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.retail-products-grid .retail-product-media,
+.appgrade-popular .product-image-wrap {
+  border-radius: 0 !important;
+}
+
+.retail-products-grid .retail-product-media img.card-product-photo,
+.appgrade-popular .product-image {
+  padding: clamp(18px, 2.2vw, 34px) !important;
+  mix-blend-mode: normal !important;
+}
+
+.product-gallery-frame img,
+.product-gallery-thumbs img {
+  mix-blend-mode: normal !important;
+}
+
+@media (max-width: 650px) {
+  .retail-products-grid .retail-product-media,
+  .appgrade-popular .product-image-wrap {
+    border-radius: 0 !important;
+  }
+
+  .retail-products-grid .retail-product-media img.card-product-photo,
+  .appgrade-popular .product-image {
+    padding: 12px !important;
+  }
+}
+
 @media (max-width: 768px) {
   .appgrade-header-logo-real {
     background: #050505;
@@ -18466,3 +18505,421 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .admin-entry-hero h2{margin:4px 0 5px;font-size:18px;letter-spacing:-.03em}.admin-entry-hero p:not(.admin-kicker){margin:0;color:#777b82;font-size:10px;line-height:1.45}.admin-entry-hero-count{display:grid;min-width:70px;place-items:center;padding:8px 12px;border-radius:12px;background:#fff0ef;color:#e5332a}.admin-trade-page .admin-entry-hero-count{background:#f4e9ed;color:#741f32}.admin-entry-hero-count strong{font-size:22px;line-height:1}.admin-entry-hero-count span{margin-top:4px;font-size:9px}
 .admin-orders-page .admin-table-card,.admin-trade-page .admin-table-card{border-radius:18px}.admin-orders-page .status-new{box-shadow:0 0 0 3px rgba(229,51,42,.08)}.admin-trade-page .admin-actions button:not(.ghost){background:#741f32}.admin-trade-page .admin-order-open{color:#741f32}
 @media(max-width:650px){.admin-entry-hero{grid-template-columns:auto minmax(0,1fr);padding:18px}.admin-entry-hero-count{grid-column:2;justify-self:start}.admin-entry-hero h2{font-size:16px}}
+
+/* Admin mobile layout: compact navigation and card-based working views. */
+@media (max-width: 650px) {
+  .admin-shell {
+    min-height: 100dvh;
+    background: #f4f5f7;
+    overflow: hidden;
+  }
+
+  .admin-workspace {
+    height: 100dvh;
+    padding-bottom: calc(74px + env(safe-area-inset-bottom));
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+
+  .admin-workspace > header {
+    min-height: 72px;
+    padding: 13px 16px;
+  }
+
+  .admin-workspace h1 {
+    max-width: calc(100vw - 92px);
+    font-size: 22px;
+    line-height: 1.05;
+  }
+
+  .admin-header-actions > button {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+  }
+
+  .admin-sidebar {
+    height: calc(68px + env(safe-area-inset-bottom));
+    padding: 6px 5px env(safe-area-inset-bottom);
+    border-top: 1px solid #2b2c30;
+    box-shadow: 0 -8px 28px rgba(0, 0, 0, .16);
+  }
+
+  .admin-sidebar nav {
+    height: 62px;
+    gap: 2px;
+  }
+
+  .admin-sidebar nav button {
+    position: relative;
+    display: flex;
+    height: 58px;
+    min-width: 0;
+    padding: 6px 2px 5px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    border-radius: 11px;
+    font-size: 9px;
+    line-height: 1;
+  }
+
+  .admin-sidebar nav span {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .admin-sidebar nav button svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .admin-sidebar nav button i {
+    position: absolute;
+    top: 2px;
+    left: calc(50% + 5px);
+    min-width: 17px;
+    height: 17px;
+    margin: 0;
+    font-size: 8px;
+  }
+
+  .admin-page {
+    gap: 14px;
+    padding: 16px 14px 24px;
+  }
+
+  .admin-card,
+  .admin-stat,
+  .admin-table-card {
+    border-radius: 16px;
+  }
+
+  .admin-card {
+    padding: 17px;
+  }
+
+  .admin-stats {
+    gap: 8px;
+  }
+
+  .admin-stat {
+    min-width: 0;
+    padding: 15px;
+  }
+
+  .admin-stat p {
+    margin-bottom: 12px;
+    font-size: 10px;
+  }
+
+  .admin-stat strong {
+    overflow-wrap: anywhere;
+    font-size: 19px;
+    line-height: 1.05;
+  }
+
+  .admin-bars {
+    height: 160px;
+    gap: 5px;
+  }
+
+  .admin-section-tools {
+    gap: 10px;
+  }
+
+  .admin-segments {
+    width: calc(100vw - 28px);
+    margin-inline: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .admin-segments::-webkit-scrollbar,
+  .admin-city-tabs::-webkit-scrollbar,
+  .admin-catalog-browser > aside::-webkit-scrollbar {
+    display: none;
+  }
+
+  .admin-segments button {
+    min-width: max-content;
+    min-height: 40px;
+  }
+
+  .admin-entry-search,
+  .admin-entry-city-filter,
+  .admin-product-filters select {
+    width: 100%;
+    height: 46px;
+  }
+
+  .admin-entry-hero {
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    gap: 11px;
+    padding: 15px;
+  }
+
+  .admin-entry-hero-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .admin-entry-hero h2 {
+    font-size: 15px;
+  }
+
+  .admin-entry-hero p:not(.admin-kicker) {
+    display: none;
+  }
+
+  .admin-entry-hero-count {
+    grid-column: auto;
+    min-width: 52px;
+    padding: 7px;
+  }
+
+  .admin-table-card {
+    border: 0;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .admin-orders-table,
+  .admin-city-table {
+    display: grid;
+    min-width: 0;
+    gap: 10px;
+  }
+
+  .admin-orders-table > .admin-table-head,
+  .admin-city-table > .admin-table-head {
+    display: none;
+  }
+
+  .admin-order-group {
+    overflow: hidden;
+    border: 1px solid #e3e4e6;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 7px 22px rgba(20, 22, 28, .04);
+  }
+
+  .admin-orders-table .admin-table-row {
+    display: grid;
+    min-height: 0;
+    padding: 16px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 14px 10px;
+  }
+
+  .admin-orders-table .admin-table-row > span:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .admin-orders-table .admin-table-row > span:nth-child(2),
+  .admin-orders-table .admin-table-row > span:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  .admin-orders-table .admin-table-row > span:nth-child(2) {
+    grid-row: 3;
+  }
+
+  .admin-orders-table .admin-table-row > span:nth-child(3) {
+    grid-row: 4;
+  }
+
+  .admin-orders-table .admin-table-row > span:nth-child(4) {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .admin-orders-table .admin-table-row > .admin-actions {
+    grid-column: 1 / -1;
+    grid-row: 5;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-actions button {
+    min-height: 44px;
+  }
+
+  .admin-order-open {
+    min-height: 32px;
+    padding-top: 8px;
+  }
+
+  .admin-order-details {
+    margin: 0 10px 10px;
+    padding: 14px;
+  }
+
+  .admin-detail-action {
+    display: block;
+    min-height: 38px;
+    margin: 8px 0 0;
+  }
+
+  .admin-order-items > div {
+    align-items: flex-start;
+  }
+
+  .admin-city-tabs {
+    display: flex;
+    margin-inline: -14px;
+    padding: 0 14px 2px;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .admin-city-tabs button {
+    min-width: 150px;
+    min-height: 62px;
+    flex: 0 0 auto;
+    padding: 10px;
+    scroll-snap-align: start;
+  }
+
+  .admin-catalog-browser > aside {
+    margin-inline: -14px;
+    padding-inline: 14px;
+  }
+
+  .admin-catalog-browser > aside button {
+    min-height: 42px;
+  }
+
+  .admin-city-table .admin-table-row {
+    display: grid;
+    min-height: 0;
+    padding: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 10px;
+    border: 1px solid #e3e4e6;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 7px 22px rgba(20, 22, 28, .04);
+  }
+
+  .admin-city-table .admin-table-row > span:first-child,
+  .admin-city-table .admin-table-row > span:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .admin-city-table .admin-table-row > span:first-child strong {
+    white-space: normal;
+  }
+
+  .admin-city-table .admin-table-row > span:nth-child(2)::before,
+  .admin-city-table .admin-table-row > label::before {
+    display: block;
+    margin-bottom: 6px;
+    color: #96999f;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .admin-city-table .admin-table-row > span:nth-child(2)::before {
+    content: 'Базовая цена';
+  }
+
+  .admin-city-table .admin-table-row > label:nth-of-type(1)::before {
+    content: 'Цена в городе';
+  }
+
+  .admin-city-table .admin-table-row > label:nth-of-type(2)::before {
+    content: 'Остаток';
+  }
+
+  .admin-number {
+    height: auto;
+    align-self: end;
+    flex-wrap: wrap;
+  }
+
+  .admin-number input {
+    height: 44px;
+  }
+
+  .admin-number i {
+    top: 34px;
+  }
+
+  .admin-save-row {
+    width: 100%;
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .admin-price-grid,
+  .admin-upload form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin-upload form > button,
+  .admin-primary {
+    width: 100%;
+    min-height: 46px;
+    justify-content: center;
+  }
+
+  .price-change {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .admin-login-card {
+    width: calc(100vw - 24px);
+    padding: 26px 22px;
+    border-radius: 20px;
+  }
+
+  .admin-login-card > .admin-brand {
+    margin-bottom: 30px;
+  }
+
+  .admin-login-card h1 {
+    font-size: 28px;
+  }
+
+  .admin-login-card input,
+  .admin-login-card form > button {
+    height: 52px;
+  }
+}
+
+@media (max-width: 390px) {
+  .admin-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-stat > span {
+    display: grid;
+  }
+
+  .admin-sidebar nav button {
+    font-size: 8px;
+  }
+
+  .admin-entry-hero {
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .admin-entry-hero-count {
+    display: none;
+  }
+}
