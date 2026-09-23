@@ -1,34 +1,58 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { DesktopHero } from './desktop-hero';
 import {
   ArrowRight,
-  Volume2,
-  VolumeX,
 } from 'lucide-react';
 
 export function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [muted, setMuted] = useState(true);
-
-  const toggleSound = () => {
+  useEffect(() => {
     const video = videoRef.current;
-
     if (!video) return;
 
-    const nextMuted = !muted;
+    const mobile = window.matchMedia('(max-width: 768px)');
+    let visible = false;
+    let disposed = false;
+    const resume = () => {
+      if (disposed || !mobile.matches || document.hidden || !visible) return;
+      video.defaultMuted = true;
+      video.muted = true;
+      if (video.paused) void video.play().catch(() => {
+        // A subsequent touch or visibility change retries blocked autoplay.
+      });
+    };
+    const sync = () => {
+      if (!mobile.matches || document.hidden || !visible) video.pause();
+      else resume();
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      sync();
+    }, { threshold: 0.01 });
+    observer.observe(video);
+    video.addEventListener('canplay', resume);
+    mobile.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', sync);
+    window.addEventListener('pageshow', sync);
+    document.addEventListener('touchstart', resume, { passive: true });
+    document.addEventListener('pointerdown', resume, { passive: true });
 
-    video.muted = nextMuted;
-    setMuted(nextMuted);
-
-    if (!nextMuted) {
-      video.play().catch(() => {});
-    }
-  };
-
+    return () => {
+      disposed = true;
+      observer.disconnect();
+      video.pause();
+      video.removeEventListener('canplay', resume);
+      mobile.removeEventListener('change', sync);
+      document.removeEventListener('visibilitychange', sync);
+      window.removeEventListener('pageshow', sync);
+      document.removeEventListener('touchstart', resume);
+      document.removeEventListener('pointerdown', resume);
+    };
+  }, []);
   return (
     <section className="appgrade-video-hero">
       <div className="container appgrade-video-hero-container">
@@ -94,24 +118,7 @@ export function HeroSection() {
               </div>
             </div>
 
-            <button
-              type="button"
-              className="appgrade-video-sound appgrade-mobile-sound-button"
-              onClick={toggleSound}
-              aria-label={
-                muted ? 'Включить звук' : 'Выключить звук'
-              }
-            >
-              {muted ? (
-                <VolumeX size={18} />
-              ) : (
-                <Volume2 size={18} />
-              )}
 
-              <span>
-                {muted ? 'Звук' : 'Выключить'}
-              </span>
-            </button>
           </div>
         </div>
       </div>
