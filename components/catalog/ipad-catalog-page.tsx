@@ -1,9 +1,8 @@
 'use client';
 import Link from '@/components/shared/safe-link';
-import { ChevronDown, MapPin } from 'lucide-react';
-import { useCity } from '@/components/providers/city-provider';
 import { UnifiedCatalog } from './unified-catalog';
-export function IpadCatalogPage(){const { city }=useCity();return (<main className="retail-catalog-page ipad-catalog-page">
+import { CategoryPromoHero } from './category-promo-hero';
+export function IpadCatalogPage(){return (<main className="retail-catalog-page ipad-catalog-page">
       <div className="container">
         <nav className="retail-breadcrumbs">
           <Link href="/">Главная</Link>
@@ -12,13 +11,5 @@ export function IpadCatalogPage(){const { city }=useCity();return (<main classNa
           <span>•</span>
           <span>iPad</span>
         </nav>
-        <header className="retail-catalog-hero">
-          <p>APPLE · IPAD</p>
-          <h1>iPad</h1>
-          <button>
-            <MapPin size={15} />
-            {city.name}
-            <ChevronDown size={14} />
-          </button>
-        </header>
+        <CategoryPromoHero category="ipads" />
         <UnifiedCatalog category="ipads" /></div></main>);}

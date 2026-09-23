@@ -4,13 +4,13 @@ import { usePricedCatalog } from '@/components/providers/price-provider';
 import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 import { useMemo, useState } from 'react';
-import { ChevronDown, Grid2X2, List, MapPin } from 'lucide-react';
+import { ChevronDown, Grid2X2, List } from 'lucide-react';
 import {
   audioCatalog as baseCatalog,
   type AudioCatalogSku,
   type AudioKind,
 } from '@/data/audio-catalog';
-import { useCity } from '@/components/providers/city-provider';
+import { CategoryPromoHero } from './category-promo-hero';
 import {
   AddToCartButton,
   FavoriteButton,
@@ -105,7 +105,6 @@ function Card({ sku, view }: { sku: AudioCatalogSku; view: 'grid' | 'list' }) {
 
 export function AudioCatalogPage() {
   const audioCatalog = usePricedCatalog(baseCatalog);
-  const { city } = useCity();
   const [kind, setKind] = useState<AudioKind | ''>('');
   const [brand, setBrand] = useState('');
   const [view, setView] = useState<'grid' | 'list'>('grid');
@@ -145,15 +144,7 @@ export function AudioCatalogPage() {
           <span>•</span>
           <span>Наушники и аудио</span>
         </nav>
-        <header className="retail-catalog-hero">
-          <p>AIRPODS · MARSHALL · JBL</p>
-          <h1>Наушники и аудио</h1>
-          <button>
-            <MapPin size={15} />
-            {city.name}
-            <ChevronDown size={14} />
-          </button>
-        </header>
+        <CategoryPromoHero category="audio" />
         <section className="retail-model-selector audio-kind-selector">
           <button
             className={!kind ? 'is-active' : ''}

@@ -8,7 +8,6 @@ import {
   ChevronDown,
   Grid2X2,
   List,
-  MapPin,
   SlidersHorizontal,
   X,
 } from 'lucide-react';
@@ -17,7 +16,7 @@ import {
   macbookModels,
   type MacbookCatalogSku,
 } from '@/data/macbook-catalog';
-import { useCity } from '@/components/providers/city-provider';
+import { CategoryPromoHero } from './category-promo-hero';
 import {
   AddToCartButton,
   FavoriteButton,
@@ -112,7 +111,6 @@ function MacbookCard({
 
 export function MacbookCatalogPage() {
   const macbookCatalog = usePricedCatalog(baseCatalog);
-  const { city } = useCity();
   const [filterOpen, setFilterOpen] = useState(false);
   const [view, setView] = useState<'grid' | 'list'>('grid');
   const [sort, setSort] = useState<SortKey>('popular');
@@ -168,15 +166,7 @@ export function MacbookCatalogPage() {
           <span>•</span>
           <span>MacBook</span>
         </nav>
-        <header className="retail-catalog-hero">
-          <p>APPLE · MAC</p>
-          <h1>MacBook</h1>
-          <button type="button">
-            <MapPin size={15} />
-            {city.name}
-            <ChevronDown size={14} />
-          </button>
-        </header>
+        <CategoryPromoHero category="macbooks" />
         <section
           className="retail-model-selector samsung-series-selector"
           aria-label="Линейки MacBook"

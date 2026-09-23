@@ -254,6 +254,24 @@ const importedGalleryForSku = (sku: IphoneCatalogSku): string[] | undefined => {
 };
 
 const galleryForSku = (sku: IphoneCatalogSku, image: string) => {
+  if (sku.model === 'iPhone 16 Pro Max' && ['Black Titanium', 'White Titanium', 'Natural Titanium', 'Desert Titanium'].includes(sku.color)) {
+    return [1, 2, 3].map(index => `/images/products/gallery/iphone-16-pro-max-${slugify(sku.color)}/view-${index}.png`);
+  }
+  if (sku.model === 'iPhone 17 Pro Max' && ['Deep Blue', 'Cosmic Orange', 'Silver'].includes(sku.color)) {
+    return [1, 2, 3].map(index => `/images/products/gallery/iphone-17-pro-max-${slugify(sku.color)}/view-${index}.png`);
+  }
+  if ((sku.model === 'iPhone 13' && ['Midnight', 'Blue', 'Pink', 'Starlight', 'Green'].includes(sku.color)) || (sku.model === 'iPhone 14' && sku.color === 'Midnight')) {
+    return [1, 2, 3].map(index => `/images/products/gallery/${slugify(sku.model)}-${slugify(sku.color)}/view-${index}.png`);
+  }
+  if (sku.model === 'iPhone 15 Plus' && ['Black', 'Blue', 'Pink', 'Green'].includes(sku.color)) {
+    return [1, 2, 3].map(index => `/images/products/gallery/iphone-15-plus-${slugify(sku.color)}/view-${index}.png`);
+  }
+  if (sku.model === 'iPhone 15' && ['Green', 'Black', 'Blue', 'Pink', 'Yellow'].includes(sku.color)) {
+    const color = slugify(sku.color);
+    return [image,
+      `/images/products/gallery/iphone-15-${color}/view-2.png`,
+      `/images/products/gallery/iphone-15-${color}/view-3.png`];
+  }
   const apple2027Gallery: Record<string, string[]> = {
     'iPhone 18 Pro Max': [image],
     'iPhone Duo': [image],
@@ -270,12 +288,14 @@ const galleryForSku = (sku: IphoneCatalogSku, image: string) => {
 const baseIphoneCatalog: IphoneCatalogSku[] = parsedSkus.flatMap((sku) => {
   if (sku.color !== '—' || !finishesByModel[sku.model]) {
     const image = imageForSku(sku);
-    return [{ ...sku, image, gallery: galleryForSku(sku, image) }];
+    const gallery = galleryForSku(sku, image);
+    return [{ ...sku, image: gallery?.[0] ?? image, gallery }];
   }
   return finishesByModel[sku.model].map((color) => {
     const expanded = { ...sku, color, id: `${sku.id}-${slugify(color)}` };
     const image = imageForSku(expanded);
-    return { ...expanded, image, gallery: galleryForSku(expanded, image) };
+    const gallery = galleryForSku(expanded, image);
+    return { ...expanded, image: gallery?.[0] ?? image, gallery };
   });
 });
 

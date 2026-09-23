@@ -1,9 +1,8 @@
 'use client';
 import Link from '@/components/shared/safe-link';
-import { ChevronDown, MapPin } from 'lucide-react';
-import { useCity } from '@/components/providers/city-provider';
 import { UnifiedCatalog } from './unified-catalog';
-export function WatchCatalogPage(){const { city }=useCity();return (<main className="retail-catalog-page watch-catalog-page">
+import { CategoryPromoHero } from './category-promo-hero';
+export function WatchCatalogPage(){return (<main className="retail-catalog-page watch-catalog-page">
       <div className="container">
         <nav className="retail-breadcrumbs">
           <Link href="/">Главная</Link>
@@ -12,13 +11,5 @@ export function WatchCatalogPage(){const { city }=useCity();return (<main classN
           <span>•</span>
           <span>Apple Watch</span>
         </nav>
-        <header className="retail-catalog-hero">
-          <p>APPLE · WATCH</p>
-          <h1>Apple Watch</h1>
-          <button>
-            <MapPin size={15} />
-            {city.name}
-            <ChevronDown size={14} />
-          </button>
-        </header>
+        <CategoryPromoHero category="watches" />
         <UnifiedCatalog category="watches" /></div></main>);}

@@ -1,0 +1,104 @@
+.grid { gap: 20px; }
+.card.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 12px;
+  background: #f7f7f5 !important;
+  border: 0 !important;
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+}
+.card.card :global(.retail-product-media),
+.card.card :global(.product-image-wrap) {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1.12 !important;
+  flex: none;
+  margin: 0;
+}
+.card.card :global(.hover-product-photo) { inset: 26px 10px 8px; mix-blend-mode: multiply; }
+.card.card :global(.retail-product-info),
+.card.card :global(.product-meta) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0;
+  padding: 18px 12px 12px;
+}
+.card.card h2,
+.card.card h3 {
+  margin: 0;
+  color: #242422;
+  font-size: 20px;
+  font-weight: 550;
+  line-height: 1.25;
+  letter-spacing: -.045em;
+}
+.card.card :global(.retail-product-color),
+.card.card :global(.configuration) {
+  min-height: 36px;
+  margin: 9px 0 20px;
+  color: #777772;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.card.card :global(.retail-product-purchase),
+.card.card :global(.product-buy) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 17px;
+  border-top: 1px solid #e3e3de;
+}
+.card.card :global(.retail-product-purchase) strong,
+.card.card :global(.product-buy) strong { font-size: clamp(20px, 1.8vw, 27px); font-weight: 600; letter-spacing: -.055em; white-space: nowrap; }
+.card.card :global(.retail-product-purchase) button,
+.card.card :global(.product-buy) button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  min-height: 46px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #252522;
+  color: white;
+}
+.card.card :global(.retail-product-purchase) button:global(.is-added),
+.card.card :global(.product-buy) button:global(.is-added) { background: #416452; }
+.card.card button:disabled { opacity: .4; cursor: not-allowed; }
+.card.card :global(.retail-card-tools) { top: 0; right: 0; }
+.card.card :global(.retail-card-tools) button { width: 42px; height: 42px; border: 0; background: transparent; color: #777772; }
+.card.card :global(.retail-product-badge) { top: 13px; left: 12px; padding: 0; background: transparent; color: #557360; font-size: 10px; }
+.card.card :global(.retail-stock) { display: none; }
+.card.card :global(.stock) { margin: 0 0 10px; color: #557360; font-size: 10px; }
+.card.card a:focus-visible,
+.card.card button:focus-visible { outline: 2px solid #557360; outline-offset: 3px; }
+.card.card:global(.retail-product-card-list) { display: grid; grid-template-columns: 220px minmax(0, 1fr); }
+@media (hover: hover) {
+  .card.card:hover { background: #f0f0ed !important; }
+}
+@media (max-width: 650px) {
+  .grid.grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .card.card { padding: 7px; border-radius: 18px !important; }
+  .card.card :global(.retail-product-info), .card.card :global(.product-meta) { padding: 13px 5px 8px; }
+  .card.card h2, .card.card h3 { font-size: 16px; }
+  .card.card :global(.retail-product-color), .card.card :global(.configuration) { font-size: 10px; min-height: 30px; margin: 7px 0 13px; }
+  .card.card :global(.retail-product-purchase), .card.card :global(.product-buy) { gap: 5px; padding-top: 12px; }
+  .card.card :global(.retail-product-purchase) strong, .card.card :global(.product-buy) strong { font-size: 19px; }
+  .card.card :global(.retail-product-purchase) button, .card.card :global(.product-buy) button { width: 40px; height: 44px; min-height: 44px; }
+  .card.card :global(.retail-product-badge) { top: 12px; left: 5px; font-size: 9px; }
+  .card.card :global(.hover-product-photo) { inset: 30px 0 0; }
+  .card.card :global(.retail-product-media), .card.card :global(.product-image-wrap) { aspect-ratio: .9 !important; }
+  .card.card :global(.retail-product-media) img:global(.card-product-photo), .card.card :global(.product-image) { padding: 4px !important; }
+  .card.card:global(.retail-product-card-list) { grid-template-columns: 110px minmax(0, 1fr); }
+}

@@ -1,6 +1,8 @@
 'use client';
 
-import Image from '@/components/shared/product-photo';
+import cardStyles from '@/components/shared/store-card.module.css';
+import { HoverProductPhoto } from '@/components/shared/hover-product-photo';
+import { catalogById } from '@/lib/catalog-registry';
 import Link from '@/components/shared/safe-link';
 
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
@@ -175,17 +177,16 @@ export function ProductCard({
   };
 
   return (
-    <article className="product-card">
+    <article className={`product-card ${cardStyles.card}`}>
       <Link
         href={href}
         className="product-image-wrap"
         aria-label={`Открыть ${product.model.name}`}
       >
-        <Image
-          src={product.sku.image}
+        <HoverProductPhoto
+          image={product.sku.image}
+          gallery={catalogById.get(product.sku.id)?.gallery}
           alt={product.model.name}
-          fill
-          quality={90}
           sizes="(max-width: 600px) 80vw, (max-width: 1100px) 42vw, 25vw"
           className={`product-image product-image-${index}`}
         />

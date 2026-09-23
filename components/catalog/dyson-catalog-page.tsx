@@ -3,13 +3,13 @@ import { usePricedCatalog } from '@/components/providers/price-provider';
 import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 import { useMemo, useState } from 'react';
-import { ChevronDown, Grid2X2, List, MapPin } from 'lucide-react';
+import { ChevronDown, Grid2X2, List } from 'lucide-react';
 import {
   dysonCatalog as baseCatalog,
   type DysonCatalogSku,
   type DysonKind,
 } from '@/data/dyson-catalog';
-import { useCity } from '@/components/providers/city-provider';
+import { CategoryPromoHero } from './category-promo-hero';
 import {
   AddToCartButton,
   FavoriteButton,
@@ -67,7 +67,6 @@ function Card({ sku, view }: { sku: DysonCatalogSku; view: 'grid' | 'list' }) {
 }
 export function DysonCatalogPage() {
   const dysonCatalog = usePricedCatalog(baseCatalog);
-  const { city } = useCity();
   const [kind, setKind] = useState<DysonKind | ''>('');
   const [sort, setSort] = useState('popular');
   const [view, setView] = useState<'grid' | 'list'>('grid');
@@ -94,15 +93,7 @@ export function DysonCatalogPage() {
           <span>•</span>
           <span>Dyson</span>
         </nav>
-        <header className="retail-catalog-hero">
-          <p>AIRWRAP · SUPERSONIC · AIRSTRAIT</p>
-          <h1>Dyson</h1>
-          <button>
-            <MapPin size={15} />
-            {city.name}
-            <ChevronDown size={14} />
-          </button>
-        </header>
+        <CategoryPromoHero category="dyson" />
         <section className="retail-model-selector audio-kind-selector">
           <button
             className={!kind ? 'is-active' : ''}

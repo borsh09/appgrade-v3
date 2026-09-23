@@ -3,9 +3,9 @@ import { usePricedCatalog } from '@/components/providers/price-provider';
 import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
 import { useMemo, useState } from 'react';
-import { ChevronDown, Grid2X2, List, MapPin } from 'lucide-react';
+import { ChevronDown, Grid2X2, List } from 'lucide-react';
 import { googleCatalog as baseCatalog, type GoogleCatalogSku } from '@/data/google-catalog';
-import { useCity } from '@/components/providers/city-provider';
+import { CategoryPromoHero } from './category-promo-hero';
 import {
   AddToCartButton,
   FavoriteButton,
@@ -83,7 +83,6 @@ function Card({ sku, view }: { sku: GoogleCatalogSku; view: 'grid' | 'list' }) {
 }
 export function GoogleCatalogPage() {
   const googleCatalog = usePricedCatalog(baseCatalog);
-  const { city } = useCity();
   const [model, setModel] = useState(''),
     [view, setView] = useState<'grid' | 'list'>('grid'),
     [sort, setSort] = useState('popular');
@@ -113,15 +112,7 @@ export function GoogleCatalogPage() {
           <span>•</span>
           <span>Google</span>
         </nav>
-        <header className="retail-catalog-hero">
-          <p>PIXEL · GEMINI · ANDROID</p>
-          <h1>Google Pixel</h1>
-          <button>
-            <MapPin size={15} />
-            {city.name}
-            <ChevronDown size={14} />
-          </button>
-        </header>
+        <CategoryPromoHero category="google" />
         <section className="retail-model-selector audio-kind-selector">
           <button
             className={!model ? 'is-active' : ''}
