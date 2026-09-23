@@ -1,0 +1,97 @@
+.page {
+  background: #fafaf8;
+  color: #262622;
+  padding: 48px 0 96px;
+}
+.page :global(.appgrade-cart-heading) { margin-bottom: 36px; align-items: center; }
+.page :global(.appgrade-cart-heading) h1 { font-size: clamp(38px, 4.5vw, 60px); font-weight: 500; letter-spacing: -.055em; }
+.page :global(.appgrade-cart-city) { background: transparent; border: 1px solid #deded7; border-radius: 14px; box-shadow: none; }
+.page :global(.appgrade-cart-layout) { grid-template-columns: minmax(0, 1fr) 350px; gap: 40px; }
+.page :global(.appgrade-cart-main) { gap: 24px; }
+.page :global(.appgrade-cart-section) { padding: 30px; border: 1px solid #e9e9e3; border-radius: 20px; box-shadow: none; }
+.page :global(.appgrade-cart-section-heading) { margin-bottom: 24px; }
+.page :global(.appgrade-cart-section-heading) h2 { font-size: 22px; font-weight: 500; }
+.page :global(.appgrade-cart-section-heading) > p { font-size: 12px; color: #77776e; }
+.page :global(.appgrade-cart-product) { grid-template-columns: 110px minmax(0, 1fr) auto; gap: 22px; padding-block: 22px; }
+.page :global(.appgrade-cart-product-image) { width: 110px; height: 120px; border: 0; border-radius: 12px; background: #f7f7f4; }
+.page :global(.appgrade-cart-product-image) img { object-fit: contain; mix-blend-mode: multiply; }
+.page :global(.appgrade-cart-product-copy) h3 { font-size: 18px; font-weight: 500; line-height: 1.3; }
+.page :global(.appgrade-cart-product-copy) p { font-size: 12px; line-height: 1.6; color: #77776e; }
+.page :global(.appgrade-cart-product-copy) > strong { font-size: 22px; font-weight: 550; letter-spacing: -.04em; }
+.page :global(.appgrade-cart-product-actions) { gap: 12px; }
+.page :global(.appgrade-cart-quantity) { background: #f6f6f2; border: 1px solid #e7e7e0; border-radius: 12px; }
+.page :global(.appgrade-cart-quantity) button { width: 36px; height: 40px; }
+.page :global(.appgrade-cart-remove) { color: #8b8b82; min-width: 40px; min-height: 40px; }
+.page :global(.appgrade-cart-summary) { top: 110px; padding: 30px; background: #efefea; color: #262622; border: 0; border-radius: 20px; box-shadow: none; }
+.page :global(.appgrade-cart-summary-title) { padding-bottom: 25px; border-color: #dcdcd4; }
+.page :global(.appgrade-cart-summary-title) > strong { font-size: 13px; color: #6e6e64; margin-bottom: 12px; }
+.page :global(.appgrade-cart-summary-title) b { font-size: 38px; font-weight: 500; }
+.page :global(.appgrade-cart-summary-lines) { gap: 16px; border: 0; padding-block: 25px; }
+.page :global(.appgrade-cart-summary-lines) > div { font-size: 12px; }
+.page :global(.appgrade-cart-summary-lines) span { color: #727268; }
+.page :global(.appgrade-cart-summary-services) { border-color: #dcdcd4; margin-bottom: 20px; }
+.page :global(.appgrade-cart-summary-services) span { color: #727268; font-size: 11px; }
+.page :global(.appgrade-cart-summary-services) strong { color: #262622; }
+.page :global(.appgrade-cart-submit) { background: #262622 !important; border-radius: 13px; min-height: 54px !important; font-size: 13px !important; }
+.page :global(.appgrade-cart-submit):hover:not(:disabled) { background: #424239 !important; transform: none; }
+.page :global(.appgrade-cart-submit):disabled { background: #d5d5cc !important; color: #696960 !important; opacity: 1; }
+.page :global(.appgrade-cart-summary-note) { color: #737369; font-size: 11px; line-height: 1.7; margin-top: 18px; }
+.page :global(.appgrade-order-delivery) { gap: 12px; }
+.page :global(.appgrade-order-delivery) > button { border-radius: 14px; box-shadow: none; padding: 18px; border: 1px solid #e3e3dc; background: #fff; }
+.page :global(.appgrade-order-delivery) > button:global(.is-active) { border-color: #66665b; background: #f7f7f3; }
+.page :global(.appgrade-order-delivery) > button:global(.is-active)::after { content: none; }
+.page :global(.appgrade-order-delivery) strong { font-size: 14px; font-weight: 550; }
+.page :global(.appgrade-order-delivery) small { font-size: 11px; line-height: 1.5; }
+.page :global(.appgrade-order-radio) { flex-shrink: 0; }
+.page :global(.appgrade-order-form) { margin-top: 30px; gap: 22px; }
+.page :global(.appgrade-checkout-subheading) strong { font-size: 20px; font-weight: 500; }
+.page :global(.appgrade-order-fields) label > span,
+.page :global(.appgrade-contact-method) > span,
+.page :global(.appgrade-delivery-reveal) label > span { color: #626258; font-size: 12px; font-weight: 400; }
+.page :global(.appgrade-order-fields) input,
+.page :global(.appgrade-delivery-reveal) input,
+.page :global(.appgrade-order-comment) textarea { border-radius: 12px; background: #fafaf8; font-size: 16px; }
+.page :global(.appgrade-contact-method) button { font-size: 12px; min-height: 42px; }
+.page :global(.appgrade-cart-anchor) { scroll-margin-top: 110px; }
+.services { border-block: 1px solid #e2e2da; padding: 0 6px; }
+.services > summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 0; cursor: pointer; list-style: none; font-size: 16px; }
+.services > summary::-webkit-details-marker, .comment > summary::-webkit-details-marker { display: none; }
+.services > summary small { display: block; margin-top: 6px; color: #7b7b70; font-size: 12px; line-height: 1.5; }
+.services[open] > summary > svg { transform: rotate(180deg); }
+.serviceList { padding-bottom: 14px; }
+.service { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 14px; align-items: start; padding: 17px 0; border-top: 1px solid #e5e5df; cursor: pointer; }
+.service input { width: 18px; height: 18px; margin-top: 2px; accent-color: #34342e; }
+.service strong { font-size: 13px; font-weight: 550; }
+.service small { display: block; margin-top: 6px; color: #77776c; font-size: 11px; line-height: 1.6; }
+.service b { font-size: 13px; font-weight: 500; white-space: nowrap; }
+.comment > summary { cursor: pointer; color: #77776c; font-size: 12px; list-style: none; padding: 6px 0; text-decoration: underline; text-underline-offset: 4px; }
+.comment > label { margin-top: 14px; }
+.page input:focus-visible, .page textarea:focus-visible, .page summary:focus-visible { outline: 2px solid #66665b; outline-offset: 3px; }
+@media (max-width: 1000px) {
+  .page :global(.appgrade-cart-layout) { grid-template-columns: minmax(0, 1fr) 300px; gap: 22px; }
+  .page :global(.appgrade-cart-section), .page :global(.appgrade-cart-summary) { padding: 22px; }
+  .page :global(.appgrade-cart-product) { grid-template-columns: 90px minmax(0, 1fr); gap: 16px; }
+  .page :global(.appgrade-cart-product-image) { width: 90px; height: 110px; }
+  .page :global(.appgrade-cart-product-actions) { grid-column: 2; flex-direction: row; justify-content: space-between; }
+}
+@media (max-width: 760px) {
+  .page { padding: 26px 0 110px; }
+  .page :global(.appgrade-cart-heading) { flex-direction: row; align-items: center; gap: 12px; margin-bottom: 25px; }
+  .page :global(.appgrade-cart-heading) h1 { font-size: 38px; }
+  .page :global(.appgrade-cart-city) { padding: 10px; gap: 6px; }
+  .page :global(.appgrade-cart-city) small { display: none; }
+  .page :global(.appgrade-cart-city) strong { font-size: 11px; }
+  .page :global(.appgrade-cart-layout) { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .page :global(.appgrade-cart-section), .page :global(.appgrade-cart-summary) { padding: 20px; border-radius: 16px; }
+  .page :global(.appgrade-cart-summary) { position: static; }
+  .page :global(.appgrade-cart-section-heading) h2 { font-size: 20px; }
+  .page :global(.appgrade-cart-product-copy) h3 { font-size: 16px; }
+  .page :global(.appgrade-cart-product-copy) > strong { font-size: 21px; }
+  .page :global(.appgrade-cart-quantity) button { width: 40px; height: 44px; }
+  .page :global(.appgrade-order-fields) { grid-template-columns: 1fr; gap: 18px; }
+  .page :global(.appgrade-order-delivery) { grid-template-columns: 1fr; }
+  .page :global(.appgrade-contact-method) { align-items: flex-start; flex-direction: column; gap: 10px; }
+  .page :global(.appgrade-cart-mobile-bar) { background: #fff; color: #262622; border-top: 1px solid #e3e3dc; box-shadow: 0 -4px 24px #22222208; }
+  .page :global(.appgrade-cart-mobile-bar) button { background: #262622; color: #fff; border-radius: 12px; }
+  .service { gap: 10px; }
+}

@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import styles from './cart-page.module.css';
 import Link from '@/components/shared/safe-link';
 
 import {
@@ -277,16 +278,6 @@ export function CartPage() {
      REFS
      ======================================================= */
 
-  const productsRef =
-    useRef<HTMLElement | null>(
-      null,
-    );
-
-  const servicesRef =
-    useRef<HTMLElement | null>(
-      null,
-    );
-
   const checkoutRef =
     useRef<HTMLElement | null>(
       null,
@@ -398,21 +389,6 @@ export function CartPage() {
             ) !== null,
         ),
       [cart],
-    );
-
-  const compatibleDeviceCount =
-    useMemo(
-      () =>
-        compatibleItems.reduce(
-          (
-            sum,
-            item,
-          ) =>
-            sum +
-            item.quantity,
-          0,
-        ),
-      [compatibleItems],
     );
 
   const hasIphone =
@@ -567,47 +543,6 @@ export function CartPage() {
 
   /* =======================================================
      PROGRESS
-     ======================================================= */
-
-  const progress =
-    useMemo(
-      () => {
-        let value = 35;
-
-        /*
-         * Способ получения
-         * уже выбран.
-         */
-        value += 15;
-
-        if (nameReady) {
-          value += 20;
-        }
-
-        if (phoneReady) {
-          value += 20;
-        }
-
-        if (
-          deliveryReady
-        ) {
-          value += 10;
-        }
-
-        return Math.min(
-          value,
-          100,
-        );
-      },
-      [
-        nameReady,
-        phoneReady,
-        deliveryReady,
-      ],
-    );
-
-  /* =======================================================
-     SCROLL
      ======================================================= */
 
   const scrollTo = (
@@ -792,7 +727,7 @@ export function CartPage() {
      ======================================================= */
 
   return (
-    <main className="appgrade-cart-page">
+    <main className={`appgrade-cart-page ${styles.page}`}>
       <div className="container">
 
         {/* =================================================
@@ -801,12 +736,10 @@ export function CartPage() {
 
         <div className="appgrade-cart-heading">
           <div>
-            <span>
-              APPGRADE CHECKOUT
-            </span>
+
 
             <h1>
-              Корзина.
+              Корзина
             </h1>
           </div>
 
@@ -825,7 +758,7 @@ export function CartPage() {
 
               <div>
                 <small>
-                  Покупаем в
+                  Ваш город
                 </small>
 
                 <strong>
@@ -890,125 +823,6 @@ export function CartPage() {
                 STEPS
                 =============================================== */}
 
-            <div className="appgrade-cart-steps">
-              <button
-                type="button"
-                onClick={() =>
-                  scrollTo(
-                    productsRef,
-                  )
-                }
-              >
-                <span className="is-done">
-                  <Check
-                    size={
-                      13
-                    }
-                  />
-                </span>
-
-                <div>
-                  <small>
-                    01
-                  </small>
-
-                  <strong>
-                    Товары
-                  </strong>
-                </div>
-              </button>
-
-              {hasServices && (
-                <>
-                  <div className="appgrade-cart-step-line" />
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      scrollTo(
-                        servicesRef,
-                      )
-                    }
-                  >
-                    <span
-                      className={
-                        selectedServices.length
-                          ? 'is-done'
-                          : ''
-                      }
-                    >
-                      {selectedServices.length ? (
-                        <Check
-                          size={
-                            13
-                          }
-                        />
-                      ) : (
-                        '2'
-                      )}
-                    </span>
-
-                    <div>
-                      <small>
-                        02
-                      </small>
-
-                      <strong>
-                        Услуги
-                      </strong>
-                    </div>
-                  </button>
-                </>
-              )}
-
-              <div className="appgrade-cart-step-line" />
-
-              <button
-                type="button"
-                onClick={() =>
-                  scrollTo(
-                    checkoutRef,
-                  )
-                }
-              >
-                <span
-                  className={
-                    checkoutReady
-                      ? 'is-done'
-                      : ''
-                  }
-                >
-                  {checkoutReady ? (
-                    <Check
-                      size={
-                        13
-                      }
-                    />
-                  ) : hasServices ? (
-                    '3'
-                  ) : (
-                    '2'
-                  )}
-                </span>
-
-                <div>
-                  <small>
-                    {hasServices
-                      ? '03'
-                      : '02'}
-                  </small>
-
-                  <strong>
-                    Оформление
-                  </strong>
-                </div>
-              </button>
-            </div>
-
-            {/* ===============================================
-                MAIN GRID
-                =============================================== */}
-
             <div className="appgrade-cart-layout">
 
               {/* =============================================
@@ -1022,16 +836,11 @@ export function CartPage() {
                     =========================================== */}
 
                 <section
-                  ref={
-                    productsRef
-                  }
                   className="appgrade-cart-section appgrade-cart-anchor"
                 >
                   <div className="appgrade-cart-section-heading">
                     <div>
-                      <span>
-                        01
-                      </span>
+
 
                       <h2>
                         Ваш выбор
@@ -1052,12 +861,6 @@ export function CartPage() {
                         const lineTotal =
                           item.price *
                           item.quantity;
-
-                        const compatible =
-                          getAppleDeviceType(
-                            item,
-                          ) !==
-                          null;
 
                         return (
                           <article
@@ -1105,12 +908,6 @@ export function CartPage() {
                                       item.configuration
                                     }
                                   </p>
-                                )}
-
-                                {compatible && (
-                                  <span className="appgrade-cart-service-compatible">
-                                    Доп. услуги доступны
-                                  </span>
                                 )}
                               </div>
 
@@ -1196,245 +993,22 @@ export function CartPage() {
                     =========================================== */}
 
                 {hasServices && (
-                  <section
-                    ref={
-                      servicesRef
-                    }
-                    className="appgrade-cart-section appgrade-cart-anchor"
-                  >
-                    <div className="appgrade-cart-section-heading">
-                      <div>
-                        <span>
-                          02
-                        </span>
-
-                        <h2>
-                          Дополнить покупку
-                        </h2>
-                      </div>
-
-                      <p>
-                        Для iPhone и iPad
-                      </p>
+                  <details className={styles.services}>
+                    <summary>
+                      <span>Помощь с новым устройством<small>{selectedServices.length ? `Выбрано услуг: ${selectedServices.length}` : 'Перенос данных, настройка и защита экрана'}</small></span>
+                      <ChevronDown size={18} aria-hidden="true" />
+                    </summary>
+                    <div className={styles.serviceList}>
+                      {availableServices.map(service => (
+                        <label key={service.id} className={styles.service}>
+                          <input type="checkbox" checked={selectedServices.includes(service.id)} onChange={() => toggleService(service.id)} />
+                          <span><strong>{service.title}</strong><small>{service.description}</small></span>
+                          <b>{money.format(service.price)} ₽</b>
+                        </label>
+                      ))}
                     </div>
-
-                    {/* INTRO */}
-
-                    <div className="appgrade-cart-services-intro">
-                      <div className="appgrade-cart-services-intro-icon">
-                        <Settings2
-                          size={
-                            18
-                          }
-                        />
-                      </div>
-
-                      <div>
-                        <strong>
-                          Подготовим устройство за вас
-                        </strong>
-
-                        <span>
-                          В заказе{' '}
-                          {
-                            compatibleDeviceCount
-                          }{' '}
-                          совместимых устройств.
-                          Выберите нужные услуги.
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* SERVICE CARDS */}
-
-                    <div className="appgrade-cart-services">
-                      {availableServices.map(
-                        (
-                          service,
-                        ) => {
-                          const active =
-                            selectedServices.includes(
-                              service.id,
-                            );
-
-                          const Icon =
-                            service.icon;
-
-                          return (
-                            <button
-                              key={
-                                service.id
-                              }
-                              type="button"
-                              className={`appgrade-cart-service ${
-                                active
-                                  ? 'is-active'
-                                  : ''
-                              }`}
-                              aria-pressed={
-                                active
-                              }
-                              onClick={() =>
-                                toggleService(
-                                  service.id,
-                                )
-                              }
-                            >
-                              {/* ACTIVE RED LINE */}
-
-                              <span
-                                className="appgrade-cart-service-accent"
-                                aria-hidden="true"
-                              />
-
-                              {/* TOP */}
-
-                              <div className="appgrade-cart-service-top">
-                                <div className="appgrade-cart-service-icon">
-                                  <Icon
-                                    size={
-                                      18
-                                    }
-                                    strokeWidth={
-                                      1.8
-                                    }
-                                  />
-                                </div>
-
-                                {service.badge && (
-                                  <span className="appgrade-cart-service-badge">
-                                    {
-                                      service.badge
-                                    }
-                                  </span>
-                                )}
-
-                                <span className="appgrade-cart-service-check">
-                                  {active && (
-                                    <Check
-                                      size={
-                                        15
-                                      }
-                                      strokeWidth={
-                                        2.5
-                                      }
-                                    />
-                                  )}
-                                </span>
-                              </div>
-
-                              {/* TEXT */}
-
-                              <div className="appgrade-cart-service-content">
-                                <h3>
-                                  {
-                                    service.title
-                                  }
-                                </h3>
-
-                                <p>
-                                  {
-                                    service.description
-                                  }
-                                </p>
-                              </div>
-
-                              {/* PRICE */}
-
-                              <div className="appgrade-cart-service-bottom">
-                                <strong
-                                  className={
-                                    active
-                                      ? 'is-added'
-                                      : ''
-                                  }
-                                >
-                                  {active &&
-                                    '+ '}
-
-                                  {money.format(
-                                    service.price,
-                                  )}{' '}
-                                  ₽
-                                </strong>
-
-                                <span className="appgrade-cart-service-action">
-                                  {active ? (
-                                    <>
-                                      <Check
-                                        size={
-                                          12
-                                        }
-                                      />
-
-                                      Добавлено
-                                    </>
-                                  ) : (
-                                    'Добавить'
-                                  )}
-                                </span>
-                              </div>
-                            </button>
-                          );
-                        },
-                      )}
-                    </div>
-
-                    {/* SELECTED SUMMARY */}
-
-                    {selectedServices.length >
-                      0 && (
-                      <div className="appgrade-cart-selected-services">
-                        <div>
-                          <span className="appgrade-cart-selected-services-check">
-                            <Check
-                              size={
-                                13
-                              }
-                            />
-                          </span>
-
-                          <div>
-                            <small>
-                              Дополнительные услуги
-                            </small>
-
-                            <strong>
-                              Выбрано:{' '}
-                              {
-                                selectedServices.length
-                              }
-                            </strong>
-                          </div>
-                        </div>
-
-                        <strong className="appgrade-cart-selected-services-price">
-                          +{' '}
-                          {money.format(
-                            servicesTotal,
-                          )}{' '}
-                          ₽
-                        </strong>
-
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setSelectedServices(
-                              [],
-                            )
-                          }
-                        >
-                          Убрать все
-                        </button>
-                      </div>
-                    )}
-                  </section>
+                  </details>
                 )}
-
-                {/* ===========================================
-                    CHECKOUT
-                    =========================================== */}
-
                 <section
                   ref={
                     checkoutRef
@@ -1443,11 +1017,7 @@ export function CartPage() {
                 >
                   <div className="appgrade-cart-section-heading">
                     <div>
-                      <span>
-                        {hasServices
-                          ? '03'
-                          : '02'}
-                      </span>
+
 
                       <h2>
                         Получение
@@ -1593,7 +1163,7 @@ export function CartPage() {
                   </div>
 
                   {/* FORM */}
-                  <OrderAvailability available={ordersAvailable} />
+
 
                   <form
                     id="appgrade-order-form"
@@ -1603,9 +1173,7 @@ export function CartPage() {
                     }
                   >
                     <div className="appgrade-checkout-subheading">
-                      <span>
-                        Почти готово
-                      </span>
+
 
                       <strong>
                         Оставьте контакты
@@ -1775,7 +1343,7 @@ export function CartPage() {
                       </label></div>
                     )}
 
-                    <label className="appgrade-order-comment">
+                    <details className={styles.comment}><summary>Добавить комментарий</summary><label className="appgrade-order-comment">
                       <span>
                         Комментарий
                       </span>
@@ -1786,7 +1354,7 @@ export function CartPage() {
                         rows={3}
                         placeholder="Например: связаться после 18:00"
                       />
-                    </label>
+                    </label></details>
                   </form>
                 </section>
               </div>
@@ -1798,29 +1366,6 @@ export function CartPage() {
               <aside className="appgrade-cart-summary">
 
                 {/* PROGRESS */}
-
-                <div className="appgrade-cart-progress">
-                  <div>
-                    <span>
-                      Готовность заказа
-                    </span>
-
-                    <strong>
-                      {progress}%
-                    </strong>
-                  </div>
-
-                  <div className="appgrade-cart-progress-track">
-                    <span
-                      style={{
-                        width:
-                          `${progress}%`,
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* TOTAL */}
 
                 <div className="appgrade-cart-summary-title">
                   <strong>
@@ -1856,7 +1401,7 @@ export function CartPage() {
                     </strong>
                   </div>
 
-                  {hasServices && (
+                  {servicesTotal > 0 && (
                     <div>
                       <span>
                         Доп. услуги
@@ -1932,43 +1477,23 @@ export function CartPage() {
 
                 {/* CITY */}
 
-                <div className="appgrade-cart-summary-city">
-                  <MapPin
-                    size={
-                      17
-                    }
-                  />
-
-                  <div>
-                    <span>
-                      Ваш магазин
-                    </span>
-
-                    <strong>
-                      {currentStore?.city ??
-                        city.name}
-                    </strong>
-                  </div>
-                </div>
-
-                {/* SUBMIT */}
                 <OrderAvailability available={ordersAvailable} />
 
                 <button
-                  type="submit"
-                  form="appgrade-order-form"
+                  type={checkoutReady ? 'submit' : 'button'}
+                  form={checkoutReady ? 'appgrade-order-form' : undefined}
+                  onClick={checkoutReady ? undefined : () => scrollTo(checkoutRef)}
                   className="appgrade-cart-submit"
                   disabled={
-                    sending ||
-                    !checkoutReady
+                    sending
                   }
                 >
                   <span>
-                    {ordersAvailable === null ? 'Проверяем доступность…' : ordersAvailable === false ? 'Ожидайте звонка менеджера' : sending
+                    {sending
                       ? 'Отправляем...'
                       : checkoutReady
                         ? 'Оформить заявку'
-                        : 'Заполните контакты'}
+                        : 'К оформлению'}
                   </span>
 
                   {!sending && (
