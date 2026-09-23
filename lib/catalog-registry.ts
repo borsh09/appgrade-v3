@@ -24,6 +24,9 @@ export type CatalogItem = {
   size?: string;
   connectivity?: string;
   configuration?: string;
+  chip?: string;
+  brand?: string;
+  kind?: string;
   priceAlias?: string;
   image: string;
   gallery?: string[];

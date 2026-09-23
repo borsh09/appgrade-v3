@@ -25,6 +25,7 @@ import { useCity } from '@/components/providers/city-provider';
 
 import { searchIndex as baseSearchIndex } from '@/data/search-index';
 import { usePricedCatalog } from '@/components/providers/price-provider';
+import { getGroupedCatalogSearchResults } from '@/lib/catalog-search';
 
 const menuCategories = catalogCategories;
 
@@ -58,29 +59,16 @@ export function Header() {
      ========================================================= */
 
   const results = useMemo(() => {
-    const q = query
-      .trim()
-      .toLocaleLowerCase('ru');
+    const q = query.trim();
 
     if (q.length < 2) {
       return [];
     }
 
-    const found = searchIndex.filter((item) => {
-      const searchString =
-        `${item.name} ${item.detail}`.toLocaleLowerCase('ru');
-
-      return searchString.includes(q);
-    });
-
-    return [
-      ...new Map(
-        [...found].sort((a, b) => (b.price || Infinity) - (a.price || Infinity)).map((item) => [
-          item.name,
-          item,
-        ]),
-      ).values(),
-    ].slice(0, 6);
+    return getGroupedCatalogSearchResults(
+      [...searchIndex].sort((a, b) => (b.price || Infinity) - (a.price || Infinity)),
+      q,
+    );
   }, [query, searchIndex]);
 
   /* =========================================================
@@ -273,7 +261,7 @@ export function Header() {
                 {results.length > 0 ? (
                   results.map((item) => (
                     <Link
-                      href={item.href}
+                      href={`/catalog/${item.category}?q=${encodeURIComponent(query.trim())}`}
                       key={item.id}
                       onClick={() => {
                         setSearchOpen(false);
@@ -296,12 +284,12 @@ export function Header() {
                         </strong>
 
                         <small>
-                          {item.detail}
+                          {item.searchCount} конфигураций
                         </small>
                       </span>
 
                       <b>
-                        {item.price > 0 ? `${money.format(item.price)} ₽` : 'Цена уточняется'}
+                        {item.searchMinPrice ? `от ${money.format(item.searchMinPrice)} ₽` : 'Цена уточняется'}
                       </b>
                     </Link>
                   ))
@@ -521,7 +509,7 @@ export function Header() {
                 results.map((item) => (
                   <Link
                     key={item.id}
-                    href={item.href}
+                    href={`/catalog/${item.category}?q=${encodeURIComponent(query.trim())}`}
                     onClick={() => {
                       setQuery('');
                       closeMobileMenu();
@@ -543,12 +531,12 @@ export function Header() {
                       </strong>
 
                       <small>
-                        {item.detail}
+                        {item.searchCount} конфигураций
                       </small>
                     </span>
 
                     <b>
-                      {item.price > 0 ? `${money.format(item.price)} ₽` : 'Цена уточняется'}
+                      {item.searchMinPrice ? `от ${money.format(item.searchMinPrice)} ₽` : 'Цена уточняется'}
                     </b>
                   </Link>
                 ))

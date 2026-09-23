@@ -11,6 +11,7 @@ import { ServiceStrip } from './service-strip';
 import { AvitoReviews } from './avito-reviews';
 import { StoreLocations } from './store-locations';
 import { RevealEffects } from './reveal-effects';
+import { MobileHomeSearch } from './mobile-home-search';
 
 export function HomePage() {
   return (
@@ -37,6 +38,7 @@ export function HomePage() {
       <AvitoReviews />
 
       <StoreLocations />
+      <MobileHomeSearch />
     </main>
   );
 }

@@ -19167,8 +19167,3 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     display: none;
   }
 }
-
-/* Category pages use the model rail as their only catalogue control. */
-.retail-catalog-page .retail-toolbar {
-  display: none !important;
-}
