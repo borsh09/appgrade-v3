@@ -5,6 +5,7 @@ export type ProductCategory =
   | 'watches'
   | 'audio'
   | 'gaming'
+  | 'cameras'
   | 'dyson'
   | 'accessories';
 

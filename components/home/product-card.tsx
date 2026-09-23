@@ -2,16 +2,13 @@
 
 import cardStyles from '@/components/shared/store-card.module.css';
 import { HoverProductPhoto } from '@/components/shared/hover-product-photo';
-import { catalogById } from '@/lib/catalog-registry';
+import { catalogById, itemConfiguration } from '@/lib/catalog-registry';
+import { productHref } from '@/lib/product-selection';
 import Link from '@/components/shared/safe-link';
 
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
 
 import type { FeaturedProduct } from '@/types/catalog';
-
-import { macbookCatalog } from '@/data/macbook-catalog';
-import { audioCatalog } from '@/data/audio-catalog';
-import { watchCatalog } from '@/data/watch-catalog';
 import { usePriceResolver } from '@/components/providers/price-provider';
 
 const money = new Intl.NumberFormat('ru-RU');
@@ -30,136 +27,14 @@ export function ProductCard({
 
   const inStock = status === 'В наличии';
 
-  let href = '';
-
-  /*
-   * =========================================================
-   * MACBOOK
-   * =========================================================
-   */
-
-  if (product.model.category === 'laptops') {
-    const macbook = macbookCatalog.find(
-      (item) => item.id === product.sku.id,
-    );
-
-    if (macbook) {
-      const params = new URLSearchParams();
-
-      if (macbook.storage) {
-        params.set('storage', macbook.storage);
-      }
-
-      if (macbook.ram) {
-        params.set('ram', macbook.ram);
-      }
-
-      if (macbook.color) {
-        params.set('color', macbook.color);
-      }
-
-      href = `/catalog/${macbook.modelSlug}?${params.toString()}`;
-    }
-  }
-
-  /*
-   * =========================================================
-   * AUDIO / AIRPODS
-   * =========================================================
-   */
-
-  if (product.model.category === 'audio') {
-    const audio = audioCatalog.find(
-      (item) => item.id === product.sku.id,
-    );
-
-    if (audio) {
-      const params = new URLSearchParams();
-
-      if (audio.color) {
-        params.set('color', audio.color);
-      }
-
-      href = `/catalog/${audio.modelSlug}?${params.toString()}`;
-    }
-  }
-
-  /*
-   * =========================================================
-   * APPLE WATCH
-   * =========================================================
-   */
-
-  if (product.model.category === 'watches') {
-    const watch = watchCatalog.find(
-      (item) => item.id === product.sku.id,
-    );
-
-    if (watch) {
-      const params = new URLSearchParams();
-
-      if (watch.size) {
-        params.set('size', watch.size);
-      }
-
-      if (watch.color) {
-        params.set('color', watch.color);
-      }
-
-      href = `/catalog/${watch.modelSlug}?${params.toString()}`;
-    }
-  }
-
-  /*
-   * =========================================================
-   * OTHER PRODUCTS
-   * iPhone / Samsung / Xiaomi / etc.
-   * =========================================================
-   */
-
-  if (!href) {
-    const params = new URLSearchParams();
-
-    if (product.sku.storage) {
-      params.set(
-        'storage',
-        product.sku.storage,
-      );
-    }
-
-    if (product.sku.color) {
-      params.set(
-        'color',
-        product.sku.color,
-      );
-    }
-
-    if (product.sku.sim) {
-      params.set(
-        'sim',
-        product.sku.sim,
-      );
-    }
-
-    const query = params.toString();
-
-    href = query
-      ? `/catalog/${product.model.slug}?${query}`
-      : `/catalog/${product.model.slug}`;
-  }
-
-  /*
-   * =========================================================
-   * CART PRODUCT
-   * =========================================================
-   */
-
+  const catalogItem = catalogById.get(product.sku.id);
+  const href = catalogItem ? productHref(catalogItem) : `/catalog/${product.model.slug}`;
   const commerceProduct = {
     id: product.sku.id,
 
     name: product.model.name,
 
-    configuration: [
+    configuration: catalogItem ? itemConfiguration(catalogItem) : [
       product.sku.storage,
       product.sku.color,
     ]
