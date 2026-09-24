@@ -3,6 +3,8 @@
 import { BatteryMedium, Check, Laptop, PackageCheck, RotateCcw, ShieldCheck, Smartphone, Sparkles, Tablet, Watch, Wrench } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { TradeInForm } from './trade-in-form';
+import { calculateTradeInEstimate, TRADE_IN_STORAGE_KEY, type TradeInSelection } from '@/lib/trade-in-estimate';
+import { useCommerce } from '@/components/providers/commerce-provider';
 
 const DEVICES = [
   { value: 'Смартфон', icon: Smartphone, base: 68000 },
@@ -35,18 +37,6 @@ type BodyState = (typeof BODY_OPTIONS)[number]['value'];
 type BatteryState = (typeof BATTERY_OPTIONS)[number]['value'];
 type KitState = (typeof KIT_OPTIONS)[number]['value'];
 
-function getModelFactor(deviceType: DeviceType, model: string) {
-  const value = model.toLowerCase();
-  const generations: Record<DeviceType, [RegExp, number][]> = {
-    'Смартфон': [[/\b(18|s26|pixel 11)\b/, 1], [/\b(17|s25|pixel 10)\b/, .92], [/\b(16|s24|pixel 9)\b/, .82], [/\b(15|s23|pixel 8)\b/, .7], [/\b(14|s22|pixel 7)\b/, .58], [/\b(13|s21|pixel 6)\b/, .48], [/\b(12|s20|pixel 5)\b/, .38], [/\b(11|xs|max|xr)\b/, .28], [/\b(x|se|8|7|6)\b/, .18]],
-    'Планшет': [[/\b(m5|2026|2027)\b/, 1], [/\b(m4|2024|2025)\b/, .88], [/\b(m2|2022|2023)\b/, .7], [/\b(2020|2021)\b/, .52], [/\b(2018|2019)\b/, .34]],
-    'Ноутбук': [[/\b(m5|2026|2027)\b/, 1], [/\b(m4|2024|2025)\b/, .9], [/\b(m3|2023)\b/, .8], [/\b(m2|2022)\b/, .69], [/\b(m1|2020|2021)\b/, .54], [/\b(2018|2019)\b/, .3]],
-    'Смарт-часы': [[/\b(12|ultra 3|2026|2027)\b/, 1], [/\b(11|ultra 2|2025)\b/, .88], [/\b(10|ultra|2024)\b/, .76], [/\b(9|8|2022|2023)\b/, .58], [/\b(7|6|2020|2021)\b/, .4], [/\b(5|4|3)\b/, .25]],
-  };
-  const match = generations[deviceType].find(([pattern]) => pattern.test(value));
-  const premium = /\b(pro max|ultra)\b/.test(value) ? 1.12 : /\bpro\b/.test(value) ? 1.06 : 1;
-  return Math.min(1, (match?.[1] ?? .62) * premium);
-}
 
 function ChoiceGroup<T extends string>({ label, icon: Icon, options, value, onChange }: {
   label: string;
@@ -61,7 +51,8 @@ function ChoiceGroup<T extends string>({ label, icon: Icon, options, value, onCh
   </fieldset>;
 }
 
-export function TradeInPage() {
+export function TradeInPage({ returnToCart = false }: { returnToCart?: boolean }) {
+  const { cartCount } = useCommerce();
   const [deviceType, setDeviceType] = useState<DeviceType | null>(null);
   const [model, setModel] = useState('');
   const [functionState, setFunctionState] = useState<FunctionState | null>(null);
@@ -72,17 +63,17 @@ export function TradeInPage() {
   const ready = completed === 6;
   const estimate = useMemo(() => {
     if (!ready || !deviceType || !functionState || !bodyState || !batteryState || !kitState) return null;
-    const base = DEVICES.find((item) => item.value === deviceType)!.base;
-    const functionFactor = FUNCTION_OPTIONS.find((item) => item.value === functionState)!.factor;
-    const bodyFactor = BODY_OPTIONS.find((item) => item.value === bodyState)!.factor;
-    const batteryFactor = BATTERY_OPTIONS.find((item) => item.value === batteryState)!.factor;
-    const kitFactor = KIT_OPTIONS.find((item) => item.value === kitState)!.factor;
-    const modelFactor = getModelFactor(deviceType, model);
-    return Math.max(1500, Math.round((base * modelFactor * functionFactor * bodyFactor * batteryFactor * kitFactor) / 500) * 500);
+    return calculateTradeInEstimate({ deviceType, model: model.trim(), functionState, bodyState, batteryState, kitState });
   }, [ready, deviceType, model, functionState, bodyState, batteryState, kitState]);
   const condition = functionState === 'perfect' && bodyState === 'clean' ? 'Работает исправно' : functionState === 'broken' || bodyState === 'damaged' ? 'Нужна диагностика' : 'Есть следы использования';
   const details = ready ? [`Работа: ${FUNCTION_OPTIONS.find((item) => item.value === functionState)?.label}`, `Корпус: ${BODY_OPTIONS.find((item) => item.value === bodyState)?.label}`, `Аккумулятор: ${BATTERY_OPTIONS.find((item) => item.value === batteryState)?.label}`, `Комплект: ${KIT_OPTIONS.find((item) => item.value === kitState)?.label}`].join('. ') : '';
   const reset = () => { setDeviceType(null); setModel(''); setFunctionState(null); setBodyState(null); setBatteryState(null); setKitState(null); };
+  const applyToCart = () => {
+    if (!estimate || !deviceType || !functionState || !bodyState || !batteryState || !kitState) return;
+    const selection: TradeInSelection = { deviceType, model: model.trim(), functionState, bodyState, batteryState, kitState };
+    localStorage.setItem(TRADE_IN_STORAGE_KEY, JSON.stringify({ ...selection, estimate }));
+    window.location.assign('/cart');
+  };
 
   return <main className="appgrade-tradein-page"><div className="container">
     <header className="appgrade-tradein-hero"><h1>Узнайте стоимость устройства</h1><p>Ответьте на несколько вопросов — калькулятор сразу покажет предварительную сумму Trade‑In.</p></header>
@@ -103,7 +94,9 @@ export function TradeInPage() {
       <aside className={`appgrade-tradein-summary ${ready ? 'is-ready' : ''}`} aria-live="polite">
         <div className="appgrade-tradein-summary-top"><div className="appgrade-tradein-summary-icon"><Sparkles size={21} /></div><button type="button" className="appgrade-tradein-reset" onClick={reset} disabled={completed === 0} aria-label="Сбросить калькулятор"><RotateCcw size={18} /></button></div>
         <p className="appgrade-tradein-summary-label">Предварительная оценка</p>
-        {estimate ? <><h2>до {estimate.toLocaleString('ru-RU')} ₽</h2><p className="appgrade-tradein-summary-model">{model}</p><div className="appgrade-tradein-selection"><div><span>Устройство</span><strong>{deviceType}</strong></div><div><span>Состояние</span><strong>{condition}</strong></div></div><TradeInForm deviceType={deviceType!} condition={condition} model={model.trim()} details={details} estimate={estimate} /></> : <><h2>Заполните параметры</h2><p className="appgrade-tradein-summary-copy">Сумма появится здесь и будет меняться после каждого ответа.</p><div className="appgrade-tradein-summary-meter"><span style={{ width: `${completed / 6 * 100}%` }} /></div></>}
+        {estimate ? <><h2>до {estimate.toLocaleString('ru-RU')} ₽</h2><p className="appgrade-tradein-summary-model">{model}</p><div className="appgrade-tradein-selection"><div><span>Устройство</span><strong>{deviceType}</strong></div><div><span>Состояние</span><strong>{condition}</strong></div></div>{!returnToCart && <TradeInForm deviceType={deviceType!} condition={condition} model={model.trim()} details={details} estimate={estimate} />}</> : <><h2>Заполните параметры</h2><p className="appgrade-tradein-summary-copy">Сумма появится здесь и будет меняться после каждого ответа.</p><div className="appgrade-tradein-summary-meter"><span style={{ width: `${completed / 6 * 100}%` }} /></div></>}
+        {estimate && cartCount > 0 && <button type="button" className="appgrade-tradein-cta" onClick={applyToCart}>Применить к корзине — до {estimate.toLocaleString('ru-RU')} ₽</button>}
+        {returnToCart && !estimate && <p className="appgrade-tradein-summary-copy">После оценки устройства вы сможете вернуться к корзине с предварительной скидкой.</p>}
         <div className="appgrade-tradein-notice"><ShieldCheck size={18} /><p>Точную стоимость подтвердим после бесплатной диагностики в магазине.</p></div>
       </aside>
     </div>

@@ -35,6 +35,7 @@ import { useCommerce } from '@/components/providers/commerce-provider';
 import { useCity } from '@/components/providers/city-provider';
 import { ORDER_SERVICES } from '@/config/order-services';
 import { OrderAvailability } from './order-availability';
+import { parseTradeInQuote, tradeInDiscount, TRADE_IN_STORAGE_KEY, type TradeInQuote } from '@/lib/trade-in-estimate';
 
 /* =========================================================
    FORMAT
@@ -261,6 +262,14 @@ export function CartPage() {
   const [submitError, setSubmitError] = useState('');
   const [orderId, setOrderId] = useState('');
   const [telegramUsername, setTelegramUsername] = useState('');
+  const [tradeInQuote, setTradeInQuote] = useState<TradeInQuote | null>(null);
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      try { setTradeInQuote(parseTradeInQuote(JSON.parse(localStorage.getItem(TRADE_IN_STORAGE_KEY) ?? 'null'))); }
+      catch { setTradeInQuote(null); }
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
   const {
     cart,
     ready,
@@ -512,9 +521,9 @@ export function CartPage() {
       [selectedServices],
     );
 
-  const total =
-    productsTotal +
-    servicesTotal;
+  const estimatedDiscount = tradeInQuote ? tradeInDiscount(tradeInQuote.estimate, productsTotal) : 0;
+  const total = productsTotal + servicesTotal - estimatedDiscount;
+  const removeTradeIn = () => { localStorage.removeItem(TRADE_IN_STORAGE_KEY); setTradeInQuote(null); };
 
   /* =======================================================
      FORM VALIDATION
@@ -625,6 +634,7 @@ export function CartPage() {
         contactMethod,
         telegramUsername: contactMethod === 'telegram' ? telegramUsername : '',
         serviceIds: selectedServices,
+        tradeIn: tradeInQuote,
         customer: {
           name,
           phone,
@@ -669,6 +679,7 @@ export function CartPage() {
 
         productsTotal,
         servicesTotal,
+        estimatedDiscount,
         total,
       };
 
@@ -986,6 +997,21 @@ export function CartPage() {
                       },
                     )}
                   </div>
+                </section>
+
+                <section className={styles.tradeIn} aria-label="Trade-In">
+                  <div className={styles.tradeInHead}>
+                    <span className={styles.tradeInIcon}><RefreshCw size={21} aria-hidden="true" /></span>
+                    <div><h2>Сдать устройство в Trade-In</h2><p>Оценим старое устройство и учтём его стоимость при покупке.</p></div>
+                  </div>
+                  {tradeInQuote ? <>
+                    <div className={styles.tradeInQuote}>
+                      <span><strong>{tradeInQuote.model}</strong><small>{tradeInQuote.deviceType} · предварительная оценка</small></span>
+                      <b>до {money.format(tradeInQuote.estimate)} ₽</b>
+                    </div>
+                    <p className={styles.tradeInHint}>В итоговой сумме учтено до {money.format(estimatedDiscount)} ₽. Точную скидку подтвердим после диагностики устройства в магазине.</p>
+                    <div className={styles.tradeInActions}><Link href="/trade-in?from=cart">Изменить оценку</Link><button type="button" onClick={removeTradeIn}>Убрать Trade-In</button></div>
+                  </> : <Link className={styles.tradeInLink} href="/trade-in?from=cart">Оценить устройство <ArrowRight size={17} /></Link>}
                 </section>
 
                 {/* ===========================================
@@ -1369,7 +1395,7 @@ export function CartPage() {
 
                 <div className="appgrade-cart-summary-title">
                   <strong>
-                    Итого
+                    {tradeInQuote ? 'Ориентировочно' : 'Итого'}
                   </strong>
 
                   <b
@@ -1416,6 +1442,8 @@ export function CartPage() {
                       </strong>
                     </div>
                   )}
+
+                  {tradeInQuote && <div><span>Trade-In · до диагностики</span><strong>− {money.format(estimatedDiscount)} ₽</strong></div>}
 
                   <div>
                     <span>
@@ -1552,7 +1580,7 @@ export function CartPage() {
             <div className="appgrade-cart-mobile-bar">
               <div>
                 <small>
-                  Итого
+                  {tradeInQuote ? 'Ориентировочно' : 'Итого'}
                 </small>
 
                 <strong

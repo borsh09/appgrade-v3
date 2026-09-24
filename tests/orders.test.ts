@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { basePrices, catalogItems } from '@/lib/catalog-registry';
 import { validateOrder, orderMessages } from '@/lib/server/orders';
+import { calculateTradeInEstimate, tradeInDiscount, type TradeInSelection } from '@/lib/trade-in-estimate';
 
 const item = catalogItems[0];
 export const sampleOrder = () => ({
@@ -68,4 +69,18 @@ void test('large orders split into Telegram-safe messages without dropping items
   assert.ok(messages.length > 1);
   assert.ok(messages.every((m) => m.length < 4096));
   assert.ok(messages.join('\n').includes('ИТОГО'));
+});
+
+void test('Trade-In estimate reduces the provisional order total and cannot be forged', () => {
+  const selection: TradeInSelection = {
+    deviceType: 'Смартфон', model: 'iPhone 15 Pro', functionState: 'perfect',
+    bodyState: 'clean', batteryState: 'good', kitState: 'full',
+  };
+  const estimate = calculateTradeInEstimate(selection);
+  const order = validateOrder({ ...sampleOrder(), tradeIn: { ...selection, estimate } }, basePrices);
+  assert.equal(order.estimatedDiscount, tradeInDiscount(estimate, order.productsTotal));
+  assert.equal(order.total, order.productsTotal + order.servicesTotal - order.estimatedDiscount);
+  assert.ok(orderMessages('trade-in-order', order).join('\n').includes('iPhone 15 Pro'));
+  assert.throws(() => validateOrder({ ...sampleOrder(), tradeIn: { ...selection, estimate: estimate + 10000 } }, basePrices), /Trade-In/);
+  assert.equal(tradeInDiscount(estimate, 10000), 10000);
 });

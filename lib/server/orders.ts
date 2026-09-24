@@ -2,6 +2,7 @@ import { catalogById, itemConfiguration } from '../catalog-registry';
 import { CITIES, type CityId } from '@/config/cities';
 import { STORES } from '@/config/stores';
 import { ORDER_SERVICES } from '@/config/order-services';
+import { parseTradeInQuote, tradeInDiscount } from '@/lib/trade-in-estimate';
 
 export class OrderError extends Error {
   status: number;
@@ -120,6 +121,9 @@ export function validateOrder(
     (sum, service) => sum + service.price,
     0,
   );
+  const tradeIn = payload.tradeIn == null ? null : parseTradeInQuote(payload.tradeIn);
+  if (payload.tradeIn != null && !tradeIn) throw new OrderError('Оценка Trade-In изменилась. Оцените устройство заново.');
+  const estimatedDiscount = tradeIn ? tradeInDiscount(tradeIn.estimate, productsTotal) : 0;
   return {
     customer: {
       name,
@@ -139,7 +143,9 @@ export function validateOrder(
     services,
     productsTotal,
     servicesTotal,
-    total: productsTotal + servicesTotal,
+    tradeIn,
+    estimatedDiscount,
+    total: productsTotal + servicesTotal - estimatedDiscount,
   };
 }
 export type ValidOrder = ReturnType<typeof validateOrder>;
@@ -151,7 +157,7 @@ export function orderMessages(id: string, order: ValidOrder): string[] {
       (item) =>
         `${item.name}\n${item.configuration}\n${item.quantity} шт. × ${money(item.price)} = ${money(item.quantity * item.price)}`,
     ),
-    `Услуги: ${order.services.length ? order.services.map((s) => `${s.title} — ${money(s.price)}`).join('; ') : 'не выбраны'}\nТовары: ${money(order.productsTotal)}\nУслуги: ${money(order.servicesTotal)}\nИТОГО: ${money(order.total)}`,
+    `Услуги: ${order.services.length ? order.services.map((s) => `${s.title} — ${money(s.price)}`).join('; ') : 'не выбраны'}\nТовары: ${money(order.productsTotal)}\nУслуги: ${money(order.servicesTotal)}${order.tradeIn ? `\nTrade-In: ${order.tradeIn.deviceType} ${order.tradeIn.model}; предварительно до ${money(order.tradeIn.estimate)}\nСкидка до диагностики: −${money(order.estimatedDiscount)}` : ''}\nИТОГО ПРЕДВАРИТЕЛЬНО: ${money(order.total)}${order.tradeIn ? '\nТочную сумму Trade-In подтвердить после диагностики.' : ''}`,
     ...(order.customer.comment
       ? [`Комментарий: ${order.customer.comment}`]
       : []),
