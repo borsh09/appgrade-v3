@@ -1,14 +1,32 @@
-import { OrderError } from './orders';
 import { CITIES } from '@/config/cities';
-export function validateTradeIn(value:unknown){
-  if(!value||typeof value!=='object')throw new OrderError('Некорректная анкета.');
-  const body=value as Record<string,unknown>;
-  const field=(name:string,max=100)=>{const v=body[name];if(typeof v!=='string'||!v.trim()||v.length>max)throw new OrderError('Заполните контактные данные и модель.');return v.trim();};
-  const name=field('name'),phone=field('phone',30),model=field('model',150),deviceType=field('deviceType'),condition=field('condition'),city=field('city');
-  const details=typeof body.details==='string'&&body.details.trim()&&body.details.length<=500?body.details.trim():'';
-  const estimate=typeof body.estimate==='number'&&Number.isFinite(body.estimate)&&body.estimate>=0&&body.estimate<=1000000?Math.round(body.estimate):null;
-  if(!/^\+?[\d\s()-]+$/.test(phone)||phone.replace(/\D/g,'').length<10||phone.replace(/\D/g,'').length>15)throw new OrderError('Проверьте телефон.');
-  if(!['Смартфон','Планшет','Ноутбук','Смарт-часы'].includes(deviceType)||!['Работает исправно','Есть следы использования','Нужна диагностика'].includes(condition)||!Object.hasOwn(CITIES,city))throw new OrderError('Проверьте выбранные параметры.');
-  if(body.consent!==true)throw new OrderError('Подтвердите согласие на обработку данных.');
-  return {customer:{name,phone},model,deviceType,condition,details,estimate,city,consent:{version:'2026-09-09',acceptedAt:new Date().toISOString()}};
+import { getTradeInAssessment, parseTradeInSelection } from '@/lib/trade-in-estimate';
+import { OrderError } from './orders';
+
+export function validateTradeIn(value: unknown) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new OrderError('Некорректная анкета.');
+  const body = value as Record<string, unknown>;
+  const field = (key: string, max = 100) => {
+    const raw = body[key];
+    if (typeof raw !== 'string' || !raw.trim() || raw.length > max) throw new OrderError('Заполните контактные данные.');
+    return raw.trim();
+  };
+  const name = field('name');
+  const phone = field('phone', 30);
+  const city = field('city');
+  const selection = parseTradeInSelection(body);
+  const assessment = selection ? getTradeInAssessment(selection) : null;
+  if (!assessment || body.estimate !== assessment.estimate) throw new OrderError('Оценка Trade-In изменилась. Заполните анкету заново.');
+  if (!/^\+?[\d\s()-]+$/.test(phone) || phone.replace(/\D/g, '').length < 10 || phone.replace(/\D/g, '').length > 15) throw new OrderError('Проверьте телефон.');
+  if (!Object.hasOwn(CITIES, city)) throw new OrderError('Проверьте выбранный город.');
+  if (body.consent !== true) throw new OrderError('Подтвердите согласие на обработку данных.');
+  const { row } = assessment;
+  const condition = selection!.functionState === 'working' && selection!.bodyState === 'clean'
+    ? 'Работает исправно' : selection!.functionState === 'broken' || selection!.bodyState === 'damaged'
+      ? 'Нужна диагностика' : 'Есть следы использования';
+  const details = `${row.storage}${row.sim ? ` · ${row.sim}` : ''}; аккумулятор ${selection!.batteryPercent}%; таблица: ${row.priceLabel}`;
+  return {
+    customer: { name, phone }, model: row.model, deviceType: 'Смартфон', condition,
+    details, estimate: assessment.estimate, city,
+    consent: { version: '2026-09-09', acceptedAt: new Date().toISOString() },
+  };
 }

@@ -4,10 +4,11 @@ import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useRef, useState } from 'react';
 import Link from '@/components/shared/safe-link';
 import { useCity } from '@/components/providers/city-provider';
+import type { TradeInSelection } from '@/lib/trade-in-estimate';
 
-type Props = { deviceType: string; condition: string; model: string; details: string; estimate: number };
+type Props = { selection: TradeInSelection; estimate: number | null };
 
-export function TradeInForm({ deviceType, condition, model, details, estimate }: Props) {
+export function TradeInForm({ selection, estimate }: Props) {
   const { city } = useCity();
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
@@ -19,7 +20,7 @@ export function TradeInForm({ deviceType, condition, model, details, estimate }:
   return <form className="appgrade-tradein-contact" onSubmit={async (event) => {
     event.preventDefault(); setBusy(true); setMessage('');
     const form = new FormData(event.currentTarget);
-    const body = { deviceType, condition, model, details, estimate, city: city.id, name: form.get('name'), phone: form.get('phone'), consent: form.get('consent') === 'on' };
+    const body = { ...selection, estimate, city: city.id, name: form.get('name'), phone: form.get('phone'), consent: form.get('consent') === 'on' };
     const fingerprint = JSON.stringify(body);
     if (identity.current.fingerprint !== fingerprint) identity.current = { fingerprint, key: crypto.randomUUID() };
     try {

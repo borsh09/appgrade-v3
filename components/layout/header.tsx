@@ -261,12 +261,8 @@ export function Header() {
                 {results.length > 0 ? (
                   results.map((item) => (
                     <Link
-                      href={`/catalog/${item.category}?q=${encodeURIComponent(query.trim())}`}
+                      href={`/catalog/${item.modelSlug}`}
                       key={item.id}
-                      onClick={() => {
-                        setSearchOpen(false);
-                        setQuery('');
-                      }}
                     >
                       <span className="appgrade-search-image">
                         <Image
@@ -509,11 +505,7 @@ export function Header() {
                 results.map((item) => (
                   <Link
                     key={item.id}
-                    href={`/catalog/${item.category}?q=${encodeURIComponent(query.trim())}`}
-                    onClick={() => {
-                      setQuery('');
-                      closeMobileMenu();
-                    }}
+                    href={`/catalog/${item.modelSlug}`}
                   >
                     <span className="appgrade-mobile-search-result-image">
                       <Image

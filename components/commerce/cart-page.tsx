@@ -1006,7 +1006,7 @@ export function CartPage() {
                   </div>
                   {tradeInQuote ? <>
                     <div className={styles.tradeInQuote}>
-                      <span><strong>{tradeInQuote.model}</strong><small>{tradeInQuote.deviceType} · предварительная оценка</small></span>
+                      <span><strong>{tradeInQuote.model}</strong><small>{tradeInQuote.storage}{tradeInQuote.sim ? ` · ${tradeInQuote.sim}` : ''} · предварительная оценка</small></span>
                       <b>до {money.format(tradeInQuote.estimate)} ₽</b>
                     </div>
                     <p className={styles.tradeInHint}>В итоговой сумме учтено до {money.format(estimatedDiscount)} ₽. Точную скидку подтвердим после диагностики устройства в магазине.</p>

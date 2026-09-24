@@ -44,7 +44,7 @@ export function MobileHomeSearch() {
     if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false);
   }}>
     {showResults && <div className={styles.results} aria-live="polite">
-      {results.length ? results.map(item => <Link className={styles.result} key={`${item.category}:${item.modelSlug}`} href={`/catalog/${item.category}?q=${encodeURIComponent(query.trim())}`} onClick={() => setQuery('')}>
+      {results.length ? results.map(item => <Link className={styles.result} key={`${item.category}:${item.modelSlug}`} href={`/catalog/${item.modelSlug}`}>
         <span className={styles.image}><Image src={item.image} alt="" fill unoptimized sizes="48px"/></span>
         <span className={styles.copy}><strong>{item.model}</strong><small>{item.searchCount} конфигураций</small></span>
         <b>{item.searchMinPrice ? `от ${money.format(item.searchMinPrice)} ₽` : 'Уточнить'}</b>
