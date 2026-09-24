@@ -22,6 +22,21 @@ export function MobileHomeSearch() {
   const showResults = focused && query.trim().length >= 2;
 
   useEffect(() => {
+    const closeOnOutsidePointer = (event: PointerEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) setFocused(false);
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setFocused(false);
+    };
+    document.addEventListener('pointerdown', closeOnOutsidePointer);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsidePointer);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, []);
+
+  useEffect(() => {
     if (focused || query || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let wordIndex = 0;
     let characterIndex = 0;
@@ -41,7 +56,8 @@ export function MobileHomeSearch() {
   }, [focused, query]);
 
   return <div className={styles.root} ref={rootRef} onBlur={event => {
-    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false);
+    // Touch browsers may report no relatedTarget before the tapped link activates.
+    if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget)) setFocused(false);
   }}>
     {showResults && <div className={styles.results} aria-live="polite">
       {results.length ? results.map(item => <Link className={styles.result} key={`${item.category}:${item.modelSlug}`} href={`/catalog/${item.modelSlug}`}>
