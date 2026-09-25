@@ -1,200 +1,296 @@
 .hero {
   position: relative;
   isolation: isolate;
-  height: clamp(530px, 42vw, 640px);
+  height: clamp(560px, calc(100svh - 128px), 690px);
   overflow: hidden;
-  border-radius: 24px;
-  background: #0b0b0d;
-  color: #fff;
+  border-radius: 28px;
+  background: #eeede9;
+  color: #202120;
 }
 
 .slide {
+  --ink: #f5f3f0;
+  --muted: #bcb9bc;
   position: absolute;
-  inset: 0;
+  inset: 0 0 82px;
+  overflow: hidden;
+  color: var(--ink);
   visibility: hidden;
   opacity: 0;
-  transition: opacity 600ms ease, visibility 600ms;
+  transition: opacity 650ms ease, visibility 650ms;
 }
-
 .active { visibility: visible; opacity: 1; }
-.iphoneSlide { background: #170a11; }
-.warrantySlide { background: radial-gradient(circle at 77% 65%, #363a42, #111216 62%); }
-.tradeSlide { background: #151617; }
-.priceSlide { background: radial-gradient(circle at 78% 58%, #263b47, #101518 64%); }
-.cashbackSlide { background: radial-gradient(circle at 77% 62%, #343044, #111118 64%); }
-
-.visual {
-  position: absolute;
-  inset: 0 0 0 42%;
-  pointer-events: none;
+.iphoneSlide { background: #160b10; }
+.tradeSlide { background: #141617; }
+.warrantySlide,
+.priceSlide {
+  --ink: #292a28;
+  --muted: #71736d;
+  background: #eeede7;
 }
+.priceSlide { background: #e7e8e4; }
+.cashbackSlide {
+  --ink: #2e2934;
+  --muted: #756f7e;
+  background: #ece9f0;
+}
+.masthead {
+  position: absolute;
+  z-index: 3;
+  inset: 30px 4.7% auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: .16em;
+}
+.issue { display: flex; align-items: center; gap: 12px; font-size: 10px; font-weight: 400; letter-spacing: .06em; opacity: .62; }
+.issue i { display: block; height: 1px; width: 30px; background: currentColor; opacity: .55; }
 
+.copy {
+  position: absolute;
+  z-index: 2;
+  left: 6%;
+  top: 50%;
+  width: 48%;
+  transform: translateY(-42%);
+}
+.copy h2 {
+  margin: 0;
+  font-size: clamp(46px, 4.5vw, 72px);
+  font-weight: 500;
+  line-height: 1.07;
+  letter-spacing: -.045em;
+}
+.copy h2 > span { display: block; }
+.titleFinish { font-weight: 350; }
+.iphoneSlide .titleFinish { margin-top: 14px; font-size: .47em; letter-spacing: -.025em; color: #d2bfc6; }
+.warrantySlide .copy { width: 44%; }
+.warrantySlide .copy h2 { font-size: clamp(40px, 3.9vw, 61px); }
+.warrantySlide .titleFinish { margin-top: 5px; font-size: 1.35em; }
+.tradeSlide .titleFinish { margin-top: 2px; color: #acb3b7; }
+.priceSlide .titleFinish { color: #74776f; }
+.cashbackSlide .copy { width: 49%; }
+.cashbackSlide .copy h2 { font-size: clamp(38px, 3.7vw, 58px); }
+.cashbackSlide .titleFinish { max-width: 400px; margin-top: 15px; font-size: .58em; line-height: 1.2; letter-spacing: -.025em; color: #777080; }
+.description { max-width: 380px; margin: 26px 0 30px; font-size: 14px; line-height: 1.65; font-weight: 400; color: var(--muted); text-wrap: pretty; }
+.cashbackSlide .description { max-width: 370px; font-size: 14px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.cta {
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  padding: 0 24px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #202121;
+  font-size: 12px;
+  line-height: 1.25;
+  font-weight: 550;
+  text-decoration: none;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+.cta svg { width: 16px; height: 16px; stroke-width: 1.5; }
+.cta:hover { transform: translateY(-2px); opacity: .88; }
+.secondaryCta { color: var(--ink); border-color: #ffffff42; background: #ffffff06; }
+.warrantySlide .cta,
+.priceSlide .cta,
+.cashbackSlide .cta { color: #fff; }
+
+.visual { position: absolute; inset: 0 0 0 45%; pointer-events: none; }
 .visual img { object-position: center; }
 .coverImage { object-fit: cover; }
 .containImage { object-fit: contain; }
 .iphoneSlide .visual,
 .tradeSlide .visual { inset: 0; }
-.iphoneSlide .visual img,
-.tradeSlide .visual img { object-position: center; }
 .iphoneSlide .visual::after,
-.tradeSlide .visual::after {
-  content: '';
+.tradeSlide .visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #08090ac7 0%, #08090a30 45%, transparent 65%); }
+.iphoneSlide .visual img { object-position: 62% center; }
+.tradeSlide .visual img { object-position: center; }
+.warrantySlide .visual { inset: 7% 2% -9% 45%; }
+.warrantySlide .visual img { z-index: 1; object-fit: contain; object-position: bottom; filter: drop-shadow(0 18px 18px #1a1b2317); }
+.sculpture {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(0,0,0,.45), transparent 64%);
+  top: -12%;
+  left: 26%;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(360px, 36vw, 560px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.1em;
+  color: #b6b6ad;
+  background: linear-gradient(120deg, #fdfcf6 5%, #a5a59a 32%, #faf9f3 53%, #aaa99d 75%, #e8e6da);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(8px 15px 10px #68675514);
 }
-.warrantySlide .visual { inset: 0 -2% -12% 48%; }
-.priceSlide .visual { inset: 7% 2% 2% 54%; }
-.cashbackSlide .visual { inset: 6% 4% 0 58%; }
+.priceSlide .visual { inset: 12% 0 3% 52%; }
+.priceSlide .visual img { inset: 9% -9% -9% 9% !important; width: 100% !important; height: 100% !important; mix-blend-mode: multiply; transform: rotate(-12deg) scale(.83); }
+.priceOrbit { position: absolute; top: 4%; left: -1%; display: grid; place-items: center; width: 220px; height: 220px; border: 1px solid #9b9f9166; border-radius: 50%; color: #7f857477; font-size: 110px; font-weight: 300; line-height: 1; }
+.priceOrbit::after { content: ''; position: absolute; inset: 10px; border: 1px solid #9b9f9138; border-radius: inherit; }
+.cashbackSlide .visual { inset: 5% 0 0 50%; }
+.cashbackSlide .visual img { z-index: 1; transform: translateY(5%) scale(.87); filter: drop-shadow(0 26px 19px #54416720); }
+.aliceOrbit { position: absolute; top: 21%; left: 7%; width: 86%; aspect-ratio: 1; border: 1px solid #b8adc166; border-radius: 50%; background: radial-gradient(ellipse at center, #ffffffd4, #e2d8ef40 62%, transparent 72%); }
+.aliceOrbit::after { content: ''; position: absolute; inset: 11%; border-radius: inherit; border: 1px solid #b8adc13b; }
 
-.copy {
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  left: 5%;
-  width: min(52%, 620px);
-  transform: translateY(-54%);
-}
-
-.copy h2 {
-  max-width: 650px;
-  margin: 0;
-  font-size: clamp(38px, 4.15vw, 65px);
-  font-weight: 550;
-  line-height: 1.08;
-  letter-spacing: -.045em;
-  text-wrap: balance;
-}
-.cashbackSlide .copy h2 { font-size: clamp(34px, 3.5vw, 54px); }
-.description {
-  max-width: 440px;
-  margin: 24px 0 30px;
-  color: rgba(255,255,255,.78);
-  font-size: 16px;
-  line-height: 1.55;
-  text-wrap: pretty;
-}
-.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-.cta {
-  display: inline-flex;
-  min-height: 48px;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 0 22px;
-  border-radius: 999px;
-  background: #f5f5f3;
-  color: #171719;
-  font-size: 12px;
-  font-weight: 650;
-  line-height: 1.2;
-  text-decoration: none;
-  transition: transform 200ms ease, background 200ms ease;
-}
-.cta:hover { transform: translateY(-2px); background: #fff; }
-.secondaryCta { border: 1px solid rgba(255,255,255,.4); background: rgba(14,14,16,.4); color: #fff; }
-.secondaryCta:hover { background: rgba(255,255,255,.16); }
-
-.controls {
-  position: absolute;
-  z-index: 3;
-  right: 5%;
-  bottom: 24px;
-  left: 5%;
-  display: flex;
-  align-items: end;
-  gap: 24px;
-}
-.selectors { display: flex; flex: 1; gap: 24px; min-width: 0; }
-.selectors button {
-  flex: 1;
-  min-width: 0;
-  padding: 12px 0 4px;
-  border: 0;
-  border-top: 1px solid currentColor;
-  background: none;
-  color: inherit;
-  cursor: pointer;
-  font: inherit;
-  font-size: 11px;
-  text-align: left;
-  opacity: .44;
-  transition: opacity 200ms ease;
-}
+.controls { position: absolute; z-index: 3; right: 4.7%; bottom: 0; left: 4.7%; height: 82px; display: flex; align-items: center; gap: 28px; color: #262725; }
+.selectors { display: flex; flex: 1; gap: 24px; min-width: 0; align-self: stretch; }
+.selectors button { position: relative; display: flex; flex: 1; align-items: center; gap: 12px; min-width: 0; padding: 0; border: 0; background: none; color: #8a8b85; cursor: pointer; font: inherit; font-size: 11px; text-align: left; transition: color 200ms; }
+.selectors button::before { content: ''; position: absolute; top: 0; right: 0; left: 0; height: 2px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 400ms; }
+.selectors button[aria-pressed='true']::before { transform: scaleX(1); }
 .selectors button:hover,
-.selectors button[aria-pressed='true'] { opacity: 1; }
-.selectors button > span:first-child { margin-right: 12px; font-size: 9px; opacity: .7; }
-.pause {
-  display: grid;
-  width: 36px;
-  height: 36px;
-  flex: 0 0 36px;
-  place-items: center;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  opacity: .75;
-}
-.hero :is(button, a):focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+.selectors button[aria-pressed='true'] { color: #252724; }
+.selectors button > span:first-child { font-size: 9px; opacity: .65; font-variant-numeric: tabular-nums; }
+.pause { display: grid; place-items: center; width: 40px; height: 40px; flex: 0 0 40px; border: 1px solid #2627252a; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
+.hero :is(button, a):focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.selectors button:focus-visible { border-radius: 10px; outline-offset: -6px; }
 
-@media (max-width: 1100px) and (min-width: 769px) {
-  .copy { width: 56%; }
-  .copy h2 { font-size: clamp(36px, 4vw, 54px); }
-  .cashbackSlide .copy h2 { font-size: 36px; }
-  .selectors { gap: 12px; }
-  .selectors button { font-size: 10px; }
+@media (min-width: 769px) and (max-width: 1100px) {
+  .hero { height: 620px; }
+  .copy { left: 5%; width: 50%; }
+  .copy h2 { font-size: 47px; }
+  .warrantySlide .copy h2 { font-size: 42px; }
+  .cashbackSlide .copy h2 { font-size: 38px; }
+  .description { max-width: 310px; }
+  .cta { padding: 0 18px; gap: 14px; }
+  .selectors { gap: 15px; }
+  .selectors button { gap: 6px; font-size: 10px; }
+  .priceOrbit { width: 160px; height: 160px; font-size: 80px; }
 }
 
 @media (max-width: 768px) {
-  .hero { height: clamp(590px, 76svh, 720px); border-radius: 24px; }
-  .visual { inset: 0; }
+  .hero { height: 670px; border-radius: 24px; }
+  .slide { inset: 0 0 60px; }
+  .masthead { inset: 24px 24px auto; font-size: 10px; }
+  .issue { font-size: 9px; gap: 8px; }
+  .issue i { width: 20px; }
+  .copy,
+  .warrantySlide .copy,
+  .cashbackSlide .copy { top: 78px; left: 24px; right: 24px; width: auto; transform: none; }
+  .copy h2 { font-size: clamp(39px, 9vw, 54px); line-height: 1.05; letter-spacing: -.04em; }
+  .iphoneSlide .copy h2 { font-size: 48px; }
+  .iphoneSlide .titleFinish { margin-top: 8px; font-size: .46em; }
+  .warrantySlide .copy h2 { max-width: 310px; font-size: 36px; }
+  .warrantySlide .titleFinish { font-size: 1.12em; }
+  .cashbackSlide .copy h2 { max-width: 460px; font-size: 34px; }
+  .cashbackSlide .titleFinish { max-width: 320px; margin-top: 10px; font-size: .57em; }
+  .description { max-width: 320px; margin: 15px 0 19px; font-size: 12px; line-height: 1.55; }
+  .cashbackSlide .description { max-width: 335px; font-size: 12px; margin: 14px 0 16px; }
+  .actions { gap: 8px; }
+  .cta { min-height: 44px; padding: 0 14px; gap: 8px; font-size: 10px; }
+  .cta svg { width: 14px; height: 14px; }
+  .visual,
+  .warrantySlide .visual,
+  .priceSlide .visual,
+  .cashbackSlide .visual { inset: 300px 0 -16px; }
+  .iphoneSlide .visual,
+  .tradeSlide .visual { inset: 220px 0 0; }
   .iphoneSlide .visual img,
-  .tradeSlide .visual img { object-position: 68% center; }
-  .iphoneSlide .visual::after,
-  .tradeSlide .visual::after {
-    background: linear-gradient(0deg, rgba(4,4,6,.96) 0%, rgba(4,4,6,.67) 36%, rgba(4,4,6,.04) 78%);
-  }
-  .warrantySlide .visual { inset: 0 0 36% 0; }
-  .priceSlide .visual { inset: 3% 5% 43% 5%; }
-  .cashbackSlide .visual { inset: 1% 15% 44% 15%; }
-  .warrantySlide::after,
-  .priceSlide::after,
-  .cashbackSlide::after {
-    content: '';
-    position: absolute;
-    inset: 30% 0 0;
-    background: linear-gradient(0deg, rgba(12,12,16,.88), transparent);
-    pointer-events: none;
-  }
-  .copy {
-    top: auto;
-    right: 22px;
-    bottom: 105px;
-    left: 22px;
-    width: auto;
-    transform: none;
-  }
-  .copy h2 { font-size: clamp(36px, 10vw, 54px); line-height: 1.05; }
-  .cashbackSlide .copy h2 { font-size: clamp(33px, 8.7vw, 46px); }
-  .description { margin: 16px 0 22px; font-size: 14px; line-height: 1.45; }
-  .cta { min-height: 46px; padding: 0 16px; gap: 9px; font-size: 11px; }
-  .controls { right: 22px; bottom: 26px; left: 22px; align-items: center; gap: 12px; }
-  .selectors { gap: 8px; }
-  .selectors button { min-height: 44px; padding: 9px 0 0; font-size: 10px; }
-  .selectors button > span:first-child { margin: 0; }
+  .tradeSlide .visual img { object-position: right center; }
+  .tradeSlide .visual img { object-position: 78% center; }
+  .iphoneSlide .visual::after { background: linear-gradient(180deg, #160b10 0%, #160b1040 24%, transparent 45%); }
+  .tradeSlide .visual::after { background: linear-gradient(180deg, #141617 0%, #14161730 25%, transparent 48%); }
+  .warrantySlide .visual { inset: 270px -10% -8% 9%; }
+  .warrantySlide .visual img { transform: scale(1.15); transform-origin: bottom center; object-position: bottom; }
+  .sculpture { top: -9%; left: 32%; font-size: 340px; }
+  .priceSlide .visual { inset: 285px 0 -18px 15%; }
+  .priceSlide .visual img { transform: rotate(-12deg) scale(.8); }
+  .priceOrbit { top: 8%; left: 0; width: 135px; height: 135px; font-size: 66px; }
+  .cashbackSlide .visual { inset: 318px 0 -25px; }
+  .cashbackSlide .visual img { transform: translateY(0) scale(.92); }
+  .aliceOrbit { top: 11%; left: 15%; width: 70%; }
+  .controls { right: 20px; left: 20px; height: 60px; gap: 16px; }
+  .selectors { gap: 10px; }
+  .selectors button { justify-content: center; min-height: 44px; }
+  .selectors button > span:first-child { font-size: 10px; }
   .selectorName { display: none; }
-  .pause { width: 42px; height: 42px; flex-basis: 42px; }
+  .pause { width: 36px; height: 36px; flex-basis: 36px; }
 }
 
 @media (max-width: 390px) {
-  .copy { right: 18px; left: 18px; bottom: 102px; }
-  .copy h2 { font-size: 37px; }
-  .cashbackSlide .copy h2 { font-size: 32px; }
-  .controls { right: 18px; left: 18px; }
+  .copy,
+  .warrantySlide .copy,
+  .cashbackSlide .copy { left: 20px; right: 20px; }
+  .masthead { right: 20px; left: 20px; }
+  .cashbackSlide .copy h2 { font-size: 31px; }
+  .cashbackSlide .description { max-width: 280px; }
+  .warrantySlide .copy h2 { font-size: 34px; }
 }
 
+/* Motion is layered over the layout, so product transforms stay independent. */
+.hero { --drift-x: 0px; --drift-y: 0px; --light-x: 65%; --light-y: 40%; }
+.slide::after { content: ''; position: absolute; z-index: 1; inset: 0; pointer-events: none; background: radial-gradient(350px circle at var(--light-x) var(--light-y), #ffffff18, transparent 85%); }
+.visual { translate: var(--drift-x) var(--drift-y); transition: translate 450ms ease-out; }
+.active .copy h2 > span { animation: textArrival 650ms cubic-bezier(.2,.7,.2,1) both; }
+.active .copy h2 > span:nth-child(2) { animation-delay: 90ms; }
+.active .description { animation: textArrival 650ms 140ms both; }
+.active .actions { animation: textArrival 650ms 220ms both; }
+.active .visual img { animation: levitate 6s ease-in-out infinite; }
+.active .sculpture { background-size: 230% 100%; animation: metalLight 6s ease-in-out infinite alternate; }
+.active .aliceOrbit { animation: soundWave 4s ease-in-out infinite; }
+.active .aliceOrbit::after { animation: soundWave 4s 1s ease-in-out infinite reverse; }
+.active .priceOrbit { animation: levitate 7s ease-in-out infinite reverse; }
+.cta { position: relative; overflow: hidden; }
+.cta::after { content: ''; position: absolute; inset: -40% auto -40% -40%; width: 28%; background: linear-gradient(90deg, transparent, #ffffff40, transparent); transform: skewX(-20deg); transition: left 550ms ease; }
+.cta:hover::after { left: 130%; }
+.cta svg { transition: transform 220ms ease; }
+.cta:hover svg { transform: translateX(4px); }
+.step { display: grid; place-items: center; flex: 0 0 40px; width: 40px; height: 40px; padding: 0; border: 1px solid #26272525; border-radius: 50%; background: transparent; color: #262725; cursor: pointer; transition: background 200ms, color 200ms; }
+.step:hover { background: #262725; color: white; }
+.controls { gap: 16px; }
+.rotating .selectors button[aria-pressed='true']::before { animation: slideTimer 7s linear both; }
+.rotationPaused .selectors button[aria-pressed='true']::before { transform: scaleX(1); }
+
+.iphoneSlide { --ink: #292627; --muted: #70696c; background: radial-gradient(ellipse at 80% 50%, #ddc3cb, #f1eae7 65%); }
+.iphoneSlide .copy { width: 46%; }
+.iphoneSlide .copy h2 { font-size: clamp(64px, 6.7vw, 106px); letter-spacing: -.065em; }
+.iphoneSlide .titleFinish { font-size: .3em; color: #74636a; letter-spacing: -.025em; margin-top: 12px; }
+.iphoneSlide .cta { background: #282426; color: #fff; }
+.iphoneSlide .secondaryCta { background: transparent; color: #282426; border-color: #28242640; }
+.iphoneSlide .visual { inset: 5% -1% -3% 43%; }
+.iphoneSlide .visual::after { display: none; }
+.eighteen { position: absolute; inset: -5% 0 auto; color: #fff7; font-size: clamp(300px, 36vw, 570px); line-height: 1; font-weight: 650; letter-spacing: -.095em; text-align: center; user-select: none; }
+.iphoneSlide .visual .previewImage { object-fit: contain; mix-blend-mode: multiply; opacity: 0; transform: rotate(5deg) scale(.77); transition: opacity 500ms, transform 800ms cubic-bezier(.2,.8,.2,1); }
+.iphoneSlide .visual .previewActive { opacity: 1; transform: rotate(-11deg) scale(.87); }
+.previewPicker { display: flex; gap: 14px; align-items: center; margin: 26px 0 0; padding: 0; border: 0; min-width: 0; font-size: 10px; color: #7a7074; }
+.previewPicker > div { display: flex; padding: 3px; gap: 3px; border: 1px solid #3b25321c; border-radius: 999px; background: #ffffff55; }
+.previewPicker button { min-height: 38px; padding: 0 17px; border: 0; border-radius: 999px; background: transparent; color: #71676d; cursor: pointer; font: inherit; font-size: 11px; transition: background 250ms, box-shadow 250ms, color 250ms; }
+.previewPicker button[aria-pressed='true'] { background: #fff; color: #252126; box-shadow: 0 3px 12px #39223012; }
+@keyframes textArrival { from { opacity: 0; translate: 0 24px; filter: blur(5px); } to { opacity: 1; translate: 0 0; filter: blur(0); } }
+@keyframes levitate { 0%,100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+@keyframes soundWave { 0%,100% { scale: .94; opacity: .55; } 50% { scale: 1.08; opacity: 1; } }
+@keyframes metalLight { from { background-position: 0% 0; } to { background-position: 100% 0; } }
+@keyframes slideTimer { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .iphoneSlide .copy h2 { font-size: 67px; }
+  .previewPicker { gap: 8px; }
+  .previewPicker button { padding: 0 12px; }
+  .selectors { gap: 10px; }
+  .controls { gap: 10px; }
+}
+@media (max-width: 768px) {
+  .visual { translate: none; }
+  .iphoneSlide .copy { width: auto; }
+  .iphoneSlide .copy h2 { font-size: 58px; }
+  .iphoneSlide .titleFinish { font-size: .36em; margin-top: 8px; }
+  .iphoneSlide .description { margin: 15px 0 16px; }
+  .iphoneSlide .visual { inset: 310px -1% -8px 16%; }
+  .iphoneSlide .visual .previewActive { transform: rotate(-11deg) scale(.9); }
+  .eighteen { inset: -5% 0 auto -20%; font-size: 280px; }
+  .previewPicker { margin-top: 14px; gap: 12px; }
+  .previewPicker > span { max-width: 76px; line-height: 1.4; }
+  .previewPicker button { min-height: 40px; padding: 0 14px; }
+  .controls { right: 12px; left: 12px; gap: 6px; }
+  .selectors { gap: 4px; }
+  .step { width: 32px; height: 44px; flex-basis: 32px; border-color: transparent; }
+  .pause { flex-basis: 32px; width: 32px; height: 32px; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .slide, .cta { transition: none; }
+  .hero *, .hero *::before, .hero *::after { animation: none !important; transition: none !important; }
+  .visual { translate: none; }
 }
