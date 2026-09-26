@@ -11,10 +11,11 @@ export function Footer() {
             aria-label="APPGRADE — на главную"
           >
             <Image
-              src="/images/appgrade-logo-white.png"
+              src="/images/appgrade-logo-hq.png"
               alt="APPGRADE"
-              width={240}
-              height={80}
+              width={1930}
+              height={330}
+              unoptimized
             />
           </Link>
 

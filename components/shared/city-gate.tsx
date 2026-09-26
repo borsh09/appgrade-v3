@@ -68,11 +68,12 @@ export function CityGate() {
 
         <div className="appgrade-city-gate-logo">
           <Image
-            src="/images/appgrade-logo-white.png"
+            src="/images/appgrade-logo-hq.png"
             alt="APPGRADE"
-            width={210}
-            height={70}
+            width={1930}
+            height={330}
             priority
+            unoptimized
           />
         </div>
 

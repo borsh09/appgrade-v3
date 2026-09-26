@@ -201,11 +201,12 @@ export function Header() {
               }}
             >
               <Image
-                src="/images/appgrade-logo-white.png"
+                src="/images/appgrade-logo-hq.png"
                 alt="APPGRADE"
-                width={190}
-                height={54}
+                width={1930}
+                height={330}
                 priority
+                unoptimized
               />
             </Link>
 
@@ -425,11 +426,12 @@ export function Header() {
               onClick={closeMobileMenu}
             >
               <Image
-                src="/images/appgrade-logo-white.png"
+                src="/images/appgrade-logo-hq.png"
                 alt="APPGRADE"
-                width={170}
-                height={48}
+                width={1930}
+                height={330}
                 priority
+                unoptimized
               />
             </Link>
 

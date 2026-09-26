@@ -21,7 +21,7 @@ export function StartupLoader() {
   if (!visible) return null;
   return <div className={`appgrade-loading appgrade-startup-loader${leaving ? ' is-leaving' : ''}`} aria-label="Сайт загружается" aria-live="polite">
     <div className="appgrade-loading-content">
-      <Image src="/images/appgrade-logo-white.png" alt="APPGRADE" width={240} height={68} priority />
+      <Image src="/images/appgrade-logo-hq.png" alt="APPGRADE" width={1930} height={330} priority unoptimized />
       <div className="appgrade-loading-track" aria-hidden="true"><span /></div>
       <span className="sr-only">Загрузка…</span>
     </div>
