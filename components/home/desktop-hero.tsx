@@ -46,7 +46,7 @@ const slides = [
     description: 'Нашли дешевле? Предложим ещё выгоднее',
     action: 'Подобрать устройство',
     href: '/catalog',
-    image: '/images/products/apple-2027/clean/iphone-18-pro.png',
+    image: '/images/products/apple-2027/clean/iphone-18-pro-banner.png',
     alt: 'iPhone в графитовом цвете',
   },
   {
