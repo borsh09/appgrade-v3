@@ -299,3 +299,57 @@
   .hero *, .hero *::before, .hero *::after { animation: none !important; transition: none !important; }
   .visual { translate: none; }
 }
+
+@media (max-width: 768px) {
+  .priceSlide {
+    background: radial-gradient(circle at 70% 72%, #393638 0%, #241e21 50%, #100a10 90%);
+  }
+
+  .controls {
+    right: 20px;
+    left: 20px;
+    height: 60px;
+    gap: 8px;
+  }
+
+  .selectors { justify-content: center; gap: 6px; }
+  .selectors button {
+    flex: 1 1 0;
+    justify-content: center;
+    height: 36px;
+    border-top: 0;
+    font-size: 0;
+  }
+  .selectors button > span { display: none; }
+  .selectors button::before {
+    top: 50%;
+    right: auto;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 99px;
+    background: #ffffff80;
+    box-shadow: none;
+    transform: translate(-50%, -50%) scaleX(1);
+    transform-origin: center;
+  }
+  .selectors button[aria-pressed='true']::before {
+    width: 22px;
+    height: 7px;
+    background: #f4c9d9;
+    box-shadow: 0 0 10px #f4c9d980;
+  }
+  .rotating .selectors button[aria-pressed='true']::before {
+    animation: mobileSlideTimer 6s linear both;
+  }
+  .rotationPaused .selectors button[aria-pressed='true']::before {
+    transform: translate(-50%, -50%) scaleX(1);
+    animation: none;
+  }
+  .step, .pause { flex-basis: 36px; width: 36px; height: 36px; }
+}
+
+@keyframes mobileSlideTimer {
+  from { transform: translate(-50%, -50%) scaleX(0); }
+  to { transform: translate(-50%, -50%) scaleX(1); }
+}
