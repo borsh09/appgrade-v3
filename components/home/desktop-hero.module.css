@@ -108,6 +108,11 @@
 .priceOrbit::after { content: ''; position: absolute; inset: 10px; border: 1px solid #e4b8c745; border-radius: inherit; }
 .cashbackSlide .visual { inset: 5% 0 0 50%; }
 .cashbackSlide .visual img { z-index: 1; transform: translateY(5%) scale(.87); filter: drop-shadow(0 26px 19px #54416720); }
+.cashbackSlide .copy { top: 44%; width: 46%; transform: translateY(-40%); }
+.cashbackSlide .copy h2 { font-size: clamp(34px, 3.3vw, 50px); }
+.cashbackSlide .titleFinish { max-width: 370px; margin-top: 9px; font-size: .52em; }
+.cashbackSlide .description { max-width: 350px; margin: 16px 0 18px; font-size: 13px; line-height: 1.45; }
+.cashbackSlide .cta { min-height: 46px; }
 .aliceOrbit { position: absolute; top: 21%; left: 7%; width: 86%; aspect-ratio: 1; border: 1px solid #e9b6e066; border-radius: 50%; background: radial-gradient(ellipse at center, #b679ae45, #8a578234 62%, transparent 72%); }
 .aliceOrbit::after { content: ''; position: absolute; inset: 11%; border-radius: inherit; border: 1px solid #e9b6e03b; }
 
@@ -125,7 +130,7 @@
 
 @media (max-width: 768px) {
   .hero { height: 670px; border-radius: 24px; }
-  .masthead { inset: 24px 24px auto; font-size: 10px; }
+  .controls { right: 24px; left: 24px; height: 60px; }
   .copy,
   .warrantySlide .copy,
   .cashbackSlide .copy { top: 78px; left: 24px; right: 24px; width: auto; transform: none; }
@@ -158,7 +163,7 @@
   .copy,
   .warrantySlide .copy,
   .cashbackSlide .copy { left: 20px; right: 20px; }
-  .masthead { right: 20px; left: 20px; }
+  .controls { right: 20px; left: 20px; }
   .cashbackSlide .copy h2 { font-size: 31px; }
   .cashbackSlide .description { max-width: 280px; }
 }
@@ -180,6 +185,18 @@
 .cta:hover::after { left: 130%; }
 .cta svg { transition: transform 220ms ease; }
 .cta:hover svg { transform: translateX(4px); }
+.controls { position: absolute; z-index: 3; right: 6%; bottom: 0; left: 6%; height: 82px; display: flex; align-items: center; gap: 16px; color: #f5eff2; }
+.selectors { display: flex; flex: 1; gap: 24px; min-width: 0; align-self: stretch; }
+.selectors button { position: relative; display: flex; flex: 1; align-items: center; gap: 12px; min-width: 0; padding: 0; border: 0; border-top: 4px solid #ffffff66; background: none; color: #ffffffb8; cursor: pointer; font: inherit; font-size: 11px; text-align: left; transition: color 200ms, border-color 200ms; }
+.selectors button::before { content: ''; position: absolute; top: -4px; right: 0; left: 0; height: 4px; background: #f4c9d9; box-shadow: 0 0 12px #f4c9d999; transform: scaleX(0); transform-origin: left; transition: transform 400ms; }
+.selectors button[aria-pressed='true']::before { transform: scaleX(1); }
+.selectors button:hover, .selectors button[aria-pressed='true'] { color: #fff; }
+.selectors button > span:first-child { font-size: 9px; opacity: .65; font-variant-numeric: tabular-nums; }
+.step, .pause { display: grid; place-items: center; flex: 0 0 40px; width: 40px; height: 40px; padding: 0; border: 1px solid rgba(255, 255, 255, .28); border-radius: 50%; background: transparent; color: inherit; cursor: pointer; transition: background 200ms, color 200ms; }
+.step:hover, .pause:hover { background: #fff; color: #171318; }
+.rotating .selectors button[aria-pressed='true']::before { animation: slideTimer 6s linear both; }
+.rotationPaused .selectors button[aria-pressed='true']::before { transform: scaleX(1); animation: none; }
+@keyframes slideTimer { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 .iphoneSlide { --ink: #f5f3f0; --muted: #c9bfc4; background: #13060d; }
 .iphoneSlide .copy { width: 45%; }
@@ -249,6 +266,8 @@
   .warrantySlide .copy h2 { font-size: 48px; }
   .tradeSlide .copy { width: 40%; }
   .tradeSlide .copy h2 { font-size: 56px; }
+  .cashbackSlide .copy { top: 42%; width: 47%; }
+  .cashbackSlide .copy h2 { font-size: 35px; }
 }
 
 @media (max-width: 768px) {

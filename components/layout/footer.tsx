@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { BrandWordmark } from '@/components/shared/brand-wordmark';
 import Link from '@/components/shared/safe-link';
 
 export function Footer() {
@@ -10,18 +10,9 @@ export function Footer() {
             href="/"
             aria-label="APPGRADE — на главную"
           >
-            <Image
-              src="/images/appgrade-logo-hq.png"
-              alt="APPGRADE"
-              width={1930}
-              height={330}
-              unoptimized
-            />
+            <BrandWordmark />
           </Link>
 
-          <p>
-            Гаджеты и аксессуары.
-          </p>
         </div>
 
         <div className="appgrade-footer-socials">

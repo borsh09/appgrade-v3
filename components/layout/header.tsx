@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { BrandWordmark } from '@/components/shared/brand-wordmark';
 import { catalogCategories } from '@/data/catalog-navigation';
 import Link from '@/components/shared/safe-link';
 
@@ -200,14 +201,7 @@ export function Header() {
                 closeMobileMenu();
               }}
             >
-              <Image
-                src="/images/appgrade-logo-hq.png"
-                alt="APPGRADE"
-                width={1930}
-                height={330}
-                priority
-                unoptimized
-              />
+              <BrandWordmark priority />
             </Link>
 
             <button
@@ -425,14 +419,7 @@ export function Header() {
               className="appgrade-mobile-menu-logo"
               onClick={closeMobileMenu}
             >
-              <Image
-                src="/images/appgrade-logo-hq.png"
-                alt="APPGRADE"
-                width={1930}
-                height={330}
-                priority
-                unoptimized
-              />
+              <BrandWordmark priority />
             </Link>
 
             <button

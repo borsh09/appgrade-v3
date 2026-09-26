@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import { BrandWordmark } from './brand-wordmark';
 import { useEffect, useRef } from 'react';
 import {
   ArrowRight,
@@ -67,14 +67,7 @@ export function CityGate() {
         )}
 
         <div className="appgrade-city-gate-logo">
-          <Image
-            src="/images/appgrade-logo-hq.png"
-            alt="APPGRADE"
-            width={1930}
-            height={330}
-            priority
-            unoptimized
-          />
+          <BrandWordmark priority />
         </div>
 
         <h2 id="appgrade-city-gate-title">

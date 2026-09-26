@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import Link from '@/components/shared/safe-link';
 import styles from './desktop-hero.module.css';
 
@@ -63,18 +63,20 @@ const slides = [
 
 export function DesktopHero() {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
-    const timer = window.setInterval(() => {
-      if (!document.hidden) setActive(current => (current + 1) % slides.length);
+    if (paused) return;
+    const timer = window.setTimeout(() => {
+      if (!document.hidden && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) setActive(current => (current + 1) % slides.length);
     }, 6000);
-    return () => window.clearInterval(timer);
-  }, []);
+    return () => window.clearTimeout(timer);
+  }, [active, paused]);
 
   return (
     <section
-      className={styles.hero}
+      className={`${styles.hero} ${paused ? styles.rotationPaused : styles.rotating}`}
       aria-label="Предложения APPGRADE"
       aria-roledescription="карусель"
       onPointerMove={event => {
@@ -98,6 +100,7 @@ export function DesktopHero() {
         const deltaY = event.changedTouches[0].clientY - start.y;
         if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) {
           setActive(current => (current + (deltaX < 0 ? 1 : slides.length - 1)) % slides.length);
+          setPaused(true);
         }
       }}
     >
@@ -111,9 +114,6 @@ export function DesktopHero() {
           aria-roledescription="слайд"
           aria-label={`${index + 1} из ${slides.length}: ${slide.name}`}
         >
-          <div className={styles.masthead} aria-hidden="true">
-            <span>APPGRADE</span>
-          </div>
           <div className={styles.visual}>
             {slide.theme === 'iphone' ? (
               <Image src={slide.image} alt={slide.alt} fill priority loading="eager" unoptimized sizes="100vw" className={styles.coverImage} />
@@ -133,6 +133,14 @@ export function DesktopHero() {
           </div>
         </div>
       ))}
+      <div className={styles.controls}>
+        <button className={styles.step} type="button" aria-label="Предыдущий слайд" onClick={() => { setActive(current => (current + slides.length - 1) % slides.length); setPaused(true); }}><ChevronLeft size={18} /></button>
+        <div className={styles.selectors}>
+          {slides.map((slide, index) => <button type="button" key={slide.name} aria-controls={`home-promo-${index}`} aria-label={`Слайд ${index + 1}: ${slide.name}`} aria-pressed={index === active} onClick={() => { setActive(index); setPaused(true); }}><span>0{index + 1}</span><span className={styles.selectorName}>{slide.name}</span></button>)}
+        </div>
+        <button className={styles.step} type="button" aria-label="Следующий слайд" onClick={() => { setActive(current => (current + 1) % slides.length); setPaused(true); }}><ChevronRight size={18} /></button>
+        <button className={styles.pause} type="button" onClick={() => setPaused(value => !value)} aria-label={paused ? 'Включить смену слайдов' : 'Приостановить смену слайдов'}>{paused ? <Play size={16} /> : <Pause size={16} />}</button>
+      </div>
     </section>
   );
 }
