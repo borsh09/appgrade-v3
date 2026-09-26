@@ -305,6 +305,11 @@
     background: radial-gradient(circle at 70% 72%, #393638 0%, #241e21 50%, #100a10 90%);
   }
 
+  .priceSlide .visual img {
+    mix-blend-mode: darken;
+    filter: brightness(1.4) saturate(.4);
+  }
+
   .controls {
     right: 20px;
     left: 20px;
