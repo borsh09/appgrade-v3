@@ -133,8 +133,12 @@
   .controls { right: 24px; left: 24px; height: 60px; }
   .copy,
   .warrantySlide .copy,
+  .priceSlide .copy,
   .cashbackSlide .copy { top: 78px; left: 24px; right: 24px; width: auto; transform: none; }
   .copy h2 { font-size: clamp(39px, 9vw, 54px); line-height: 1.05; letter-spacing: -.04em; }
+  .priceSlide .copy { top: 68px; }
+  .priceSlide .copy h2 { max-width: 360px; font-size: clamp(34px, 8vw, 44px); }
+  .priceSlide .description { max-width: 320px; }
   .iphoneSlide .copy h2 { font-size: 48px; }
   .iphoneSlide .titleFinish { margin-top: 8px; font-size: .46em; }
   .cashbackSlide .copy h2 { max-width: 460px; font-size: 34px; }
@@ -153,7 +157,7 @@
   .iphoneSlide .visual::after { background: linear-gradient(180deg, #160b10 0%, #160b1040 24%, transparent 45%); }
   .priceSlide .visual { inset: 285px 0 -18px 15%; }
   .priceSlide .visual img { transform: rotate(-12deg) scale(.8); }
-  .priceOrbit { top: 8%; left: 0; width: 135px; height: 135px; font-size: 66px; }
+  .priceOrbit { display: none; }
   .cashbackSlide .visual { inset: 318px 0 -25px; }
   .cashbackSlide .visual img { transform: translateY(0) scale(.92); }
   .aliceOrbit { top: 11%; left: 15%; width: 70%; }
@@ -162,6 +166,7 @@
 @media (max-width: 390px) {
   .copy,
   .warrantySlide .copy,
+  .priceSlide .copy,
   .cashbackSlide .copy { left: 20px; right: 20px; }
   .controls { right: 20px; left: 20px; }
   .cashbackSlide .copy h2 { font-size: 31px; }
