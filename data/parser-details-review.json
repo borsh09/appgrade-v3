@@ -1,0 +1,70 @@
+{
+  "imported": 1185,
+  "withTechnicalSpecifications": 1178,
+  "needsReview": 7,
+  "review": [
+    {
+      "id": "parser-sheet1-997",
+      "title": "Клавиатура Magic Keyboard для iPad Air 13 (White) (MWR43) (2024 )",
+      "category": "ipads",
+      "reason": "Артикул MWR43 указан Apple для Magic Keyboard к iPad Pro 13, а в таблице написано iPad Air 13.",
+      "supplierName": "Клавиатура Magic Keyboard для iPad Air 13 (White) (MWR43) (2024 )",
+      "source": "https://mgg.stores-apple.com/catalog/klaviatura_magic_keyboard_dlya_ipad_air_13_white_mwr43_2024_/",
+      "verificationSource": "https://www.apple.com/education/pricelists/pdfs/Apple_US_Education_Institution_Price_List.pdf"
+    },
+    {
+      "id": "parser-sheet1-1294",
+      "title": "Клавиатура беспроводная Apple Magic Keyboard с Touch ID, MQ052 1",
+      "category": "gadgets",
+      "reason": "Артикул MQ052 указан Apple для Magic Keyboard with Numeric Keypad без Touch ID; название в таблице противоречит артикулу.",
+      "supplierName": "Клавиатура беспроводная Apple Magic Keyboard, MQ052",
+      "source": "https://mgg.stores-apple.com/catalog/magic-keyboard-mq052/",
+      "verificationSource": "https://salesdownload.apple.com/public/sites/asw/common/compliance/index.htm"
+    },
+    {
+      "id": "parser-sheet1-1332",
+      "title": "Стайлер Dyson Airwrap Complete Long HS08 Vinca Blue/Topaz",
+      "category": "dyson",
+      "reason": "Название модели у поставщика требует проверки",
+      "supplierName": "Стайлер Dyson Airwrap i.d. Long HS08 Straight+Wavy (Vinca Blue/Topaz)",
+      "source": "https://mgg.stores-apple.com/catalog/stayler-dyson-airwrap-id-long-hs08-straight-wavy-vinca-blue-topaz/",
+      "verificationSource": null
+    },
+    {
+      "id": "parser-sheet1-1339",
+      "title": "Стайлер Dyson Airwrap Complete Long HS08 Ceramic Patina/Topaz",
+      "category": "dyson",
+      "reason": "Название модели у поставщика требует проверки",
+      "supplierName": "Стайлер Dyson Airwrap i.d. Long HS08 Straight+Wavy (Vinca Blue/Topaz)",
+      "source": "https://mgg.stores-apple.com/catalog/stayler-dyson-airwrap-id-long-hs08-straight-wavy-vinca-blue-topaz/",
+      "verificationSource": null
+    },
+    {
+      "id": "parser-sheet1-1344",
+      "title": "Стайлер Dyson Airwrap Complete Long HS08 Red Velvet/Gold",
+      "category": "dyson",
+      "reason": "Название модели у поставщика требует проверки",
+      "supplierName": "Стайлер Dyson Airwrap i.d. Long HS08 Straight+Wavy (Vinca Blue/Topaz)",
+      "source": "https://mgg.stores-apple.com/catalog/stayler-dyson-airwrap-id-long-hs08-straight-wavy-vinca-blue-topaz/",
+      "verificationSource": null
+    },
+    {
+      "id": "parser-sheet1-1347",
+      "title": "Стайлер Dyson Airwrap Complete Long HS08 Jasper Plum",
+      "category": "dyson",
+      "reason": "Название модели у поставщика требует проверки",
+      "supplierName": "Стайлер Dyson Airwrap i.d. Long HS08 Straight+Wavy (Vinca Blue/Topaz)",
+      "source": "https://mgg.stores-apple.com/catalog/stayler-dyson-airwrap-id-long-hs08-straight-wavy-vinca-blue-topaz/",
+      "verificationSource": null
+    },
+    {
+      "id": "parser-sheet1-1443",
+      "title": "Система виртуальной реальности Apple Vision Pro серый 1 ТБ",
+      "category": "gadgets",
+      "reason": "Название модели у поставщика требует проверки",
+      "supplierName": "Очки виртуальной реальности Apple Vision Pro M5 1024 ГБ",
+      "source": "https://mgg.stores-apple.com/catalog/ochki-virtualnoy-realnosti-apple-vision-pro-m5-1024-gb/",
+      "verificationSource": null
+    }
+  ]
+}

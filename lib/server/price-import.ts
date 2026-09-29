@@ -108,6 +108,7 @@ export function numericCell(
 export async function inspectPriceWorkbook(
   buffer: Buffer,
   prices: Record<string, number | null>,
+  target?: { cities: string[]; cityPrices: Record<string, Record<string, number>> },
 ): Promise<ImportReport> {
   if (buffer.length > 10 * 1024 * 1024)
     throw new Error('Файл должен быть не больше 10 МБ');
@@ -191,8 +192,15 @@ export async function inspectPriceWorkbook(
     const proposal = proposed.get(item.id);
     if (!proposal) continue;
     report.matched++;
-    const before = prices[item.id] ?? item.price;
-    if (before === proposal.price) report.unchanged++;
+    const baseBefore = prices[item.id] ?? item.price;
+    const cityBefore = target?.cities.map((city) => target.cityPrices[item.id]?.[city] ?? baseBefore) ?? [];
+    const before = cityBefore.length && cityBefore.every((price) => price === cityBefore[0])
+      ? cityBefore[0]
+      : cityBefore.length ? null : baseBefore;
+    const unchanged = cityBefore.length
+      ? cityBefore.every((price) => price === proposal.price)
+      : baseBefore === proposal.price;
+    if (unchanged) report.unchanged++;
     else
       report.changes.push({
         id: item.id,

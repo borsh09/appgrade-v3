@@ -6,6 +6,10 @@ import { NextRequest } from 'next/server';
 import { migrate } from '@/lib/server/db';
 import { getPrices, applyImport, rollbackPrices } from '@/lib/server/prices';
 import { POST } from '@/app/api/orders/route';
+import { GET as adminSnapshot } from '@/app/api/admin/route';
+import { PATCH as adminChange } from '@/app/api/admin/route';
+import { GET as olderAdminEntries } from '@/app/api/admin/entries/route';
+import { PATCH as adminPriceAction } from '@/app/api/admin/prices/route';
 import { basePrices, catalogItems } from '@/lib/catalog-registry';
 import { deliverOrders } from '@/bots/order-bot';
 import { handlePriceUpdate } from '@/bots/price-bot';
@@ -50,9 +54,17 @@ void test('PostgreSQL import, rollback, idempotent order persistence and notific
     await rollbackPrices(draftId, '123');
     assert.equal((await getPrices()).prices[item.id], item.price);
     await assert.rejects(rollbackPrices(draftId, '123'));
+    const invalidDraftId = randomUUID();
+    await db.query(
+      `INSERT INTO appgrade_imports(id,update_id,owner_id,chat_id,filename,file_hash,base_revision,report) VALUES($1,5,'123','123','invalid.xlsx','hash-invalid',$2,$3)`,
+      [invalidDraftId, (await getPrices()).revision, JSON.stringify({ ...report, errors: ['Conflicting prices'] })],
+    );
+    await assert.rejects(applyImport(invalidDraftId, '123', '123'));
+    assert.equal((await getPrices()).prices[item.id], item.price);
     const cityDraftId = randomUUID();
     const cityRevision = (await getPrices()).revision;
     const cityReport = { changes: [{ id: item.id, before: item.price, after: 60002 }], errors: [], warnings: [] };
+    await db.query('INSERT INTO appgrade_city_prices(sku,city,price) VALUES($1,$2,$3)', [item.id, 'beloretsk', 52000]);
     await db.query(
       `INSERT INTO appgrade_imports(id,update_id,owner_id,chat_id,filename,file_hash,base_revision,report,target_cities) VALUES($1,3,'123','123','city.xlsx','hash-city',$2,$3,$4)`,
       [cityDraftId, cityRevision, JSON.stringify(cityReport), ['beloretsk', 'troitsk']],
@@ -61,6 +73,20 @@ void test('PostgreSQL import, rollback, idempotent order persistence and notific
     const cityPrices = (await getPrices()).cityPrices ?? {};
     assert.equal(cityPrices[item.id]?.beloretsk, 60002);
     assert.equal(cityPrices[item.id]?.troitsk, 60002);
+    assert.equal((await getPrices()).revision, cityDraftId);
+    const staleCityDraftId = randomUUID();
+    await db.query(
+      `INSERT INTO appgrade_imports(id,update_id,owner_id,chat_id,filename,file_hash,base_revision,report,target_cities) VALUES($1,4,'123','123','stale-city.xlsx','hash-stale',$2,$3,$4)`,
+      [staleCityDraftId, cityRevision, JSON.stringify(cityReport), ['beloretsk']],
+    );
+    await assert.rejects(applyImport(staleCityDraftId, '123', '123'));
+    await rollbackPrices(cityDraftId, '123');
+    const restoredCityPrices = (await getPrices()).cityPrices ?? {};
+    assert.equal(restoredCityPrices[item.id]?.beloretsk, 52000);
+    assert.equal(restoredCityPrices[item.id]?.troitsk, undefined);
+    const cityRollbackRevision = (await getPrices()).revision;
+    await rollbackPrices(cityRollbackRevision, '123');
+    assert.equal((await getPrices()).cityPrices?.[item.id]?.troitsk, 60002);
     let calls = 0;
     const blockedBot = {
       send: async () => {
@@ -113,6 +139,45 @@ void test('PostgreSQL import, rollback, idempotent order persistence and notific
       ).rows[0].count,
       1,
     );
+    const previousAdminPassword = process.env.ADMIN_PASSWORD;
+    process.env.ADMIN_PASSWORD = 'a-secure-password-for-tests';
+    try {
+      const response = await adminSnapshot(new Request('http://localhost:3000/api/admin', {
+        headers: { authorization: `Basic ${Buffer.from('admin:a-secure-password-for-tests').toString('base64')}` },
+      }));
+      assert.equal(response.status, 200);
+      const snapshot = await response.json();
+      assert.equal(snapshot.orderSummary.total, 1);
+      assert.equal(snapshot.orderSummary.new, 1);
+      assert.ok(Number(snapshot.orderSummary.revenue) > 0);
+      assert.equal(snapshot.tradeInSummary.total, 0);
+      const olderUrl = 'http://localhost:3000/api/admin/entries?type=order&before=2099-01-01T00%3A00%3A00.000Z&beforeId=ffffffff-ffff-ffff-ffff-ffffffffffff';
+      assert.equal((await olderAdminEntries(new Request(olderUrl))).status, 401);
+      const olderResponse = await olderAdminEntries(new Request(olderUrl, {
+        headers: { authorization: `Basic ${Buffer.from('admin:a-secure-password-for-tests').toString('base64')}` },
+      }));
+      assert.equal(olderResponse.status, 200);
+      assert.equal((await olderResponse.json()).entries[0].id, result.orderId);
+      await db.query("UPDATE appgrade_imports SET owner_id='admin',chat_id='admin',base_revision=$2 WHERE id=$1", [invalidDraftId, (await getPrices()).revision]);
+      const rejectedImport = await adminPriceAction(new Request('http://localhost:3000/api/admin/prices', {
+        method: 'PATCH',
+        headers: { authorization: `Basic ${Buffer.from('admin:a-secure-password-for-tests').toString('base64')}` },
+        body: JSON.stringify({ action: 'apply', id: invalidDraftId }),
+      }));
+      assert.equal(rejectedImport.status, 400);
+      const manualPrice = await adminChange(new Request('http://localhost:3000/api/admin', {
+        method: 'PATCH',
+        headers: { authorization: `Basic ${Buffer.from('admin:a-secure-password-for-tests').toString('base64')}` },
+        body: JSON.stringify({ action: 'city-product', id: item.id, city: 'beloretsk', price: 61000, quantity: null }),
+      }));
+      assert.equal(manualPrice.status, 200);
+      assert.equal((await getPrices()).cityPrices?.[item.id]?.beloretsk, 61000);
+      await rollbackPrices((await getPrices()).revision, 'admin');
+      assert.equal((await getPrices()).cityPrices?.[item.id]?.beloretsk, 60002);
+    } finally {
+      if (previousAdminPassword === undefined) delete process.env.ADMIN_PASSWORD;
+      else process.env.ADMIN_PASSWORD = previousAdminPassword;
+    }
     const failBot = {
       send: async () => {
         throw new Error('Network unavailable');

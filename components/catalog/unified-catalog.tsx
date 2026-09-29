@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import cardStyles from '@/components/shared/store-card.module.css';
 import { HoverProductPhoto } from '@/components/shared/hover-product-photo';
 import Link from '@/components/shared/safe-link';
-import { catalogItems, itemConfiguration } from '@/lib/catalog-registry';
+import { catalogItems, itemConfiguration, parserUnavailableIds } from '@/lib/catalog-registry';
 import { getFilterDefinitions, matchesSelection, sanitizeSelection, type FilterKey, type FilterSelection } from '@/lib/catalog-filters';
 import { matchesCatalogSearch } from '@/lib/catalog-search';
 import { productHref } from '@/lib/product-selection';
@@ -21,6 +21,7 @@ export function UnifiedCatalog({ category }: { category: string }) {
   const [query, setQuery] = useState('');
   const [priceMin, setPriceMin] = useState('');
   const [priceMax, setPriceMax] = useState('');
+  const [visibleCount, setVisibleCount] = useState(48);
   const items = useMemo(() => catalog.filter(item => item.category === category), [catalog, category]);
   const definitions = useMemo(() => getFilterDefinitions(items, category), [items, category]);
 
@@ -39,6 +40,7 @@ export function UnifiedCatalog({ category }: { category: string }) {
   }), [items, selection, query, priceMin, priceMax]);
 
   const toggleFilter = (key: FilterKey, value: string) => {
+    setVisibleCount(48);
     setSelection(current => {
       const values = current[key] ?? [];
       const nextValues = key === 'model'
@@ -47,18 +49,20 @@ export function UnifiedCatalog({ category }: { category: string }) {
       return sanitizeSelection(items, { ...current, [key]: nextValues });
     });
   };
-  const reset = () => { setSelection({}); setPriceMin(''); setPriceMax(''); };
+  const reset = () => { setSelection({}); setPriceMin(''); setPriceMax(''); setVisibleCount(48); };
 
   return <>
-    <CatalogControls items={items} definitions={definitions} selection={selection} query={query} priceMin={priceMin} priceMax={priceMax} resultCount={filtered.length} onQuery={setQuery} onToggle={toggleFilter} onPriceMin={setPriceMin} onPriceMax={setPriceMax} onReset={reset}/>
-    <section className={`retail-products retail-products-grid ${cardStyles.grid}`} aria-label="Товары">{filtered.map(item => {
+    <CatalogControls items={items} definitions={definitions} selection={selection} query={query} priceMin={priceMin} priceMax={priceMax} resultCount={filtered.length} onQuery={(value) => { setQuery(value); setVisibleCount(48); }} onToggle={toggleFilter} onPriceMin={(value) => { setPriceMin(value); setVisibleCount(48); }} onPriceMax={(value) => { setPriceMax(value); setVisibleCount(48); }} onReset={reset}/>
+    <section className={`retail-products retail-products-grid ${cardStyles.grid}`} aria-label="Товары">{filtered.slice(0, visibleCount).map(item => {
       const product = { id: item.id, name: item.model, configuration: itemConfiguration(item), price: item.price ?? 0, image: item.image, href: productHref(item) };
-      const status = preorderModels.has(item.model) ? 'Предзаказ' : 'В наличии';
+      const unavailable = parserUnavailableIds.has(item.id);
+      const status = unavailable ? 'Нет в продаже' : item.price === null ? 'Уточнить наличие' : preorderModels.has(item.model) ? 'Предзаказ' : 'В наличии';
       return <article className={`retail-product-card retail-product-card-grid ${cardStyles.card}`} key={item.id}>
         <div className="retail-product-media"><Link href={product.href}><HoverProductPhoto image={item.image} gallery={item.gallery} alt={`${item.model} ${item.color}`} sizes="(max-width:700px) 50vw,33vw" className="card-product-photo" /></Link><span className="retail-product-badge">{status}</span><div className="retail-card-tools"><FavoriteButton product={product}/></div></div>
-        <div className="retail-product-info"><Link href={product.href}><h2>{item.model}</h2></Link><p className="retail-product-color">{product.configuration || 'Стандартная комплектация'}</p><div className="retail-product-purchase"><strong>{item.price === null ? 'Цена уточняется' : `${money.format(item.price)} ₽`}</strong>{item.price === null ? <Link href="/#контакты">Уточнить цену</Link> : <AddToCartButton product={product} compact/>}</div><p className="retail-stock"><span/>{status}</p></div>
+        <div className="retail-product-info"><Link href={product.href}><h2>{item.model}</h2></Link><p className="retail-product-color">{product.configuration || 'Стандартная комплектация'}</p><div className="retail-product-purchase"><strong>{unavailable ? 'Нет в продаже' : item.price === null ? 'Цена уточняется' : `${money.format(item.price)} ₽`}</strong>{unavailable ? null : item.price === null ? <Link href="/#контакты">Уточнить цену</Link> : <AddToCartButton product={product} compact/>}</div><p className="retail-stock"><span/>{status}</p></div>
       </article>;
     })}</section>
+    {filtered.length > visibleCount && <button className="catalog-load-more" type="button" onClick={() => setVisibleCount((count) => count + 48)}>Показать ещё {Math.min(48, filtered.length - visibleCount)}</button>}
     {!filtered.length && <p className="catalog-empty-state">Ничего не найдено. Измените запрос или сбросьте фильтры.</p>}
   </>;
 }

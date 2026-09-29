@@ -6,6 +6,8 @@
     "node": ">=22.13.0"
   },
   "scripts": {
+    "catalog:index": "tsx scripts/generate-client-catalog.ts",
+    "prebuild": "npm run catalog:index",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -15,6 +17,7 @@
     "bot:prices": "tsx scripts/bot.ts prices",
     "bot:orders": "tsx scripts/bot.ts orders",
     "prices:check": "tsx scripts/inspect-price.ts",
+    "catalog:parser": "tsx scripts/import-parser-catalog.ts",
     "check:launch": "tsx scripts/check-launch.ts",
     "test": "tsx --test tests/*.test.ts"
   },

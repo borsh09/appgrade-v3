@@ -8,7 +8,6 @@ import { CityGate } from '@/components/shared/city-gate';
 import { PriceProvider } from '@/components/providers/price-provider';
 import { siteUrl, isPublicSite } from '@/config/site';
 import { Monitoring } from '@/components/providers/monitoring';
-import { StartupLoader } from '@/components/shared/startup-loader';
 
 export const metadata: Metadata = {
   robots: isPublicSite ? { index: true, follow: true } : { index: false, follow: false },
@@ -40,7 +39,6 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className="antialiased">
-        <StartupLoader />
         <CityProvider>
           <PriceProvider>
           <CommerceProvider>

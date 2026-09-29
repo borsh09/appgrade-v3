@@ -116,11 +116,11 @@ export function DesktopHero() {
         >
           <div className={styles.visual}>
             {slide.theme === 'iphone' ? (
-              <Image src={slide.image} alt={slide.alt} fill priority loading="eager" unoptimized sizes="100vw" className={styles.coverImage} />
+              <Image src={slide.image} alt={slide.alt} fill fetchPriority="high" loading="eager" sizes="100vw" className={styles.coverImage} />
             ) : <>
               {slide.theme === 'price' && <span className={styles.priceOrbit} aria-hidden="true">₽</span>}
               {slide.theme === 'cashback' && <span className={styles.aliceOrbit} aria-hidden="true" />}
-              <Image src={slide.image} alt={slide.alt} fill loading="eager" unoptimized={slide.theme === 'price' || slide.theme === 'cashback'} sizes={slide.theme === 'warranty' || slide.theme === 'trade' ? '100vw' : '(max-width: 768px) 100vw, 65vw'} className={slide.theme === 'warranty' || slide.theme === 'trade' ? styles.coverImage : styles.containImage} />
+              <Image src={slide.image} alt={slide.alt} fill loading="lazy" sizes={slide.theme === 'warranty' || slide.theme === 'trade' ? '100vw' : '(max-width: 768px) 100vw, 65vw'} className={slide.theme === 'warranty' || slide.theme === 'trade' ? styles.coverImage : styles.containImage} />
             </>}
           </div>
           <div className={styles.copy}>

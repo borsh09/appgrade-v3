@@ -51,6 +51,7 @@ export async function migrate() {
       id uuid PRIMARY KEY, previous_prices jsonb NOT NULL, owner_id text NOT NULL,
       source text NOT NULL, created_at timestamptz NOT NULL DEFAULT now()
     );
+    ALTER TABLE appgrade_price_history ADD COLUMN IF NOT EXISTS previous_city_prices jsonb;
     CREATE TABLE IF NOT EXISTS appgrade_orders (
       id uuid PRIMARY KEY, request_key uuid UNIQUE NOT NULL, request_hash text NOT NULL,
       payload jsonb NOT NULL, notification_chat text NOT NULL,
@@ -66,6 +67,9 @@ export async function migrate() {
     CREATE TABLE IF NOT EXISTS appgrade_city_prices (sku text NOT NULL, city text NOT NULL, price integer NOT NULL CHECK(price>0 AND price<=10000000), updated_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(sku,city));
     CREATE TABLE IF NOT EXISTS appgrade_trade_ins (id uuid PRIMARY KEY, request_key uuid UNIQUE NOT NULL, request_hash text NOT NULL, payload jsonb NOT NULL, messages jsonb NOT NULL, notification_chat text NOT NULL, sent_parts integer NOT NULL DEFAULT 0, attempts integer NOT NULL DEFAULT 0, next_attempt_at timestamptz NOT NULL DEFAULT now(), notified_at timestamptz, status text NOT NULL DEFAULT 'new', created_at timestamptz NOT NULL DEFAULT now());
     CREATE INDEX IF NOT EXISTS appgrade_orders_pending_idx ON appgrade_orders(next_attempt_at) WHERE notified_at IS NULL;
+    CREATE INDEX IF NOT EXISTS appgrade_trade_ins_pending_idx ON appgrade_trade_ins(next_attempt_at) WHERE notified_at IS NULL;
+    CREATE INDEX IF NOT EXISTS appgrade_orders_recent_idx ON appgrade_orders(created_at DESC,id DESC);
+    CREATE INDEX IF NOT EXISTS appgrade_trade_ins_recent_idx ON appgrade_trade_ins(created_at DESC,id DESC);
     CREATE TABLE IF NOT EXISTS appgrade_metrics (day date NOT NULL DEFAULT current_date, event text NOT NULL, count integer NOT NULL DEFAULT 0, PRIMARY KEY(day,event));
     CREATE TABLE IF NOT EXISTS appgrade_admin_audit (id uuid PRIMARY KEY, owner_id text NOT NULL, action text NOT NULL, details jsonb NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
   `);

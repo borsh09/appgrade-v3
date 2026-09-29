@@ -3,10 +3,10 @@
 import { useRef } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Link from '@/components/shared/safe-link';
-import { apple2027Products } from '@/data/apple-2027';
+import type { FeaturedProduct } from '@/types/catalog';
 import { ProductCard } from './product-card';
 
-export function Apple2027() {
+export function Apple2027({ products }: { products: FeaturedProduct[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const scroll = (direction: 'left' | 'right') => {
     const container = scrollRef.current;
@@ -38,7 +38,7 @@ export function Apple2027() {
           </div>
         </div>
         <div ref={scrollRef} className="appgrade-popular-track">
-          {apple2027Products.map((product, index) => (
+          {products.map((product, index) => (
             <div key={product.sku.id} className="appgrade-popular-item">
               <ProductCard product={product} index={index} status="Предзаказ" />
             </div>

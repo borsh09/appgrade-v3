@@ -2,8 +2,6 @@
 
 import cardStyles from '@/components/shared/store-card.module.css';
 import { HoverProductPhoto } from '@/components/shared/hover-product-photo';
-import { catalogById, itemConfiguration } from '@/lib/catalog-registry';
-import { productHref } from '@/lib/product-selection';
 import Link from '@/components/shared/safe-link';
 
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
@@ -27,15 +25,15 @@ export function ProductCard({
 
   const inStock = status === 'В наличии';
 
-  const catalogItem = catalogById.get(product.sku.id);
-  const href = catalogItem ? productHref(catalogItem) : `/catalog/${product.model.slug}`;
+  const href = `/catalog/${product.model.slug}?sku=${encodeURIComponent(product.sku.id)}`;
   const commerceProduct = {
     id: product.sku.id,
 
     name: product.model.name,
 
-    configuration: catalogItem ? itemConfiguration(catalogItem) : [
+    configuration: [
       product.sku.storage,
+      product.sku.sim,
       product.sku.color,
     ]
       .filter(
@@ -60,7 +58,6 @@ export function ProductCard({
       >
         <HoverProductPhoto
           image={product.sku.image}
-          gallery={catalogById.get(product.sku.id)?.gallery}
           alt={product.model.name}
           sizes="(max-width: 600px) 80vw, (max-width: 1100px) 42vw, 25vw"
           className={`product-image product-image-${index}`}

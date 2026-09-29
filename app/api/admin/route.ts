@@ -2,27 +2,30 @@ import { randomUUID } from 'node:crypto';
 import { assertAdmin } from '@/lib/server/admin';
 import { database, transaction } from '@/lib/server/db';
 import { assertOrigin, readJson } from '@/lib/server/request-guard';
-import { catalogItems, catalogById, basePrices } from '@/lib/catalog-registry';
+import { catalogItems, catalogById, basePrices, parserUnavailableIds } from '@/lib/catalog-registry';
 import { OrderError } from '@/lib/server/orders';
 import { CITIES } from '@/config/cities';
+import { snapshotCityPrices } from '@/lib/server/prices';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
 const reply=(data:unknown,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
 const failure=(error:unknown)=>reply({error:error instanceof OrderError?error.message:'Не удалось выполнить операцию.'},error instanceof OrderError?error.status:503);
 export async function GET(request:Request){try{
   assertAdmin(request);
-  const [prices,inventory,cityPrices,orders,leads,metrics,health,history,imports,audit]=await Promise.all([
+  const [prices,inventory,cityPrices,orders,leads,orderSummary,tradeInSummary,metrics,health,history,imports,audit]=await Promise.all([
     database().query('SELECT revision,prices,updated_at FROM appgrade_prices WHERE singleton=true'),
     database().query('SELECT * FROM appgrade_inventory'),
     database().query('SELECT sku,city,price,updated_at FROM appgrade_city_prices'),
-    database().query('SELECT id,payload,status,created_at,notified_at,attempts FROM appgrade_orders ORDER BY created_at DESC LIMIT 100'),
-    database().query('SELECT id,payload,status,created_at,notified_at FROM appgrade_trade_ins ORDER BY created_at DESC LIMIT 100'),
+    database().query('SELECT id,payload,status,created_at,notified_at,attempts FROM appgrade_orders ORDER BY created_at DESC,id DESC LIMIT 100'),
+    database().query('SELECT id,payload,status,created_at,notified_at,attempts FROM appgrade_trade_ins ORDER BY created_at DESC,id DESC LIMIT 100'),
+    database().query("SELECT count(*)::int AS total, count(*) FILTER (WHERE status='new')::int AS new, count(*) FILTER (WHERE status IN ('new','confirmed'))::int AS active, coalesce(sum((payload->>'total')::numeric) FILTER (WHERE status<>'cancelled'),0) AS revenue FROM appgrade_orders"),
+    database().query("SELECT count(*)::int AS total, count(*) FILTER (WHERE status='new')::int AS new FROM appgrade_trade_ins"),
     database().query("SELECT * FROM appgrade_metrics WHERE day>=current_date-30 ORDER BY day DESC"),
     database().query('SELECT * FROM appgrade_bot_health'),
     database().query('SELECT id,owner_id,source,created_at FROM appgrade_price_history ORDER BY created_at DESC LIMIT 20'),
     database().query('SELECT id,filename,status,report,target_cities,created_at FROM appgrade_imports ORDER BY created_at DESC LIMIT 20'),
     database().query('SELECT id,owner_id,action,details,created_at FROM appgrade_admin_audit ORDER BY created_at DESC LIMIT 50')]);
-  return reply({catalog:catalogItems,prices:{...basePrices,...prices.rows[0]?.prices},priceRevision:prices.rows[0]?.revision,priceUpdatedAt:prices.rows[0]?.updated_at,inventory:inventory.rows,cityPrices:cityPrices.rows,orders:orders.rows,tradeIns:leads.rows,metrics:metrics.rows,health:health.rows,history:history.rows,imports:imports.rows,audit:audit.rows});
+  return reply({catalog:catalogItems,prices:{...basePrices,...Object.fromEntries(Object.entries((prices.rows[0]?.prices ?? {}) as Record<string, number | null>).filter(([id]) => catalogById.has(id))),...Object.fromEntries([...parserUnavailableIds].map((id) => [id, null]))},priceRevision:prices.rows[0]?.revision,priceUpdatedAt:prices.rows[0]?.updated_at,inventory:inventory.rows.filter((row) => catalogById.has(row.sku)),cityPrices:cityPrices.rows.filter((row) => catalogById.has(row.sku) && !parserUnavailableIds.has(row.sku)),orders:orders.rows,tradeIns:leads.rows,orderSummary:orderSummary.rows[0],tradeInSummary:tradeInSummary.rows[0],metrics:metrics.rows,health:health.rows,history:history.rows,imports:imports.rows,audit:audit.rows});
 }catch(error){return failure(error);}}
 export async function PATCH(request:Request){try{
   assertAdmin(request);assertOrigin(request);
@@ -31,6 +34,7 @@ export async function PATCH(request:Request){try{
   await transaction(async client=>{
     if(body.action==='product'){
       if(typeof body.id!=='string'||!catalogById.has(body.id))throw new OrderError('Товар не найден.');
+      if(parserUnavailableIds.has(body.id))throw new OrderError('Этот товар отмечен в таблице ценой 1 и не продаётся.');
       if(body.price===null && catalogById.get(body.id)!.price!==null)throw new OrderError('Укажите цену. Для снятия с продажи установите остаток 0.');
       if(body.price!==null && (!Number.isSafeInteger(body.price)||Number(body.price)<=0||Number(body.price)>10000000))throw new OrderError('Некорректная цена.');
       const {rows}=await client.query('SELECT revision,prices FROM appgrade_prices WHERE singleton=true FOR UPDATE');
@@ -42,6 +46,14 @@ export async function PATCH(request:Request){try{
       if(typeof body.id!=='string'||!catalogById.has(body.id)||typeof body.city!=='string'||!Object.hasOwn(CITIES,body.city))throw new OrderError('Неизвестный товар или город.');
       if(body.price!==null&&(!Number.isSafeInteger(body.price)||Number(body.price)<=0||Number(body.price)>10000000))throw new OrderError('Некорректная цена.');
       if(body.quantity!==null&&(!Number.isSafeInteger(body.quantity)||Number(body.quantity)<0||Number(body.quantity)>100000))throw new OrderError('Некорректный остаток.');
+      const {rows:priceState}=await client.query('SELECT revision,prices FROM appgrade_prices WHERE singleton=true FOR UPDATE');
+      if(!priceState[0])throw new Error('Migration required');
+      const previousCityPrice=(await snapshotCityPrices(client,[{sku:body.id,city:body.city}]))[0];
+      if(previousCityPrice.price!==body.price){
+        const revision=randomUUID();
+        await client.query('INSERT INTO appgrade_price_history(id,previous_prices,previous_city_prices,owner_id,source) VALUES($1,$2,$3,$4,$5)',[revision,JSON.stringify(priceState[0].prices),JSON.stringify([previousCityPrice]),'admin','Панель управления: городская цена']);
+        await client.query('UPDATE appgrade_prices SET revision=$1,updated_at=now() WHERE singleton=true',[revision]);
+      }
       if(body.price===null)await client.query('DELETE FROM appgrade_city_prices WHERE sku=$1 AND city=$2',[body.id,body.city]);
       else await client.query('INSERT INTO appgrade_city_prices(sku,city,price) VALUES($1,$2,$3) ON CONFLICT(sku,city) DO UPDATE SET price=$3,updated_at=now()',[body.id,body.city,body.price]);
       if(body.quantity===null)await client.query('DELETE FROM appgrade_inventory WHERE sku=$1 AND city=$2',[body.id,body.city]);

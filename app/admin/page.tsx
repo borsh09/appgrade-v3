@@ -71,6 +71,8 @@ type State = {
   }[];
   orders: Entry[];
   tradeIns: Entry[];
+  orderSummary: { total: number; new: number; active: number; revenue: string };
+  tradeInSummary: { total: number; new: number };
   metrics: { day: string; event: string; count: number }[];
   health: { role?: string; heartbeat_at: string }[];
   history: {
@@ -89,6 +91,12 @@ type State = {
   audit: { id: string; owner_id: string; action: string; details: Record<string, unknown>; created_at: string }[];
 };
 type Tab = 'overview' | 'orders' | 'tradeIns' | 'prices' | 'catalog';
+function mergeEntries(recent: Entry[], older: Entry[]) {
+  const seen = new Set<string>();
+  return [...recent, ...older]
+    .filter((entry) => !seen.has(entry.id) && !!seen.add(entry.id))
+    .sort((a, b) => b.created_at.localeCompare(a.created_at) || b.id.localeCompare(a.id));
+}
 const money = new Intl.NumberFormat('ru-RU');
 const date = (value: string) =>
   new Intl.DateTimeFormat('ru-RU', {
@@ -110,6 +118,7 @@ const categoryNames: Record<string, string> = {
   all: 'Все товары',
   iphones: 'iPhone',
   samsung: 'Samsung',
+  smartphones: 'Другие смартфоны',
   macbooks: 'MacBook',
   ipads: 'iPad',
   watches: 'Часы',
@@ -135,6 +144,8 @@ export default function AdminPage() {
       report: Report;
       targetCities?: string[];
     } | null>(null),
+    [olderOrders, setOlderOrders] = useState<Entry[]>([]),
+    [olderTradeIns, setOlderTradeIns] = useState<Entry[]>([]),
     [checkedAt, setCheckedAt] = useState(0);
   async function api(url: string, options?: RequestInit) {
     const headers = new Headers(options?.headers);
@@ -195,7 +206,30 @@ export default function AdminPage() {
     setError('');
     try {
       await api('/api/admin', { method: 'PATCH', body: JSON.stringify(body) });
+      const change = body as { action?: string; type?: string; id?: string; status?: string };
+      if (change.id && change.status && change.action === 'order')
+        setOlderOrders((items) => items.map((item) => item.id === change.id ? { ...item, status: change.status! } : item));
+      if (change.id && change.status && change.action === 'trade-in')
+        setOlderTradeIns((items) => items.map((item) => item.id === change.id ? { ...item, status: change.status! } : item));
+      if (change.id && change.action === 'resend-notification') {
+        const setter = change.type === 'order' ? setOlderOrders : setOlderTradeIns;
+        setter((items) => items.map((item) => item.id === change.id ? { ...item, notified_at: null } : item));
+      }
       await load();
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function loadMore(type: 'order' | 'trade-in', last: Entry) {
+    setBusy(true);
+    setError('');
+    try {
+      const params = new URLSearchParams({ type, before: last.created_at, beforeId: last.id });
+      const result = await api(`/api/admin/entries?${params}`) as { entries: Entry[] };
+      const setter = type === 'order' ? setOlderOrders : setOlderTradeIns;
+      setter((items) => mergeEntries(items, result.entries));
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -290,7 +324,7 @@ export default function AdminPage() {
       </main>
     );
   const fresh = state.health.some(
-    (h) => checkedAt - new Date(h.heartbeat_at).getTime() < 30_000,
+    (h) => h.role === 'orders' && checkedAt - new Date(h.heartbeat_at).getTime() < 30_000,
   );
   const nav: [Tab, string, React.ReactNode, number?][] = [
     ['overview', 'Обзор', <LayoutDashboard key="o" />],
@@ -298,13 +332,13 @@ export default function AdminPage() {
       'orders',
       'Заказы',
       <ShoppingBag key="a" />,
-      state.orders.filter((x) => x.status === 'new').length,
+      state.orderSummary.new,
     ],
     [
       'tradeIns',
       'Trade‑In',
       <Wrench key="t" />,
-      state.tradeIns.filter((x) => x.status === 'new').length,
+      state.tradeInSummary.new,
     ],
     ['prices', 'Прайс-листы', <FileSpreadsheet key="p" />],
     ['catalog', 'Каталог и остатки', <Boxes key="c" />],
@@ -372,19 +406,25 @@ export default function AdminPage() {
         {tab === 'orders' && (
           <Entries
             title="Заказы"
-            entries={state.orders}
+            entries={mergeEntries(state.orders, olderOrders)}
+            total={state.orderSummary.total}
+            newCount={state.orderSummary.new}
             type="order"
             busy={busy}
             mutate={mutate}
+            loadMore={loadMore}
           />
         )}{' '}
         {tab === 'tradeIns' && (
           <Entries
             title="Заявки Trade‑In"
-            entries={state.tradeIns}
+            entries={mergeEntries(state.tradeIns, olderTradeIns)}
+            total={state.tradeInSummary.total}
+            newCount={state.tradeInSummary.new}
             type="trade-in"
             busy={busy}
             mutate={mutate}
+            loadMore={loadMore}
           />
         )}{' '}
         {tab === 'prices' && (
@@ -419,12 +459,8 @@ function Overview({
   fresh: boolean;
   setTab: (tab: Tab) => void;
 }) {
-  const revenue = state.orders
-      .filter((x) => x.status !== 'cancelled')
-      .reduce((sum, x) => sum + (x.payload.total || 0), 0),
-    active = state.orders.filter((x) =>
-      ['new', 'confirmed'].includes(x.status),
-    ).length,
+  const revenue = Number(state.orderSummary.revenue),
+    active = state.orderSummary.active,
     low = state.inventory.filter((x) => x.quantity <= 2).length;
   const days = useMemo(() => {
     const map = new Map<string, number>();
@@ -446,7 +482,7 @@ function Overview({
           icon={<ShoppingBag />}
           label="В работе"
           value={String(active)}
-          note={`${state.orders.length} всего`}
+          note={`${state.orderSummary.total} всего`}
         />
         <Stat
           icon={<PackageCheck />}
@@ -548,15 +584,21 @@ function Empty({ text }: { text: string }) {
 function Entries({
   title,
   entries,
+  total,
+  newCount,
   type,
   busy,
   mutate,
+  loadMore,
 }: {
   title: string;
   entries: Entry[];
+  total: number;
+  newCount: number;
   type: 'order' | 'trade-in';
   busy: boolean;
   mutate: (body: unknown) => Promise<void>;
+  loadMore: (type: 'order' | 'trade-in', last: Entry) => Promise<void>;
 }) {
   const [filter, setFilter] = useState('all');
   const [query, setQuery] = useState('');
@@ -573,12 +615,12 @@ function Entries({
       <section className="admin-entry-hero">
         <div className="admin-entry-hero-icon">{type === 'order' ? <ShoppingBag /> : <Wrench />}</div>
         <div><p className="admin-kicker">{type === 'order' ? 'РАБОТА С ПРОДАЖАМИ' : 'ОЦЕНКА УСТРОЙСТВ'}</p><h2>{type === 'order' ? 'Обрабатывайте заказы без потерь' : 'Ведите Trade‑In заявки в одном месте'}</h2><p>{type === 'order' ? 'Откройте заказ, свяжитесь с клиентом и обновите статус после разговора.' : 'Проверьте модель и состояние устройства, затем свяжитесь с клиентом для диагностики.'}</p></div>
-        <div className="admin-entry-hero-count"><strong>{entries.filter((entry) => entry.status === 'new').length}</strong><span>новых</span></div>
+        <div className="admin-entry-hero-count"><strong>{newCount}</strong><span>новых</span></div>
       </section>
       <div className="admin-section-tools">
         <div>
           <h2>{title}</h2>
-          <p>{entries.length} записей в журнале</p>
+          <p>{total} записей в журнале{total > entries.length ? ` · показаны последние ${entries.length}` : ''}</p>
         </div>
         <div className="admin-segments">
           {[
@@ -729,6 +771,13 @@ function Entries({
           {!shown.length && <Empty text="В этой категории пока ничего нет." />}
         </div>
       </section>
+      {entries.length < total && entries.length > 0 && (
+        <div className="admin-pagination">
+          <button disabled={busy} onClick={() => void loadMore(type, entries[entries.length - 1])}>
+            {busy ? 'Загружаем…' : 'Показать более ранние заявки'}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -855,7 +904,7 @@ function Prices({
               {x}
             </p>
           ))}
-          {draft.report.changes.length > 0 && (
+          {draft.report.changes.length > 0 && draft.report.errors.length === 0 && (
             <button
               className="admin-primary"
               disabled={busy}

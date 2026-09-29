@@ -38,6 +38,11 @@ export async function rateLimit(scope: string, key: string, limit: number, minut
     expires_at=CASE WHEN appgrade_rate_limits.expires_at<now() THEN now()+$2*interval '1 minute' ELSE appgrade_rate_limits.expires_at END RETURNING count`, [hash, minutes]);
   if (rows[0].count > limit) throw new OrderError('Слишком много запросов. Попробуйте позже.', 429);
 }
+export async function protectAdminLogin(request: Request) {
+  const ip = process.env.TRUST_PROXY === 'true' ? request.headers.get('x-real-ip') : null;
+  if (ip && isIP(ip)) await rateLimit('admin-login:ip', ip, 10, 15);
+  await rateLimit('admin-login:global', 'all', 60, 15);
+}
 export async function protectSubmission(request: Request, scope: string) {
   assertOrigin(request);
   const ip = process.env.TRUST_PROXY === 'true' ? request.headers.get('x-real-ip') : null;

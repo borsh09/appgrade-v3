@@ -38,7 +38,10 @@ export function validAdminSession(value: string | undefined) {
 function cookieValue(request: Request) {
   for (const part of (request.headers.get('cookie') || '').split(';')) {
     const [name, ...value] = part.trim().split('=');
-    if (name === ADMIN_COOKIE) return decodeURIComponent(value.join('='));
+    if (name === ADMIN_COOKIE) {
+      try { return decodeURIComponent(value.join('=')); }
+      catch { return undefined; }
+    }
   }
 }
 export function assertAdmin(request: Request) {

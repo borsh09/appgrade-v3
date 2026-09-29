@@ -22,6 +22,13 @@ export const catalogCategories: CatalogCategory[] = [
     description: 'Смартфоны и планшеты',
   },
   {
+    id: 'smartphones',
+    href: '/catalog/smartphones',
+    title: 'Другие смартфоны',
+    image: '/images/king-category-smartphones.webp',
+    description: 'Nothing, OnePlus, Honor и другие',
+  },
+  {
     id: 'xiaomi',
     href: '/catalog/xiaomi',
     title: 'Xiaomi',
@@ -59,9 +66,9 @@ export const catalogCategories: CatalogCategory[] = [
   {
     id: 'gaming',
     href: '/catalog/playstation',
-    title: 'Игровые приставки',
+    title: 'Игровые устройства',
     image: '/images/king-category-gaming.webp',
-    description: 'Консоли PlayStation',
+    description: 'PlayStation, Nintendo и другое',
   },
   {
     id: 'google',
@@ -86,9 +93,9 @@ export const catalogCategories: CatalogCategory[] = [
   },
   {
     id: 'accessories',
-    href: '/#контакты',
-    title: 'Аксессуары',
+    href: '/catalog/gadgets',
+    title: 'Гаджеты и аксессуары',
     image: '/images/king-category-accessories.webp',
-    description: 'Для ваших устройств',
+    description: 'Аксессуары и другая техника',
   },
 ];

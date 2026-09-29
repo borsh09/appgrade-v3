@@ -1,10 +1,4 @@
-import { catalogItems, itemConfiguration } from '@/lib/catalog-registry';
-import { productHref } from '@/lib/product-selection';
+import rows from './client-search-index.json';
+import type { CatalogItem } from '@/lib/catalog-registry';
 
-export const searchIndex = catalogItems.map(item => ({
-  ...item,
-  name: item.model,
-  detail: itemConfiguration(item) || 'Стандартная комплектация',
-  price: item.price ?? 0,
-  href: productHref(item),
-}));
+export const searchIndex = rows as (CatalogItem & { name: string; href: string; detail: string })[];

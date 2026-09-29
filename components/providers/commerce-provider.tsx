@@ -2,7 +2,8 @@
 
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { usePriceResolver } from './price-provider';
-import { catalogItems } from '@/lib/catalog-registry';
+import basePrices from '@/data/client-base-prices.json';
+import type { searchIndex } from '@/data/search-index';
 
 export type CommerceProduct = {
   id: string;
@@ -30,21 +31,22 @@ type CommerceContextValue = {
 
 const CommerceContext = createContext<CommerceContextValue | null>(null);
 const STORAGE_KEY = 'appgrade-commerce-v1';
+type SearchIndex = typeof searchIndex;
 
-function restoreProducts(values: unknown[]): CartLine[] {
+function restoreProducts(values: unknown[], catalog: SearchIndex | null): CartLine[] {
   return values.flatMap(value => {
     if (!value || typeof value !== 'object') return [];
     const item = value as CartLine;
     if (![item.id, item.name, item.configuration, item.image, item.href].every(v => typeof v === 'string') || !Number.isFinite(item.price)) return [];
-    let sku = catalogItems.find(s => s.id === item.id);
-    if (!sku && item.id.startsWith('/catalog/')) {
+    let skuId = Object.hasOwn(basePrices, item.id) ? item.id : undefined;
+    if (!skuId && catalog && item.id.startsWith('/catalog/')) {
       const url = new URL(item.id, 'https://appgrade.invalid');
-      const matches = catalogItems.filter(s => url.pathname === `/catalog/${s.modelSlug}` &&
+      const matches = catalog.filter(s => url.pathname === `/catalog/${s.modelSlug}` &&
         [...url.searchParams].every(([key, value]) => key in s && s[key as keyof typeof s] === value));
-      if (matches.length === 1) sku = matches[0];
+      if (matches.length === 1) skuId = matches[0].id;
     }
-    if (!sku) return [];
-    return [{ ...item, id: sku.id, quantity: Number.isInteger(item.quantity) ? Math.max(1, Math.min(99, item.quantity)) : 1 }];
+    if (!skuId) return [];
+    return [{ ...item, id: skuId, quantity: Number.isInteger(item.quantity) ? Math.max(1, Math.min(99, item.quantity)) : 1 }];
   }).filter((item, index, all) => all.findIndex(other => other.id === item.id) === index);
 }
 
@@ -55,11 +57,14 @@ export function CommerceProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    queueMicrotask(() => {
+    queueMicrotask(async () => {
       try {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}');
-        if (Array.isArray(saved.cart)) setCart(restoreProducts(saved.cart));
-        if (Array.isArray(saved.favorites)) setFavorites(restoreProducts(saved.favorites));
+        const values = [...(Array.isArray(saved.cart) ? saved.cart : []), ...(Array.isArray(saved.favorites) ? saved.favorites : [])];
+        const legacy = values.some(value => typeof value?.id === 'string' && value.id.startsWith('/catalog/'));
+        const catalog = legacy ? (await import('@/data/search-index')).searchIndex : null;
+        if (Array.isArray(saved.cart)) setCart(restoreProducts(saved.cart, catalog));
+        if (Array.isArray(saved.favorites)) setFavorites(restoreProducts(saved.favorites, catalog));
       } catch {
         /* Ignore damaged local data. */
       }

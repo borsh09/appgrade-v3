@@ -1,7 +1,9 @@
 import { randomUUID, createHash } from 'node:crypto';
-import { basePrices } from '../catalog-registry';
+import type { PoolClient } from 'pg';
+import { basePrices, catalogById, parserUnavailableIds } from '../catalog-registry';
 import { database, transaction } from './db';
 import type { ImportReport } from './price-import';
+import { OrderError } from './orders';
 
 export type PriceSnapshot = {
   revision: string;
@@ -10,6 +12,28 @@ export type PriceSnapshot = {
   cityPrices?: Record<string,Record<string,number>>;
   inventoryRevision?: string;
 };
+export type CityPriceValue = { sku: string; city: string; price: number | null };
+
+export async function snapshotCityPrices(client: PoolClient, keys: { sku: string; city: string }[]): Promise<CityPriceValue[]> {
+  if (!keys.length) return [];
+  const skus = [...new Set(keys.map((key) => key.sku))];
+  const cities = [...new Set(keys.map((key) => key.city))];
+  const { rows } = await client.query(
+    'SELECT sku,city,price FROM appgrade_city_prices WHERE sku=ANY($1::text[]) AND city=ANY($2::text[])',
+    [skus, cities],
+  );
+  const current = new Map(rows.map((row) => [`${row.sku}\u0000${row.city}`, row.price as number]));
+  return keys.map(({ sku, city }) => ({ sku, city, price: current.get(`${sku}\u0000${city}`) ?? null }));
+}
+
+async function restoreCityPrices(client: PoolClient, values: CityPriceValue[]) {
+  for (const { sku, city, price } of values) {
+    if (price === null)
+      await client.query('DELETE FROM appgrade_city_prices WHERE sku=$1 AND city=$2', [sku, city]);
+    else
+      await client.query('INSERT INTO appgrade_city_prices(sku,city,price) VALUES($1,$2,$3) ON CONFLICT(sku,city) DO UPDATE SET price=$3,updated_at=now()', [sku, city, price]);
+  }
+}
 export async function getPrices(): Promise<PriceSnapshot> {
   if (!process.env.DATABASE_URL)
     return { revision: 'initial', prices: basePrices };
@@ -22,12 +46,15 @@ export async function getPrices(): Promise<PriceSnapshot> {
     database().query('SELECT sku,city,price FROM appgrade_city_prices ORDER BY sku,city'),
   ]);
   const inventory: Record<string,Record<string,number>>={};
-  for(const row of stock.rows)(inventory[row.sku]??={})[row.city]=row.quantity;
+  for(const row of stock.rows) if(catalogById.has(row.sku))(inventory[row.sku]??={})[row.city]=row.quantity;
   const cityPrices: Record<string,Record<string,number>>={};
-  for(const row of cityPriceRows.rows)(cityPrices[row.sku]??={})[row.city]=row.price;
+  for(const row of cityPriceRows.rows) if(catalogById.has(row.sku) && !parserUnavailableIds.has(row.sku))(cityPrices[row.sku]??={})[row.city]=row.price;
   return {
     revision: rows[0].revision,
-    prices: { ...basePrices, ...rows[0].prices },
+    prices: {
+      ...basePrices, ...Object.fromEntries(Object.entries(rows[0].prices as Record<string, number | null>).filter(([id]) => catalogById.has(id))),
+      ...Object.fromEntries([...parserUnavailableIds].map((id) => [id, null])),
+    },
     inventory,
     cityPrices,
     inventoryRevision:createHash('sha256').update(JSON.stringify({inventory,cityPrices})).digest('hex'),
@@ -44,27 +71,38 @@ export async function applyImport(id: string, owner: string, chat: string) {
     );
     const draft = rows[0];
     if (!draft)
-      throw new Error(
+      throw new OrderError(
         'Загрузка не найдена или принадлежит другому пользователю.',
+        404,
       );
     if (draft.status === 'applied') return 'Эта загрузка уже применена.';
-    if (draft.status !== 'pending') throw new Error('Загрузка отменена.');
+    if (draft.status !== 'pending') throw new OrderError('Загрузка отменена.', 409);
     if (Date.now() - new Date(draft.created_at).getTime() > 24 * 60 * 60 * 1000)
-      throw new Error('Загрузка устарела. Отправьте файл заново.');
+      throw new OrderError('Загрузка устарела. Отправьте файл заново.', 409);
     if (draft.base_revision !== state[0].revision)
-      throw new Error(
+      throw new OrderError(
         'Цены уже изменились. Отправьте файл заново для свежего отчёта.',
+        409,
       );
     const report = draft.report as ImportReport;
+    if (report.errors.length)
+      throw new OrderError('В прайс-листе есть ошибки. Исправьте файл и загрузите его заново.');
     if (!report.changes.length)
-      throw new Error('Нет изменений, которые можно применить.');
-    const targetCities = Array.isArray(draft.target_cities) ? draft.target_cities.filter((city: unknown): city is string => typeof city === 'string') : [];
+      throw new OrderError('Нет изменений, которые можно применить.');
+    const targetCities: string[] = Array.isArray(draft.target_cities) ? draft.target_cities.filter((city: unknown): city is string => typeof city === 'string') : [];
     if (targetCities.length) {
+      const keys = report.changes.flatMap((change) => targetCities.map((city) => ({ sku: change.id, city })));
+      const previousCityPrices = await snapshotCityPrices(client, keys);
+      await client.query(
+        'INSERT INTO appgrade_price_history(id,previous_prices,previous_city_prices,owner_id,source) VALUES($1,$2,$3,$4,$5)',
+        [id, JSON.stringify(state[0].prices), JSON.stringify(previousCityPrices), owner, draft.filename],
+      );
       for (const change of report.changes) {
         for (const city of targetCities) {
           await client.query('INSERT INTO appgrade_city_prices(sku,city,price) VALUES($1,$2,$3) ON CONFLICT(sku,city) DO UPDATE SET price=$3,updated_at=now()', [change.id, city, change.after]);
         }
       }
+      await client.query('UPDATE appgrade_prices SET revision=$1,updated_at=now() WHERE singleton=true', [id]);
       await client.query("UPDATE appgrade_imports SET status = 'applied' WHERE id = $1", [id]);
       return `Обновлены цены для городов: ${targetCities.join(', ')}. Позиций: ${report.changes.length}.`;
     }
@@ -91,17 +129,22 @@ export async function rollbackPrices(expectedRevision: string, owner: string) {
       'SELECT * FROM appgrade_prices WHERE singleton = true FOR UPDATE',
     );
     if (rows[0].revision !== expectedRevision)
-      throw new Error('Версия уже изменилась. Вызовите /rollback заново.');
+      throw new OrderError('Версия уже изменилась. Обновите страницу и повторите откат.', 409);
     const history = await client.query(
       'SELECT * FROM appgrade_price_history WHERE id = $1',
       [expectedRevision],
     );
-    if (!history.rows[0]) throw new Error('Нет обновления для отката.');
+    if (!history.rows[0]) throw new OrderError('Нет обновления для отката.', 404);
     const revision = randomUUID();
+    const previousCityPrices = history.rows[0].previous_city_prices as CityPriceValue[] | null;
+    const reverseCityPrices = previousCityPrices
+      ? await snapshotCityPrices(client, previousCityPrices)
+      : null;
     await client.query(
-      'INSERT INTO appgrade_price_history(id, previous_prices, owner_id, source) VALUES ($1,$2,$3,$4)',
-      [revision, JSON.stringify(rows[0].prices), owner, 'Откат'],
+      'INSERT INTO appgrade_price_history(id,previous_prices,previous_city_prices,owner_id,source) VALUES($1,$2,$3,$4,$5)',
+      [revision, JSON.stringify(rows[0].prices), reverseCityPrices ? JSON.stringify(reverseCityPrices) : null, owner, 'Откат'],
     );
+    if (previousCityPrices) await restoreCityPrices(client, previousCityPrices);
     await client.query(
       'UPDATE appgrade_prices SET revision = $1, prices = $2, updated_at = now() WHERE singleton = true',
       [revision, JSON.stringify(history.rows[0].previous_prices)],

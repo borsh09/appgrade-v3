@@ -1,34 +1,30 @@
-import type { FeaturedProduct, ProductModel, ProductSku } from '@/types/catalog';
-import { iphoneCatalog } from './iphone-catalog';
-import { macbookCatalog } from './macbook-catalog';
-import { audioCatalog } from './audio-catalog';
+import type { FeaturedProduct, ProductCategory, ProductModel, ProductSku } from '@/types/catalog';
+import { catalogItems, type CatalogItem } from '@/lib/catalog-registry';
 
-export const productModels: ProductModel[] = [
-  { id: 'iphone-17-pro', slug: 'iphone-17-pro', name: 'iPhone 17 Pro', brand: 'Apple', category: 'smartphones' },
-  { id: 'iphone-17', slug: 'iphone-17', name: 'iPhone 17', brand: 'Apple', category: 'smartphones' },
-  { id: 'airpods-max', slug: 'airpods-max-2-2026', name: 'AirPods Max 2 2026', brand: 'Apple', category: 'audio' },
-  { id: 'macbook-air', slug: 'macbook-air-15-m5', name: 'MacBook Air 15 M5', brand: 'Apple', category: 'laptops' },
-  { id: 'airpods-pro', slug: 'airpods-pro', name: 'AirPods Pro', brand: 'Apple', category: 'audio' },
-  { id: 'apple-watch', slug: 'apple-watch', name: 'Apple Watch Series 11', brand: 'Apple', category: 'watches' },
-  { id: 'samsung-s25-ultra', slug: 'samsung-galaxy-s25-ultra', name: 'Samsung Galaxy S25 Ultra', brand: 'Samsung', category: 'smartphones' },
+const choices: Array<{ model: string; category: ProductCategory; brand: string; match?: (item: CatalogItem) => boolean }> = [
+  { model: 'iPhone 17 Pro', category: 'smartphones', brand: 'Apple', match: (item) => item.storage === '256' && item.color === 'Cosmic Orange' },
+  { model: 'iPhone 17', category: 'smartphones', brand: 'Apple', match: (item) => item.storage === '256' && item.color === 'Black' },
+  { model: 'MacBook Neo', category: 'laptops', brand: 'Apple' },
+  { model: 'iPad Air 13 M4', category: 'tablets', brand: 'Apple' },
 ];
 
+const selected = choices.flatMap((choice) => {
+  const variants = catalogItems.filter((item) => item.model === choice.model && item.price !== null && item.price > 0);
+  const item = variants.find(choice.match ?? (() => true)) ?? variants[0];
+  return item ? [{ item, choice }] : [];
+});
 const slug = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-const iphonePro = iphoneCatalog.find((item) => item.model === 'iPhone 17 Pro' && item.storage === '256' && item.color === 'Cosmic Orange') ?? iphoneCatalog.find((item) => item.model === 'iPhone 17 Pro')!;
-const iphone = iphoneCatalog.find((item) => item.model === 'iPhone 17' && item.storage === '256' && item.color === 'Black') ?? iphoneCatalog.find((item) => item.model === 'iPhone 17')!;
-const macbook = macbookCatalog.find((item) => item.model === 'MacBook Air 15 M5' && item.storage === '512 GB') ?? macbookCatalog.find((item) => item.model === 'MacBook Air 15 M5')!;
-const airpodsMax = audioCatalog.find((item) => item.model === 'AirPods Max 2 2026' && item.color === 'Starlight') ?? audioCatalog.find((item) => item.model === 'AirPods Max 2 2026')!;
 
-export const productSkus: ProductSku[] = [
-  { id: iphonePro.id, modelId: 'iphone-17-pro', storage: iphonePro.storage, color: iphonePro.color, colorSlug: slug(iphonePro.color), sim: iphonePro.sim, price: iphonePro.price, image: iphonePro.image, availability: {} },
-  { id: iphone.id, modelId: 'iphone-17', storage: iphone.storage, color: iphone.color, colorSlug: slug(iphone.color), sim: iphone.sim, price: iphone.price, image: iphone.image, availability: {} },
-  { id: macbook.id, modelId: 'macbook-air', storage: macbook.storage, color: macbook.color, colorSlug: slug(macbook.color), price: macbook.price, image: macbook.image, availability: {} },
-  { id: airpodsMax.id, modelId: 'airpods-max', color: airpodsMax.color, colorSlug: slug(airpodsMax.color), price: airpodsMax.price ?? 0, image: airpodsMax.image, availability: {} },
-];
-
-export const featuredProducts: FeaturedProduct[] = productSkus.map((sku) => ({
-  sku,
-  model: productModels.find((model) => model.id === sku.modelId)!,
+export const productModels: ProductModel[] = selected.map(({ item, choice }) => ({
+  id: item.modelSlug, slug: item.modelSlug, name: item.model, brand: choice.brand, category: choice.category,
+}));
+export const productSkus: ProductSku[] = selected.map(({ item }) => ({
+  id: item.id, modelId: item.modelSlug, storage: item.storage, color: item.color,
+  colorSlug: slug(item.color), sim: item.sim, price: item.price!, image: item.image,
+  availability: {},
+}));
+export const featuredProducts: FeaturedProduct[] = productSkus.map((sku, index) => ({
+  sku, model: productModels[index],
 }));
 
 export const categories = ['iPhone', 'Samsung', 'MacBook', 'iPad', 'Apple Watch', 'AirPods', 'PlayStation', 'Dyson', 'Аксессуары'];

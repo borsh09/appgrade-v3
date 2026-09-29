@@ -64,6 +64,7 @@ export function catalogItemSearchText(item: CatalogItem) {
   return normalizeSearchText([
     item.brand,
     item.model,
+    item.priceAlias,
     item.modelSlug,
     item.category,
     item.kind,
@@ -78,13 +79,26 @@ export function catalogItemSearchText(item: CatalogItem) {
   ].filter(Boolean).join(' '));
 }
 
+const searchWords = new WeakMap<CatalogItem, string[]>();
+function itemSearchWords(item: CatalogItem) {
+  let words = searchWords.get(item);
+  if (!words) {
+    words = catalogItemSearchText(item).split(' ');
+    searchWords.set(item, words);
+  }
+  return words;
+}
+
+function matchesSearchWords(item: CatalogItem, queries: string[]) {
+  const words = itemSearchWords(item);
+  return queries.some(candidate => candidate.split(' ').every(token => tokenMatches(token, words)));
+}
+
 export function matchesCatalogSearch(item: CatalogItem, query: string) {
   const normalizedQuery = normalizeSearchText(query);
   if (!normalizedQuery) return true;
-  const haystack = catalogItemSearchText(item);
-  const words = haystack.split(' ');
   const queries = [normalizedQuery, normalizeSearchText(switchKeyboardLayout(query))];
-  return queries.some(candidate => candidate.split(' ').every(token => tokenMatches(token, words)));
+  return matchesSearchWords(item, queries);
 }
 
 export type CatalogSearchResult<T extends CatalogItem> = T & { searchCount: number; searchMinPrice: number | null };
@@ -92,7 +106,8 @@ export type CatalogSearchResult<T extends CatalogItem> = T & { searchCount: numb
 export function getGroupedCatalogSearchResults<T extends CatalogItem>(items: T[], query: string, limit = 6): CatalogSearchResult<T>[] {
   const normalizedQuery = normalizeSearchText(query);
   if (normalizedQuery.length < 2) return [];
-  const found = items.filter(item => matchesCatalogSearch(item, normalizedQuery));
+  const queries = [normalizedQuery, normalizeSearchText(switchKeyboardLayout(query))];
+  const found = items.filter(item => matchesSearchWords(item, queries));
   const groups = new Map<string, T[]>();
   found.forEach(item => {
     const key = `${item.category}:${item.modelSlug}`;

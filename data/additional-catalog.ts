@@ -1,4 +1,6 @@
 import rows from './additional-catalog.json';
+import parserRows from './parser-catalog.json';
+import parserPhotos from './parser-photo-map.json';
 import photoSources from './product-photo-sources.json';
 
 export interface AdditionalCatalogSku {
@@ -18,6 +20,7 @@ export interface AdditionalCatalogSku {
   connectivity?: string;
   configuration?: string;
   legacySlug?: string;
+  photoApproximate?: boolean;
 }
 
 function normalizeRow(row: AdditionalCatalogSku): AdditionalCatalogSku {
@@ -51,4 +54,11 @@ function normalizeRow(row: AdditionalCatalogSku): AdditionalCatalogSku {
   if (/^[a-z]/i.test(model)) item.modelSlug = item.model.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   return item;
 }
-export const additionalCatalog: AdditionalCatalogSku[] = rows.map(normalizeRow);
+export const additionalCatalog: AdditionalCatalogSku[] = [
+  ...rows.map(normalizeRow),
+  ...parserRows.map((row) => ({
+    ...row,
+    image: (parserPhotos as Record<string, { image: string; approximate?: boolean }>)[row.id]?.image ?? row.image,
+    photoApproximate: (parserPhotos as Record<string, { image: string; approximate?: boolean }>)[row.id]?.approximate ?? false,
+  })),
+];

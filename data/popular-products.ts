@@ -1,38 +1,39 @@
-import { catalogItems } from '@/lib/catalog-registry';
+import { catalogItems, type CatalogItem } from '@/lib/catalog-registry';
 import type { FeaturedProduct, ProductCategory } from '@/types/catalog';
 import { featuredProducts } from './catalog';
 
-const picks: Array<[string, ProductCategory, string]> = [
-  ['Samsung Galaxy S26 Ultra', 'smartphones', 'Samsung'],
-  ['Marshall Major 5', 'audio', 'Marshall'],
-  ['Instax Mini Evo', 'cameras', 'Fujifilm'],
-  ['JBL Charge 6', 'audio', 'JBL'],
-  ['iPad Air 13 M4', 'tablets', 'Apple'],
-  ['Marshall Stanmore 3', 'audio', 'Marshall'],
-  ['Samsung Galaxy Z Fold 8', 'smartphones', 'Samsung'],
-  ['Apple Watch Series 11', 'watches', 'Apple'],
-  ['PlayStation 5 Pro', 'gaming', 'Sony'],
-  ['Dyson Airwrap Long HS09', 'dyson', 'Dyson'],
-  ['Instax Mini 12', 'cameras', 'Fujifilm'],
-  ['Google Pixel 10', 'smartphones', 'Google'],
-];
-
-const additions = picks.map(([name, category, brand]): FeaturedProduct => {
-  const item = catalogItems.find(item => item.model === name && item.price !== null && item.price > 0);
-  if (!item || item.price === null) throw new Error(`Missing popular product: ${name}`);
+const categoryNames: Record<string, [ProductCategory, string]> = {
+  iphones: ['smartphones', 'Apple'], samsung: ['smartphones', 'Samsung'],
+  smartphones: ['smartphones', ''], google: ['smartphones', 'Google'],
+  xiaomi: ['smartphones', 'Xiaomi'], macbooks: ['laptops', 'Apple'],
+  ipads: ['tablets', 'Apple'], watches: ['watches', 'Apple'],
+  audio: ['audio', ''], playstation: ['gaming', ''], dyson: ['dyson', 'Dyson'],
+  cameras: ['cameras', ''], gadgets: ['accessories', ''],
+};
+function card(item: CatalogItem): FeaturedProduct {
+  const [category, brand] = categoryNames[item.category ?? 'gadgets'];
   return {
     model: { id: item.modelSlug, slug: item.modelSlug, name: item.model, brand, category },
     sku: {
       id: item.id, modelId: item.modelSlug, storage: item.storage, sim: item.sim,
       color: item.color, colorSlug: item.color.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-      price: item.price, image: item.image, availability: {},
+      price: item.price!, image: item.image, availability: {},
     },
   };
-});
-
+}
+const priced = catalogItems.filter((item) => item.price !== null && item.price > 0);
+const selected = new Set(featuredProducts.map((entry) => entry.sku.id));
+const additions: CatalogItem[] = [];
+for (const category of ['samsung', 'audio', 'cameras', 'watches', 'playstation', 'dyson', 'google', 'xiaomi', 'smartphones', 'gadgets']) {
+  const item = priced.find((entry) => entry.category === category && !selected.has(entry.id) && !entry.image.includes('product-photo-pending'))
+    ?? priced.find((entry) => entry.category === category && !selected.has(entry.id));
+  if (item) { selected.add(item.id); additions.push(item); }
+}
+for (const item of priced) {
+  if (featuredProducts.length + additions.length >= 16) break;
+  if (selected.has(item.id) || additions.some((entry) => entry.model === item.model)) continue;
+  selected.add(item.id); additions.push(item);
+}
 export const popularProducts: FeaturedProduct[] = [
-  featuredProducts[0], ...additions.slice(0, 3),
-  featuredProducts[1], additions[3], featuredProducts[2], additions[4],
-  additions[5], additions[6], featuredProducts[3], additions[7],
-  ...additions.slice(8),
-];
+  ...featuredProducts, ...additions.map(card),
+].slice(0, 16);

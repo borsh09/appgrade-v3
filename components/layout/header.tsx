@@ -24,7 +24,7 @@ import {
 import { useCommerce } from '@/components/providers/commerce-provider';
 import { useCity } from '@/components/providers/city-provider';
 
-import { searchIndex as baseSearchIndex } from '@/data/search-index';
+import type { searchIndex as SearchIndex } from '@/data/search-index';
 import { usePricedCatalog } from '@/components/providers/price-provider';
 import { getGroupedCatalogSearchResults } from '@/lib/catalog-search';
 
@@ -35,6 +35,7 @@ const money = new Intl.NumberFormat('ru-RU');
 
 
 export function Header() {
+  const [baseSearchIndex, setBaseSearchIndex] = useState<typeof SearchIndex>([]);
   const searchIndex = usePricedCatalog(baseSearchIndex);
   const searchRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDialogElement>(null);
@@ -45,6 +46,15 @@ export function Header() {
 
   const [query, setQuery] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
+
+  useEffect(() => {
+    if (baseSearchIndex.length || (!searchOpen && query.trim().length < 2)) return;
+    let active = true;
+    void import('@/data/search-index').then(({ searchIndex }) => {
+      if (active) setBaseSearchIndex(searchIndex);
+    });
+    return () => { active = false; };
+  }, [baseSearchIndex.length, searchOpen, query]);
 
   const {
     cartCount,

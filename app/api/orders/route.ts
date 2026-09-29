@@ -1,7 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { database, transaction } from '@/lib/server/db';
-import { basePrices } from '@/lib/catalog-registry';
+import { basePrices, parserUnavailableIds } from '@/lib/catalog-registry';
 import { OrderError, orderMessages, validateOrder } from '@/lib/server/orders';
 import { protectSubmission } from '@/lib/server/request-guard';
 
@@ -79,6 +79,7 @@ export async function POST(request: NextRequest) {
         ...basePrices,
         ...state.rows[0].prices,
         ...Object.fromEntries((await client.query('SELECT sku,price FROM appgrade_city_prices WHERE city=$1',[payload.city?.id])).rows.map(row=>[row.sku,row.price])),
+        ...Object.fromEntries([...parserUnavailableIds].map((id) => [id, null])),
       });
       const key = createHash('sha256')
         .update(order.customer.phone.replace(/\D/g, ''))

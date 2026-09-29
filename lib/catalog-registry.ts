@@ -10,7 +10,9 @@ import { xiaomiCatalog } from '@/data/xiaomi-catalog';
 import { cameraCatalog } from '@/data/camera-catalog';
 import { dysonCatalog } from '@/data/dyson-catalog';
 import { additionalCatalog } from '@/data/additional-catalog';
-import baseline from '@/data/price-baseline.json';
+import parserUnavailable from '@/data/parser-unavailable.json';
+import parserActiveIds from '@/data/parser-active-ids.json';
+import parserPrices from '@/data/parser-prices.json';
 
 export type CatalogItem = {
   id: string;
@@ -32,7 +34,10 @@ export type CatalogItem = {
   gallery?: string[];
   category?: string;
   legacySlug?: string;
+  photoApproximate?: boolean;
 };
+export const parserUnavailableIds = new Set<string>(parserUnavailable);
+const parserActiveIdSet = new Set<string>(parserActiveIds);
 export const catalogItems: CatalogItem[] = [
   ...iphoneCatalog.map(item => ({ ...item, category: 'iphones' })),
   ...samsungCatalog.map(item => ({ ...item, category: 'samsung' })),
@@ -46,10 +51,11 @@ export const catalogItems: CatalogItem[] = [
   ...cameraCatalog.map(item => ({ ...item, category: 'cameras' })),
   ...dysonCatalog.map(item => ({ ...item, category: 'dyson' })),
   ...additionalCatalog,
-];
+].filter(item => parserActiveIdSet.has(item.id))
+ .map(item => ({ ...item, price: parserUnavailableIds.has(item.id) ? null : Object.hasOwn(parserPrices, item.id) ? (parserPrices as Record<string, number | null>)[item.id] : item.price }));
 export const catalogById = new Map(catalogItems.map((item) => [item.id, item]));
 export const basePrices = Object.fromEntries(
-  catalogItems.map((item) => [item.id, (baseline as Record<string, number>)[item.id] ?? item.price]),
+  catalogItems.map((item) => [item.id, item.price]),
 );
 
 export function normalizeProductName(value: string) {
@@ -111,6 +117,7 @@ export function itemConfiguration(item: CatalogItem) {
     item.size,
     item.color,
     item.sim,
+    item.connectivity,
     item.configuration,
   ]
     .filter((value) => value && value !== '—')

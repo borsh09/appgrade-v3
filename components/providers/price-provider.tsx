@@ -1,5 +1,6 @@
 'use client';
-import { basePrices } from '@/lib/catalog-registry';
+import basePriceRows from '@/data/client-base-prices.json';
+import parserUnavailable from '@/data/parser-unavailable.json';
 import { useCity } from './city-provider';
 import {
   createContext,
@@ -11,6 +12,8 @@ import {
 } from 'react';
 
 type Prices = Record<string, number | null>;
+const basePrices: Prices = basePriceRows;
+const parserUnavailableIds = new Set<string>(parserUnavailable);
 const PriceContext = createContext<Prices>(basePrices);
 const CityPriceContext=createContext<Record<string,Record<string,number>>>({});
 const StockContext=createContext<Record<string,Record<string,number>>>({});
@@ -24,7 +27,7 @@ export function PriceProvider({ children }: { children: React.ReactNode }) {
     let revision = '';
     const controller = new AbortController();
     const refresh = async () => {
-      if (inFlight) return;
+      if (inFlight || document.hidden) return;
       inFlight = true;
       try {
         const response = await fetch('/api/prices', {
@@ -53,12 +56,14 @@ export function PriceProvider({ children }: { children: React.ReactNode }) {
     void refresh();
     const interval = window.setInterval(refresh, 30_000);
     window.addEventListener('focus', refresh);
+    document.addEventListener('visibilitychange', refresh);
     window.addEventListener('appgrade-prices-refresh', refresh);
     return () => {
       active = false;
       controller.abort();
       clearInterval(interval);
       window.removeEventListener('focus', refresh);
+      document.removeEventListener('visibilitychange', refresh);
       window.removeEventListener('appgrade-prices-refresh', refresh);
     };
   }, []);
@@ -72,6 +77,7 @@ export function usePriceResolver() {
   const {city}=useCity();
   return useCallback(
     <T extends { id: string; price: number | null }>(item: T): T => {
+      if (parserUnavailableIds.has(item.id)) return { ...item, price: null };
       const price = cityPrices[item.id]?.[city.id] ?? prices[item.id];
       return Object.hasOwn(prices, item.id) ? { ...item, price } : item;
     },

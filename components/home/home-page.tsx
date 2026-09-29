@@ -1,10 +1,9 @@
-'use client';
-
 import { HeroSection } from './hero-section';
 import { BrandMarquee } from './brand-marquee';
 import { CategoryShowcaseNew } from './category-showcase-new';
 import { PopularProducts } from './popular-products';
 import { Apple2027 } from './apple-2027';
+import { apple2027Products } from '@/data/apple-2027';
 import { TradeInBanner } from './trade-in-banner';
 import { PromoBento } from './promo-bento';
 import { ServiceStrip } from './service-strip';
@@ -25,7 +24,7 @@ export function HomePage() {
 
       <CategoryShowcaseNew />
 
-      <Apple2027 />
+      <Apple2027 products={apple2027Products} />
 
       <PopularProducts />
 

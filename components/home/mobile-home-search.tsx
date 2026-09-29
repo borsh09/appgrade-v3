@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Search, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from '@/components/shared/safe-link';
-import { searchIndex as baseSearchIndex } from '@/data/search-index';
+import type { searchIndex as SearchIndex } from '@/data/search-index';
 import { usePricedCatalog } from '@/components/providers/price-provider';
 import { getGroupedCatalogSearchResults } from '@/lib/catalog-search';
 import styles from './mobile-home-search.module.css';
@@ -13,10 +13,19 @@ const money = new Intl.NumberFormat('ru-RU');
 const searchExamples = ['iPhone 17 Pro Max', 'Samsung Galaxy Fold', 'AirPods Pro', 'MacBook Air', 'Marshall колонка'];
 
 export function MobileHomeSearch() {
+  const [baseSearchIndex, setBaseSearchIndex] = useState<typeof SearchIndex>([]);
   const searchIndex = usePricedCatalog(baseSearchIndex);
   const rootRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState('');
   const [focused, setFocused] = useState(false);
+  useEffect(() => {
+    if (baseSearchIndex.length || (!focused && query.trim().length < 2)) return;
+    let active = true;
+    void import('@/data/search-index').then(({ searchIndex }) => {
+      if (active) setBaseSearchIndex(searchIndex);
+    });
+    return () => { active = false; };
+  }, [baseSearchIndex.length, focused, query]);
   const [animatedPlaceholder, setAnimatedPlaceholder] = useState('Найти нужную модель');
   const results = useMemo(() => getGroupedCatalogSearchResults(searchIndex, query), [searchIndex, query]);
   const showResults = focused && query.trim().length >= 2;

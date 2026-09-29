@@ -1,5 +1,5 @@
 import { ADMIN_COOKIE, createAdminSession, validAdminSession, verifyCredentials } from '@/lib/server/admin';
-import { rateLimit, readJson, assertOrigin } from '@/lib/server/request-guard';
+import { protectAdminLogin, readJson, assertOrigin } from '@/lib/server/request-guard';
 import { OrderError } from '@/lib/server/orders';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -15,8 +15,9 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     assertOrigin(request);
-    await rateLimit('admin-login', request.headers.get('x-real-ip') || 'local', 10, 15);
-    const body = await readJson(request, 4096) as { user?: unknown; password?: unknown };
+    await protectAdminLogin(request);
+    const input = await readJson(request, 4096);
+    const body = input && typeof input === 'object' ? input as { user?: unknown; password?: unknown } : {};
     if (!verifyCredentials(body.user, body.password)) throw new OrderError('Неверный логин или пароль.', 401);
     const session = createAdminSession();
     const headers = new Headers({ 'Cache-Control': 'no-store', 'Content-Type': 'application/json' });

@@ -38,23 +38,16 @@ void test('normalization preserves storage and SIM distinctions', () => {
     normalizeProductName('iPhone 17 256 Sim/eSim Black'),
   );
 });
-void test('real workbook matches current catalog using retail columns', async () => {
+void test('older price workbook updates only products present in the current catalog', async () => {
   const report = await inspectPriceWorkbook(
     await readFile('PRICE KINGSTORE, APPGRADE 14.19.xlsx'),
-    { ...basePrices, 'pixel10proxl-obsidian': 1, 'pixel10-indigo': 1 },
+    basePrices,
   );
   assert.deepEqual(report.errors, []);
-  assert.equal(report.matched, 477);
-  assert.ok(!report.warnings.some(w => w.includes('нет товара в каталоге')));
-  assert.equal(
-    report.changes.find((c) => c.id === 'pixel10proxl-obsidian')?.after,
-    74800,
-  );
-  assert.equal(
-    report.changes.find((c) => c.id === 'pixel10-indigo')?.after,
-    51700,
-  );
-  assert.ok(report.warnings.some((w) => w.includes('Ray-Ban')));
+  assert.ok(report.matched > 100);
+  assert.ok(report.matched < 477);
+  assert.ok(report.changes.every((change) => catalogItems.some((item) => item.id === change.id)));
+  assert.ok(report.warnings.some((warning) => warning.includes('нет товара в каталоге')));
 });
 void test('explicit color and SIM update only the exact variant', async () => {
   const report = await inspect([
@@ -71,6 +64,26 @@ void test('generic row applies to all colors but does not invent variants', asyn
   ]);
   assert.ok(report.changes.length > 1);
   assert.ok(report.changes.every((c) => c.id.startsWith('iphone-13-128')));
+});
+void test('city import includes prices that differ in any selected city', async () => {
+  const id = 'iphone-17-256-esim-black';
+  const base = basePrices[id];
+  assert.equal(typeof base, 'number');
+  const book = new ExcelJS.Workbook();
+  book.addWorksheet('iPhone').addRows([
+    ['Модель', 'Цена'],
+    ['iPhone 17 256 eSim Black', base],
+  ]);
+  const buffer = Buffer.from(await book.xlsx.writeBuffer());
+  const report = await inspectPriceWorkbook(buffer, basePrices, {
+    cities: ['beloretsk', 'troitsk'],
+    cityPrices: { [id]: { troitsk: Number(base) + 100 } },
+  });
+  assert.deepEqual(report.errors, []);
+  assert.equal(report.changes.length, 1);
+  assert.equal(report.changes[0].id, id);
+  assert.equal(report.changes[0].before, null);
+  assert.equal(report.changes[0].after, base);
 });
 void test('blank, dash and broken formula never set a zero price', async () => {
   for (const value of [

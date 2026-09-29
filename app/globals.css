@@ -4217,6 +4217,12 @@ button:active,
   border-color: #202024;
   box-shadow: inset 0 0 0 1px #202024;
 }
+.product-photo-note {
+  margin: 10px 0 0;
+  color: #77777d;
+  font-size: 12px;
+  line-height: 1.45;
+}
 .product-section-nav {
   position: sticky;
   top: 0;
@@ -4298,6 +4304,12 @@ button:active,
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 50px 65px;
+}
+.product-spec-note {
+  margin: 28px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
 }
 .product-spec-group h3 {
   font-size: 22px;
@@ -11213,50 +11225,6 @@ body {
    HERO — DESKTOP IMAGE / MOBILE VIDEO
    ========================================================= */
 
-.appgrade-hero-desktop-media {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.appgrade-hero-desktop-image {
-  object-fit: cover;
-  object-position: center;
-}
-
-.appgrade-hero-mobile-video {
-  display: none;
-}
-
-.appgrade-mobile-sound-button {
-  display: none;
-}
-
-/* MOBILE */
-
-@media (max-width: 768px) {
-  .appgrade-hero-desktop-media {
-    display: none;
-  }
-
-  .appgrade-hero-mobile-video {
-    display: block;
-
-    position: absolute;
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-    object-position: center;
-  }
-
-  .appgrade-mobile-sound-button {
-    display: inline-flex;
-  }
-}
-
 /* =========================================================
    APPGRADE — POPULAR PRODUCTS
    ========================================================= */
@@ -12673,26 +12641,6 @@ body {
    DESKTOP IMAGE / MOBILE VIDEO
    ========================================================= */
 
-.appgrade-hero-desktop-media {
-  position: absolute;
-  inset: 0;
-
-  z-index: 0;
-}
-
-.appgrade-hero-desktop-image {
-  object-fit: cover;
-  object-position: center;
-}
-
-.appgrade-hero-mobile-video {
-  display: none;
-}
-
-.appgrade-mobile-sound-button {
-  display: none;
-}
-
 /* =========================================================
    MOBILE
    ========================================================= */
@@ -12709,34 +12657,6 @@ body {
     width: 98px;
   }
 
-  .appgrade-hero-brand-logo {
-    margin-bottom: 14px;
-  }
-
-  .appgrade-hero-brand-logo img {
-    height: 18px;
-  }
-
-  .appgrade-hero-desktop-media {
-    display: none;
-  }
-
-  .appgrade-hero-mobile-video {
-    display: block;
-
-    position: absolute;
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-    object-position: center;
-  }
-
-  .appgrade-mobile-sound-button {
-    display: inline-flex;
-  }
 }
 
 /* =========================================================
@@ -18500,74 +18420,6 @@ html body .normalized-product-photo .normalized-product-photo-source img {
   }
 }
 
-/* Global route loading screen */
-.appgrade-loading {
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  display: grid;
-  place-items: center;
-  min-height: 100dvh;
-  padding: 24px;
-  background: #050505;
-}
-.appgrade-startup-loader { position: fixed; inset: 0; z-index: 9999; transition: opacity .35s ease, visibility .35s ease; }
-.appgrade-startup-loader.is-leaving { opacity: 0; visibility: hidden; }
-
-.appgrade-loading-content {
-  display: grid;
-  justify-items: center;
-  width: min(280px, 72vw);
-  gap: 28px;
-}
-
-.appgrade-loading-content img {
-  display: block;
-  width: min(240px, 64vw);
-  height: auto;
-  object-fit: contain;
-}
-
-.appgrade-loading-track {
-  position: relative;
-  width: 100%;
-  height: 3px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-}
-
-.appgrade-loading-track span {
-  position: absolute;
-  inset-block: 0;
-  left: 0;
-  width: 42%;
-  border-radius: inherit;
-  background: #e5332a;
-  box-shadow: 0 0 18px rgba(229, 51, 42, 0.48);
-  animation: appgrade-loading-progress 1.15s cubic-bezier(.65, 0, .35, 1) infinite;
-}
-
-@keyframes appgrade-loading-progress {
-  0% {
-    transform: translateX(-110%);
-  }
-  55% {
-    width: 58%;
-  }
-  100% {
-    width: 42%;
-    transform: translateX(245%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .appgrade-loading-track span {
-    width: 55%;
-    animation: none;
-  }
-}
-
 /* Compact home offer carousel */
 .appgrade-promo-carousel-section { padding: 22px 0 48px; background: #f5f5f3; }
 .appgrade-promo-carousel { position: relative; height: 190px; overflow: hidden; border-radius: 26px; background: #e5332a; color: #fff; }
@@ -19181,4 +19033,20 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   .admin-entry-hero-count {
     display: none;
   }
+}
+
+.catalog-load-more {
+  display: block;
+  margin: 28px auto 48px;
+  padding: 12px 24px;
+  border: 1px solid #d9d9dc;
+  border-radius: 999px;
+  background: #fff;
+  color: #202024;
+  font: inherit;
+  cursor: pointer;
+}
+.catalog-load-more:hover,
+.catalog-load-more:focus-visible {
+  border-color: #202024;
 }

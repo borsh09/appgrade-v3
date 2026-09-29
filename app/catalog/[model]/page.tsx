@@ -1,7 +1,7 @@
 import { selectProduct } from '@/lib/product-selection';
 import { iphoneCatalog } from '@/data/iphone-catalog';
-import { additionalCatalog } from '@/data/additional-catalog';
 import { AdditionalProductPage } from '@/components/catalog/supplemental-product-page';
+import { getProductDetails } from '@/lib/product-details';
 import { IphoneProductPage } from '@/components/catalog/iphone-product-page';
 import { samsungCatalog } from '@/data/samsung-catalog';
 import { SamsungProductPage } from '@/components/catalog/samsung-product-page';
@@ -25,31 +25,22 @@ import { xiaomiCatalog } from '@/data/xiaomi-catalog';
 import { XiaomiProductPage } from '@/components/catalog/xiaomi-product-page';
 
 export function generateStaticParams() {
-  return [
-    ...new Set([
-      ...additionalCatalog.map((sku) => sku.modelSlug),
-      ...iphoneCatalog.map((sku) => sku.modelSlug),
-      ...samsungCatalog.map((sku) => sku.modelSlug),
-      ...macbookCatalog.map((sku) => sku.modelSlug),
-      ...ipadCatalog.map((sku) => sku.modelSlug),
-      ...audioCatalog.map((sku) => sku.modelSlug),
-      ...watchCatalog.map((sku) => sku.modelSlug),
-      ...playstationCatalog.map((sku) => sku.modelSlug),
-      ...googleCatalog.map((sku) => sku.modelSlug),
-      ...dysonCatalog.map((sku) => sku.modelSlug),
-      ...cameraCatalog.map((sku) => sku.modelSlug),
-      ...xiaomiCatalog.map((sku) => sku.modelSlug),
-    ]),
-  ].map((model) => ({ model }));
+  return [...new Set(catalogItems.filter((item) => !item.id.startsWith('parser-sheet1-')).map((item) => item.modelSlug))]
+    .map((model) => ({ model }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ model: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: { params: Promise<{ model: string }>; searchParams: Promise<{ sku?: string }> }): Promise<Metadata> {
   const { model } = await params;
-  const product = catalogItems.find(item => item.modelSlug === model);
+  const { sku } = await searchParams;
+  const candidates = catalogItems.filter(item => item.modelSlug === model || item.legacySlug === model);
+  const product = candidates.find(item => item.id === sku) ?? candidates[0];
   if (!product) notFound();
+  const title = product.priceAlias ?? product.model;
   return {
-    title: `${product.model} — APPGRADE`,
-    description: `${product.model}: выбор конфигурации, актуальная цена и оформление заказа в APPGRADE.`,
+    title: `${title} — APPGRADE`,
+    description: product.priceAlias
+      ? getProductDetails(product).description.slice(0, 240)
+      : `${product.model}: выбор конфигурации, актуальная цена и оформление заказа в APPGRADE.`,
   };
 }
 
@@ -71,13 +62,13 @@ export default async function ProductModelRoute({
 }) {
   const params = await paramsPromise;
   const searchParams = await searchParamsPromise;
-  const legacy = additionalCatalog.find(item => item.legacySlug === params.model && item.legacySlug !== item.modelSlug);
+  const legacy = catalogItems.find(item => item.legacySlug === params.model && item.legacySlug !== item.modelSlug);
   const candidates = catalogItems.filter(item => item.modelSlug === (legacy?.modelSlug ?? params.model));
   const target = selectProduct(candidates, legacy ? { ...searchParams, sku: searchParams.sku ?? legacy.id } : searchParams);
   if (!target) notFound();
-  if (target.priceAlias) return <AdditionalProductPage selected={target} variants={candidates} />;
+  if (target.priceAlias || parserUnavailableIds.has(target.id)) return <AdditionalProductPage selected={target} details={getProductDetails(target)} />;
   const xiaomiVariants = xiaomiCatalog.filter(
-    (sku) => sku.modelSlug === params.model,
+    (sku) => sku.modelSlug === params.model && activeIds.has(sku.id),
   );
   if (xiaomiVariants.length) {
     const selectedXiaomi =
@@ -91,7 +82,7 @@ export default async function ProductModelRoute({
     );
   }
   const cameraVariants = cameraCatalog.filter(
-    (sku) => sku.modelSlug === params.model,
+    (sku) => sku.modelSlug === params.model && activeIds.has(sku.id),
   );
   if (cameraVariants.length) {
     const selectedCamera =
@@ -101,7 +92,7 @@ export default async function ProductModelRoute({
     );
   }
   const dysonVariants = dysonCatalog.filter(
-    (sku) => sku.modelSlug === params.model,
+    (sku) => sku.modelSlug === params.model && activeIds.has(sku.id),
   );
   if (dysonVariants.length) {
     const selectedDyson =
@@ -111,7 +102,7 @@ export default async function ProductModelRoute({
     );
   }
   const googleVariants = googleCatalog.filter(
-    (sku) => sku.modelSlug === params.model,
+    (sku) => sku.modelSlug === params.model && activeIds.has(sku.id),
   );
   if (googleVariants.length) {
     const selectedGoogle =
@@ -125,7 +116,7 @@ export default async function ProductModelRoute({
     );
   }
   const playstationVariants = playstationCatalog.filter(
-    (sku) => sku.modelSlug === params.model,
+    (sku) => sku.modelSlug === params.model && activeIds.has(sku.id),
   );
   if (playstationVariants.length) {
     const selectedPlaystation =
@@ -138,7 +129,7 @@ export default async function ProductModelRoute({
     );
   }
   const watchVariants = watchCatalog.filter(
-    (sku) => sku.modelSlug === params.model,
+    (sku) => sku.modelSlug === params.model && activeIds.has(sku.id),
   );
   if (watchVariants.length) {
     const selectedWatch =
@@ -152,7 +143,7 @@ export default async function ProductModelRoute({
     );
   }
   const audioVariants = audioCatalog.filter(
-    (sku) => sku.modelSlug === params.model,
+    (sku) => sku.modelSlug === params.model && activeIds.has(sku.id),
   );
   if (audioVariants.length) {
     const selectedAudio =
@@ -167,7 +158,7 @@ export default async function ProductModelRoute({
     );
   }
   const ipadVariants = ipadCatalog.filter(
-    (sku) => sku.modelSlug === params.model,
+    (sku) => sku.modelSlug === params.model && activeIds.has(sku.id),
   );
   if (ipadVariants.length) {
     const selectedIpad =
@@ -182,7 +173,7 @@ export default async function ProductModelRoute({
     );
   }
   const macbookVariants = macbookCatalog.filter(
-    (sku) => sku.modelSlug === params.model,
+    (sku) => sku.modelSlug === params.model && activeIds.has(sku.id),
   );
   if (macbookVariants.length) {
     const selectedMacbook =
@@ -197,7 +188,7 @@ export default async function ProductModelRoute({
     );
   }
   const samsungVariants = samsungCatalog.filter(
-    (sku) => sku.modelSlug === params.model,
+    (sku) => sku.modelSlug === params.model && activeIds.has(sku.id),
   );
   if (samsungVariants.length) {
     const selectedSamsung =
@@ -212,7 +203,7 @@ export default async function ProductModelRoute({
     );
   }
   const variants = iphoneCatalog.filter(
-    (sku) => sku.modelSlug === params.model,
+    (sku) => sku.modelSlug === params.model && activeIds.has(sku.id),
   );
   const model = variants[0]?.model ?? params.model.replaceAll('-', ' ');
   const selected =
@@ -229,4 +220,6 @@ export default async function ProductModelRoute({
 }
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { catalogItems } from '@/lib/catalog-registry';
+import { catalogItems, parserUnavailableIds } from '@/lib/catalog-registry';
+
+const activeIds = new Set(catalogItems.map((item) => item.id));
