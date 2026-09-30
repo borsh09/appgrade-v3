@@ -31,6 +31,35 @@ export async function readJson(request: Request, maximum = 32768): Promise<unkno
   try { return JSON.parse(Buffer.concat(chunks).toString('utf8')); }
   catch { throw new OrderError('Некорректный запрос.'); }
 }
+export async function readFormData(request: Request, maximum: number): Promise<FormData> {
+  const contentType = request.headers.get('content-type') || '';
+  if (!contentType.toLowerCase().startsWith('multipart/form-data;'))
+    throw new OrderError('Ожидается форма с файлом.');
+  const declaredLength = Number(request.headers.get('content-length'));
+  if (declaredLength > maximum) throw new OrderError('Слишком большой файл.', 413);
+  const reader = request.body?.getReader();
+  if (!reader) throw new OrderError('Пустая форма.');
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    size += value.length;
+    if (size > maximum) {
+      throw new OrderError('Слишком большой файл.', 413);
+    }
+    chunks.push(value);
+  }
+  try {
+    return await new Request(request.url, {
+      method: 'POST',
+      headers: { 'Content-Type': contentType },
+      body: Buffer.concat(chunks),
+    }).formData();
+  } catch {
+    throw new OrderError('Некорректная форма загрузки.');
+  }
+}
 export async function rateLimit(scope: string, key: string, limit: number, minutes = 10) {
   const hash = createHash('sha256').update(`${scope}:${key}`).digest('hex');
   const { rows } = await database().query(`INSERT INTO appgrade_rate_limits(key,count,expires_at) VALUES($1,1,now()+$2*interval '1 minute')

@@ -23,6 +23,7 @@ for (const store of Object.values(STORES)) {
   if (!store.address || !store.phone || !store.schedule) failures.push(`${store.city}: заполните адрес, телефон и режим работы`);
 }
 if (!existsSync('app/privacy/page.tsx')) failures.push('Нужна политика обработки персональных данных с реквизитами продавца');
+if (!existsSync('app/consent/page.tsx')) failures.push('Нужен отдельный текст согласия на обработку персональных данных');
 const target = process.argv.find(arg => arg.startsWith('--url='))?.slice(6);
 if (target) {
   try {

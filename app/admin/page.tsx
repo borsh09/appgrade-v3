@@ -53,7 +53,12 @@ type Report = {
     source: string;
   }[];
   matched: number;
+  matchedRows?: number;
   unchanged: number;
+  inputRows?: number;
+  unmatchedRows?: number;
+  unavailableRows?: number;
+  articleMappings?: Record<string, string>;
   warnings: string[];
   errors: string[];
 };
@@ -824,7 +829,7 @@ function Prices({
               <FileSpreadsheet />
               <span>
                 <strong>Выберите файл .xlsx</strong>
-                <small>Исходный формат прайса APPGRADE</small>
+                <small>Цены берутся с листа «Сайт Аппгрейд»: Артикул, Название, Цена. Артикулы из каталога сопоставляются автоматически. Лист «Товары сайта» служит для сверки.</small>
               </span>
               <input type="file" name="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={(event) => setSelectedFile(event.currentTarget.files?.[0] ?? null)} />
               <em className="admin-file-name">{selectedFile ? selectedFile.name : 'Файл ещё не выбран'}</em>
@@ -873,6 +878,18 @@ function Prices({
             </span>
           </div>
           <div className="admin-report-stats">
+            {draft.report.inputRows !== undefined && (
+              <span><strong>{draft.report.inputRows}</strong> товарных строк</span>
+            )}
+            {(draft.report.unmatchedRows ?? 0) > 0 && (
+              <span><strong>{draft.report.unmatchedRows}</strong> без совпадения</span>
+            )}
+            {draft.report.matchedRows !== undefined && (
+              <span><strong>{draft.report.matchedRows}</strong> строк связано по артикулу</span>
+            )}
+            {(draft.report.unavailableRows ?? 0) > 0 && (
+              <span><strong>{draft.report.unavailableRows}</strong> не продаётся (цена 1)</span>
+            )}
             <span>
               <strong>{draft.report.matched}</strong> сопоставлено
             </span>
@@ -904,13 +921,15 @@ function Prices({
               {x}
             </p>
           ))}
-          {draft.report.changes.length > 0 && draft.report.errors.length === 0 && (
+          {(draft.report.changes.length > 0 || Object.keys(draft.report.articleMappings ?? {}).length > 0) && draft.report.errors.length === 0 && (
             <button
               className="admin-primary"
               disabled={busy}
               onClick={() => void priceAction('apply', draft.id)}
             >
-              <Check /> Применить корректные {draft.report.changes.length} изменений
+              <Check /> {draft.report.changes.length > 0
+                ? `Применить ${draft.report.changes.length} изменений цен и связи артикулов`
+                : `Сохранить связи ${Object.keys(draft.report.articleMappings ?? {}).length} артикулов`}
             </button>
           )}
         </section>

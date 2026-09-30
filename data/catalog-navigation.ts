@@ -99,3 +99,15 @@ export const catalogCategories: CatalogCategory[] = [
     description: 'Аксессуары и другая техника',
   },
 ];
+
+const categoryGroups = [
+  { title: 'Смартфоны', ids: ['iphone', 'samsung', 'xiaomi', 'google', 'smartphones'] },
+  { title: 'Компьютеры и планшеты', ids: ['macbook', 'ipad'] },
+  { title: 'Аудио и часы', ids: ['audio', 'watches'] },
+  { title: 'Игры, фото и аксессуары', ids: ['gaming', 'cameras', 'dyson', 'accessories'] },
+] as const;
+
+export const catalogCategoryGroups = categoryGroups.map(group => ({
+  title: group.title,
+  categories: catalogCategories.filter(category => (group.ids as readonly string[]).includes(category.id)),
+}));

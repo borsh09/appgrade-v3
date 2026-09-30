@@ -4,8 +4,9 @@ import { basePrices, catalogItems } from '@/lib/catalog-registry';
 import { validateOrder, orderMessages } from '@/lib/server/orders';
 import { calculateTradeInEstimate, tradeInDiscount, tradeInModels, tradeInPrices, type TradeInSelection } from '@/lib/trade-in-estimate';
 
-const item = catalogItems[0];
+const item = catalogItems.find(product => product.category === 'iphones' && product.price !== null)!;
 export const sampleOrder = () => ({
+  consent: true,
   customer: {
     name: 'Тестовый клиент',
     phone: '+7 999 123-45-67',
@@ -19,6 +20,9 @@ export const sampleOrder = () => ({
   serviceIds: ['transfer'],
   items: [{ id: item.id, name: 'Подмена', price: item.price, quantity: 2 }],
   total: 1,
+});
+void test('order processing requires an explicit personal data consent', () => {
+  assert.throws(() => validateOrder({ ...sampleOrder(), consent: false }, basePrices), /согласие на обработку персональных данных/i);
 });
 void test('server uses catalog names, configured city and authoritative totals', () => {
   const result = validateOrder(sampleOrder(), basePrices);

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { assertOrigin } from '../lib/server/request-guard';
+import { assertOrigin, readFormData } from '../lib/server/request-guard';
 
 void test('origin guard accepts equivalent local hosts but rejects external origins', () => {
   const previous = process.env.APP_ORIGIN;
@@ -12,4 +12,16 @@ void test('origin guard accepts equivalent local hosts but rejects external orig
   } finally {
     if (previous === undefined) delete process.env.APP_ORIGIN; else process.env.APP_ORIGIN = previous;
   }
+});
+
+void test('multipart uploads are rejected before an oversized body is parsed', async () => {
+  const form = new FormData();
+  form.set('file', new File([new Uint8Array(4096)], 'prices.xlsx'));
+  const request = new Request('http://localhost:3000/api/admin/prices', { method: 'POST', body: form });
+  await assert.rejects(() => readFormData(request, 1024), { status: 413 });
+
+  const small = new FormData();
+  small.set('file', new File(['test'], 'prices.xlsx'));
+  const parsed = await readFormData(new Request('http://localhost:3000/api/admin/prices', { method: 'POST', body: small }), 1024);
+  assert.equal((parsed.get('file') as File).name, 'prices.xlsx');
 });

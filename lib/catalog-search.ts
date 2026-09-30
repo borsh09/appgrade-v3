@@ -62,6 +62,7 @@ function tokenMatches(token: string, words: string[]) {
 
 export function catalogItemSearchText(item: CatalogItem) {
   return normalizeSearchText([
+    item.article,
     item.brand,
     item.model,
     item.priceAlias,

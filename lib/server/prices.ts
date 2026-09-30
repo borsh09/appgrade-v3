@@ -87,8 +87,20 @@ export async function applyImport(id: string, owner: string, chat: string) {
     const report = draft.report as ImportReport;
     if (report.errors.length)
       throw new OrderError('В прайс-листе есть ошибки. Исправьте файл и загрузите его заново.');
-    if (!report.changes.length)
+    const articleMappings = report.articleMappings ?? {};
+    if (!report.changes.length && !Object.keys(articleMappings).length)
       throw new OrderError('Нет изменений, которые можно применить.');
+    for (const [article, sku] of Object.entries(articleMappings)) {
+      if (!catalogById.has(sku)) throw new OrderError(`Invalid SKU for article ${article}.`);
+      await client.query(
+        'INSERT INTO appgrade_product_articles(article,sku) VALUES($1,$2) ON CONFLICT(article) DO UPDATE SET sku=$2,updated_at=now()',
+        [article, sku],
+      );
+    }
+    if (!report.changes.length) {
+      await client.query("UPDATE appgrade_imports SET status = 'applied' WHERE id = $1", [id]);
+      return `Saved ${Object.keys(articleMappings).length} product article links. No prices changed.`;
+    }
     const targetCities: string[] = Array.isArray(draft.target_cities) ? draft.target_cities.filter((city: unknown): city is string => typeof city === 'string') : [];
     if (targetCities.length) {
       const keys = report.changes.flatMap((change) => targetCities.map((city) => ({ sku: change.id, city })));

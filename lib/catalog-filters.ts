@@ -40,7 +40,7 @@ export function matchesSelection(item: CatalogItem, selection: FilterSelection, 
 }
 
 export function getFacetOptions(items: CatalogItem[], selection: FilterSelection, key: FilterKey) {
-  const source = key === 'model' ? items : items.filter(item => matchesSelection(item, selection, key));
+  const source = items.filter(item => matchesSelection(item, selection, key));
   return [...new Set(source.map(item => item[key]).filter((value): value is string => Boolean(value && value !== '—')))]
     .sort((a, b) => a.localeCompare(b, 'ru', { numeric: true }));
 }

@@ -5,6 +5,7 @@ import { productHref } from '../lib/product-selection';
 // Keep the browser search index small: galleries and supplier metadata stay on the server.
 const searchIndex = catalogItems.map(item => ({
   id: item.id,
+  article: item.article,
   model: item.model,
   name: item.model,
   modelSlug: item.modelSlug,

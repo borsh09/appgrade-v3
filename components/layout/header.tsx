@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { BrandWordmark } from '@/components/shared/brand-wordmark';
-import { catalogCategories } from '@/data/catalog-navigation';
+import { catalogCategoryGroups } from '@/data/catalog-navigation';
 import Link from '@/components/shared/safe-link';
 
 import {
@@ -28,8 +28,6 @@ import type { searchIndex as SearchIndex } from '@/data/search-index';
 import { usePricedCatalog } from '@/components/providers/price-provider';
 import { getGroupedCatalogSearchResults } from '@/lib/catalog-search';
 
-const menuCategories = catalogCategories;
-
 const money = new Intl.NumberFormat('ru-RU');
 
 
@@ -42,7 +40,6 @@ export function Header() {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [catalogOpen, setCatalogOpen] = useState(false);
-  const [mobileCatalogOpen, setMobileCatalogOpen] = useState(false);
 
   const [query, setQuery] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
@@ -155,7 +152,6 @@ export function Header() {
       }
 
       setMenuOpen(false);
-      setMobileCatalogOpen(false);
       setCatalogOpen(false);
       setSearchOpen(false);
     };
@@ -179,7 +175,6 @@ export function Header() {
 
   const closeMobileMenu = () => {
     setMenuOpen(false);
-    setMobileCatalogOpen(false);
   };
 
   const toggleMenu = () => {
@@ -378,18 +373,15 @@ export function Header() {
             </div>
 
             <div className="appgrade-catalog-grid">
-              {menuCategories.map((item) => (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  onClick={() => setCatalogOpen(false)}
-                >
-                  {item.title}
-
-                  <span>
-                    ↗
-                  </span>
-                </Link>
+              {catalogCategoryGroups.map(group => (
+                <section className="appgrade-catalog-group" key={group.title}>
+                  <h3>{group.title}</h3>
+                  {group.categories.map(item => (
+                    <Link key={item.id} href={item.href} onClick={() => setCatalogOpen(false)}>
+                      {item.title}<span aria-hidden="true">→</span>
+                    </Link>
+                  ))}
+                </section>
               ))}
             </div>
 
@@ -544,46 +536,20 @@ export function Header() {
 
           <nav className="appgrade-mobile-links">
 
-            <button
-              type="button"
-              aria-expanded={mobileCatalogOpen}
-              aria-controls="appgrade-mobile-categories"
-              className={`appgrade-mobile-catalog-toggle ${
-                mobileCatalogOpen ? 'is-open' : ''
-              }`}
-              onClick={() =>
-                setMobileCatalogOpen(
-                  (value) => !value,
-                )
-              }
-            >
-              <span>
-                Каталог
-              </span>
-
-              <ChevronDown size={17} />
-            </button>
-
-            <div
-              id="appgrade-mobile-categories"
-              inert={!mobileCatalogOpen}
-              className={`appgrade-mobile-categories ${
-                mobileCatalogOpen ? 'is-open' : ''
-              }`}
-            >
-              <div className="appgrade-mobile-categories-inner">
-
-                {menuCategories.map((item) => (
-                  <Link
-                    key={item.id}
-                    href={item.href}
-                    onClick={closeMobileMenu}
-                  >
-                    {item.title}
-                  </Link>
-                ))}
-
-              </div>
+            <Link className="appgrade-mobile-all-catalog" href="/catalog" onClick={closeMobileMenu}>
+              Весь каталог <span aria-hidden="true">→</span>
+            </Link>
+            <div className="appgrade-mobile-categories">
+              {catalogCategoryGroups.map(group => (
+                <section className="appgrade-mobile-category-group" key={group.title}>
+                  <h2>{group.title}</h2>
+                  <div className="appgrade-mobile-categories-inner">
+                    {group.categories.map(item => (
+                      <Link key={item.id} href={item.href} onClick={closeMobileMenu}>{item.title}</Link>
+                    ))}
+                  </div>
+                </section>
+              ))}
             </div>
 
             <Link
@@ -600,21 +566,7 @@ export function Header() {
                 ↗
               </span>
             </Link>
-
-            <Link
-              href="/catalog"
-              onClick={closeMobileMenu}
-            >
-              <span>
-                Весь каталог
-              </span>
-
-              <span>
-                ↗
-              </span>
-            </Link>
-
-            <Link
+<Link
               href="/#контакты"
               onClick={closeMobileMenu}
             >

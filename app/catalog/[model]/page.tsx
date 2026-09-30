@@ -24,11 +24,6 @@ import { CameraProductPage } from '@/components/catalog/camera-product-page';
 import { xiaomiCatalog } from '@/data/xiaomi-catalog';
 import { XiaomiProductPage } from '@/components/catalog/xiaomi-product-page';
 
-export function generateStaticParams() {
-  return [...new Set(catalogItems.filter((item) => !item.id.startsWith('parser-sheet1-')).map((item) => item.modelSlug))]
-    .map((model) => ({ model }));
-}
-
 export async function generateMetadata({ params, searchParams }: { params: Promise<{ model: string }>; searchParams: Promise<{ sku?: string }> }): Promise<Metadata> {
   const { model } = await params;
   const { sku } = await searchParams;

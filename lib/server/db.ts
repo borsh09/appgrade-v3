@@ -46,6 +46,9 @@ export async function migrate() {
       base_revision text NOT NULL, report jsonb NOT NULL, status text NOT NULL DEFAULT 'pending',
       created_at timestamptz NOT NULL DEFAULT now()
     );
+    CREATE TABLE IF NOT EXISTS appgrade_product_articles (
+      article text PRIMARY KEY, sku text NOT NULL, updated_at timestamptz NOT NULL DEFAULT now()
+    );
     ALTER TABLE appgrade_imports ADD COLUMN IF NOT EXISTS target_cities text[] NOT NULL DEFAULT '{}';
     CREATE TABLE IF NOT EXISTS appgrade_price_history (
       id uuid PRIMARY KEY, previous_prices jsonb NOT NULL, owner_id text NOT NULL,

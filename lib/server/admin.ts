@@ -47,8 +47,5 @@ function cookieValue(request: Request) {
 export function assertAdmin(request: Request) {
   configured();
   if (validAdminSession(cookieValue(request))) return;
-  const provided = request.headers.get('authorization') || '';
-  const expected = configured();
-  const basic = `Basic ${Buffer.from(`${expected.user}:${expected.password}`).toString('base64')}`;
-  if (!equal(provided, basic)) throw new OrderError('Требуется вход в панель управления.', 401);
+  throw new OrderError('Требуется вход в панель управления.', 401);
 }

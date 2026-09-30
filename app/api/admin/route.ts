@@ -12,6 +12,7 @@ const reply=(data:unknown,status=200)=>Response.json(data,{status,headers:{'Cach
 const failure=(error:unknown)=>reply({error:error instanceof OrderError?error.message:'Не удалось выполнить операцию.'},error instanceof OrderError?error.status:503);
 export async function GET(request:Request){try{
   assertAdmin(request);
+  if(!process.env.DATABASE_URL)throw new OrderError('Админка недоступна: база PostgreSQL не подключена (DATABASE_URL).',503);
   const [prices,inventory,cityPrices,orders,leads,orderSummary,tradeInSummary,metrics,health,history,imports,audit]=await Promise.all([
     database().query('SELECT revision,prices,updated_at FROM appgrade_prices WHERE singleton=true'),
     database().query('SELECT * FROM appgrade_inventory'),
@@ -29,6 +30,7 @@ export async function GET(request:Request){try{
 }catch(error){return failure(error);}}
 export async function PATCH(request:Request){try{
   assertAdmin(request);assertOrigin(request);
+  if(!process.env.DATABASE_URL)throw new OrderError('Админка недоступна: база PostgreSQL не подключена (DATABASE_URL).',503);
   const body=await readJson(request) as Record<string,unknown>;
   if(!body || typeof body!=='object') throw new OrderError('Некорректные данные.');
   await transaction(async client=>{

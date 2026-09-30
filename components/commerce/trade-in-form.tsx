@@ -35,7 +35,7 @@ export function TradeInForm({ selection, estimate }: Props) {
       <label><span>Ваше имя</span><input name="name" autoComplete="name" required maxLength={100} placeholder="Как к вам обращаться" /></label>
       <label><span>Телефон</span><input name="phone" type="tel" inputMode="tel" autoComplete="tel" required maxLength={30} placeholder="+7 999 000-00-00" /></label>
     </div>
-    <label className="appgrade-tradein-consent"><input name="consent" type="checkbox" required /><span>Согласен на обработку данных. <Link href="/privacy">Политика обработки данных</Link></span></label>
+    <label className="appgrade-tradein-consent"><input name="consent" type="checkbox" required /><span>Даю отдельное согласие на обработку персональных данных для рассмотрения заявки Trade-In. <Link href="/consent">Текст согласия</Link>. <Link href="/privacy">Политика обработки персональных данных</Link>.</span></label>
     <button className="appgrade-tradein-cta" disabled={busy}>{busy ? 'Отправляем…' : 'Получить точную оценку'}{!busy && <ArrowRight size={17} />}</button>
     {message && <output className="appgrade-tradein-error" role="alert">{message}</output>}
   </form>;

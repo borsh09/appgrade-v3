@@ -323,6 +323,8 @@ export function CartPage() {
   const [phone, setPhone] =
     useState('');
 
+  const [personalDataConsent, setPersonalDataConsent] = useState(false);
+
   const [touchedFields, setTouchedFields] =
     useState({
       name: false,
@@ -547,6 +549,7 @@ export function CartPage() {
   const checkoutReady =
     nameReady &&
     phoneReady &&
+    personalDataConsent &&
     deliveryReady &&
     (contactMethod !== 'telegram' || /^@?[a-zA-Z][a-zA-Z0-9_]{4,31}$/.test(telegramUsername.trim()));
 
@@ -641,6 +644,7 @@ export function CartPage() {
 
           comment,
         },
+        consent: personalDataConsent,
 
         city: {
           id:
@@ -1381,6 +1385,21 @@ export function CartPage() {
                         placeholder="Например: связаться после 18:00"
                       />
                     </label></details>
+
+                    <label className={styles.personalDataConsent}>
+                      <input
+                        type="checkbox"
+                        name="personalDataConsent"
+                        required
+                        checked={personalDataConsent}
+                        onChange={event => setPersonalDataConsent(event.target.checked)}
+                      />
+                      <span>
+                        Даю отдельное согласие на обработку персональных данных для оформления и сопровождения заказа.{' '}
+                        <Link href="/consent">Текст согласия</Link>.{' '}
+                        <Link href="/privacy">Политика обработки персональных данных</Link>.
+                      </span>
+                    </label>
                   </form>
                 </section>
               </div>

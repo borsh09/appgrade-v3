@@ -3,6 +3,7 @@ import { CITIES, type CityId } from '@/config/cities';
 import { STORES } from '@/config/stores';
 import { ORDER_SERVICES } from '@/config/order-services';
 import { parseTradeInQuote, tradeInDiscount } from '@/lib/trade-in-estimate';
+import { PERSONAL_DATA_CONSENT_VERSION } from '@/lib/personal-data-consent';
 
 export class OrderError extends Error {
   status: number;
@@ -30,6 +31,8 @@ export function validateOrder(
     customer = object(payload.customer);
   const name = text(customer.name, 100),
     phone = text(customer.phone, 30);
+  if (payload.consent !== true)
+    throw new OrderError('Подтвердите согласие на обработку персональных данных.');
   if (
     !/^\+?[\d\s()-]+$/.test(phone) ||
     phone.replace(/\D/g, '').length < 10 ||
@@ -131,6 +134,7 @@ export function validateOrder(
       comment: text(customer.comment, 1000, false),
       contactMethod,
       telegramUsername,
+      consent: { version: PERSONAL_DATA_CONSENT_VERSION, acceptedAt: new Date().toISOString() },
     },
     city: {
       id: cityId,

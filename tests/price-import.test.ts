@@ -9,15 +9,27 @@ import {
 } from '@/lib/catalog-registry';
 import { inspectPriceWorkbook, numericCell } from '@/lib/server/price-import';
 import { isPriceAdmin } from '@/bots/price-bot';
+import newPriceSource from '@/data/new-price-source.json';
 
-async function inspect(rows: unknown[][], sheet = 'iPhone') {
+async function inspect(rows: unknown[][], sheet = 'iPhone', articleMap: Record<string, string> = {}) {
   const book = new ExcelJS.Workbook();
   book.addWorksheet(sheet).addRows(rows);
   return inspectPriceWorkbook(
     Buffer.from(await book.xlsx.writeBuffer()),
     basePrices,
+    undefined,
+    articleMap,
   );
 }
+void test('price import rejects archives with excessive expanded size', async () => {
+  const book = new ExcelJS.Workbook();
+  book.addWorksheet('iPhone').addRow(['iPhone']);
+  const buffer = Buffer.from(await book.xlsx.writeBuffer());
+  const entry = buffer.indexOf(Buffer.from([0x50, 0x4b, 0x01, 0x02]));
+  assert.ok(entry >= 0);
+  buffer.writeUInt32LE(60 * 1024 * 1024, entry + 24);
+  await assert.rejects(() => inspectPriceWorkbook(buffer, basePrices), /слишком большой файл Excel/i);
+});
 void test('catalog has unique stable SKU identifiers', () => {
   assert.equal(
     new Set(catalogItems.map((i) => i.id)).size,
@@ -47,7 +59,64 @@ void test('older price workbook updates only products present in the current cat
   assert.ok(report.matched > 100);
   assert.ok(report.matched < 477);
   assert.ok(report.changes.every((change) => catalogItems.some((item) => item.id === change.id)));
-  assert.ok(report.warnings.some((warning) => warning.includes('нет товара в каталоге')));
+  assert.ok(report.warnings.some((warning) => warning.includes("\u043d\u0435\u0442 \u0442\u043e\u0432\u0430\u0440\u0430 \u0432 \u043a\u0430\u0442\u0430\u043b\u043e\u0433\u0435")));
+});
+void test('Site Appgrade sheet uses articles, final prices and blocks incomplete catalog matches', async () => {
+  const book = new ExcelJS.Workbook();
+  book.addWorksheet('\u0421\u0430\u0439\u0442 \u0410\u043f\u043f\u0433\u0440\u0435\u0439\u0434').addRows([
+    ['\u0410\u0440\u0442\u0438\u043a\u0443\u043b', '\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435', '\u0426\u0435\u043d\u0430'],
+    ['P-58689282', 'Xiaomi 15 12/256 Green', 55990],
+    ['P-58689282-OLD', 'Xiaomi 15 12/256 Green', 1],
+    ['P-UNKNOWN', 'Unknown product', 1999],
+    ['P-UNKNOWN-2', 'Another missing product', 1999],
+  ]);
+  const report = await inspectPriceWorkbook(
+    Buffer.from(await book.xlsx.writeBuffer()),
+    basePrices,
+  );
+  assert.equal(report.inputRows, 4);
+  assert.equal(report.matched, 1);
+  assert.equal(report.matchedRows, 2);
+  assert.equal(report.unmatchedRows, 2);
+  assert.equal(report.unavailableRows, 1);
+  assert.equal(report.changes[0].id, 'xiaomi-15-256-gb-green');
+  assert.ok(report.changes[0].source.includes('P-58689282'));
+  assert.ok(report.errors.some((error) => error.includes('Import is blocked')));
+});
+void test('Site Appgrade article links map once and remain usable without the extra SKU column', async () => {
+  const rows = [
+    ['\u0410\u0440\u0442\u0438\u043a\u0443\u043b', '\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435', '\u0426\u0435\u043d\u0430', 'SKU \u0441\u0430\u0439\u0442\u0430'],
+    ['P-ONE', 'Vendor name differs', 54990, 'xiaomi-15-256-gb-green'],
+    ['P-TWO', 'Another vendor name', 16990, 'parser-sheet1-1394'],
+  ];
+  const first = await inspect(rows, '\u0421\u0430\u0439\u0442 \u0410\u043f\u043f\u0433\u0440\u0435\u0439\u0434');
+  assert.deepEqual(first.errors, []);
+  assert.equal(first.matchedRows, 2);
+  assert.deepEqual(first.articleMappings, {
+    'P-ONE': 'xiaomi-15-256-gb-green',
+    'P-TWO': 'parser-sheet1-1394',
+  });
+  const next = await inspect([
+    ['\u0410\u0440\u0442\u0438\u043a\u0443\u043b', '\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435', '\u0426\u0435\u043d\u0430'],
+    ['P-ONE', 'Vendor name differs', 55990],
+    ['P-TWO', 'Another vendor name', 17990],
+  ], '\u0421\u0430\u0439\u0442 \u0410\u043f\u043f\u0433\u0440\u0435\u0439\u0434', first.articleMappings);
+  assert.deepEqual(next.errors, []);
+  assert.equal(next.matchedRows, 2);
+  assert.equal(next.changes.length, 2);
+});
+void test('Site Appgrade keeps unpriced catalog rows as references without importing them', async () => {
+  const report = await inspect([
+    ['Артикул', 'Название', 'Цена', 'Site SKU'],
+    ['P-58689282', 'Xiaomi 15 256 Green', 54990, 'xiaomi-15-256-gb-green'],
+    ['', 'iPhone 17 256 Black', null, 'iphone-17-256-esim-black'],
+  ], 'Сайт Аппгрейд');
+  assert.deepEqual(report.errors, []);
+  assert.equal(report.inputRows, 1);
+  assert.equal(report.matchedRows, 1);
+  assert.equal(report.matched, 1);
+  assert.deepEqual(report.articleMappings, { 'P-58689282': 'xiaomi-15-256-gb-green' });
+  assert.deepEqual(report.warnings, []);
 });
 void test('explicit color and SIM update only the exact variant', async () => {
   const report = await inspect([
@@ -57,13 +126,15 @@ void test('explicit color and SIM update only the exact variant', async () => {
   assert.equal(report.changes.length, 1);
   assert.equal(report.changes[0].id, 'iphone-17-256-esim-black');
 });
-void test('generic row applies to all colors but does not invent variants', async () => {
+void test('every price-list article imports without a separate SKU column', async () => {
   const report = await inspect([
-    ['Модель', 'Цена'],
-    ['iPhone 13 128', 47000],
-  ]);
-  assert.ok(report.changes.length > 1);
-  assert.ok(report.changes.every((c) => c.id.startsWith('iphone-13-128')));
+    ['Артикул', 'Название', 'Цена'],
+    ...newPriceSource.map(row => [row.article, row.title, row.price]),
+  ], 'Сайт Аппгрейд');
+  assert.deepEqual(report.errors, []);
+  assert.equal(report.inputRows, 1591);
+  assert.equal(report.matchedRows, 1591);
+  assert.equal(report.unmatchedRows ?? 0, 0);
 });
 void test('city import includes prices that differ in any selected city', async () => {
   const id = 'iphone-17-256-esim-black';
@@ -113,7 +184,7 @@ void test('conflicting duplicates block the whole upload', async () => {
     ['iPhone 13 128', 47000],
     ['iPhone 13 128', 48000],
   ]);
-  assert.ok(report.errors.some((e) => e.includes('разные цены')));
+  assert.ok(report.errors.some((e) => e.includes("\u0440\u0430\u0437\u043d\u044b\u0435 \u0446\u0435\u043d\u044b")));
 });
 void test('formulas recalculate from inputs and reject external references', () => {
   const sheet = new ExcelJS.Workbook().addWorksheet('Google');

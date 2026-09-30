@@ -1,6 +1,6 @@
 import { randomUUID, createHash } from 'node:crypto';
 import { assertAdmin } from '@/lib/server/admin';
-import { assertOrigin, readJson } from '@/lib/server/request-guard';
+import { assertOrigin, readFormData, readJson } from '@/lib/server/request-guard';
 import { OrderError } from '@/lib/server/orders';
 import { database } from '@/lib/server/db';
 import { getPrices, applyImport, rollbackPrices } from '@/lib/server/prices';
@@ -13,7 +13,8 @@ const fail = (error: unknown) => reply({ error: error instanceof OrderError ? er
 export async function POST(request: Request) {
   try {
     assertAdmin(request); assertOrigin(request);
-    const form = await request.formData();
+    if (!process.env.DATABASE_URL) throw new OrderError('Импорт через админку недоступен: база PostgreSQL не подключена (DATABASE_URL).', 503);
+    const form = await readFormData(request, 4 * 1024 * 1024 + 32 * 1024);
     const file = form.get('file');
     let targetCities: string[] = [];
     const citiesValue = form.get('cities');
@@ -30,9 +31,11 @@ export async function POST(request: Request) {
     if (file.size > 4 * 1024 * 1024) throw new OrderError('Файл должен быть не больше 4 МБ.', 413);
     const buffer = Buffer.from(await file.arrayBuffer());
     const snapshot = await getPrices();
+    const articleLinks = await database().query('SELECT article,sku FROM appgrade_product_articles');
+    const articleMap = Object.fromEntries(articleLinks.rows.map((row) => [row.article as string, row.sku as string]));
     const report = await inspectPriceWorkbook(buffer, snapshot.prices, targetCities.length
       ? { cities: targetCities, cityPrices: snapshot.cityPrices ?? {} }
-      : undefined);
+      : undefined, articleMap);
     const id = randomUUID();
     // Persist the parsed report in PostgreSQL. applyImport does not need the
     // source file, so the flow works on hosts with an ephemeral filesystem.
@@ -44,6 +47,7 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     assertAdmin(request); assertOrigin(request);
+    if (!process.env.DATABASE_URL) throw new OrderError('Импорт через админку недоступен: база PostgreSQL не подключена (DATABASE_URL).', 503);
     const body = await readJson(request, 4096) as { action?: string; id?: string };
     if (!body || typeof body !== 'object' || !body.id || !/^[0-9a-f-]{36}$/i.test(body.id)) throw new OrderError('Некорректная версия прайса.');
     let message: string;

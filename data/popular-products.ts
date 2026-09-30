@@ -22,18 +22,45 @@ function card(item: CatalogItem): FeaturedProduct {
   };
 }
 const priced = catalogItems.filter((item) => item.price !== null && item.price > 0);
-const selected = new Set(featuredProducts.map((entry) => entry.sku.id));
-const additions: CatalogItem[] = [];
-for (const category of ['samsung', 'audio', 'cameras', 'watches', 'playstation', 'dyson', 'google', 'xiaomi', 'smartphones', 'gadgets']) {
-  const item = priced.find((entry) => entry.category === category && !selected.has(entry.id) && !entry.image.includes('product-photo-pending'))
-    ?? priced.find((entry) => entry.category === category && !selected.has(entry.id));
-  if (item) { selected.add(item.id); additions.push(item); }
+const preorderModels = new Set([
+  'iPhone 18 Pro Max', 'iPhone Duo', 'iPhone 18 Pro', 'Apple Watch Series 12',
+  'Apple Watch Ultra 4', 'AirPods 5 with Wireless Charging Case',
+]);
+const selectedModels = new Set<string>();
+const selectedIds = new Set<string>();
+const curated: CatalogItem[] = [];
+
+// Give the first rows a mix of premium categories and top configurations.
+const categoryOrder = [
+  'samsung', 'macbooks', 'xiaomi', 'ipads', 'google', 'playstation',
+  'dyson', 'watches', 'cameras', 'audio', 'smartphones', 'gadgets', 'iphones',
+];
+for (const category of categoryOrder) {
+  const candidates = priced
+    .filter(item => item.category === category && !selectedIds.has(item.id) && !selectedModels.has(item.model) && !preorderModels.has(item.model))
+    .sort((a, b) => b.price! - a.price!);
+  const item = candidates.find(entry => !entry.image.includes('product-photo-pending')) ?? candidates[0];
+  if (!item) continue;
+  curated.push(item);
+  selectedIds.add(item.id);
+  selectedModels.add(item.model);
 }
-for (const item of priced) {
-  if (featuredProducts.length + additions.length >= 16) break;
-  if (selected.has(item.id) || additions.some((entry) => entry.model === item.model)) continue;
-  selected.add(item.id); additions.push(item);
+
+for (const entry of [...featuredProducts].sort((a, b) => b.sku.price - a.sku.price)) {
+  if (curated.length >= 16) break;
+  const item = catalogItems.find(candidate => candidate.id === entry.sku.id);
+  if (!item || selectedIds.has(item.id) || selectedModels.has(item.model) || preorderModels.has(item.model)) continue;
+  curated.push(item);
+  selectedIds.add(item.id);
+  selectedModels.add(item.model);
 }
-export const popularProducts: FeaturedProduct[] = [
-  ...featuredProducts, ...additions.map(card),
-].slice(0, 16);
+
+for (const item of [...priced].sort((a, b) => b.price! - a.price!)) {
+  if (curated.length >= 16) break;
+  if (selectedIds.has(item.id) || selectedModels.has(item.model) || preorderModels.has(item.model)) continue;
+  curated.push(item);
+  selectedIds.add(item.id);
+  selectedModels.add(item.model);
+}
+
+export const popularProducts: FeaturedProduct[] = curated.slice(0, 16).map(card);

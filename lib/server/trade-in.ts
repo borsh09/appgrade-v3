@@ -1,6 +1,7 @@
 import { CITIES } from '@/config/cities';
 import { getTradeInAssessment, parseTradeInSelection } from '@/lib/trade-in-estimate';
 import { OrderError } from './orders';
+import { PERSONAL_DATA_CONSENT_VERSION } from '@/lib/personal-data-consent';
 
 export function validateTradeIn(value: unknown) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new OrderError('Некорректная анкета.');
@@ -27,6 +28,6 @@ export function validateTradeIn(value: unknown) {
   return {
     customer: { name, phone }, model: row.model, deviceType: 'Смартфон', condition,
     details, estimate: assessment.estimate, city,
-    consent: { version: '2026-09-09', acceptedAt: new Date().toISOString() },
+    consent: { version: PERSONAL_DATA_CONSENT_VERSION, acceptedAt: new Date().toISOString() },
   };
 }

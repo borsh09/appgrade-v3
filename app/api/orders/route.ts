@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { database, transaction } from '@/lib/server/db';
 import { basePrices, parserUnavailableIds } from '@/lib/catalog-registry';
 import { OrderError, orderMessages, validateOrder } from '@/lib/server/orders';
-import { protectSubmission } from '@/lib/server/request-guard';
+import { assertOrigin, protectSubmission } from '@/lib/server/request-guard';
 
 export const runtime = 'nodejs';
 const uuid =
@@ -20,9 +20,7 @@ export async function POST(request: NextRequest) {
         { error: 'Приём заказов пока не настроен.' },
         { status: 503 },
       );
-    const origin = request.headers.get('origin');
-    if (origin && origin !== (process.env.APP_ORIGIN || request.nextUrl.origin))
-      throw new OrderError('Недопустимый источник запроса.', 403);
+    assertOrigin(request);
     const reader = request.body?.getReader();
     if (!reader) throw new OrderError('Пустой заказ.');
     let size = 0;

@@ -41,11 +41,12 @@ export function AdditionalProductPage({ selected, details }: { selected: Catalog
                 <Image src={src} alt="" width={72} height={72} />
               </button>)}
             </div>}
-            {sku.photoApproximate && <p className="product-photo-note">Изображение модели может отличаться от выбранной комплектации.</p>}
+            {sku.photoApproximate && <p className="product-photo-note">{sku.image.includes('category-') ? 'Иллюстрация категории. Фото товара уточняется.' : 'Изображение модели может отличаться от выбранной комплектации.'}</p>}
           </section>
           <section className="product-info">
             <p className="catalog-overline">APPGRADE</p>
             <h1>{sku.id.startsWith('parser-sheet1-') ? sku.priceAlias : sku.model}</h1>
+            {sku.article && <p className="product-lead">Артикул: {sku.article}</p>}
             <p className="product-lead">{details.lead}</p>
             <div className="product-price-line">
               <strong>{unavailable ? 'Нет в продаже' : sku.price === null ? 'Цена уточняется' : `${money.format(sku.price)} ₽`}</strong>

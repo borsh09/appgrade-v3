@@ -18,6 +18,7 @@ void test('admin session is signed, expires and authenticates API requests', () 
     assert.equal(validAdminSession(`${session.value}changed`), false);
     assert.doesNotThrow(() => assertAdmin(new Request('http://localhost/api/admin', { headers: { cookie: `${ADMIN_COOKIE}=${encodeURIComponent(session.value)}` } })));
     assert.throws(() => assertAdmin(new Request('http://localhost/api/admin', { headers: { cookie: `${ADMIN_COOKIE}=%invalid` } })), { status: 401 });
+    assert.throws(() => assertAdmin(new Request('http://localhost/api/admin', { headers: { authorization: `Basic ${Buffer.from('owner:a-secure-password-for-tests').toString('base64')}` } })), { status: 401 });
   } finally {
     if (previousUser === undefined) delete process.env.ADMIN_USER; else process.env.ADMIN_USER = previousUser;
     if (previousPassword === undefined) delete process.env.ADMIN_PASSWORD; else process.env.ADMIN_PASSWORD = previousPassword;

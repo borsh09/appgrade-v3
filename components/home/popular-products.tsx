@@ -10,8 +10,9 @@ export function PopularProducts() {
       <div className="container">
         <div className="appgrade-popular-heading">
           <div>
-            <span>Популярное</span>
-            <h2 id="popular-products-title">Сейчас выбирают.</h2>
+            <span>Выбор APPGRADE</span>
+            <h2 id="popular-products-title">Подборка техники.</h2>
+            <p className={styles.description}>Флагманские модели и актуальные конфигурации в разных категориях.</p>
           </div>
           <div className="appgrade-popular-heading-actions">
             <Link href="/catalog">Смотреть всё <ArrowRight size={16} /></Link>

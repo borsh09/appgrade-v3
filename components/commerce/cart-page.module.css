@@ -44,6 +44,9 @@
 .page :global(.appgrade-order-delivery) small { font-size: 11px; line-height: 1.5; }
 .page :global(.appgrade-order-radio) { flex-shrink: 0; }
 .page :global(.appgrade-order-form) { margin-top: 30px; gap: 22px; }
+.personalDataConsent { display: flex; align-items: flex-start; gap: 11px; max-width: 680px; color: #65655d; font-size: 12px; line-height: 1.55; cursor: pointer; }
+.personalDataConsent input { flex: 0 0 18px; width: 18px; height: 18px; margin: 1px 0 0; accent-color: #34342e; }
+.personalDataConsent a { color: #262622; text-decoration: underline; text-underline-offset: 3px; }
 .page :global(.appgrade-checkout-subheading) strong { font-size: 20px; font-weight: 500; }
 .page :global(.appgrade-order-fields) label > span,
 .page :global(.appgrade-contact-method) > span,

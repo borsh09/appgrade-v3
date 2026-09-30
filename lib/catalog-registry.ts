@@ -1,21 +1,8 @@
-import { iphoneCatalog } from '@/data/iphone-catalog';
-import { samsungCatalog } from '@/data/samsung-catalog';
-import { macbookCatalog } from '@/data/macbook-catalog';
-import { ipadCatalog } from '@/data/ipad-catalog';
-import { watchCatalog } from '@/data/watch-catalog';
-import { audioCatalog } from '@/data/audio-catalog';
-import { playstationCatalog } from '@/data/playstation-catalog';
-import { googleCatalog } from '@/data/google-catalog';
-import { xiaomiCatalog } from '@/data/xiaomi-catalog';
-import { cameraCatalog } from '@/data/camera-catalog';
-import { dysonCatalog } from '@/data/dyson-catalog';
-import { additionalCatalog } from '@/data/additional-catalog';
-import parserUnavailable from '@/data/parser-unavailable.json';
-import parserActiveIds from '@/data/parser-active-ids.json';
-import parserPrices from '@/data/parser-prices.json';
+import newPriceCatalog from '@/data/new-price-catalog.json';
 
 export type CatalogItem = {
   id: string;
+  article?: string;
   model: string;
   modelSlug: string;
   price: number | null;
@@ -36,23 +23,8 @@ export type CatalogItem = {
   legacySlug?: string;
   photoApproximate?: boolean;
 };
-export const parserUnavailableIds = new Set<string>(parserUnavailable);
-const parserActiveIdSet = new Set<string>(parserActiveIds);
-export const catalogItems: CatalogItem[] = [
-  ...iphoneCatalog.map(item => ({ ...item, category: 'iphones' })),
-  ...samsungCatalog.map(item => ({ ...item, category: 'samsung' })),
-  ...macbookCatalog.map(item => ({ ...item, category: 'macbooks' })),
-  ...ipadCatalog.map(item => ({ ...item, category: 'ipads' })),
-  ...watchCatalog.map(item => ({ ...item, category: 'watches' })),
-  ...audioCatalog.map(item => ({ ...item, category: 'audio' })),
-  ...playstationCatalog.map(item => ({ ...item, category: 'playstation' })),
-  ...googleCatalog.map(item => ({ ...item, category: 'google' })),
-  ...xiaomiCatalog.map(item => ({ ...item, category: 'xiaomi' })),
-  ...cameraCatalog.map(item => ({ ...item, category: 'cameras' })),
-  ...dysonCatalog.map(item => ({ ...item, category: 'dyson' })),
-  ...additionalCatalog,
-].filter(item => parserActiveIdSet.has(item.id))
- .map(item => ({ ...item, price: parserUnavailableIds.has(item.id) ? null : Object.hasOwn(parserPrices, item.id) ? (parserPrices as Record<string, number | null>)[item.id] : item.price }));
+export const catalogItems: CatalogItem[] = newPriceCatalog as CatalogItem[];
+export const parserUnavailableIds = new Set<string>(catalogItems.filter(item => item.price === null).map(item => item.id));
 export const catalogById = new Map(catalogItems.map((item) => [item.id, item]));
 export const basePrices = Object.fromEntries(
   catalogItems.map((item) => [item.id, item.price]),

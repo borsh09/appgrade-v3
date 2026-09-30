@@ -10,3 +10,11 @@ dist
 .vinext
 .wrangler
 *.tsbuildinfo
+reports
+docs
+.agents
+.codex
+tests
+*.xlsx
+*.xls
+*.csv

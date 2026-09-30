@@ -10,6 +10,7 @@ import { GET as adminSnapshot } from '@/app/api/admin/route';
 import { PATCH as adminChange } from '@/app/api/admin/route';
 import { GET as olderAdminEntries } from '@/app/api/admin/entries/route';
 import { PATCH as adminPriceAction } from '@/app/api/admin/prices/route';
+import { ADMIN_COOKIE, createAdminSession } from '@/lib/server/admin';
 import { basePrices, catalogItems } from '@/lib/catalog-registry';
 import { deliverOrders } from '@/bots/order-bot';
 import { handlePriceUpdate } from '@/bots/price-bot';
@@ -107,6 +108,7 @@ void test('PostgreSQL import, rollback, idempotent order persistence and notific
     assert.equal(calls, 0);
     const payload = {
       requestKey: randomUUID(),
+      consent: true,
       customer: { name: 'Проверка', phone: '+7 999 123-45-67' },
       city: { id: 'sibay' },
       fulfillment: 'pickup',
@@ -142,8 +144,9 @@ void test('PostgreSQL import, rollback, idempotent order persistence and notific
     const previousAdminPassword = process.env.ADMIN_PASSWORD;
     process.env.ADMIN_PASSWORD = 'a-secure-password-for-tests';
     try {
+      const adminCookie = `${ADMIN_COOKIE}=${encodeURIComponent(createAdminSession().value)}`;
       const response = await adminSnapshot(new Request('http://localhost:3000/api/admin', {
-        headers: { authorization: `Basic ${Buffer.from('admin:a-secure-password-for-tests').toString('base64')}` },
+        headers: { cookie: adminCookie },
       }));
       assert.equal(response.status, 200);
       const snapshot = await response.json();
@@ -154,20 +157,20 @@ void test('PostgreSQL import, rollback, idempotent order persistence and notific
       const olderUrl = 'http://localhost:3000/api/admin/entries?type=order&before=2099-01-01T00%3A00%3A00.000Z&beforeId=ffffffff-ffff-ffff-ffff-ffffffffffff';
       assert.equal((await olderAdminEntries(new Request(olderUrl))).status, 401);
       const olderResponse = await olderAdminEntries(new Request(olderUrl, {
-        headers: { authorization: `Basic ${Buffer.from('admin:a-secure-password-for-tests').toString('base64')}` },
+        headers: { cookie: adminCookie },
       }));
       assert.equal(olderResponse.status, 200);
       assert.equal((await olderResponse.json()).entries[0].id, result.orderId);
       await db.query("UPDATE appgrade_imports SET owner_id='admin',chat_id='admin',base_revision=$2 WHERE id=$1", [invalidDraftId, (await getPrices()).revision]);
       const rejectedImport = await adminPriceAction(new Request('http://localhost:3000/api/admin/prices', {
         method: 'PATCH',
-        headers: { authorization: `Basic ${Buffer.from('admin:a-secure-password-for-tests').toString('base64')}` },
+        headers: { cookie: adminCookie },
         body: JSON.stringify({ action: 'apply', id: invalidDraftId }),
       }));
       assert.equal(rejectedImport.status, 400);
       const manualPrice = await adminChange(new Request('http://localhost:3000/api/admin', {
         method: 'PATCH',
-        headers: { authorization: `Basic ${Buffer.from('admin:a-secure-password-for-tests').toString('base64')}` },
+        headers: { cookie: adminCookie },
         body: JSON.stringify({ action: 'city-product', id: item.id, city: 'beloretsk', price: 61000, quantity: null }),
       }));
       assert.equal(manualPrice.status, 200);
