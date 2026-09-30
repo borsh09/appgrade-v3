@@ -9,10 +9,11 @@ import { getProductDetails } from '@/lib/product-details';
 
 void test('catalog has exactly the articles and prices from Новый прайс', () => {
   assert.equal(newPriceSource.length, 1591);
-  assert.equal(catalogItems.length, newPriceSource.length);
+  const visibleRows = newPriceSource.filter(row => !/\bActive\b/i.test(row.title));
+  assert.equal(catalogItems.length, visibleRows.length);
   const byArticle = new Map(catalogItems.map(item => [item.article, item]));
-  assert.equal(byArticle.size, newPriceSource.length);
-  for (const row of newPriceSource) {
+  assert.equal(byArticle.size, visibleRows.length);
+  for (const row of visibleRows) {
     const item = byArticle.get(row.article);
     assert.ok(item, `Missing article ${row.article} in row ${row.row}`);
     assert.equal(item.price, row.cost <= 1 ? null : row.price, row.article);
@@ -24,12 +25,12 @@ void test('all catalog IDs and article codes are unique', () => {
   assert.equal(new Set(catalogItems.map(item => item.article)).size, catalogItems.length);
 });
 
-void test('supplier Active marking stays visible on every affected iPhone', () => {
+void test('supplier Active iPhones are absent from the storefront catalog', () => {
   const activeRows = newPriceSource.filter(row => /\bActive\b/i.test(row.title));
   assert.equal(activeRows.length, 19);
   for (const row of activeRows) {
-    const item = catalogItems.find(product => product.article === row.article);
-    assert.ok(item && /\bActive\b/i.test(item.model), row.article);
+    assert.ok(!catalogItems.some(product => product.article === row.article), row.article);
+    assert.ok(!searchIndex.some(product => product.article === row.article), row.article);
   }
 });
 

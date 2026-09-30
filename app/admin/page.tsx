@@ -58,6 +58,7 @@ type Report = {
   inputRows?: number;
   unmatchedRows?: number;
   unavailableRows?: number;
+  hiddenRows?: number;
   articleMappings?: Record<string, string>;
   warnings: string[];
   errors: string[];
@@ -889,6 +890,9 @@ function Prices({
             )}
             {(draft.report.unavailableRows ?? 0) > 0 && (
               <span><strong>{draft.report.unavailableRows}</strong> не продаётся (цена 1)</span>
+            )}
+            {(draft.report.hiddenRows ?? 0) > 0 && (
+              <span><strong>{draft.report.hiddenRows}</strong> скрыто по пометке Active</span>
             )}
             <span>
               <strong>{draft.report.matched}</strong> сопоставлено

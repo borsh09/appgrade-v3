@@ -22,8 +22,13 @@ export type CatalogItem = {
   category?: string;
   legacySlug?: string;
   photoApproximate?: boolean;
+  sourceTitle?: string;
 };
-export const catalogItems: CatalogItem[] = newPriceCatalog as CatalogItem[];
+const priceCatalog = newPriceCatalog as CatalogItem[];
+export const hiddenCatalogArticles = new Set(
+  priceCatalog.filter(item => /\bActive\b/i.test(item.sourceTitle ?? '')).map(item => item.article),
+);
+export const catalogItems: CatalogItem[] = priceCatalog.filter(item => !hiddenCatalogArticles.has(item.article));
 export const parserUnavailableIds = new Set<string>(catalogItems.filter(item => item.price === null).map(item => item.id));
 export const catalogById = new Map(catalogItems.map((item) => [item.id, item]));
 export const basePrices = Object.fromEntries(

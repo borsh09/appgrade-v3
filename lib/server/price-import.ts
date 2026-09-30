@@ -2,6 +2,7 @@ import ExcelJS from 'exceljs';
 import { assertSafeWorkbookArchive } from './xlsx-guard';
 import {
   catalogItems,
+  hiddenCatalogArticles,
   normalizeProductName,
   priceAliases,
 } from '../catalog-registry';
@@ -21,6 +22,7 @@ export type ImportReport = {
   inputRows?: number;
   unmatchedRows?: number;
   unavailableRows?: number;
+  hiddenRows?: number;
   articleMappings?: Record<string, string>;
   warnings: string[];
   errors: string[];
@@ -191,6 +193,10 @@ export async function inspectPriceWorkbook(
         return;
       }
       if (isWebsiteSheet) report.inputRows = (report.inputRows ?? 0) + 1;
+      if (isWebsiteSheet && hiddenCatalogArticles.has(article)) {
+        report.hiddenRows = (report.hiddenRows ?? 0) + 1;
+        return;
+      }
       const source = `${sheet.name}!${row.getCell(column).address}${article ? ` (${article})` : ''}`;
       const key = normalizeProductName(title);
       const explicitSku = isWebsiteSheet && articleMapColumn

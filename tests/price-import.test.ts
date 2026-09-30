@@ -133,7 +133,8 @@ void test('every price-list article imports without a separate SKU column', asyn
   ], 'Сайт Аппгрейд');
   assert.deepEqual(report.errors, []);
   assert.equal(report.inputRows, 1591);
-  assert.equal(report.matchedRows, 1591);
+  assert.equal(report.matchedRows, 1572);
+  assert.equal(report.hiddenRows, 19);
   assert.equal(report.unmatchedRows ?? 0, 0);
 });
 void test('city import includes prices that differ in any selected city', async () => {
