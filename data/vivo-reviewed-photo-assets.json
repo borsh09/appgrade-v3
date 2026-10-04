@@ -1,0 +1,72 @@
+[
+  {
+    "model": "Vivo X300 FE",
+    "color": "Purple",
+    "label": "Mist Purple",
+    "source": "https://www.vivo.com/th/products/param/x300-fe",
+    "sourceTitle": "vivo ประเทศไทย",
+    "satelliteListed": false,
+    "url": "https://asia-exstatic-vivofs.vivo.com/PSee2l50xoirPK7y/1779281289661/8fe7f4af031ab2f73b85048d6814bc51.png",
+    "image": "/images/products/verified/91adb2aba428309111a76f25.png"
+  },
+  {
+    "model": "Vivo X300 FE",
+    "color": "White",
+    "label": "Glow White",
+    "source": "https://www.vivo.com/th/products/param/x300-fe",
+    "sourceTitle": "vivo ประเทศไทย",
+    "satelliteListed": false,
+    "url": "https://asia-exstatic-vivofs.vivo.com/PSee2l50xoirPK7y/1779281525941/4f9b80d216825bbaa26fe5675226ca60.png",
+    "image": "/images/products/verified/0dde8f61243bd219a1017a1d.png"
+  },
+  {
+    "model": "Vivo X300",
+    "color": "Black",
+    "label": "纯粹黑",
+    "source": "https://www.vivo.com.cn/vivo/param/x300",
+    "sourceTitle": "vivo X300 专业影像旗舰 - vivo官方网站",
+    "satelliteListed": false,
+    "url": "https://wwwstatic.vivo.com.cn/vivoportal/files/image/detail/20250920/9f2f284ce1a07a2c606dc9ba7a6f3cef.png",
+    "image": "/images/products/verified/43180ad40283322d5d0e5dae.png"
+  },
+  {
+    "model": "Vivo X300 Pro",
+    "color": "Brown",
+    "label": "旷野棕",
+    "source": "https://www.vivo.com.cn/vivo/param/x300pro",
+    "sourceTitle": "vivo X300 Pro 专业影像旗舰 - vivo官方网站",
+    "satelliteListed": true,
+    "url": "https://wwwstatic.vivo.com.cn/vivoportal/files/image/detail/20250920/a3b9f4e6a8a67b448002d9f4c687461c.png",
+    "image": "/images/products/verified/de9364d5a65278df1940bc11.png"
+  },
+  {
+    "model": "Vivo X300 Pro",
+    "color": "White",
+    "label": "简单白",
+    "source": "https://www.vivo.com.cn/vivo/param/x300pro",
+    "sourceTitle": "vivo X300 Pro 专业影像旗舰 - vivo官方网站",
+    "satelliteListed": true,
+    "url": "https://wwwstatic.vivo.com.cn/vivoportal/files/image/detail/20250920/e259ad90e243dac8866cce1ccfee90f6.png",
+    "image": "/images/products/verified/274896b0984d997576e67ac7.png"
+  },
+  {
+    "model": "Vivo X300 Pro",
+    "color": "Black",
+    "label": "纯粹黑",
+    "source": "https://www.vivo.com.cn/vivo/param/x300pro",
+    "sourceTitle": "vivo X300 Pro 专业影像旗舰 - vivo官方网站",
+    "satelliteListed": true,
+    "url": "https://wwwstatic.vivo.com.cn/vivoportal/files/image/detail/20250920/eb64be4daef9f7249aa4b35ab8187939.png",
+    "image": "/images/products/verified/8fd5bfc4d9f703c24c437a2b.png"
+  },
+  {
+    "model": "Vivo X300 Ultra",
+    "color": "Black",
+    "label": "黑 Ka",
+    "source": "https://www.vivo.com.cn/vivo/param/x300ultra",
+    "sourceTitle": "vivo X300 Ultra 专业影像旗舰 - vivo官方网站",
+    "satelliteListed": false,
+    "url": "https://cn-exstatic-vivofs.iqoo.com/Br81IMbjh1IEtVmx/1774360543975/d24038da392410ec0ad6d70c18ccf1a6.png",
+    "image": "/images/products/verified/72115d0a8a8c2ba7e43fc3a5.png"
+  }
+]

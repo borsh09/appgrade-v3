@@ -1,4 +1,7 @@
-'use client';
+﻿'use client';
+import { ProductSpecifications } from './product-specifications';
+import { DiscountPrice } from '@/components/shared/discount-price';
+import type { ProductDetailContent } from '@/lib/product-details';
 import { ProductVariants } from './product-variants';
 import { useState } from 'react';
 import { usePriceResolver } from '@/components/providers/price-provider';
@@ -9,38 +12,14 @@ import { ArrowLeft, Check } from 'lucide-react';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
 import type { XiaomiCatalogSku } from '@/data/xiaomi-catalog';
 
-const money = new Intl.NumberFormat('ru-RU');
-const specs: Record<string, string[][]> = {
-  'Xiaomi 15 Ultra': [
-    ['Экран', '6,73″ WQHD+ AMOLED, 1–120 Гц'],
-    ['Процессор', 'Snapdragon 8 Elite'],
-    ['Камеры', 'Leica 1″ + телефото 200 МП'],
-    ['Защита', 'IP68'],
-  ],
-  'Xiaomi 15': [
-    ['Экран', '6,36″ CrystalRes AMOLED, 1–120 Гц'],
-    ['Процессор', 'Snapdragon 8 Elite'],
-    ['Камеры', 'Тройная камера Leica'],
-    ['Аккумулятор', '5240 мА·ч'],
-  ],
-  'Redmi Note 14 Pro+ 5G': [
-    ['Экран', '6,67″ CrystalRes AMOLED, 120 Гц'],
-    ['Процессор', 'Snapdragon 7s Gen 3'],
-    ['Камера', '200 МП с OIS'],
-    ['Защита', 'IP68'],
-  ],
-  'Poco X7 Pro': [
-    ['Экран', '6,67″ CrystalRes AMOLED, 120 Гц'],
-    ['Процессор', 'Dimensity 8400-Ultra'],
-    ['Камера', '50 МП с OIS'],
-    ['Аккумулятор', '6000 мА·ч'],
-  ],
-};
+
 
 export function XiaomiProductPage({
+  specifications,
   modelSlug,
   selected: baseSelected,
 }: {
+  specifications: ProductDetailContent;
   modelSlug: string;
   variants: XiaomiCatalogSku[];
   selected: XiaomiCatalogSku;
@@ -95,7 +74,7 @@ export function XiaomiProductPage({
               сбалансированном корпусе.
             </p>
             <div className="product-price-line">
-              <strong>{money.format(selected.price)} ₽</strong>
+              <DiscountPrice price={selected.price} oldPrice={selected.oldPrice} />
               <span>
                 <Check size={14} />В наличии
               </span>
@@ -129,7 +108,7 @@ export function XiaomiProductPage({
           <div className="product-section-kicker">О товаре</div>
           <div>
             <p className="catalog-overline">{selected.model.toUpperCase()}</p>
-            <h2>Технологии, которые работают на впечатление.</h2>
+            <h2>Технологии, которые работают на впечатление</h2>
             <p>
               Яркий AMOLED-дисплей, производительная платформа и
               интеллектуальная обработка камеры помогают быстрее решать задачи и
@@ -155,45 +134,7 @@ export function XiaomiProductPage({
             <span>бесконтактная оплата</span>
           </div>
         </section>
-        <section className="product-specifications" id="specs">
-          <div className="product-section-kicker">Характеристики</div>
-          <div className="product-spec-groups">
-            <div className="product-spec-group">
-              <h3>Основные параметры</h3>
-              <dl>
-                {specs[selected.model].map(([term, value]) => (
-                  <div key={term}>
-                    <dt>{term}</dt>
-                    <dd>{value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-            <div className="product-spec-group">
-              <h3>Конфигурация</h3>
-              <dl>
-                <div>
-                  <dt>Модель</dt>
-                  <dd>{selected.model}</dd>
-                </div>
-                <div>
-                  <dt>Память</dt>
-                  <dd>
-                    {selected.ram} / {selected.storage}
-                  </dd>
-                </div>
-                <div>
-                  <dt>Цвет</dt>
-                  <dd>{selected.color}</dd>
-                </div>
-                <div>
-                  <dt>Связь</dt>
-                  <dd>5G, Wi-Fi, Bluetooth, NFC</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </section>
+        <ProductSpecifications details={specifications} />
       </div>
     </main>
   );

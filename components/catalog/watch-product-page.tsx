@@ -1,4 +1,7 @@
-'use client';
+﻿'use client';
+import { ProductSpecifications } from './product-specifications';
+import { DiscountPrice } from '@/components/shared/discount-price';
+import type { ProductDetailContent } from '@/lib/product-details';
 import { ProductVariants } from './product-variants';
 import { usePriceResolver } from '@/components/providers/price-provider';
 import Image from '@/components/shared/product-photo';
@@ -7,12 +10,13 @@ import { useState } from 'react';
 import { ArrowLeft, Check } from 'lucide-react';
 import type { WatchCatalogSku } from '@/data/watch-catalog';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
-const money = new Intl.NumberFormat('ru-RU');
 export function WatchProductPage({
+  specifications,
   modelSlug,
   variants: _baseVariants,
   selected: baseSelected,
 }: {
+  specifications: ProductDetailContent;
   modelSlug: string;
   variants: WatchCatalogSku[];
   selected: WatchCatalogSku;
@@ -83,7 +87,7 @@ export function WatchProductPage({
               автоматически.
             </p>
             <div className="product-price-line">
-              <strong>{money.format(selected.price)} ₽</strong>
+              <DiscountPrice price={selected.price} oldPrice={selected.oldPrice} />
               <span>
                 <Check size={14} />{newModel ? 'Предзаказ' : 'В наличии'}
               </span>
@@ -117,7 +121,7 @@ export function WatchProductPage({
           <div className="product-section-kicker">О товаре</div>
           <div>
             <p className="catalog-overline">{selected.model.toUpperCase()}</p>
-            <h2>Здоровье, тренировки и связь прямо на запястье.</h2>
+            <h2>Здоровье, тренировки и связь прямо на запястье</h2>
             <p>
               Следите за активностью и сном, получайте уведомления, отвечайте на
               звонки и запускайте тренировки без лишних действий.
@@ -142,49 +146,7 @@ export function WatchProductPage({
             <span>{newModel ? 'обычной работы' : 'система Apple'}</span>
           </div>
         </section>
-        <section className="product-specifications" id="specs">
-          <div className="product-section-kicker">Характеристики</div>
-          <div className="product-spec-groups">
-            <div className="product-spec-group">
-              <dl>
-                <div>
-                  <dt>Модель</dt>
-                  <dd>{selected.model}</dd>
-                </div>
-                <div>
-                  <dt>Корпус</dt>
-                  <dd>
-                    {selected.size}, {selected.color}
-                  </dd>
-                </div>
-                <div>
-                  <dt>Связь</dt>
-                  <dd>{selected.connectivity}</dd>
-                </div>
-                <div>
-                  <dt>{newModel ? 'Процессор' : 'Память'}</dt>
-                  <dd>{newModel ? 'Apple S11' : '64 GB'}</dd>
-                </div>
-                {newModel && (
-                  <>
-                    <div>
-                      <dt>Датчики</dt>
-                      <dd>Health Sensing System, фоновое измерение пульса и вариабельности ритма</dd>
-                    </div>
-                    <div>
-                      <dt>Автономность</dt>
-                      <dd>{isUltra4 ? 'До 50 часов, до 84 часов в энергосберегающем режиме' : 'До 24 часов, до 38 часов в энергосберегающем режиме'}</dd>
-                    </div>
-                    <div>
-                      <dt>Восстановление</dt>
-                      <dd>Оценка Readiness по данным сна, активности и показателям организма</dd>
-                    </div>
-                  </>
-                )}
-              </dl>
-            </div>
-          </div>
-        </section>
+        <ProductSpecifications details={specifications} />
       </div>
     </main>
   );

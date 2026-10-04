@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import styles from './cart-page.module.css';
@@ -812,7 +812,7 @@ export function CartPage() {
             <h2>
               Пора
               <br />
-              обновиться.
+              обновиться
             </h2>
 
             <p>

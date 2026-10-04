@@ -31,7 +31,7 @@ export function ProductCard({
 
     name: product.model.name,
 
-    configuration: [
+    configuration: product.sku.configuration || [
       product.sku.storage,
       product.sku.sim,
       product.sku.color,

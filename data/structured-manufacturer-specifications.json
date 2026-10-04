@@ -1,0 +1,1154 @@
+{
+  "яндекс станция 3": {
+    "source": "https://alice.yandex.ru/store/product/station-3",
+    "name": "Яндекс Станция 3",
+    "specs": [
+      [
+        "Динамики",
+        "2 низкочастотных динамика 46 × 80 мм, 3 широкополосных динамика 32 мм, 2 пассивных излучателя 62 × 100 мм"
+      ],
+      [
+        "Диапазон частот",
+        "65-20000 Гц"
+      ],
+      [
+        "Микрофоны",
+        "6 шт."
+      ]
+    ],
+    "scope": "model"
+  },
+  "bose headphones qc ultra 2": {
+    "source": "https://www.bose.com/p/headphones/bose-quietcomfort-ultra-headphones-2nd-gen/QCUH2-HEADPHONEARN.html?dwvar_QCUH2-HEADPHONEARN_color=MIDNIGHT+VIOLET",
+    "name": "Bose Headphones QC Ultra 2",
+    "specs": [
+      [
+        "Микрофоны",
+        "Built-in Microphone"
+      ],
+      [
+        "Шумоподавление",
+        "Есть"
+      ],
+      [
+        "Время работы",
+        "30 ч"
+      ],
+      [
+        "Беспроводная связь",
+        "Bluetooth, A2DP Bluetooth Audio Streaming, HFP Bluetooth, AVRCP Bluetooth, Bluetooth Low Energy"
+      ],
+      [
+        "Bluetooth",
+        "5.4"
+      ]
+    ],
+    "scope": "model"
+  },
+  "infinix note edge": {
+    "source": "https://infinixmobiles.in/products/note-edge?variant=51945575219476",
+    "name": "Infinix Note Edge",
+    "specs": [
+      [
+        "Экран",
+        "120Hz 6.78'' 1.5K AMOLED"
+      ],
+      [
+        "Процессор",
+        "MediaTek Dimensity 7100"
+      ],
+      [
+        "Операционная система",
+        "XOS 16, Powered by Android 16"
+      ],
+      [
+        "Аккумулятор",
+        "6500 мА·ч"
+      ],
+      [
+        "Габариты",
+        "163.1 x 7.4 x 7.2mm"
+      ],
+      [
+        "Вес",
+        "Silk Green: 185g Solar Orange, Stellar Blue, Lunar Titanium: 190g"
+      ],
+      [
+        "GPU",
+        "Mali-G610 GPU"
+      ],
+      [
+        "CPU",
+        "Octa-core (4x2.0 GHZ Cortex-A55 & 4x2.4GHZ Cortex-A78)"
+      ],
+      [
+        "Основные камеры",
+        "Main: 50MP, f/1.8, 0.8μm"
+      ],
+      [
+        "Фронтальная камера",
+        "13MP, f/2.2, 82° FOV"
+      ],
+      [
+        "Разрешение",
+        "1.5K 1208*2644"
+      ],
+      [
+        "Частота обновления экрана",
+        "60Hz/90Hz/120Hz"
+      ],
+      [
+        "Материал",
+        "AMOLED"
+      ],
+      [
+        "Wi-Fi",
+        "Wi-Fi 802.11 (a/b/г/n/ac)"
+      ],
+      [
+        "Bluetooth",
+        "BLUETOOTH 5.4"
+      ],
+      [
+        "NFC",
+        "YES"
+      ]
+    ],
+    "scope": "model"
+  },
+  "kodak charmera 2000 millennium keychain digital": {
+    "source": "https://www.kodak.gtcie.com/en/digital-cameras/527-kodak-charmera-millenium-4897116931979.html",
+    "name": "Kodak Charmera 2000 Millennium Keychain Digital",
+    "specs": [
+      [
+        "Матрица",
+        "CMOS"
+      ],
+      [
+        "Объектив",
+        "Grand angle 35 мм"
+      ],
+      [
+        "Подключение",
+        "USB type-A & USB-C"
+      ],
+      [
+        "Габариты",
+        "58 × 24,5 × 20 мм"
+      ],
+      [
+        "Материал",
+        "ABS plastic"
+      ]
+    ],
+    "scope": "model"
+  },
+  "realme c85": {
+    "source": "https://www.realme.com/ru/realme-c85/specs",
+    "name": "Realme C85",
+    "specs": [
+      [
+        "Процессор",
+        "Процессор Qualcomm Snapdragon 685 CPU: 8 ядер GPU: Adreno 610@1.26 ГГц"
+      ],
+      [
+        "Экран",
+        "Размер: 6,8 дюймов Тип экрана: LCD Соотношение сторон экрана: 90,4% Разрешение: 1570*720 пикселей Частота обновления: 144 Гц (60 / 90 / 120 / 144 Гц) Частота дискретизации сенсорного экрана: 180 Гц, по умолчанию 120 Гц Цветовой охват: NTSC 83% (типичный) Глубина цвета: 16,7 миллионов цветов (8 бит) Плотность пикселей: 256 PPI Режим высокой яркости: 1200 нит"
+      ],
+      [
+        "Зарядка и батарея",
+        "Быстрая зарядка 45 Вт (максимальная) Сверхъемкая батарея 7000 мАч (типичная емкость)"
+      ],
+      [
+        "Вес и габариты",
+        "Размеры: 166,18 мм x 78,03 мм x 8,38 мм Вес: около 212 г *Данные предоставлены лабораторией realme. В связи с различными методами измерения фактические данные могут иметь допустимые отклонения."
+      ],
+      [
+        "Датчики",
+        "Датчик приближения, датчик освещенности, электронный компас, акселерометр, боковой датчик отпечатков пальцев."
+      ]
+    ],
+    "scope": "model"
+  },
+  "realme c100x": {
+    "source": "https://www.realme.com/it/realme-c100x/specs",
+    "name": "Realme C100x",
+    "specs": [
+      [
+        "Экран",
+        "Dimensioni 6,8 pollici Rapporto schermo 90,40% Risoluzione HD+ 1.570 x 720 pixel Frequenza di aggiornamento Massima: 120 Hz Frequenza di campionamento del tocco Massima: 240 Hz Predefinita: 120 Hz Gamma cromatica 83% NTSC (tipico) Profondità del colore 16,7 miliardi di colori (8-bit) Densità di pixel 254 PPI Luminosità Luminosità normale: 700 nit (tipica) HBM: 900 nit (tipica) Pannello LCD Protezione in vetro Vetro ArmorShell"
+      ],
+      [
+        "CPU",
+        "8 core"
+      ],
+      [
+        "GPU",
+        "Arm Mali-G57@850 GHz"
+      ],
+      [
+        "NFC",
+        "Supportato *Il supporto NFC dipende dalle varie regioni."
+      ]
+    ],
+    "scope": "model"
+  },
+  "realme c85 pro": {
+    "source": "https://www.realme.com/ru/realme-c85-pro/specs",
+    "name": "Realme C85 Pro",
+    "specs": [
+      [
+        "Процессор",
+        "Процессор Qualcomm Snapdragon 685 CPU: 8 ядер GPU: Adreno 610@1.26 ГГц"
+      ],
+      [
+        "Процессор Qualcomm® Snapdragon™ 685",
+        "CPU: 8 ядер GPU: Adreno 610@1.26 ГГц"
+      ],
+      [
+        "Зарядка и батарея",
+        "Быстрая зарядка 45 Вт (максимальная) Сверхъемкая батарея 7000 мАч (типичная емкость)"
+      ],
+      [
+        "Габариты",
+        "Размеры: 164,40 мм x 77,99 мм x 8,09 мм Вес: около 205 г *Данные предоставлены лабораторией realme. В связи с различными методами измерения фактические данные могут иметь допустимые отклонения."
+      ],
+      [
+        "Датчики",
+        "Датчик приближения, датчик освещенности, электронный компас, акселерометр, боковой датчик отпечатков пальцев."
+      ]
+    ],
+    "scope": "model"
+  },
+  "realme note 60x": {
+    "source": "https://www.realme.com/my/realme-note-60x/specs",
+    "name": "Realme Note 60X",
+    "specs": [
+      [
+        "Процессор",
+        "UNISOC T612 Chipset CPU：octa-core, 2*A75 @1.8 GHz，6*A55 @1.8 GHz"
+      ],
+      [
+        "Экран",
+        "90Hz Eye Comfort Display Screen Size: 17.1cm（6.74 Inch） Resolution: 1600*720（HD+） Brightness: 450nits (typ) / 560nits (HBM) Refresh Rate: До 90Hz Touch Sampling Rate: До 180 Hz Screen-to-body Ratio: 90.3%"
+      ],
+      [
+        "Камеры",
+        "8MP Rear Camera 5MP Front Camera"
+      ],
+      [
+        "Датчики",
+        "Magnetic Induction Sensor Light Sensor Proximity Sensor Acceleration Sensor"
+      ]
+    ],
+    "scope": "model"
+  },
+  "realme p4x": {
+    "source": "https://www.realme.com/my/realme-p4x/specs",
+    "name": "Realme P4x",
+    "specs": [
+      [
+        "Высота",
+        "about 166.48mm"
+      ],
+      [
+        "Ширина",
+        "about 78.23mm"
+      ],
+      [
+        "Вес",
+        "about 219g * Product size and weight may vary by configuration, manufacturing process and measurements. All specifications are subject to the actual product."
+      ],
+      [
+        "Экран",
+        "Size 6.8 inches Screen Ratio 90.4% Resolution HD+ 720×1570 Pixels Refresh Rate Maximum 120Hz Touch Sampling Rate Maximum 240Hz, Default 120Hz Colour Gamut NTSC 83% Color Depth 16.7 million colors(8-bit) Pixel Density 254 PPI Brightness Normal brightness: 700 nits(Typical) HBM: 900 nits(Typical) Panel Corning Gorilla Glass+LCD display Cover Glasses Panda@MN228"
+      ],
+      [
+        "Разрешение",
+        "HD+ 720×1570 Pixels"
+      ],
+      [
+        "Частота обновления экрана",
+        "Maximum 120Hz"
+      ],
+      [
+        "Камеры",
+        "Rear Wide angle: 50MP; f/1.8; FOV 76°; 5P lens; AF Supported Front 5MP; f/2.2; FOV 77°; 3P lens Shooting Mode Rear: Photo,Video,Portrait,Night,PRO,Panorama,SLO-MO,Dual-view video,TIME-LAPSE,STICKER,Hypertext,HI-RES,GOOGLE LEN Front: Photo, Video, Portrait, Night, Panorama, Dual-view video, STICKER"
+      ],
+      [
+        "CPU",
+        "8-core"
+      ],
+      [
+        "GPU",
+        "Arm Mali-G57@850MHz"
+      ],
+      [
+        "Аккумулятор",
+        "Battery 8000 мА·ч（Typical） 7780 мА·ч（Rated） Fast Charge Supports(Max): 45 Вт SUPERVOOC Compatible with: 45 Вт and below SUPERVOOC, 45 Вт third-party PPS，15W VOOC，15W PD, 13.5 Вт QC"
+      ],
+      [
+        "Датчики",
+        "Proximity sensor, Ambient light sensor, E-compass, Accelerometer, Gyroscope, Side fingerprint sensor"
+      ],
+      [
+        "Подключение",
+        "WLAN Wi-Fi 5 (802.11ac) Supported 802.11a/b/г/n Supported Wi-Fi Display Supported WLAN Tethering Supported Bluetooth Version Bluetooth 5.2, Low Energy Bluetooth Audio Codec SBC, AAC, LDAC USB Interface USB Type-C Earphone Jack 3.5 мм jack NFC Unsupported * NFC support depends on the regions."
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth 5.2, Low Energy"
+      ],
+      [
+        "NFC",
+        "Unsupported * NFC support depends on the regions."
+      ],
+      [
+        "Операционная система",
+        "realme UI on Android 16 * The operating system information is for reference only, subject to the actual product. If updated, no further notice will be given."
+      ]
+    ],
+    "scope": "model"
+  },
+  "realme gt 7": {
+    "source": "https://www.realme.com/my/realme-gt-7-5g/specs",
+    "name": "Realme GT 7",
+    "specs": [
+      [
+        "Процессор",
+        "MediaTek Dimensity 9400e CPU: 4nm Process, Octa-core, До 3.4Ghz GPU: Arm Immortalis-G720 @1.3GHZ"
+      ],
+      [
+        "Экран",
+        "Screen Size: 17.22cm(6.78inch) Resolution: 1.5K(2780×1264) Peak Brightness: 6000nit Screen-to-body Ratio: 93.9% Refresh Rate: До 120Hz Touch Sampling Rate: До 360Hz Instantaneous Sampling Rate: До 2600Hz Contrast Ratio: 5,000,000:1 Colour Gamut: 100% P3"
+      ],
+      [
+        "Камеры",
+        "Main Camera Sony IMX906 50MP 1/1.56\" f 1.8 1um Pixelsize 8K 30fps 4K 120fps 4K 60/30fps Dolby 1080 60/30fps Dolby Front Camera Sony IMX615 32MP 1/2.74\" f 2.4 0.8um Pixelsize 4K 60/30fps 1080 60/30fps 2X Camera Samsung S5KJN5 50MP 1/2.8\" f 2.0 0.64um Pixelsize 4K 60/30fps 1080 60/30fps Wide-angle 8MP f 2.2 1.12um Pixelsize 1080 30fps"
+      ],
+      [
+        "Датчики",
+        "Proximity sensor Ambient light sensor Color temperature sensor E-compass Accelerometer Gyroscope"
+      ]
+    ],
+    "scope": "model"
+  },
+  "samsung galaxy a27": {
+    "source": "https://www.samsung.com/ar/smartphones/galaxy-a/galaxy-a27-5g-black-256gb-sm-a276bzkfaro/",
+    "name": "Samsung Galaxy A27",
+    "specs": [
+      [
+        "Процессор",
+        "CPU Speed 2.4GHz, 1.8GHz CPU Type Octa-Core"
+      ],
+      [
+        "Экран",
+        "Size (Main_Display) 169.1mm (6.7\" full rectangle) / 164.5mm (6.5\" rounded corners) Resolution (Main Display) 1080 x 2340 (FHD+) Technology (Main Display) Super AMOLED Color Depth (Main Display) 16M Max Refresh Rate (Main Display) 120 Hz"
+      ],
+      [
+        "Камеры",
+        "Rear Camera - Resolution (Multiple) 50.0 MP + 5.0 MP + 2.0 MP Rear Camera - F Number (Multiple) F1.8 , F2.2 , F2.4 Rear Camera - Auto Focus Si Rear Camera - OIS Есть Rear Camera Zoom Digital Zoom up to 10x Front Camera - Resolution 12.0 MP Front Camera - F Number F2.2 Front Camera - Auto Focus Нет Front Camera - OIS Нет Rear Camera - Flash Si Front Camera - Flash Нет Video Recording Resolution UHD 4K (3840 x 2160)@30fps Slow Motion 240fps @HD"
+      ],
+      [
+        "Подключение",
+        "USB Interface USB Type-C USB Version USB 2.0 Location Technology GPS, Glonass, Beidou, Galileo, QZSS Earjack USB Type-C MHL Нет Wi-Fi 802.11a/b/г/n/ac 2.4GHz+5GHz, VHT80 Wi-Fi Direct Si Bluetooth Version Bluetooth v5.1 NFC Si PC Sync. Smart Switch (PC version)"
+      ],
+      [
+        "Версия USB",
+        "USB 2.0"
+      ],
+      [
+        "Wi-Fi",
+        "802.11a/b/г/n/ac 2.4GHz+5GHz, VHT80"
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth v5.1"
+      ],
+      [
+        "NFC",
+        "Si"
+      ],
+      [
+        "Датчики",
+        "Accelerometer, Fingerprint Sensor, Gyro Sensor, Geomagnetic Sensor, Light Sensor, Virtual Proximity Sensing"
+      ],
+      [
+        "Аккумулятор",
+        "Video Playback Time (Hours) До 23 Battery Capacity ( мА·ч, Typical) 5000 Removable Нет"
+      ]
+    ],
+    "scope": "model"
+  },
+  "samsung galaxy buds 4": {
+    "source": "https://www.samsung.com/uk/audio-sound/galaxy-buds/galaxy-buds4-white-sm-r540nzwaeub/",
+    "name": "Samsung Galaxy Buds 4",
+    "specs": [
+      [
+        "Bluetooth",
+        "Bluetooth v6.1"
+      ],
+      [
+        "Датчики",
+        "Accelerometer, Gyro Sensor, Hall Sensor, Pressure Sensor, Proximity Sensor, Touch Sensor, VPU(Voice Pickup Unit)"
+      ],
+      [
+        "Динамик",
+        "1-way"
+      ],
+      [
+        "Активное шумоподавление",
+        "Есть"
+      ],
+      [
+        "Подключение",
+        "Bluetooth Version Bluetooth v6.1 Bluetooth Profiles A2DP, AVRCP, HFP, PBP, TMAP LE Audio Есть Auto Switch Есть"
+      ],
+      [
+        "Аккумулятор",
+        "Earbud Battery Capacity ( мА·ч, Typical) 45 Case Battery Capacity ( мА·ч, Typical) 515"
+      ]
+    ],
+    "scope": "model"
+  },
+  "samsung galaxy a08": {
+    "source": "https://www.samsung.com/ae/smartphones/galaxy-a/galaxy-a08-green-128gb-sm-a085fzggmea/",
+    "name": "Samsung Galaxy A08",
+    "specs": [
+      [
+        "Процессор",
+        "CPU Speed 2.2GHz, 2GHz CPU Type Octa-Core"
+      ],
+      [
+        "Экран",
+        "Size (Main_Display) 171.3mm (6.7\") Resolution (Main Display) 720 x 1600 (HD+) Technology (Main Display) PLS LCD Color Depth (Main Display) 16M"
+      ],
+      [
+        "Камеры",
+        "Rear Camera - Resolution (Multiple) 50.0 MP + 2.0 MP Rear Camera - F Number (Multiple) F1.8 , F2.4 Main Camera - Auto Focus Есть Rear Camera - OIS Нет Rear Camera Zoom Digital Zoom up to 10x Front Camera - Resolution 8.0 MP Front Camera - F Number F2.0 Front Camera - Auto Focus Нет Front Camera - OIS Нет Main Camera - Flash Есть Front Camera - Flash Нет Video Recording Resolution FHD (1920 x 1080)@30fps Slow Motion 120fps @HD"
+      ],
+      [
+        "Подключение",
+        "USB Interface USB Type-C USB Version USB 2.0 Location Technology GPS, Glonass, Beidou, Galileo, QZSS Earjack 3.5mm Stereo MHL Нет Wi-Fi 802.11a/b/г/n/ac 2.4GHz+5GHz, VHT80 Wi-Fi Direct Есть Bluetooth Version Bluetooth v5.3 PC Sync. Smart Switch (PC version)"
+      ],
+      [
+        "Версия USB",
+        "USB 2.0"
+      ],
+      [
+        "Wi-Fi",
+        "802.11a/b/г/n/ac 2.4GHz+5GHz, VHT80"
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth v5.3"
+      ],
+      [
+        "Датчики",
+        "Accelerometer, Fingerprint Sensor, Light Sensor, Proximity Sensor"
+      ],
+      [
+        "Аккумулятор",
+        "Battery Capacity ( мА·ч, Typical) 6000 Removable Нет"
+      ]
+    ],
+    "scope": "model"
+  },
+  "samsung galaxy ring": {
+    "source": "https://www.samsung.com/sg/rings/galaxy-ring/galaxy-ring-titanium-gold-size-10-sm-q500nzdaasa/",
+    "name": "Samsung Galaxy Ring",
+    "specs": [
+      [
+        "Bluetooth",
+        "Bluetooth v5.4"
+      ],
+      [
+        "Датчики",
+        "Accelerometer, Optical Heart Rate Sensor, Temperature Sensor"
+      ],
+      [
+        "Подключение",
+        "Bluetooth Version Bluetooth v5.4"
+      ],
+      [
+        "Аккумулятор",
+        "Battery Capacity ( мА·ч, Typical) 19.5 Removable Нет Usage Time (Days, Typical) До 6"
+      ]
+    ],
+    "scope": "model"
+  },
+  "samsung galaxy tab s10 plus": {
+    "source": "https://www.samsung.com/ie/tablets/galaxy-tab-s/galaxy-tab-s10-plus-grey-256gb-5g-sm-x826bzareub/",
+    "name": "Samsung Galaxy Tab S10 Plus",
+    "specs": [
+      [
+        "Процессор",
+        "CPU Speed 3.4GHz, 2.8GHz, 2GHz CPU Type Octa-Core"
+      ],
+      [
+        "Экран",
+        "Size (Main Display) 12.4\" (315.0mm) Size (Main_Display) 315.0mm (12.4\" full rectangle) / 314.7mm (12.4\" rounded corners) Resolution (Main Display) 2800 x 1752 (WQXGA+) Technology (Main Display) Dynamic AMOLED 2X Colour Depth (Main Display) 16M"
+      ],
+      [
+        "Камеры",
+        "Rear Camera - Resolution 13.0 MP + 8.0 MP Rear Camera - Auto Focus Есть Front Camera - Resolution 12.0 MP Rear Camera - Flash Есть Video Recording Resolution UHD 4K (3840 x 2160) @30fps"
+      ],
+      [
+        "Подключение",
+        "USB Version USB 3.2 Gen 1 Location Technology GPS, Glonass, Beidou, Galileo, QZSS Earjack USB Type-C MHL Нет Wi-Fi 802.11a/b/г/n/ac/ax 2.4GHz+5GHz+6GHz, HE160, MIMO, 1024-QAM Wi-Fi Direct Есть Bluetooth Version Bluetooth v5.3 NFC Нет Bluetooth Profiles A2DP, AVRCP, DI, HFP, HID, HOGP, HSP, MAP, OPP, PAN, PBAP, PBP, TMAP PC Sync. Smart Switch (PC version)"
+      ],
+      [
+        "Версия USB",
+        "USB 3.2 Gen 1"
+      ],
+      [
+        "Wi-Fi",
+        "802.11a/b/г/n/ac/ax 2.4GHz+5GHz+6GHz, HE160, MIMO, 1024-QAM"
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth v5.3"
+      ],
+      [
+        "NFC",
+        "Нет"
+      ],
+      [
+        "Датчики",
+        "Accelerometer, Fingerprint Sensor, Gyro Sensor, Geomagnetic Sensor, Hall Sensor, RGB Light Sensor"
+      ],
+      [
+        "Аккумулятор",
+        "Video Playback Time (Hours, Wireless) До 16 Battery Capacity ( мА·ч, Typical) 10090 Removable Нет Energy Efficiency Class G Minimum Battery Endurance in Cycles 73.73"
+      ]
+    ],
+    "scope": "model"
+  },
+  "samsung galaxy tab s10 fe": {
+    "source": "https://www.samsung.com/uk/tablets/galaxy-tab-s/galaxy-tab-s10-fe-silver-128gb-5g-sm-x526bzsreub/",
+    "name": "Samsung Galaxy Tab S10 FE",
+    "specs": [
+      [
+        "Процессор",
+        "CPU Speed 2.9GHz, 2.6GHz, 1.9GHz CPU Type Octa-Core"
+      ],
+      [
+        "Экран",
+        "Size (Main_Display) 277.0mm (10.9\" full rectangle) / 275.1mm (10.8\" rounded corners) Resolution (Main Display) 2304 x 1440 (WUXGA+) Technology (Main Display) TFT Colour Depth (Main Display) 16M"
+      ],
+      [
+        "Камеры",
+        "Rear Camera - Resolution 13.0 MP Rear Camera - Auto Focus Есть Front Camera - Resolution 12.0 MP Rear Camera - Flash Нет Video Recording Resolution UHD 4K (3840 x 2160)@30fps"
+      ],
+      [
+        "Подключение",
+        "USB Version USB 2.0 Location Technology GPS, Glonass, Beidou, Galileo, QZSS Earjack USB Type-C MHL Нет Wi-Fi 802.11a/b/г/n/ac/ax 2.4GHz+5GHz, HE80, MIMO, 1024-QAM Wi-Fi Direct Есть Bluetooth Version Bluetooth v5.3 NFC Нет Bluetooth Profiles A2DP, AVRCP, DI, HAP, HFP, HID, HOGP, HSP, MAP, OPP, PAN, PBAP, PBP, TMAP PC Sync. Smart Switch (PC version)"
+      ],
+      [
+        "Версия USB",
+        "USB 2.0"
+      ],
+      [
+        "Wi-Fi",
+        "802.11a/b/г/n/ac/ax 2.4GHz+5GHz, HE80, MIMO, 1024-QAM"
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth v5.3"
+      ],
+      [
+        "NFC",
+        "Нет"
+      ],
+      [
+        "Датчики",
+        "Accelerometer, Fingerprint Sensor, Gyro Sensor, Geomagnetic Sensor, Hall Sensor, Light Sensor"
+      ],
+      [
+        "Аккумулятор",
+        "Video Playback Time (Hours, Wireless) До 20 Battery Capacity ( мА·ч, Typical) 8000 Removable Нет"
+      ]
+    ],
+    "scope": "model"
+  },
+  "redmagic 11s pro": {
+    "source": "https://global.redmagic.gg/products/redmagic-11s-pro?variant=55701642772553",
+    "name": "Redmagic 11S Pro",
+    "specs": [
+      [
+        "Процессор",
+        "Snapdragon 8 Elite Gen 5 Leading Version"
+      ],
+      [
+        "Операционная система",
+        "REDMAGIC OS 11.5 Based on Android 16"
+      ],
+      [
+        "Габариты",
+        "163.82mm x 76.54mm x 8.9mm"
+      ],
+      [
+        "Вес",
+        "230g"
+      ],
+      [
+        "Защита от воды и пыли",
+        "IPX8* Rating"
+      ],
+      [
+        "Экран",
+        "Size 6.85 Inch BOE X10 FHD+ Refresh Rate До 144Hz Touch Sampling Rate Highest 3000 Hz Maximum (Multi-Finger 360Hz) Resolution 2688x1216 Pixels, 20:9 Ratio Screen-to-body ratio 95.30% Brightness 1800 Nits Max Color Gamut 100% DCI-P3 Color Accuracy ΔE＜1 Eye Protection SGS Low Blue Light & Flicker-Free Certified"
+      ],
+      [
+        "Частота обновления экрана",
+        "До 144Hz"
+      ],
+      [
+        "Разрешение",
+        "2688x1216 Pixels, 20:9 Ratio"
+      ],
+      [
+        "Аккумулятор",
+        "7500 мА·ч Battery"
+      ],
+      [
+        "Подключение",
+        "Wi-Fi 802.11a/b/г/n/ac/ax (Tri-band 2.4G, 5G, 6G) with HBS support Bluetooth Bluetooth 5.4 Ports USB 3.2 Gen 2 Type-C DP Dual Nano-SIM Slot 3.5mm Audio Jack Sim Card SIM Dual nano-SIM(Not support e-sim)"
+      ],
+      [
+        "Wi-Fi",
+        "802.11a/b/г/n/ac/ax (Tri-band 2.4G, 5G, 6G) with HBS support"
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth 5.4"
+      ],
+      [
+        "Разъёмы",
+        "USB 3.2 Gen 2 Type-C DP Dual Nano-SIM Slot 3.5mm Audio Jack"
+      ]
+    ],
+    "scope": "model"
+  },
+  "bowers & wilkins pi8": {
+    "source": "https://www.bowerswilkins.com/en-us/product/wireless-earbuds/pi8/300965.html?dwvar_300965_color=AnthraciteBlk",
+    "name": "Bowers & Wilkins Pi8",
+    "specs": [
+      [
+        "Вес",
+        "Earbuds: 7g (each) Charging case: 46g"
+      ],
+      [
+        "Микрофоны",
+        "3 per earbud for telephony and ANC"
+      ],
+      [
+        "Тип аккумулятора",
+        "Rechargeable Lithium-ion (earbuds and charging case)"
+      ],
+      [
+        "Влагозащита",
+        "IP54 (earbuds)"
+      ]
+    ],
+    "scope": "model"
+  },
+  "bowers & wilkins pi6": {
+    "source": "https://www.bowerswilkins.com/en-us/product/archive-headphones/pi6/300966.html?dwvar_300966_color=StormGrey",
+    "name": "Bowers & Wilkins Pi6",
+    "specs": [
+      [
+        "Вес",
+        "Earbuds: 7g (each) Charging case: 46g"
+      ],
+      [
+        "Микрофоны",
+        "3 per earbud for telephony and ANC"
+      ],
+      [
+        "Тип аккумулятора",
+        "Rechargeable Lithium-ion (earbuds and charging case)"
+      ],
+      [
+        "Влагозащита",
+        "IP54 (earbuds)"
+      ]
+    ],
+    "scope": "model"
+  },
+  "gopro hero 12": {
+    "source": "https://gopro.com/en/us/shop/cameras/hero12-black/CHDHX-121-master.html",
+    "name": "GoPro HERO 12",
+    "specs": [
+      [
+        "Вес",
+        "154g (Camera w/mounting fingers + Battery)"
+      ],
+      [
+        "Аккумулятор",
+        "Removable 1720 мА·ч Enduro Battery"
+      ],
+      [
+        "Матрица",
+        "1/1.9\" CMOS"
+      ]
+    ],
+    "scope": "model"
+  },
+  "gopro mission 1 pro": {
+    "source": "https://gopro.com/en/us/shop/cameras/buy/mission-1-pro/CHDHW-011-master.html?option-id=CHDHW-011-master",
+    "name": "GoPro Mission 1 Pro",
+    "specs": [
+      [
+        "Матрица",
+        "1\""
+      ],
+      [
+        "Микрофоны",
+        "4 Microphones"
+      ],
+      [
+        "Wi-Fi",
+        "Wi-Fi 6"
+      ],
+      [
+        "Bluetooth",
+        "BLE 5.3"
+      ],
+      [
+        "Аккумулятор",
+        "2150 мА·ч Enduro 2 Battery"
+      ]
+    ],
+    "scope": "model"
+  },
+  "gopro mission 1": {
+    "source": "https://gopro.com/en/us/shop/cameras/buy/mission-1-pro/CHDHW-011-master.html?option-id=CHDHW-001-master",
+    "name": "GoPro Mission 1",
+    "specs": [
+      [
+        "Матрица",
+        "1\""
+      ],
+      [
+        "Микрофоны",
+        "4 Microphones"
+      ],
+      [
+        "Wi-Fi",
+        "Wi-Fi 6"
+      ],
+      [
+        "Bluetooth",
+        "BLE 5.3"
+      ],
+      [
+        "Аккумулятор",
+        "2150 мА·ч Enduro 2 Battery"
+      ]
+    ],
+    "scope": "model"
+  },
+  "oneplus buds pro 3": {
+    "source": "https://www.oneplus.com/us/oneplus-buds-pro-3/specs",
+    "name": "OnePlus Buds Pro 3",
+    "specs": [
+      [
+        "Габариты",
+        "Earphone Dimensions: 33.60*21.15*25.00mm"
+      ],
+      [
+        "Вес",
+        "Weight of the Earphone: 5.29g"
+      ],
+      [
+        "Динамики",
+        "11mm + 6mm"
+      ],
+      [
+        "Частотный диапазон",
+        "10Hz~40KHz"
+      ],
+      [
+        "Микрофоны",
+        "3 mics + VPU (Voice Pick Up Bone Sensor)"
+      ],
+      [
+        "Импеданс",
+        "18Ω ± 15%"
+      ],
+      [
+        "Подключение",
+        "Bluetooth Codec LHDC 5.0 / AAC / SBC Bluetooth Version Bluetooth 5.4 with Steady Connect Bluetooth Effective Distance 10m Bluetooth Transmission Protocol SPP、HFP、A2DP、AVRCP"
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth 5.4 with Steady Connect"
+      ],
+      [
+        "Защита от воды и пыли",
+        "IP55"
+      ]
+    ],
+    "scope": "model"
+  },
+  "vivo x300 fe": {
+    "source": "https://www.vivo.com/th/products/param/x300-fe",
+    "name": "Vivo X300 FE",
+    "specs": [
+      [
+        "Wi-Fi",
+        "Wi-Fi Display; 2×2 MIMO; MU-MIMO; Wi-Fi 6; Wi-Fi 7"
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth 6"
+      ],
+      [
+        "USB",
+        "Type-C, USB 2.0"
+      ],
+      [
+        "NFC",
+        "รองรับ หมายเหตุ รองรับโหมดเครื่องอ่านบัตร และโหมดจำลองบัตร โดยโหมดบัตรรองรับการชำระเงินแบบ HCE และการชำระเงินผ่าน NFC-SIM การชำระเงินด้วยซิมการ์ด ต้องใส่ซิมการ์ดไว้ในช่อง SIM 1 เท่านั้น"
+      ],
+      [
+        "CPU",
+        "Oryon CPU"
+      ],
+      [
+        "GPU",
+        "Adreno 829"
+      ]
+    ],
+    "scope": "model"
+  },
+  "bowers & wilkins px7 s2e": {
+    "source": "https://www.bowerswilkins.com/en-us/product/over-ear-headphones/px7-s2e/300866.html?dwvar_300866_color=AnthraciteBlk",
+    "name": "Bowers & Wilkins Px7 S2e",
+    "specs": [
+      [
+        "Вес",
+        "307g (without carry case)"
+      ],
+      [
+        "Излучатели",
+        "2 x 40mm dynamic full range bio cellulose driver"
+      ],
+      [
+        "Конструкция",
+        "Bluetooth Wireless Over-Ear Headphones"
+      ],
+      [
+        "Аудиокодеки",
+        "aptX Adaptive aptX HD aptX AAC SBC"
+      ],
+      [
+        "Микрофоны",
+        "4x mics for ANC 2x mics for telephony"
+      ],
+      [
+        "Тип аккумулятора",
+        "Rechargeable Lithium Ion"
+      ],
+      [
+        "Время работы и зарядка",
+        "30 ч playback, 7 ч with a 15 min charge"
+      ]
+    ],
+    "scope": "model"
+  },
+  "bowers & wilkins px8": {
+    "source": "https://www.bowerswilkins.com/en-us/product/over-ear-headphones/px8/300494.html?dwvar_300494_color=RoyalBurgundy",
+    "name": "Bowers & Wilkins Px8",
+    "specs": [
+      [
+        "Вес",
+        "320g (without carry case)"
+      ],
+      [
+        "Конструкция",
+        "Bluetooth Wireless Over-Ear Headphones"
+      ],
+      [
+        "Аудиокодеки",
+        "aptX Adaptive aptX HD aptX AAC SBC"
+      ],
+      [
+        "Излучатели",
+        "2 x 40mm dynamic full range carbon driver"
+      ],
+      [
+        "Микрофоны",
+        "4x mics for ANC 2x mics for telephony"
+      ],
+      [
+        "Тип аккумулятора",
+        "Rechargeable Lithium Ion"
+      ],
+      [
+        "Время работы и зарядка",
+        "30 ч playback 15 minute charge for 7 ч playback"
+      ]
+    ],
+    "scope": "model"
+  },
+  "sony wf-1000xm5": {
+    "source": "https://www.sony.com/electronics/support/wireless-headphones-bluetooth-headphones/wf-1000xm5/specifications",
+    "name": "Sony WF-1000XM5",
+    "specs": [
+      [
+        "Тип наушников",
+        "Closed, dynamic"
+      ],
+      [
+        "Излучатель",
+        "0.33\""
+      ],
+      [
+        "Время зарядки",
+        "Approx. 1.5 ч"
+      ],
+      [
+        "Зарядка",
+        "USB charger | Wireless charger (with case)"
+      ],
+      [
+        "Время прослушивания",
+        "Max. 8 ч (NC ON) | Max. 12 ч (NC OFF)"
+      ],
+      [
+        "Аудиокодеки",
+        "SBC, AAC, LDAC, LC3"
+      ],
+      [
+        "Диапазон частот Bluetooth",
+        "2.4 GHz band (2.400 0 GHz - 2.483 5 GHz)"
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth Specification Version 5.3 1"
+      ]
+    ],
+    "scope": "model"
+  },
+  "sony wh-1000xm4": {
+    "source": "https://www.sony.com/electronics/support/wireless-headphones-bluetooth-headphones/wh-1000xm4/specifications",
+    "name": "Sony WH-1000XM4",
+    "specs": [
+      [
+        "Тип наушников",
+        "Closed, dynamic"
+      ],
+      [
+        "NFC",
+        "Есть"
+      ],
+      [
+        "Частотный диапазон",
+        "4 Hz-40,000 Hz"
+      ],
+      [
+        "Излучатель",
+        "1.57 \", dome type (CCAW Voice coil)"
+      ],
+      [
+        "Конструкция",
+        "Circumaural"
+      ],
+      [
+        "Время зарядки",
+        "Approx. 3 Hours (Full charge)"
+      ],
+      [
+        "Зарядка",
+        "USB"
+      ],
+      [
+        "Аудиокодеки",
+        "SBC, AAC, LDAC"
+      ],
+      [
+        "Bluetooth",
+        "Version 5.0"
+      ]
+    ],
+    "scope": "model"
+  },
+  "sony wh-1000xm5": {
+    "source": "https://www.sony.com/electronics/support/wireless-headphones-bluetooth-headphones/wh-1000xm5/specifications",
+    "name": "Sony WH-1000XM5",
+    "specs": [
+      [
+        "Вес",
+        "Approx. 8.82 oz"
+      ],
+      [
+        "Тип наушников",
+        "Closed, dynamic"
+      ],
+      [
+        "Частотный диапазон",
+        "4 Hz–40,000 Hz (JEITA)"
+      ],
+      [
+        "Конструкция",
+        "Over Ear"
+      ],
+      [
+        "Время зарядки",
+        "Approx. 3.5 ч"
+      ],
+      [
+        "Зарядка",
+        "USB"
+      ],
+      [
+        "Время прослушивания",
+        "Max. 30 ч (NC ON), Max. 40 ч (NC OFF)"
+      ],
+      [
+        "Аудиокодеки",
+        "SBC, AAC, LDAC"
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth Specification Version 5.2"
+      ]
+    ],
+    "scope": "model"
+  },
+  "sony wh-1000xm6": {
+    "source": "https://www.sony.com/electronics/support/wireless-headphones-bluetooth-headphones/wh-1000xm6/specifications",
+    "name": "Sony WH-1000XM6",
+    "specs": [
+      [
+        "Вес",
+        "Approx. 8.96 oz"
+      ],
+      [
+        "Тип наушников",
+        "Closed"
+      ],
+      [
+        "Частотный диапазон",
+        "4–40,000 Hz (JEITA)"
+      ],
+      [
+        "Излучатель",
+        "1.18 in"
+      ],
+      [
+        "Конструкция",
+        "Over Ear"
+      ],
+      [
+        "Время зарядки",
+        "Approx. 3.5 ч"
+      ],
+      [
+        "Зарядка",
+        "USB"
+      ],
+      [
+        "Время прослушивания",
+        "Max. 30 ч (NC ON), Max. 40 ч (NC OFF)"
+      ],
+      [
+        "Аудиокодеки",
+        "SBC, AAC, LDAC, LC3"
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth Specification Version 5.3 1"
+      ]
+    ],
+    "scope": "model"
+  },
+  "sony wf-1000xm6": {
+    "source": "https://www.sony.com/electronics/support/wireless-headphones-bluetooth-headphones/wf-1000xm6/specifications",
+    "name": "Sony WF-1000XM6",
+    "specs": [
+      [
+        "Вес",
+        "Approx. 0.23 oz x2 (including earbud tips (M))"
+      ],
+      [
+        "Тип наушников",
+        "Closed"
+      ],
+      [
+        "Излучатель",
+        "0.33\""
+      ],
+      [
+        "Время зарядки",
+        "Approx. 1.5 ч"
+      ],
+      [
+        "Зарядка",
+        "USB charger | Wireless charger (with case)"
+      ],
+      [
+        "Время прослушивания",
+        "Max. 8 ч (NC ON) | Max. 12 ч (NC OFF)"
+      ],
+      [
+        "Аудиокодеки",
+        "SBC, AAC, LDAC, LC3"
+      ],
+      [
+        "Диапазон частот Bluetooth",
+        "2.4 GHz band (2.400 0 GHz - 2.483 5 GHz)"
+      ]
+    ],
+    "scope": "model"
+  },
+  "sony wh-ult900n": {
+    "source": "https://www.sony.com/electronics/support/wireless-headphones-bluetooth-headphones/wh-ult900n/specifications",
+    "name": "Sony WH-ULT900N",
+    "specs": [
+      [
+        "Вес",
+        "Approx. 8.99 oz"
+      ],
+      [
+        "Тип наушников",
+        "Closed Dynamic"
+      ],
+      [
+        "Частотный диапазон",
+        "5 Hz–20,000 Hz (JEITA)"
+      ],
+      [
+        "Излучатель",
+        "1.57 in (Dome Type)"
+      ],
+      [
+        "Конструкция",
+        "Over-ear"
+      ],
+      [
+        "Время зарядки",
+        "Approx. 3.5 ч"
+      ],
+      [
+        "Зарядка",
+        "USB"
+      ],
+      [
+        "Время прослушивания",
+        "Max. 30 ч (NC ON), Max. 50 ч (NC OFF)"
+      ],
+      [
+        "Аудиокодеки",
+        "SBC, AAC, LDAC"
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth Specification Version5.2 1"
+      ]
+    ],
+    "scope": "model"
+  }
+}

@@ -1,0 +1,23 @@
+import {readFileSync,writeFileSync,copyFileSync} from 'node:fs';
+import raw from '../data/new-price-catalog.json';
+import {presentCatalogItem} from '../lib/catalog-presentation';
+import {mediaAppearance} from '../lib/catalog-media-identity';
+import {photoSourceMatchesItem} from '../lib/catalog-photo-source';
+import type {CatalogItem} from '../lib/catalog-registry';
+const source='https://mgg.stores-apple.com/catalog/naushniki-apple-airpods-4/';
+const candidates=JSON.parse(readFileSync('.tmp-qa/photo-review-candidates/airpods4-basic.json','utf8')) as {source:string;sourceTitle:string;url:string;file:string}[];
+const reviewed=['51729b568e6b71a931c34201.jpg','a115661c7d7d96a4abc409f7.jpg','8509a9d5231c4f2181261aa8.jpg'];
+const item=presentCatalogItem(raw.find(p=>p.id==='P-90019874') as CatalogItem);
+if(item.model!=='AirPods 4'||item.configuration)throw Error('Basic AirPods identity changed');
+const gallery=reviewed.map(name=>{
+ const candidate=candidates.find(c=>c.file.endsWith('/'+name));
+ if(!candidate||candidate.source!==source||candidate.sourceTitle!=='Наушники Apple AirPods 4 белые'||!photoSourceMatchesItem(item,candidate))throw Error('Reviewed basic source changed');
+ const image='/images/products/verified/'+name;
+ copyFileSync(candidate.file,'public'+image);return image;
+});
+const inventory=JSON.parse(readFileSync('data/parser-store-links.json','utf8')) as {url:string;sheet:string;row:number}[];
+const provenance=inventory.find(p=>p.url===source);if(!provenance)throw Error('Source absent from Parser');
+const file='data/verified-product-media.json';const media=JSON.parse(readFileSync(file,'utf8'));
+media[item.id]={image:gallery[0],gallery,status:'verified',referenceModel:item.model,referenceColor:item.color,referenceAppearance:mediaAppearance(item),source,sourceTitle:candidates[0].sourceTitle,sourceWorkbook:'Парсер.xlsx',sourceSheet:provenance.sheet,sourceRow:provenance.row};
+writeFileSync(file,JSON.stringify(media,null,2)+'\n');
+console.log('Basic AirPods 4: three visually reviewed supplier originals applied');

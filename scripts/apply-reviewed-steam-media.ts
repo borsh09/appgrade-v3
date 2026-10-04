@@ -1,0 +1,11 @@
+import {readFileSync,writeFileSync} from 'node:fs';import {createHash} from 'node:crypto';
+import sharp from '../node_modules/next/node_modules/sharp/dist/index.mjs';
+import raw from '../data/new-price-catalog.json';import {presentCatalogItem} from '../lib/catalog-presentation';import {mediaAppearance} from '../lib/catalog-media-identity';
+import type {CatalogItem} from '../lib/catalog-registry';
+const candidates=JSON.parse(readFileSync('.tmp-qa/gaming/steam-photo-candidates.json','utf8')) as {source:string;sourceTitle:string;url:string;image:string;width:number;height:number}[];
+const a=candidates.find(a=>a.image==='/images/products/verified/03eb0fbd9cc93af577d8f812.png');
+if(!a||a.source!=='https://www.steamdeck.com/en/press'||a.url!=='https://cdn.fastly.steamstatic.com/steamdeck/images/press/renderings/press_oled_front_english.png'||createHash('sha256').update(a.url).digest('hex').slice(0,24)!=='03eb0fbd9cc93af577d8f812')throw Error('Reviewed Valve original changed');
+const m=await sharp('public'+a.image).metadata();if(m.width!==2500||m.height!==980||!m.hasAlpha)throw Error('Valve native photo changed');
+const r=raw.find(r=>r.id==='P-84282294');if(!r)throw Error('Steam article missing');const item=presentCatalogItem(r as CatalogItem);if(item.model!=='Steam Deck OLED'||item.color||item.sourceTitle!=='Steam Deck OLED 1TB')throw Error('Steam OLED identity changed');
+const file='data/verified-product-media.json',media=JSON.parse(readFileSync(file,'utf8'));media[item.id]={image:a.image,gallery:[a.image],status:'verified',referenceModel:item.model,referenceColor:item.color,referenceAppearance:mediaAppearance(item),source:a.source,sourceTitle:a.sourceTitle};
+writeFileSync('data/steam-reviewed-photo-assets.json',JSON.stringify([a],null,2)+'\n');writeFileSync(file,JSON.stringify(media,null,2)+'\n');console.log(item.id,item.model,item.sourceTitle);

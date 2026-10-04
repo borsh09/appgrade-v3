@@ -1,4 +1,4 @@
-import Image from 'next/image';
+﻿import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { ArrowRight } from 'lucide-react';
 
@@ -119,7 +119,7 @@ export function CategoryShowcase() {
               <br />
               которую выбирают
               <br />
-              сейчас.
+              сейчас
             </h3>
           </div>
           <Image
@@ -152,7 +152,7 @@ export function PromoMosaic() {
             <h3>
               Обновиться проще,
               <br />
-              чем кажется.
+              чем кажется
             </h3>
             <p>Оценим старое устройство и зачтём стоимость в новую покупку.</p>
           </div>
@@ -165,7 +165,7 @@ export function PromoMosaic() {
             <h3>
               Лёгкий.
               <br />
-              По-настоящему мощный.
+              По-настоящему мощный
             </h3>
           </div>
           <Image
@@ -181,7 +181,7 @@ export function PromoMosaic() {
             <h3>
               Четыре города.
               <br />
-              Один уровень сервиса.
+              Один уровень сервиса
             </h3>
             <p>Магнитогорск · Белорецк · Троицк · Сибай</p>
           </div>

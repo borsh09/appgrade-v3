@@ -2,7 +2,7 @@
 import Link from '@/components/shared/safe-link';
 import { catalogItems, normalizeProductName } from '@/lib/catalog-registry';
 import { optionHref, variantFields } from '@/lib/product-selection';
-const labels = {storage:'Память',ram:'Оперативная память',color:'Цвет',sim:'SIM',size:'Размер',connectivity:'Связь',configuration:'Версия'};
+const labels = {chip:'Процессор',storage:'Память',ram:'Оперативная память',color:'Цвет',sim:'SIM',size:'Размер',connectivity:'Связь',configuration:'Версия'};
 export function ProductVariants({ selectedId }: { selectedId: string }) {
   const selected = catalogItems.find(item=>item.id===selectedId);
   if(!selected) return null;

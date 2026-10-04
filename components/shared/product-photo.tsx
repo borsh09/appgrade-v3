@@ -6,7 +6,7 @@ export default function ProductPhoto(props: ImageProps) {
   const photo = typeof props.src === 'string'
     ? framing[props.src as keyof typeof framing]
     : undefined;
-  if (!photo || !props.fill) return <Image {...props} />;
+  if (!photo || !props.fill) return <Image quality={90} {...props} />;
   const [x, y, width, height] = photo.bounds;
   const side = Math.max(width, height) / .84;
   return (
@@ -19,7 +19,7 @@ export default function ProductPhoto(props: ImageProps) {
           height: `${photo.height / side * 100}%`,
           clipPath: `inset(${y / photo.height * 100}% ${(photo.width - x - width) / photo.width * 100}% ${(photo.height - y - height) / photo.height * 100}% ${x / photo.width * 100}%)`,
         }}>
-          <Image {...props} />
+          <Image quality={90} {...props} />
         </span>
       </span>
     </span>

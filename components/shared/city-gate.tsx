@@ -2,6 +2,7 @@
 
 import { BrandWordmark } from './brand-wordmark';
 import { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import {
   ArrowRight,
   MapPin,
@@ -16,6 +17,8 @@ import {
 import { useCity } from '@/components/providers/city-provider';
 
 export function CityGate() {
+  const pathname = usePathname();
+  const isAdmin = pathname === '/admin' || pathname.startsWith('/admin/');
   const dialogRef = useRef<HTMLDialogElement>(null);
   const {
     cityId,
@@ -25,7 +28,7 @@ export function CityGate() {
   } = useCity();
 
   useEffect(() => {
-    if (!citySelectorOpen) return;
+    if (!citySelectorOpen || isAdmin) return;
     const dialog = dialogRef.current;
     if (!dialog) return;
     dialog.showModal();
@@ -35,9 +38,9 @@ export function CityGate() {
       dialog.close();
       document.body.style.overflow = previousOverflow;
     };
-  }, [citySelectorOpen]);
+  }, [citySelectorOpen, isAdmin]);
 
-  if (!citySelectorOpen) {
+  if (!citySelectorOpen || isAdmin) {
     return null;
   }
 

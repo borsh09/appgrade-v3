@@ -1,12 +1,19 @@
 import { writeFile } from 'node:fs/promises';
+import {readFileSync} from 'node:fs';
 import sharp from '../node_modules/next/node_modules/sharp/dist/index.mjs';
 import { catalogItems } from '../lib/catalog-registry';
+import overrides from '../data/product-photo-framing-overrides.json';
 
 // Inspect pixels only: the originals remain untouched. These bounds control
 // layout so empty margins in different suppliers' photos do not shrink products.
+const previous: Record<string, { width: number; height: number; bounds: number[] }> = process.argv.includes('--new-only')
+  ? JSON.parse(readFileSync('data/product-photo-framing.json','utf8')) : {};
 const result: Record<string, { width: number; height: number; bounds: number[] }> = {};
 for (const src of [...new Set(catalogItems.flatMap(item => [item.image, ...(item.gallery ?? [])]))].sort()) {
   if (src.endsWith('.svg')) continue;
+  // Verified assets are immutable URL hashes. A full run still recomputes every
+  // image; this opt-in mode reuses bounds only for originals already measured.
+  if(previous[src]&&!(src in overrides)){result[src]=previous[src];continue;}
   const { data, info } = await sharp(`public${src}`).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
   const { width, height, channels } = info;
   const rows = new Uint32Array(height), columns = new Uint32Array(width);
@@ -28,6 +35,12 @@ for (const src of [...new Set(catalogItems.flatMap(item => [item.image, ...(item
   // the complete front-facing watch in the centre, without the two side views.
   if (src === '/images/products/completed/watch-ultra-2.jpg') {
     result[src].bounds = [780, 184, 466, 790];
+  }
+  const reviewed = (overrides as Record<string, number[]>)[src];
+  if (reviewed) {
+    const [x, y, w, h] = reviewed;
+    if (x < 0 || y < 0 || w <= 0 || h <= 0 || x + w > 1 || y + h > 1) throw new Error(`Invalid reviewed framing: ${src}`);
+    result[src].bounds = [Math.round(x * width), Math.round(y * height), Math.round(w * width), Math.round(h * height)];
   }
 }
 await writeFile('data/product-photo-framing.json', JSON.stringify(result, null, 2) + '\n');

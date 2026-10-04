@@ -64,21 +64,24 @@ const slides = [
 export function DesktopHero() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
-    if (paused) return;
-    const timer = window.setTimeout(() => {
+    if (paused || hovered) return;
+    const timer = window.setInterval(() => {
       if (!document.hidden && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) setActive(current => (current + 1) % slides.length);
     }, 6000);
-    return () => window.clearTimeout(timer);
-  }, [active, paused]);
+    return () => window.clearInterval(timer);
+  }, [active, paused, hovered]);
 
   return (
     <section
-      className={`${styles.hero} ${paused ? styles.rotationPaused : styles.rotating}`}
+      className={`${styles.hero} ${paused || hovered ? styles.rotationPaused : styles.rotating}`}
       aria-label="Предложения APPGRADE"
       aria-roledescription="карусель"
+      onPointerEnter={event => { if (event.pointerType === 'mouse') setHovered(true); }}
+      onFocusCapture={() => setPaused(true)}
       onPointerMove={event => {
         if (event.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         const bounds = event.currentTarget.getBoundingClientRect();
@@ -88,6 +91,7 @@ export function DesktopHero() {
         event.currentTarget.style.setProperty('--light-y', `${(event.clientY - bounds.top) / bounds.height * 100}%`);
       }}
       onPointerLeave={event => {
+        setHovered(false);
         event.currentTarget.style.setProperty('--drift-x', '0px');
         event.currentTarget.style.setProperty('--drift-y', '0px');
       }}

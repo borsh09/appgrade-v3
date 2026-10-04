@@ -27,11 +27,9 @@ APP_ORIGIN
 NEXT_PUBLIC_SITE_URL
 ADMIN_USER
 ADMIN_PASSWORD
-TELEGRAM_ORDERS_BOT_TOKEN
-TELEGRAM_ORDERS_CHAT_ID
-SITE_DOMAIN
 SELLER_NAME
 SELLER_INN
+SELLER_OGRNIP
 SELLER_ADDRESS
 SELLER_PRIVACY_EMAIL
 NEXT_PUBLIC_SIBAY_ADDRESS
@@ -39,8 +37,9 @@ NEXT_PUBLIC_SIBAY_PHONE
 NEXT_PUBLIC_SIBAY_SCHEDULE
 ```
 
-`APP_ORIGIN`, `NEXT_PUBLIC_SITE_URL`, and `SITE_DOMAIN` must use the final HTTPS
-site origin without a path or trailing slash. `ADMIN_PASSWORD` must have at
+`APP_ORIGIN` and `NEXT_PUBLIC_SITE_URL` must use the final HTTPS
+site origin without a path or trailing slash. For the optional Docker proxy,
+`SITE_DOMAIN` is the bare hostname without `https://`. `ADMIN_PASSWORD` must have at
 least 20 characters. Never commit secret values or the local `.env` file.
 
 Preview deployments need preview-specific `APP_ORIGIN` and
@@ -54,10 +53,11 @@ detects Next.js automatically. Admin price uploads accept `.xlsx` files up to
 4 MB. After deployment, check `/api/health`, then `/admin`, and perform a test
 import before announcing the deployment.
 
-Vercel hosts the web application, not the two long-running Telegram polling
-workers. Run `npm run bot:prices` and `npm run bot:orders` against the same
-production database on an always-on Docker VM or worker host. That host needs
-the two bot tokens, `TELEGRAM_PRICE_ADMIN_IDS`, and `TELEGRAM_ORDERS_CHAT_ID`.
+Orders and Trade-in requests are stored in PostgreSQL and reviewed in `/admin`.
+No Telegram workers or bot credentials are required.
+
+For the current Russian launch instructions, production template, Docker HTTPS
+override and backups, see [launch-readiness.md](docs/launch-readiness.md).
 
 Before every release run:
 

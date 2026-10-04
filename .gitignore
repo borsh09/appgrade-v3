@@ -14,6 +14,8 @@
 # next.js
 /.next/
 /.next-production/
+/.next-security/
+/.next-seo/
 /.vinext/
 /out/
 

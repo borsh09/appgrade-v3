@@ -1,4 +1,7 @@
 'use client';
+import { ProductSpecifications } from './product-specifications';
+import { DiscountPrice } from '@/components/shared/discount-price';
+import type { ProductDetailContent } from '@/lib/product-details';
 import { ProductVariants } from './product-variants';
 import { useState } from 'react';
 import { usePriceResolver } from '@/components/providers/price-provider';
@@ -7,10 +10,11 @@ import Link from '@/components/shared/safe-link';
 import { ArrowLeft, Check } from 'lucide-react';
 import type { DysonCatalogSku } from '@/data/dyson-catalog';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
-const money = new Intl.NumberFormat('ru-RU');
 export function DysonProductPage({
+  specifications,
   selected: baseSelected,
 }: {
+  specifications: ProductDetailContent;
   selected: DysonCatalogSku;
   variants: DysonCatalogSku[];
 }) {
@@ -68,7 +72,7 @@ export function DysonProductPage({
               температуры.
             </p>
             <div className="product-price-line">
-              <strong>{money.format(selected.price)} ₽</strong>
+              <DiscountPrice price={selected.price} oldPrice={selected.oldPrice} />
               <span>
                 <Check size={14} />В наличии
               </span>
@@ -135,32 +139,7 @@ export function DysonProductPage({
             <span>цифровой мотор</span>
           </div>
         </section>
-        <section className="product-specifications" id="specs">
-          <div className="product-section-kicker">Характеристики</div>
-          <div className="product-spec-groups">
-            <div className="product-spec-group">
-              <h3>Основные параметры</h3>
-              <dl>
-                <div>
-                  <dt>Модель</dt>
-                  <dd>{selected.model}</dd>
-                </div>
-                <div>
-                  <dt>Тип</dt>
-                  <dd>{selected.kind}</dd>
-                </div>
-                <div>
-                  <dt>Цвет</dt>
-                  <dd>{selected.color}</dd>
-                </div>
-                <div>
-                  <dt>Контроль температуры</dt>
-                  <dd>Интеллектуальный</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </section>
+        <ProductSpecifications details={specifications} />
       </div>
     </main>
   );

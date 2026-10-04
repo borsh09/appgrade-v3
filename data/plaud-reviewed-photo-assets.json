@@ -1,0 +1,68 @@
+[
+  {
+    "model": "Plaud Note Pro",
+    "color": "Black",
+    "manufacturerColor": "Black",
+    "source": "https://global.plaud.ai/products/plaud-note-pro?variant=51235046818085",
+    "sourceTitle": "Plaud Note Pro",
+    "url": "https://global.plaud.ai/cdn/shop/files/plaud-note-pro-listing-2.png?v=1763697115",
+    "image": "/images/products/verified/8613ebc8a938d6db17a2c977.png",
+    "width": 1600,
+    "height": 1600
+  },
+  {
+    "model": "Plaud Note Pro",
+    "color": "Silver",
+    "manufacturerColor": "Silver",
+    "source": "https://global.plaud.ai/products/plaud-note-pro?variant=51235046850853",
+    "sourceTitle": "Plaud Note Pro",
+    "url": "https://global.plaud.ai/cdn/shop/files/plaud-note-pro-listing-5.png?v=1763697115",
+    "image": "/images/products/verified/9ca14a83630dfd2c53a0c321.png",
+    "width": 1600,
+    "height": 1600
+  },
+  {
+    "model": "Plaud Note",
+    "color": "Blue",
+    "manufacturerColor": "Navy Blue",
+    "source": "https://global.plaud.ai/products/plaud-note-ai-voice-recorder?variant=50742048948517",
+    "sourceTitle": "Plaud Note",
+    "url": "https://global.plaud.ai/cdn/shop/files/note_nb.webp?v=1763102669",
+    "image": "/images/products/verified/6971554d37265967e65294d6.webp",
+    "width": 1600,
+    "height": 1600
+  },
+  {
+    "model": "Plaud Note",
+    "color": "Starlight",
+    "manufacturerColor": "Starlight",
+    "source": "https://marketing.plaud.ai/products/plaud-note-ai-note-taker?variant=46887533674668",
+    "sourceTitle": "Plaud Note",
+    "url": "https://marketing.plaud.ai/cdn/shop/files/star_1.png?v=1756730964",
+    "image": "/images/products/verified/0ffbbff3b8f7c731963006dd.png",
+    "width": 2000,
+    "height": 2000
+  },
+  {
+    "model": "Plaud Note",
+    "color": "Black",
+    "manufacturerColor": "Black",
+    "source": "https://global.plaud.ai/products/plaud-note-ai-voice-recorder?variant=50742048850213",
+    "sourceTitle": "Plaud Note",
+    "url": "https://global.plaud.ai/cdn/shop/files/860f1b5ad250ad988cea88d176cb1394.png?v=1763102669",
+    "image": "/images/products/verified/a23a00b8243442225e50bc51.png",
+    "width": 2000,
+    "height": 2000
+  },
+  {
+    "model": "Plaud Note",
+    "color": "Silver",
+    "manufacturerColor": "Silver",
+    "source": "https://marketing.plaud.ai/products/plaud-note-ai-note-taker?variant=46887533707436",
+    "sourceTitle": "Plaud Note",
+    "url": "https://marketing.plaud.ai/cdn/shop/files/grey_1.png?v=1756730964",
+    "image": "/images/products/verified/cd6d0e550a315677d8426192.png",
+    "width": 2000,
+    "height": 2000
+  }
+]

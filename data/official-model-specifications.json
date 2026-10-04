@@ -1,0 +1,1326 @@
+{
+  "oneplus 13s": {
+    "source": "https://www.oneplus.in/13s/specs",
+    "name": "OnePlus 13S",
+    "specs": [
+      [
+        "Высота",
+        "15.08 cm"
+      ],
+      [
+        "Ширина",
+        "7.17 cm"
+      ],
+      [
+        "Толщина",
+        "0.82 cm"
+      ],
+      [
+        "Вес",
+        "185 г"
+      ],
+      [
+        "Диагональ экрана",
+        "16.05 cm (6.32 дюйма, по диагонали)"
+      ],
+      [
+        "Разрешение экрана",
+        "2640*1216 (FHD+), 460 ppi"
+      ],
+      [
+        "Частота обновления экрана",
+        "1-120 Гц dynamic"
+      ],
+      [
+        "Тип экрана",
+        "120Hz ProXDR Display with LTPO"
+      ],
+      [
+        "Операционная система",
+        "OxygenOS 15.0 на базе Android 15"
+      ],
+      [
+        "Процессор",
+        "Snapdragon 8 Elite"
+      ],
+      [
+        "CPU",
+        "Qualcomm Oryon CPU @4.32GHz"
+      ],
+      [
+        "GPU",
+        "Adreno 830"
+      ],
+      [
+        "Аккумулятор",
+        "5,850 мА·ч"
+      ],
+      [
+        "Зарядка",
+        "80W SUPERVOOC"
+      ]
+    ],
+    "scope": "model"
+  },
+  "oneplus 15t": {
+    "source": "https://www.oneplus.com/cn/15t/specs",
+    "name": "OnePlus 15T",
+    "specs": [
+      [
+        "Высота",
+        "150.56 мм"
+      ],
+      [
+        "Ширина",
+        "71.82 мм"
+      ],
+      [
+        "Толщина",
+        "8.35 мм"
+      ],
+      [
+        "Вес",
+        "около 194 г"
+      ],
+      [
+        "Процессор",
+        "Snapdragon 8 Elite Gen 5"
+      ],
+      [
+        "Техпроцесс",
+        "3 нм"
+      ],
+      [
+        "GPU",
+        "Adreno840@1200MHz"
+      ],
+      [
+        "Тип оперативной памяти",
+        "LPDDR5X Ultra Pro"
+      ],
+      [
+        "Тип накопителя",
+        "UFS 4.1"
+      ],
+      [
+        "Диагональ экрана",
+        "6.32 дюйма"
+      ]
+    ],
+    "scope": "model"
+  },
+  "oneplus pad 4": {
+    "source": "https://www.oneplus.com/sg/pad-4/specs",
+    "name": "OnePlus Pad 4",
+    "specs": [
+      [
+        "Длина",
+        "289.71 мм"
+      ],
+      [
+        "Ширина",
+        "209.76 мм"
+      ],
+      [
+        "Толщина",
+        "5.94 мм"
+      ],
+      [
+        "Вес",
+        "672g"
+      ],
+      [
+        "Процессор",
+        "Snapdragon 8 Elite Gen 5"
+      ],
+      [
+        "CPU",
+        "Qualcomm Oryon CPU @ До 4.608GHz"
+      ],
+      [
+        "GPU",
+        "Adreno 840 @ 1200MHz"
+      ],
+      [
+        "Тип оперативной памяти",
+        "LPDDR5X"
+      ],
+      [
+        "Тип накопителя",
+        "UFS 4.1"
+      ],
+      [
+        "Зарядка",
+        "До 80W SUPERVOOC"
+      ],
+      [
+        "Диагональ экрана",
+        "13.2-дюйма"
+      ],
+      [
+        "Тип экрана",
+        "LCD"
+      ],
+      [
+        "Разрешение экрана",
+        "3392*2400"
+      ],
+      [
+        "Частота обновления экрана",
+        "До 144 Гц, adaptive refresh"
+      ],
+      [
+        "Яркость экрана",
+        "700 nits (1000 nits HBM)"
+      ],
+      [
+        "Динамики",
+        "8 Speakers"
+      ],
+      [
+        "Микрофоны",
+        "2"
+      ],
+      [
+        "Операционная система",
+        "OxygenOS 16.0"
+      ]
+    ],
+    "scope": "model"
+  },
+  "oneplus nord ce5": {
+    "source": "https://www.oneplus.com/il/nord-ce5/specs",
+    "name": "OnePlus Nord CE5",
+    "specs": [
+      [
+        "Высота",
+        "163.58 мм"
+      ],
+      [
+        "Ширина",
+        "76.02 мм"
+      ],
+      [
+        "Толщина",
+        "8.27 мм (Marble Mist) 8.17 мм (Black Infinity)"
+      ],
+      [
+        "Вес",
+        "Approx. 199g"
+      ],
+      [
+        "Диагональ экрана",
+        "6.77\" (по диагонали)"
+      ],
+      [
+        "Разрешение экрана",
+        "2392×1080, 387 PPI"
+      ],
+      [
+        "Частота обновления экрана",
+        "120Hz"
+      ],
+      [
+        "Операционная система",
+        "OxygenOS 15.0 на базе Android 15"
+      ],
+      [
+        "Процессор",
+        "MediaTek Dimensity 8350 Apex"
+      ],
+      [
+        "CPU",
+        "Arm cortex 1xA715@3.35GHZ Arm cortex 3xA715@3.2GHZ Arm cortex 4xA510@2.2GHZ"
+      ],
+      [
+        "GPU",
+        "Arm G615 MC6"
+      ],
+      [
+        "Аккумулятор",
+        "7100 мА·ч lithium-ion polymer battery"
+      ],
+      [
+        "Зарядка",
+        "80W SUPERVOOC"
+      ]
+    ],
+    "scope": "model"
+  },
+  "oneplus nord ce6": {
+    "source": "https://www.oneplus.com/ru/nord-ce6/specs",
+    "name": "OnePlus Nord CE6",
+    "specs": [
+      [
+        "Высота",
+        "162,46 мм"
+      ],
+      [
+        "Ширина",
+        "77,45 мм"
+      ],
+      [
+        "Толщина",
+        "8,5 мм"
+      ],
+      [
+        "Масса",
+        "208 г"
+      ],
+      [
+        "Размер",
+        "6,78' (измеряется по диагонали от угла к углу)"
+      ],
+      [
+        "Разрешение",
+        "1,5K (FHD+), 2772 × 1272"
+      ],
+      [
+        "Плотность пикселей",
+        "450 точек на дюйм"
+      ],
+      [
+        "Соотношение сторон",
+        "19,6 : 9"
+      ],
+      [
+        "Отношение экрана к корпусу",
+        "93,5 %"
+      ],
+      [
+        "Частота обновления экрана",
+        "До 144Hz (60/90/120Hz adaptive, 144Hz for select apps only)"
+      ],
+      [
+        "Тип панели",
+        "AMOLED"
+      ],
+      [
+        "Отклик на касание (мгновенный)",
+        "до 3200 Гц со специальным сенсорным чипом Touch Reflex"
+      ],
+      [
+        "Широтно-импульсная модуляция для защиты глаз",
+        "3840 Гц"
+      ],
+      [
+        "Технология Sunburst HDR",
+        "да"
+      ],
+      [
+        "Защитный материал",
+        "Crystal Guard (материал, разработанный в сотрудничестве с другими компаниями)"
+      ],
+      [
+        "Операционная система",
+        "OxygenOS 16.0 на базе Android 16"
+      ],
+      [
+        "CPU",
+        "мобильная платформа Qualcomm Snapdragon 7s Gen 4"
+      ],
+      [
+        "Графический процессор",
+        "Qualcomm Adreno 810"
+      ],
+      [
+        "Батарея",
+        "7500 мА·ч (несъемная)"
+      ],
+      [
+        "Обратная зарядка",
+        "6,5 Вт (только проводная)"
+      ],
+      [
+        "Обходная зарядка",
+        "да"
+      ],
+      [
+        "Работа системы",
+        "рейтинг A на протяжении 72 месяцев (тестирование проводилось на версии с 256 Гб)"
+      ],
+      [
+        "Основная камера",
+        "Матрица: OmniVision OV50D40 CMOS Sensor Size: 1/2.88'' Мегапиксели: 50 Размер пикселя: 0,61 мкм Количество линз: 5P Оптическая стабилизация изображения по двум осям: да Электронная стабилизация изображения по трем осям: да Фокусное расстояние: эквивалентно 27 мм Диафрагма: ƒ/1,8 Поле обзора: 76° PDAF: да Автофокус: да"
+      ],
+      [
+        "Вспомогательная камера",
+        "Матрица: Galaxycore GC02M1B CMOS Sensor size: 1/5'' Мегапиксели: 2 Размер пикселя: 1,75 мкм Количество линз: 3P Фокусное расстояние: эквивалентно 22 мм Диафрагма: ƒ/2,4 Поле обзора: 89°"
+      ],
+      [
+        "Вспышка",
+        "Светодиодная"
+      ],
+      [
+        "Зум",
+        "1–10-кратный цифровой зум"
+      ],
+      [
+        "Фронтальная камера",
+        "Матрица: Galaxycore GC32E2 Размер матрицы: 1/3,1' Мегапиксели: 32 Количество линз: 5P Размер пикселя: 0,7 мкм Электронная стабилизация изображения по трем осям: да Фокусное расстояние: эквивалентно 21 мм Автофокус: да Диафрагма: ƒ/2,0 Поле обзора: 90°"
+      ],
+      [
+        "Видео",
+        "Видео 4K при 30 кадр/с Видео 1080p при 30 кадр/с Видео 720p при 30 кадр/с Видео EIS: видео 1080p при 30 кадр/с (по умолчанию); видео 720p при 30 кадр/с Ускоренная съемка видео 1080p при 1920/960/480/240/120/60/30/15 кадр/с Цифровой зум: макс. 2-кратный Поддержка записи видео в двухоконном режиме"
+      ],
+      [
+        "Две SIM-карты",
+        "Да (с поддержкой Dual SIM Dual Active)"
+      ],
+      [
+        "Позиционирование",
+        "GPS, ГЛОНАСС, BDS, Galileo, QZSS"
+      ],
+      [
+        "Военный стандарт",
+        "MIL-STD-810H"
+      ],
+      [
+        "Рейтинг IP",
+        "IP66, IP68, IP69, IP69K"
+      ]
+    ],
+    "scope": "model"
+  },
+  "oneplus nord 5": {
+    "source": "https://www.oneplus.com/be_nl/nord-5/specs",
+    "name": "OnePlus Nord 5",
+    "specs": [
+      [
+        "Высота",
+        "163.41 мм"
+      ],
+      [
+        "Ширина",
+        "77,04 мм"
+      ],
+      [
+        "Толщина",
+        "8,1 мм"
+      ],
+      [
+        "Вес",
+        "211g"
+      ],
+      [
+        "Диагональ экрана",
+        "6.83\" (по диагонали)"
+      ],
+      [
+        "Разрешение экрана",
+        "1.5K (FHD+), 2800 x 1272"
+      ],
+      [
+        "Частота обновления экрана",
+        "До 144Hz (60/90/120/144Hz)"
+      ],
+      [
+        "Тип экрана",
+        "Swift AMOLED met Ultra HDR-ondersteuning"
+      ],
+      [
+        "Операционная система",
+        "OxygenOS 15.0 gebaseerd op Android 15"
+      ],
+      [
+        "CPU",
+        "Qualcomm Snapdragon 8s Gen 3"
+      ],
+      [
+        "GPU",
+        "Qualcomm Adreno 735"
+      ],
+      [
+        "Аккумулятор",
+        "5200 мА·ч (enkele cel, niet verwijderbaar)"
+      ]
+    ],
+    "scope": "model"
+  },
+  "oneplus nord 6": {
+    "source": "https://www.oneplus.com/no/nord-6/specs",
+    "name": "OnePlus Nord 6",
+    "specs": [
+      [
+        "Высота",
+        "162.46 мм"
+      ],
+      [
+        "Ширина",
+        "77.45 мм"
+      ],
+      [
+        "Толщина",
+        "8.50 мм"
+      ],
+      [
+        "Вес",
+        "210g"
+      ],
+      [
+        "Диагональ экрана",
+        "6.78'' (по диагонали)"
+      ],
+      [
+        "Разрешение экрана",
+        "1.5K (FHD+), 2772 x 1272"
+      ],
+      [
+        "Частота обновления экрана",
+        "До 165Hz (60/90/120/144/165Hz)"
+      ],
+      [
+        "Тип экрана",
+        "Sunburst AMOLED (Flex)"
+      ],
+      [
+        "Операционная система",
+        "OxygenOS 16.0 на базе Android 16"
+      ],
+      [
+        "CPU",
+        "Qualcomm Snapdragon 8s Gen 4"
+      ],
+      [
+        "GPU",
+        "Qualcomm Adreno 825"
+      ],
+      [
+        "Аккумулятор",
+        "7,500 мА·ч (non-removable)"
+      ]
+    ],
+    "scope": "model"
+  },
+  "oneplus buds 4": {
+    "source": "https://www.oneplus.com/us/oneplus-buds-4/specs",
+    "name": "OnePlus Buds 4",
+    "specs": [
+      [
+        "Вес",
+        "Наушники: 4.73 ± 0.2 г Кейс: 39.97 ± 1 г Всего: 49.42 ± 1 г"
+      ],
+      [
+        "Динамики",
+        "11mm НЧ-динамик + 6mm ВЧ-динамик"
+      ],
+      [
+        "Частотный диапазон",
+        "15Hz~40KHz"
+      ],
+      [
+        "Микрофоны",
+        "3 микрофона с каждой стороны"
+      ],
+      [
+        "Импеданс",
+        "18Ω ± 15% 10Ω ± 15%"
+      ],
+      [
+        "Шумоподавление",
+        "Адаптивное активное шумоподавление"
+      ],
+      [
+        "Режимы шумоподавления",
+        "ANC on / Adaptive Mode / Transparency Mode / ANC off"
+      ],
+      [
+        "Аудиокодеки Bluetooth",
+        "LHDC 5.0 / AAC / SBC"
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth 5.4 with Steady Connect"
+      ],
+      [
+        "Ёмкость аккумулятора",
+        "Наушники: 62 мА·ч Кейс: 530 мА·ч"
+      ],
+      [
+        "Время зарядки",
+        "Наушники: about 50 minutes Earbuds + Case: about 80 minutes"
+      ],
+      [
+        "Разъём зарядки",
+        "Wired: USB Type-C"
+      ]
+    ],
+    "scope": "model"
+  },
+  "tecno camon 50": {
+    "source": "https://www.tecno-mobile.com/phones/tech-specs/techspecs/camon-50/",
+    "name": "Tecno Camon 50",
+    "specs": [
+      [
+        "Операционная система",
+        "HiOS 16"
+      ],
+      [
+        "Процессор",
+        "MediaTek Helio G200 Ultimate"
+      ],
+      [
+        "Сети",
+        "2G; 3G; 4G"
+      ],
+      [
+        "Габариты",
+        "162.37x77.17x7.53mm"
+      ],
+      [
+        "Экран",
+        "6.78'' AMOLED 144 Гц 1.5K"
+      ],
+      [
+        "Камеры",
+        "Фронтальная: 32 Мп; Основная: 50 Мп 1/1.56'' OIS+8 Мп сверхширокоугольная AF"
+      ],
+      [
+        "Связь",
+        "WiFi; BT; FM; GPS; NFC; Type-C Port; OTG"
+      ],
+      [
+        "Аккумулятор и зарядка",
+        "6500 мА·ч , 45W быстрая зарядка"
+      ]
+    ],
+    "scope": "model"
+  },
+  "tecno camon 50 ultra": {
+    "source": "https://www.tecno-mobile.com/phones/tech-specs/techspecs/camon-50-ultra-5g/",
+    "name": "Tecno Camon 50 Ultra",
+    "specs": [
+      [
+        "Операционная система",
+        "HiOS 16"
+      ],
+      [
+        "Процессор",
+        "MediaTek Dimensity 7400 Ultimate"
+      ],
+      [
+        "Сети",
+        "2G; 3G; 4G; 5G"
+      ],
+      [
+        "Габариты",
+        "162.37x76.97x7.75mm"
+      ],
+      [
+        "Экран",
+        "6.78'' Curved AMOLED 144 Гц 1.5K"
+      ],
+      [
+        "Камеры",
+        "Фронтальная: 50 Мп; Основная: 50 Мп 1/1.56'' OIS+50 Мп 3X+8 Мп сверхширокоугольная"
+      ],
+      [
+        "Связь",
+        "WiFi; BT; FM; GPS; NFC; Type-C Port; OTG"
+      ],
+      [
+        "Аккумулятор и зарядка",
+        "6500 мА·ч , 45W быстрая зарядка"
+      ]
+    ],
+    "scope": "model"
+  },
+  "tecno spark 50": {
+    "source": "https://www.tecno-mobile.com/ph/phones/tech-specs/techspecs/spark-50/",
+    "name": "Tecno Spark 50",
+    "specs": [
+      [
+        "Операционная система",
+        "Android 16"
+      ],
+      [
+        "Процессор",
+        "G81"
+      ],
+      [
+        "Сети",
+        "2G; 3G; 4G"
+      ],
+      [
+        "Габариты",
+        "167.8*79.22*8.18mm"
+      ],
+      [
+        "Экран",
+        "120 Гц 6.78'' Hole Screen"
+      ],
+      [
+        "Камеры",
+        "Фронтальная: 8 Мп, Front Flash; Основная: 50 Мп, Rear Flash"
+      ],
+      [
+        "Связь",
+        "GPS; WiFi; BT; FM; OTG; NFC"
+      ],
+      [
+        "Аккумулятор и зарядка",
+        "7000 мА·ч; 18W Fast Charging; Type-C"
+      ]
+    ],
+    "scope": "model"
+  },
+  "tecno spark go 3": {
+    "source": "https://www.tecno-mobile.com/phones/tech-specs/techspecs/spark-go-3/",
+    "name": "Tecno Spark Go 3",
+    "specs": [
+      [
+        "Операционная система",
+        "Android 15"
+      ],
+      [
+        "Процессор",
+        "T7250"
+      ],
+      [
+        "Сети",
+        "2G; 3G; 4G"
+      ],
+      [
+        "Габариты",
+        "167.7x77.8x8.10mm"
+      ],
+      [
+        "Экран",
+        "120 Гц 6.75'' Dot Notch Screen"
+      ],
+      [
+        "Камеры",
+        "Фронтальная: 8 Мп; Основная: 13 Мп, Rear Dual Flash"
+      ],
+      [
+        "Связь",
+        "GPS; WiFi; BT; FM; OTG"
+      ],
+      [
+        "Аккумулятор и зарядка",
+        "5000 мА·ч; 15W Fast Charging; Type-C"
+      ]
+    ],
+    "scope": "model"
+  },
+  "honor 400": {
+    "source": "https://www.honor.com/global/phones/honor-400/spec/",
+    "name": "Honor 400",
+    "specs": [
+      [
+        "Высота",
+        "156.5 мм"
+      ],
+      [
+        "Ширина",
+        "74.6 мм"
+      ],
+      [
+        "Толщина",
+        "7.3 мм"
+      ],
+      [
+        "Вес",
+        "Около 184 г (including the battery)"
+      ],
+      [
+        "Диагональ экрана",
+        "6.55 дюйма"
+      ],
+      [
+        "Тип экрана",
+        "AMOLED"
+      ],
+      [
+        "Разрешение экрана",
+        "2736×1264"
+      ],
+      [
+        "Процессор",
+        "Snapdragon 7 Gen 3"
+      ],
+      [
+        "Тип CPU",
+        "Восьмиядерный"
+      ],
+      [
+        "GPU",
+        "Adreno 720"
+      ],
+      [
+        "Операционная система",
+        "MagicOS 9.0 (Based on Android 15)"
+      ],
+      [
+        "Оболочка",
+        "MagicOS 9.0"
+      ],
+      [
+        "Основные камеры",
+        "200MP Ultra-clear AI Main Camera(f/1.9, OIS) 12MP Ultra Wide Camera (f/2.2)"
+      ],
+      [
+        "Фронтальная камера",
+        "50MP Camera(f/2.0 aperture)"
+      ],
+      [
+        "Ёмкость аккумулятора",
+        "6000  мА·ч (typical value)"
+      ],
+      [
+        "Тип аккумулятора",
+        "Lithium polymer battery(Silicon-Carbon Battery)"
+      ],
+      [
+        "Проводная зарядка",
+        "The phone supports up to 20V/4A SuperCharge, compatible with 11V/6A,10V/4A"
+      ],
+      [
+        "Защита от воды и пыли",
+        "IP66"
+      ],
+      [
+        "Bluetooth",
+        "BT5.4, BLE/SBC/AAC/LDAC/APTX/APTX HD"
+      ],
+      [
+        "NFC",
+        "Supported"
+      ],
+      [
+        "Стереодинамики",
+        "Supported"
+      ]
+    ],
+    "scope": "model"
+  },
+  "honor x6e": {
+    "source": "https://www.honor.com/my/phones/honor-x6e/spec/",
+    "name": "Honor X6e",
+    "specs": [
+      [
+        "Высота",
+        "163.9mm"
+      ],
+      [
+        "Ширина",
+        "75.9mm"
+      ],
+      [
+        "Толщина",
+        "8.29 мм"
+      ],
+      [
+        "Вес",
+        "Около 207g (including the battery)"
+      ],
+      [
+        "Диагональ экрана",
+        "6.61 дюйма"
+      ],
+      [
+        "Тип экрана",
+        "TFT LCD"
+      ],
+      [
+        "Разрешение экрана",
+        "1604*720"
+      ],
+      [
+        "Процессор",
+        "MediaTek Helio G81 Ultra"
+      ],
+      [
+        "Тип CPU",
+        "Восьмиядерный"
+      ],
+      [
+        "GPU",
+        "ARM Mail G52 MC2"
+      ],
+      [
+        "Операционная система",
+        "MagicOS 10.0 (на базе Android 16)"
+      ],
+      [
+        "Оболочка",
+        "MagicOS 10.0"
+      ],
+      [
+        "Основные камеры",
+        "50MP Main Camera (F1.8) Auxiliary lens"
+      ],
+      [
+        "Фронтальная камера",
+        "5MP (F2.2)"
+      ],
+      [
+        "Ёмкость аккумулятора",
+        "7500 мА·ч (typical value)"
+      ],
+      [
+        "Тип аккумулятора",
+        "Li-ion Polymer Battery"
+      ],
+      [
+        "Проводная зарядка",
+        "Support up to 45W (11V/4.1A) super charge"
+      ],
+      [
+        "Защита от воды и пыли",
+        "IP64"
+      ],
+      [
+        "Wi-Fi",
+        "802.11 a/b/г/n/ac 2.4 GHz and 5 GHz WLAN Hotspot Wi-Fi Direct"
+      ],
+      [
+        "Bluetooth",
+        "BT5.1"
+      ]
+    ],
+    "scope": "model"
+  },
+  "honor x7e": {
+    "source": "https://www.honor.com/ae-en/phones/honor-x7e/spec/",
+    "name": "Honor X7e",
+    "specs": [
+      [
+        "Высота",
+        "163.9 мм"
+      ],
+      [
+        "Ширина",
+        "75.9 мм"
+      ],
+      [
+        "Толщина",
+        "8.29 мм"
+      ],
+      [
+        "Вес",
+        "LAB-LX1: Около 204 г (including the battery) LAB-LX2&LAB-LX3: Около 207 г (including the battery)"
+      ],
+      [
+        "Диагональ экрана",
+        "6.61 дюйма"
+      ],
+      [
+        "Тип экрана",
+        "TFT LCD"
+      ],
+      [
+        "Разрешение экрана",
+        "1604*720"
+      ],
+      [
+        "Процессор",
+        "MediaTek Helio G81 Ultra"
+      ],
+      [
+        "Тип CPU",
+        "Восьмиядерный"
+      ],
+      [
+        "GPU",
+        "ARM Mali G52 MC2"
+      ],
+      [
+        "Операционная система",
+        "MagicOS 10.0 (на базе Android 16)"
+      ],
+      [
+        "Оболочка",
+        "MagicOS 10.0"
+      ],
+      [
+        "Основные камеры",
+        "50MP Main Camera (F1.8) Auxiliary lens"
+      ],
+      [
+        "Фронтальная камера",
+        "5MP (F2.2)"
+      ],
+      [
+        "Ёмкость аккумулятора",
+        "LAB-LX2&LAB-LX3: 7500  мА·ч (typical value)"
+      ],
+      [
+        "Тип аккумулятора",
+        "Li-ion Polymer Battery"
+      ],
+      [
+        "Проводная зарядка",
+        "Support up to 45W (11V/4.1A) super charge"
+      ],
+      [
+        "Защита от воды и пыли",
+        "IP64"
+      ],
+      [
+        "Wi-Fi",
+        "Support 802.11 a/b/г/n/ac 2.4 GHz and 5 GHz WLAN Hotspot/Wi-Fi Direct"
+      ],
+      [
+        "Bluetooth",
+        "BT5.1"
+      ],
+      [
+        "NFC",
+        "Only LAB-LX1&LAB-LX2(Labu-L52D/Labu-L52E/Labu-L52EGDS/Labu-L52EGES) Support"
+      ]
+    ],
+    "scope": "model"
+  },
+  "honor x8d": {
+    "source": "https://www.honor.com/ae-en/phones/honor-x8d/spec/",
+    "name": "Honor X8d",
+    "specs": [
+      [
+        "Высота",
+        "162.9mm"
+      ],
+      [
+        "Ширина",
+        "76.31mm"
+      ],
+      [
+        "Толщина",
+        "7.5mm"
+      ],
+      [
+        "Вес",
+        "Около 188g (including the battery)"
+      ],
+      [
+        "Диагональ экрана",
+        "6.77 дюйма"
+      ],
+      [
+        "Тип экрана",
+        "AMOLED"
+      ],
+      [
+        "Разрешение экрана",
+        "1080*2392"
+      ],
+      [
+        "Процессор",
+        "Snapdragon 6s 4G Gen 2"
+      ],
+      [
+        "Тип CPU",
+        "Восьмиядерный"
+      ],
+      [
+        "GPU",
+        "Adreno 610"
+      ],
+      [
+        "Операционная система",
+        "MagicOS 10 (Based on Android 16)"
+      ],
+      [
+        "Оболочка",
+        "MagicOS 10"
+      ],
+      [
+        "Основные камеры",
+        "108MP Main Camera(f/1.75) 5MP Wide Camera(f/2.2)"
+      ],
+      [
+        "Фронтальная камера",
+        "16MP Camera (f/2.45)"
+      ],
+      [
+        "Ёмкость аккумулятора",
+        "6800 мА·ч (rated value), 7000  мА·ч (typical value)"
+      ],
+      [
+        "Тип аккумулятора",
+        "Li-ion Polymer Battery"
+      ],
+      [
+        "Проводная зарядка",
+        "Support 45W"
+      ],
+      [
+        "Защита от воды и пыли",
+        "IP65"
+      ],
+      [
+        "Wi-Fi",
+        "Support 802.11 a/b/г/n/ac, 2.4GHz and 5GHz Support WiFi hotspot/Wi-Fi Direct"
+      ],
+      [
+        "Bluetooth",
+        "LNA-LX2 BT5.0, support BLE,SBC,AAC"
+      ],
+      [
+        "NFC",
+        "LNA-LX2 Supported"
+      ],
+      [
+        "Стереодинамики",
+        "300% Stereo Sound Volume"
+      ]
+    ],
+    "scope": "model"
+  },
+  "honor 600 lite": {
+    "source": "https://www.honor.com/my/phones/honor-600-lite/spec/",
+    "name": "Honor 600 Lite",
+    "specs": [
+      [
+        "Высота",
+        "157.43mm"
+      ],
+      [
+        "Ширина",
+        "75.35mm"
+      ],
+      [
+        "Толщина",
+        "7.34mm"
+      ],
+      [
+        "Вес",
+        "Около 180g (including the battery)"
+      ],
+      [
+        "Диагональ экрана",
+        "6.6 дюйма"
+      ],
+      [
+        "Тип экрана",
+        "AMOLED"
+      ],
+      [
+        "Разрешение экрана",
+        "1200*2600"
+      ],
+      [
+        "Процессор",
+        "MediaTek Dimensity 7100 Elite"
+      ],
+      [
+        "Тип CPU",
+        "Восьмиядерный"
+      ],
+      [
+        "GPU",
+        "G610 MC2"
+      ],
+      [
+        "Операционная система",
+        "MagicOS 10 (Based on Android 16)"
+      ],
+      [
+        "Оболочка",
+        "MagicOS 10"
+      ],
+      [
+        "Основные камеры",
+        "108MP Main Camera(f/1.75) 5MP Ultra Wide Camera(f/2.2)"
+      ],
+      [
+        "Фронтальная камера",
+        "16MP Camera (f/2.45)"
+      ],
+      [
+        "Ёмкость аккумулятора",
+        "6320 мА·ч (rated value), 6520  мА·ч (typical value)"
+      ],
+      [
+        "Тип аккумулятора",
+        "Li-ion Polymer Battery"
+      ],
+      [
+        "Проводная зарядка",
+        "Support 45W"
+      ],
+      [
+        "Защита от воды и пыли",
+        "IP66"
+      ],
+      [
+        "Wi-Fi",
+        "Support 802.11 a/b/г/n/ac，2.4GHz and 5GHz Support WiFi hotspot/Wi-Fi Direct"
+      ],
+      [
+        "Bluetooth",
+        "BT6.0, support BLE,SBC,AAC,LDAC,aptX,aptX HD,LHDC5.0"
+      ],
+      [
+        "NFC",
+        "Supported"
+      ],
+      [
+        "Стереодинамики",
+        "300% Stereo Sound Volume"
+      ]
+    ],
+    "scope": "model"
+  },
+  "honor x5d plus": {
+    "source": "https://www.honor.com/my/phones/honor-x5d-plus/spec/",
+    "name": "Honor X5d Plus",
+    "specs": [
+      [
+        "Высота",
+        "167.00mm"
+      ],
+      [
+        "Ширина",
+        "77.00mm"
+      ],
+      [
+        "Толщина",
+        "7.89mm"
+      ],
+      [
+        "Вес",
+        "Около 186g (including the battery)"
+      ],
+      [
+        "Диагональ экрана",
+        "6.74 дюйма"
+      ],
+      [
+        "Тип экрана",
+        "TFTLCD"
+      ],
+      [
+        "Разрешение экрана",
+        "720*1600"
+      ],
+      [
+        "Процессор",
+        "MediaTek Helio G81"
+      ],
+      [
+        "Тип CPU",
+        "Восьмиядерный"
+      ],
+      [
+        "GPU",
+        "ARM Mali G52 MC2"
+      ],
+      [
+        "Операционная система",
+        "MagicOS 9.0 (Android 15)"
+      ],
+      [
+        "Оболочка",
+        "MagicOS 9.0"
+      ],
+      [
+        "Основные камеры",
+        "50MP Main Camera (f/1.8) QVGA 0.08MP"
+      ],
+      [
+        "Фронтальная камера",
+        "5 MP Camera (f/2.2 aperture)"
+      ],
+      [
+        "Ёмкость аккумулятора",
+        "5130 мА·ч (rated value), 5260  мА·ч (typical value)"
+      ],
+      [
+        "Тип аккумулятора",
+        "Lithium-ion polymer battery"
+      ],
+      [
+        "Проводная зарядка",
+        "Supported 15W"
+      ],
+      [
+        "Wi-Fi",
+        "Support 802.11 a/b/г/n/ac 2.4GHz and 5GHz WiFi hotspot/Wi-Fi Direct"
+      ],
+      [
+        "Bluetooth",
+        "BT5.1, Supported BLE, SBC, AAC, LDAC, APTX, APTX HD"
+      ]
+    ],
+    "scope": "model"
+  },
+  "honor pad x8b": {
+    "source": "https://www.honor.com/ae-en/tablets/honor-pad-x8b/spec/",
+    "name": "Honor Pad X8b",
+    "specs": [
+      [
+        "Ширина",
+        "256.91mm"
+      ],
+      [
+        "Высота",
+        "168.46mm"
+      ],
+      [
+        "Вес",
+        "Около LTE 496g (with battery) WiFi 499g (with battery)"
+      ],
+      [
+        "Диагональ экрана",
+        "11 дюйма"
+      ],
+      [
+        "Тип экрана",
+        "TFT LCD (IPS)"
+      ],
+      [
+        "Разрешение экрана",
+        "1920*1200"
+      ],
+      [
+        "Операционная система",
+        "MagicOS 10 (Android 16)"
+      ],
+      [
+        "Основные камеры",
+        "5MP camera (Fno2.0 AF)"
+      ],
+      [
+        "Фронтальная камера",
+        "5MP camera (Fno2.0 FF)"
+      ],
+      [
+        "Ёмкость аккумулятора",
+        "10100  мА·ч (typical value)"
+      ],
+      [
+        "Wi-Fi",
+        "WIFI 5, 802.11 a/b/г/n/ac"
+      ],
+      [
+        "Bluetooth",
+        "BT 5.0, Supported BLE, SBC, AAC, LDAC"
+      ]
+    ],
+    "scope": "model"
+  },
+  "honor turbo": {
+    "source": "https://www.honor.com/az/phones/honor-turbo/spec/",
+    "name": "Honor Turbo",
+    "specs": [
+      [
+        "GPU",
+        "Adreno A810"
+      ],
+      [
+        "Bluetooth",
+        "Bluetooth 5.2; BLE, SBC, AAC, LDAC, aptX, aptX HD, AptX Adaptive dəstəklənir"
+      ],
+      [
+        "NFC",
+        "Dəstəklənir"
+      ],
+      [
+        "Стереодинамики",
+        "Dəstəklənir"
+      ]
+    ],
+    "scope": "model"
+  }
+}

@@ -28,6 +28,9 @@ export function validateTradeIn(value: unknown) {
   return {
     customer: { name, phone }, model: row.model, deviceType: 'Смартфон', condition,
     details, estimate: assessment.estimate, city,
+    ...selection!, storage: row.storage, sim: row.sim,
+    assessmentReason: assessment.reason,
+    batteryLabel: row.batteryLabel, priceLabel: row.priceLabel,
     consent: { version: PERSONAL_DATA_CONSENT_VERSION, acceptedAt: new Date().toISOString() },
   };
 }

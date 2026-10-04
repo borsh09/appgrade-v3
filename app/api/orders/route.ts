@@ -2,45 +2,25 @@ import { createHash, randomUUID } from 'node:crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { database, transaction } from '@/lib/server/db';
 import { basePrices, parserUnavailableIds } from '@/lib/catalog-registry';
-import { OrderError, orderMessages, validateOrder } from '@/lib/server/orders';
-import { assertOrigin, protectSubmission } from '@/lib/server/request-guard';
+import { OrderError, validateOrder } from '@/lib/server/orders';
+import { assertOrigin, protectSubmission, readJson } from '@/lib/server/request-guard';
+import { isSellerConfigured } from '@/config/seller';
+import { discountPrice } from '@/lib/discount-price';
 
 export const runtime = 'nodejs';
 const uuid =
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 export async function POST(request: NextRequest) {
   try {
-    const chat = process.env.TELEGRAM_ORDERS_CHAT_ID;
-    if (
-      !process.env.DATABASE_URL ||
-      !process.env.TELEGRAM_ORDERS_BOT_TOKEN ||
-      !chat
-    )
+    if (!isSellerConfigured())
+      return NextResponse.json({ error: 'Приём заявок пока недоступен. Свяжитесь с магазином.' }, { status: 503 });
+    if (!process.env.DATABASE_URL)
       return NextResponse.json(
         { error: 'Приём заказов пока не настроен.' },
         { status: 503 },
       );
     assertOrigin(request);
-    const reader = request.body?.getReader();
-    if (!reader) throw new OrderError('Пустой заказ.');
-    let size = 0;
-    const chunks: Uint8Array[] = [];
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      size += value.length;
-      if (size > 32_768) {
-        await reader.cancel();
-        throw new OrderError('Слишком большой заказ.', 413);
-      }
-      chunks.push(value);
-    }
-    let payload;
-    try {
-      payload = JSON.parse(Buffer.concat(chunks).toString('utf8'));
-    } catch {
-      throw new OrderError('Некорректный заказ.');
-    }
+    const payload = await readJson(request) as Record<string, unknown> | null;
     if (
       !payload ||
       typeof payload.requestKey !== 'string' ||
@@ -73,12 +53,19 @@ export async function POST(request: NextRequest) {
         if(retry.rows[0].request_hash!==hash) throw new OrderError('Данные заказа изменились.',409);
         return retry.rows[0].id;
       }
-      const order = validateOrder(payload, {
+      const prices: Record<string, number | null> = {
         ...basePrices,
         ...state.rows[0].prices,
-        ...Object.fromEntries((await client.query('SELECT sku,price FROM appgrade_city_prices WHERE city=$1',[payload.city?.id])).rows.map(row=>[row.sku,row.price])),
+        ...Object.fromEntries((await client.query('SELECT sku,price FROM appgrade_city_prices WHERE city=$1',[
+          payload.city && typeof payload.city === 'object' && 'id' in payload.city ? payload.city.id : null,
+        ])).rows.map(row=>[row.sku,row.price])),
         ...Object.fromEntries([...parserUnavailableIds].map((id) => [id, null])),
-      });
+      };
+      const discounts = await client.query('SELECT sku,price FROM appgrade_discounts WHERE city=$1', [
+        payload.city && typeof payload.city === 'object' && 'id' in payload.city ? payload.city.id : null,
+      ]);
+      for (const discount of discounts.rows) prices[discount.sku] = discountPrice(prices[discount.sku], discount.price).price ?? null;
+      const order = validateOrder(payload, prices);
       const key = createHash('sha256')
         .update(order.customer.phone.replace(/\D/g, ''))
         .digest('hex');
@@ -103,15 +90,13 @@ export async function POST(request: NextRequest) {
       }
       const orderId = randomUUID();
       const { rows } = await client.query(
-        `INSERT INTO appgrade_orders(id,request_key,request_hash,payload,notification_chat,messages)
-        VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT(request_key) DO NOTHING RETURNING id`,
+        `INSERT INTO appgrade_orders(id,request_key,request_hash,payload)
+        VALUES($1,$2,$3,$4) ON CONFLICT(request_key) DO NOTHING RETURNING id`,
         [
           orderId,
           payload.requestKey,
           hash,
           JSON.stringify({...order,reservedStock}),
-          chat,
-          JSON.stringify(orderMessages(orderId, order)),
         ],
       );
       if (rows[0]) {

@@ -1,8 +1,10 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
 import { ArrowRight } from 'lucide-react';
+import { catalogCategoryGroups } from '@/data/catalog-navigation';
+import styles from './category-showcase-new.module.css';
 
 const categories = [
   {
@@ -13,24 +15,24 @@ const categories = [
     className: 'is-large is-dark',
   },
   {
+    title: 'Samsung',
+    subtitle: 'Смартфоны Galaxy',
+    href: '/catalog/samsung',
+    image: '/images/king-category-smartphones.webp',
+    className: 'is-light',
+  },
+  {
     title: 'MacBook',
-    subtitle: 'Ноутбуки Apple',
+    subtitle: 'Для работы и учёбы',
     href: '/catalog/macbooks',
     image: '/images/king-category-computers.webp',
     className: 'is-light',
   },
   {
     title: 'AirPods',
-    subtitle: 'Наушники',
+    subtitle: 'Наушники и колонки',
     href: '/catalog/audio',
     image: '/images/king-category-headphones.webp',
-    className: 'is-light',
-  },
-  {
-    title: 'Apple Watch',
-    subtitle: 'Часы',
-    href: '/catalog/watches',
-    image: '/images/king-category-watches.webp',
     className: 'is-light',
   },
   {
@@ -49,7 +51,7 @@ export function CategoryShowcaseNew() {
         <div className="appgrade-categories-heading">
           <div>
             <span>Каталог</span>
-            <h2>Выбирайте своё.</h2>
+            <h2>Выбирайте своё</h2>
           </div>
 
           <Link href="/catalog">
@@ -83,12 +85,17 @@ export function CategoryShowcaseNew() {
                   fill
                   sizes="(max-width: 768px) 80vw, 40vw"
                   className="appgrade-category-product"
-                  priority={category.title === 'iPhone'}
+                  preload={category.title === 'iPhone'}
                 />
               </div>
             </Link>
           ))}
         </div>
+        <nav className={styles.links} aria-label="Все категории товаров">
+          {catalogCategoryGroups.flatMap(group => group.categories).map(category => (
+            <Link key={category.id} href={category.href}>{category.title}<ArrowRight size={14} aria-hidden="true" /></Link>
+          ))}
+        </nav>
       </div>
     </section>
   );

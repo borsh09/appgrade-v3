@@ -24,7 +24,7 @@ export function HoverProductPhoto({ image, gallery, alt, sizes, className }: Pro
 
   return (
     <span className="hover-product-photo" onMouseMove={showAngle} onMouseLeave={() => setActive(0)}>
-      <Image src={photos[active]} alt={alt} fill quality={90} sizes={sizes} className={className} />
+      <Image src={photos[active] ?? photos[0]} alt={alt} fill quality={90} sizes={sizes} className={className} />
       {photos.length > 1 && <span className="hover-product-photo-steps" aria-hidden="true">
         {photos.map((photo, index) => <span key={photo} className={index === active ? 'is-active' : ''} />)}
       </span>}

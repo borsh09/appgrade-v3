@@ -21,7 +21,7 @@
 .topline h1 { margin: 0; font-size: 13px; font-weight: 650; letter-spacing: -.01em; }
 .topline > span { border-left: 1px solid #bdb7b1; padding-left: 18px; color: #706a65; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
 .headline { margin: 0; font-size: clamp(35px, 4.3vw, 66px); line-height: 1.01; font-weight: 550; letter-spacing: -.055em; text-wrap: balance; }
-.headline em { display: block; margin-top: 7px; color: var(--accent); font-family: Georgia, 'Times New Roman', serif; font-weight: 400; letter-spacing: -.06em; }
+.headline em { display: block; margin-top: 7px; color: var(--accent); font-family: inherit; font-weight: 400; letter-spacing: -.06em; }
 .description { max-width: 350px; margin: 26px 0 0; color: #645f5a; font-size: 14px; line-height: 1.65; text-wrap: pretty; }
 .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; margin-top: 30px; }
 .cta { display: inline-flex; align-items: center; justify-content: center; gap: 24px; min-height: 49px; padding: 0 23px; border-radius: 999px; background: #242321; color: white; font-size: 12px; font-weight: 550; transition: background .2s, transform .2s; }
@@ -30,7 +30,7 @@
 .detail { margin: 18px 0 0; color: #78716b; font-size: 10px; }
 .visual { position: relative; min-width: 0; min-height: 560px; }
 .visual::before { content: ''; position: absolute; inset: 7% -12% 9% 4%; border-radius: 50%; background: radial-gradient(ellipse, #fff 0%, #fff9 38%, transparent 71%); }
-.wordmark { position: absolute; top: 7%; left: 2%; right: 0; text-align: center; color: var(--accent); opacity: .07; font: 500 clamp(90px, 12vw, 185px)/1 Georgia, serif; letter-spacing: -.065em; user-select: none; }
+.wordmark { position: absolute; top: 7%; left: 2%; right: 0; text-align: center; color: var(--accent); opacity: .07; font: 500 clamp(90px, 12vw, 185px)/1 var(--font-site); letter-spacing: -.065em; user-select: none; }
 /* Blend the white photo canvas into the banner without casting a rectangular shadow. */
 .product { position: absolute; z-index: 1; inset: 4% 1% 12% -2%; border: 0; background: none; mix-blend-mode: multiply; transform: rotate(var(--angle)) scale(var(--scale)); transition: transform .6s cubic-bezier(.2,.7,.3,1); }
 .product img { object-fit: contain; padding: 0; border: 0; border-radius: 0; background: transparent; }

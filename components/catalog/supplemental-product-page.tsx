@@ -1,4 +1,6 @@
 'use client';
+import { ProductSpecifications } from './product-specifications';
+import { DiscountPrice } from '@/components/shared/discount-price';
 
 import Image from '@/components/shared/product-photo';
 import Link from '@/components/shared/safe-link';
@@ -10,12 +12,11 @@ import { AddToCartButton, FavoriteButton } from '@/components/shared/commerce-bu
 import { ProductVariants } from './product-variants';
 import type { ProductDetailContent } from '@/lib/product-details';
 
-const money = new Intl.NumberFormat('ru-RU');
 
 export function AdditionalProductPage({ selected, details }: { selected: CatalogItem; details: ProductDetailContent }) {
   const resolve = usePriceResolver();
   const sku = resolve(selected);
-  const unavailable = parserUnavailableIds.has(sku.id);
+  const unavailable = sku.price === null && parserUnavailableIds.has(sku.id);
   const [photo, setPhoto] = useState(0);
   const gallery = [...new Set(sku.gallery?.length ? sku.gallery : [sku.image])];
   const product = {
@@ -34,22 +35,22 @@ export function AdditionalProductPage({ selected, details }: { selected: Catalog
         <div className="product-layout">
           <section className="product-gallery">
             <div className="product-gallery-frame">
-              <Image src={gallery[photo] ?? sku.image} alt={sku.priceAlias ?? sku.model} fill sizes="(max-width:768px) 100vw,58vw" />
+              <Image src={gallery[photo] ?? sku.image} alt={[sku.model, itemConfiguration(sku)].filter(Boolean).join(' · ')} fill sizes="(max-width:768px) 100vw,58vw" />
             </div>
             {gallery.length > 1 && <div className="product-gallery-thumbs">
               {gallery.map((src, index) => <button key={src} onClick={() => setPhoto(index)} aria-label={`Фото ${index + 1}`} aria-pressed={index === photo}>
                 <Image src={src} alt="" width={72} height={72} />
               </button>)}
             </div>}
-            {sku.photoApproximate && <p className="product-photo-note">{sku.image.includes('category-') ? 'Иллюстрация категории. Фото товара уточняется.' : 'Изображение модели может отличаться от выбранной комплектации.'}</p>}
+            {sku.photoMissing && <p className="product-photo-note">Фото этой модели и цвета пока не добавлено.</p>}
           </section>
           <section className="product-info">
             <p className="catalog-overline">APPGRADE</p>
-            <h1>{sku.id.startsWith('parser-sheet1-') ? sku.priceAlias : sku.model}</h1>
+            <h1>{sku.model}</h1>
             {sku.article && <p className="product-lead">Артикул: {sku.article}</p>}
             <p className="product-lead">{details.lead}</p>
             <div className="product-price-line">
-              <strong>{unavailable ? 'Нет в продаже' : sku.price === null ? 'Цена уточняется' : `${money.format(sku.price)} ₽`}</strong>
+              <DiscountPrice price={sku.price} oldPrice={sku.oldPrice} unavailable={unavailable} />
               <span>{unavailable ? 'Недоступен для заказа' : sku.price === null ? 'Уточнить наличие' : 'В наличии'}</span>
             </div>
             <ProductVariants selectedId={sku.id} />
@@ -74,18 +75,7 @@ export function AdditionalProductPage({ selected, details }: { selected: Catalog
             <p>{details.description}</p>
           </div>
         </section>
-        <section className="product-specifications" id="specs">
-          <div className="product-section-kicker">Характеристики</div>
-          <div>
-            <div className="product-spec-groups">
-              {details.groups.map((group) => <div className="product-spec-group" key={group.title}>
-                <h3>{group.title}</h3>
-                <dl>{group.rows.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
-              </div>)}
-            </div>
-            {details.limitedSpecs && <p className="product-spec-note">Дополнительные технические характеристики уточняются.</p>}
-          </div>
-        </section>
+        <ProductSpecifications details={details} />
       </div>
     </main>
   );

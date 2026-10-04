@@ -1,0 +1,39 @@
+.footer { background: #080808; color: #fff; padding: 64px 0 24px; }
+.main { display: grid; grid-template-columns: 1.35fr .85fr .85fr 1.15fr; gap: 40px; }
+.logo { display: block; width: 240px; max-width: 100%; }
+.brand > p { margin: 22px 0 26px; color: #898989; font-size: 13px; line-height: 1.8; }
+.socials { display: flex; gap: 10px; }
+.socials a { display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; color: #ddd; background: #171717; border: 1px solid #292929; border-radius: 14px; transition: background 180ms, border-color 180ms, transform 180ms, color 180ms; }
+.column { display: flex; flex-direction: column; align-items: flex-start; gap: 13px; }
+.column h2, .contacts h2 { margin: 0 0 10px; font-size: 13px; font-weight: 650; color: #fff; }
+.column > a { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; color: #929292; transition: color 180ms; }
+.city { display: inline-flex; align-items: center; gap: 7px; padding: 0; margin: 3px 0 16px; background: none; border: 0; color: #b1b1b1; cursor: pointer; font: inherit; font-size: 13px; }
+.phone { display: block; font-size: clamp(17px, 1.6vw, 21px); font-weight: 600; letter-spacing: -.04em; white-space: nowrap; }
+.contacts p { display: flex; align-items: flex-start; gap: 8px; margin: 12px 0 0; font-size: 12px; line-height: 1.6; color: #929292; }
+.contacts p svg { flex-shrink: 0; margin-top: 2px; }
+.message { display: inline-flex; align-items: center; gap: 22px; margin-top: 21px; padding: 11px 16px; border: 1px solid #333; border-radius: 10px; font-size: 12px; transition: background 180ms, border-color 180ms; }
+.bottom { display: flex; align-items: center; gap: 30px; margin-top: 48px; padding-top: 22px; border-top: 1px solid #252525; color: #777; font-size: 11px; }
+.made { margin-left: auto; display: inline-flex; align-items: baseline; gap: 7px; }
+.made strong { font-size: 14px; color: #eee; }
+.footer a:focus-visible, .city:focus-visible { outline: 2px solid #fff; outline-offset: 5px; border-radius: 5px; }
+@media (hover: hover) {
+  .column > a:hover, .bottom a:hover, .city:hover { color: #fff; }
+  .socials a:hover { color: #fff; transform: translateY(-3px); }
+  .telegram:hover { background: #229ed9; border-color: #229ed9; }
+  .vk:hover { background: #0077ff; border-color: #0077ff; }
+  .instagram:hover { background: #b73983; border-color: #b73983; }
+  .message:hover { background: #202020; border-color: #555; }
+}
+@media (max-width: 1000px) { .main { grid-template-columns: 1fr 1fr; gap: 40px 32px; } }
+@media (max-width: 540px) {
+  .footer { padding-top: 40px; }
+  .main { gap: 32px 20px; }
+  .brand, .contacts { grid-column: 1 / -1; }
+  .logo { width: 220px; }
+  .brand > p { margin: 16px 0 20px; }
+  .column { gap: 14px; }
+  .column > a { font-size: 12px; }
+  .bottom { flex-wrap: wrap; gap: 16px 24px; margin-top: 32px; line-height: 1.6; }
+  .bottom > a:nth-child(2) { flex-basis: 100%; order: 2; }
+}
+@media (prefers-reduced-motion: reduce) { .footer a { transition: none; } .socials a:hover { transform: none; } }

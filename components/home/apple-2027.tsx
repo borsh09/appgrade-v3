@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useRef } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -19,8 +19,8 @@ export function Apple2027({ products }: { products: FeaturedProduct[] }) {
       <div className="container">
         <div className="appgrade-popular-heading">
           <div>
-            <span>НОВИНКИ APPLE</span>
-            <h2 id="apple-2027-title">Apple 2027.</h2>
+            <span>ПРЕДЗАКАЗ APPLE</span>
+            <h2 id="apple-2027-title">Новинки по предзаказу</h2>
           </div>
           <div className="appgrade-popular-heading-actions">
             <div className="appgrade-popular-arrows">
@@ -32,7 +32,7 @@ export function Apple2027({ products }: { products: FeaturedProduct[] }) {
               </button>
             </div>
             <Link href="/catalog/iphones">
-              Смотреть новинки
+              Все iPhone
               <ArrowRight size={16} />
             </Link>
           </div>

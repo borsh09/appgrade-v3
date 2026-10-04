@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from '@/components/shared/safe-link';
@@ -7,7 +7,7 @@ import { ArrowRight } from 'lucide-react';
 const promos = [
   {
     eyebrow: 'PlayStation',
-    title: 'Играй без компромиссов.',
+    title: 'Играй без компромиссов',
     text: 'PlayStation 5 и аксессуары.',
     href: '/catalog/playstation',
     image: '/images/home/ps5-pro.png',
@@ -15,7 +15,7 @@ const promos = [
   },
   {
     eyebrow: 'Marshall',
-    title: 'Звук с характером.',
+    title: 'Звук с характером',
     text: 'Наушники и акустика Marshall.',
     href: '/catalog/audio',
     image:
@@ -24,7 +24,7 @@ const promos = [
   },
   {
     eyebrow: 'Xiaomi',
-    title: 'Больше возможностей.',
+    title: 'Больше возможностей',
     text: 'Смартфоны Xiaomi и Redmi.',
     href: '/catalog/xiaomi',
     image: '/images/products/xiaomi/15-ultra-main.png',
@@ -39,7 +39,7 @@ export function PromoBento() {
         <div className="appgrade-editorial-heading">
           <div>
             <span>Ещё больше техники</span>
-            <h2>Не только Apple.</h2>
+            <h2>Не только Apple</h2>
           </div>
 
           <Link href="/catalog">

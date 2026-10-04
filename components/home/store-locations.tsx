@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import {
   ArrowUpRight,
@@ -39,7 +39,7 @@ export function StoreLocations() {
           <h2>
             Ждём вас
             <br />
-            в APPGRADE.
+            в APPGRADE
           </h2>
         </div>
 

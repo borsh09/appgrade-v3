@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { basePrices, catalogItems } from '@/lib/catalog-registry';
-import { validateOrder, orderMessages } from '@/lib/server/orders';
+import { validateOrder } from '@/lib/server/orders';
 import { calculateTradeInEstimate, tradeInDiscount, tradeInModels, tradeInPrices, type TradeInSelection } from '@/lib/trade-in-estimate';
 
 const item = catalogItems.find(product => product.category === 'iphones' && product.price !== null)!;
@@ -29,9 +29,7 @@ void test('server uses catalog names, configured city and authoritative totals',
   assert.equal(result.items[0].name, item.model);
   assert.equal(result.city.name, 'Сибай');
   assert.equal(result.total, item.price! * 2 + 2990);
-  assert.ok(
-    orderMessages('test-order', result).join('\n').includes('Адрес уточняется'),
-  );
+  assert.ok(result.city.address);
 });
 void test('stale or tampered prices, bad quantities and unknown services are rejected', () => {
   const payload = sampleOrder();
@@ -53,27 +51,9 @@ void test('delivery needs an address; Telegram contact needs username', () => {
   contact.contactMethod = 'telegram';
   assert.throws(() => validateOrder(contact, basePrices));
   contact.telegramUsername = '@customer_test';
-  assert.ok(
-    orderMessages('id', validateOrder(contact, basePrices))[0].includes(
-      '@customer_test',
-    ),
-  );
+  assert.equal(validateOrder(contact, basePrices).customer.telegramUsername, '@customer_test');
 });
-void test('large orders split into Telegram-safe messages without dropping items', () => {
-  const payload = sampleOrder();
-  payload.customer.comment = 'Комментарий '.repeat(80);
-  payload.items = catalogItems
-    .filter((i) => i.price !== null)
-    .sort((a, b) => (b.model + b.color).length - (a.model + a.color).length)
-    .slice(0, 30)
-    .map((i) => ({ id: i.id, name: i.model, price: i.price, quantity: 1 }));
-  payload.serviceIds = [];
-  const order = validateOrder(payload, basePrices),
-    messages = orderMessages('order-id', order);
-  assert.ok(messages.length > 1);
-  assert.ok(messages.every((m) => m.length < 4096));
-  assert.ok(messages.join('\n').includes('ИТОГО'));
-});
+
 
 void test('Trade-In estimate reduces the provisional order total and cannot be forged', () => {
   const selection: TradeInSelection = {
@@ -84,7 +64,7 @@ void test('Trade-In estimate reduces the provisional order total and cannot be f
   const order = validateOrder({ ...sampleOrder(), tradeIn: { ...selection, estimate } }, basePrices);
   assert.equal(order.estimatedDiscount, tradeInDiscount(estimate!, order.productsTotal));
   assert.equal(order.total, order.productsTotal + order.servicesTotal - order.estimatedDiscount);
-  assert.ok(orderMessages('trade-in-order', order).join('\n').includes('iPhone 15 Pro'));
+  assert.ok(order.tradeIn);
   assert.throws(() => validateOrder({ ...sampleOrder(), tradeIn: { ...selection, estimate: estimate + 10000 } }, basePrices), /Trade-In/);
   assert.equal(tradeInDiscount(estimate!, 10000), 10000);
 });

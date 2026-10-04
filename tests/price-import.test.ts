@@ -8,8 +8,61 @@ import {
   normalizeProductName,
 } from '@/lib/catalog-registry';
 import { inspectPriceWorkbook, numericCell } from '@/lib/server/price-import';
-import { isPriceAdmin } from '@/bots/price-bot';
 import newPriceSource from '@/data/new-price-source.json';
+import { createPriceTemplate } from '@/lib/server/price-template';
+import { readPriceWorkbook } from '@/lib/server/read-price-workbook';
+
+void test('desktop four-column table matches every catalog article after filling prices', async () => {
+  const book = await readPriceWorkbook(await readFile('tests/fixtures/appgrade-desktop.xlsx'));
+  const sheet = book.worksheets[0];
+  sheet.eachRow((row, number) => { if (number > 1) row.getCell(4).value = 60003; });
+  const report = await inspectPriceWorkbook(Buffer.from(await book.xlsx.writeBuffer()), basePrices);
+  assert.deepEqual(report.errors, []);
+  assert.equal(report.matched, catalogItems.length);
+  assert.equal(report.changes.length + report.unchanged, catalogItems.length);
+});
+
+void test('downloaded template has current articles and blank prices', async () => {
+  const book = new ExcelJS.Workbook();
+  await book.xlsx.load(await createPriceTemplate() as unknown as Parameters<typeof book.xlsx.load>[0]);
+  const sheet = book.worksheets[0];
+  assert.deepEqual((sheet.getRow(1).values as unknown[]).slice(1), ['Бренд', 'Название', 'Артикул', 'Цена']);
+  assert.equal(sheet.rowCount, catalogItems.length + 1);
+  for (const item of catalogItems) assert.ok(sheet.getColumn(3).values.includes(item.article));
+  assert.ok(sheet.getColumn(4).values.slice(2).every(value => value == null));
+});
+
+void test('four-column import follows headers and articles even with edited names and text prices', async () => {
+  const item = catalogItems[0];
+  const report = await inspect([
+    ['Цена', 'Артикул', 'Бренд', 'Название'],
+    ['60 004', item.article, 'Изменён', 'Другое название'],
+    [null, catalogItems[1].article, 'Бренд', 'Без цены'],
+  ], 'Прайс');
+  assert.deepEqual(report.errors, []);
+  assert.equal(report.changes[0].id, item.id);
+  assert.equal(report.changes[0].after, 60004);
+  assert.equal(report.blankRows, 1);
+});
+
+void test('four-column import blocks unknown articles, invalid prices and conflicting duplicates', async () => {
+  const item = catalogItems[0];
+  for (const badRow of [
+    ['Бренд', item.sourceTitle, 'P-999999999999', 60005],
+    ['Бренд', item.sourceTitle, item.article, 'не цена'],
+    ['Бренд', item.sourceTitle, item.article, 60005.5],
+  ]) {
+    const report = await inspect([['Бренд', 'Название', 'Артикул', 'Цена'], badRow], 'Прайс');
+    assert.ok(report.errors.length);
+    assert.equal(report.changes.length, 0);
+  }
+  const report = await inspect([
+    ['Бренд', 'Название', 'Артикул', 'Цена'],
+    ['Бренд', 'Одно имя', item.article, 60005],
+    ['Бренд', 'Другое имя', item.article, 60006],
+  ], 'Прайс');
+  assert.ok(report.errors.some(error => error.includes('разные цены')));
+});
 
 async function inspect(rows: unknown[][], sheet = 'iPhone', articleMap: Record<string, string> = {}) {
   const book = new ExcelJS.Workbook();
@@ -21,6 +74,24 @@ async function inspect(rows: unknown[][], sheet = 'iPhone', articleMap: Record<s
     articleMap,
   );
 }
+void test('parser imports only Site Appgrade column D without headers, including the first row', async () => {
+  const item = catalogItems[0];
+  const book = new ExcelJS.Workbook();
+  book.addWorksheet('Другой прайс').addRows([['Бренд', 'Название', 'Артикул', 'Цена'], ['Apple', item.model, item.article, 80000]]);
+  book.addWorksheet('Сайт Аппгрейд').addRows([['Apple', item.model, item.article, 60007], ['Apple', catalogItems[1].model, catalogItems[1].article, null]]);
+  const report = await inspectPriceWorkbook(Buffer.from(await book.xlsx.writeBuffer()), basePrices);
+  assert.deepEqual(report.errors, []);
+  assert.equal(report.changes.length, 1);
+  assert.equal(report.changes[0].after, 60007);
+  assert.ok(report.changes[0].source.startsWith('Сайт Аппгрейд!D1'));
+  assert.equal(report.blankRows, 1);
+});
+void test('named Site Appgrade cannot fall back to a different sheet when its layout is invalid', async () => {
+  const book = new ExcelJS.Workbook();
+  book.addWorksheet('Сайт Аппгрейд').addRow(['Неверный формат']);
+  book.addWorksheet('Прайс').addRows([['Бренд', 'Название', 'Артикул', 'Цена'], ['Apple', catalogItems[0].model, catalogItems[0].article, 60008]]);
+  await assert.rejects(inspectPriceWorkbook(Buffer.from(await book.xlsx.writeBuffer()), basePrices), /Сайт Аппгрейд/);
+});
 void test('price import rejects archives with excessive expanded size', async () => {
   const book = new ExcelJS.Workbook();
   book.addWorksheet('iPhone').addRow(['iPhone']);
@@ -199,10 +270,4 @@ void test('formulas recalculate from inputs and reject external references', () 
   assert.throws(() => numericCell(sheet.getCell('C3')));
   sheet.getCell('C3').value = { formula: "'[remote.xlsx]sheet'!B3", result: 0 };
   assert.throws(() => numericCell(sheet.getCell('C3')));
-});
-void test('unauthorized Telegram users cannot manage prices', () => {
-  process.env.TELEGRAM_PRICE_ADMIN_IDS = '123, 456';
-  assert.equal(isPriceAdmin(123), true);
-  assert.equal(isPriceAdmin(12), false);
-  assert.equal(isPriceAdmin(undefined), false);
 });

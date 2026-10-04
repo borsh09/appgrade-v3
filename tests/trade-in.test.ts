@@ -11,6 +11,13 @@ void test('Trade-In lead uses only listed model and authoritative table price', 
   const priced = validateTradeIn(request(75, 85, 40000));
   assert.equal(priced.model, 'iPhone 15 Pro');
   assert.equal(priced.estimate, 40000);
+  assert.equal(priced.rowId, 75);
+  assert.equal(priced.batteryPercent, 85);
+  assert.equal(priced.functionState, 'working');
+  assert.equal(priced.bodyState, 'clean');
+  assert.ok(priced.storage);
+  assert.ok(priced.priceLabel);
+  assert.equal(priced.assessmentReason, 'priced');
   assert.match(priced.details, /128 ГБ/);
   assert.throws(() => validateTradeIn(request(75, 85, 50000)), /Trade-In/);
   assert.throws(() => validateTradeIn(request(999, 85, null)), /Trade-In/);
@@ -20,5 +27,7 @@ void test('Trade-In request-only model sends a lead without invented discount', 
   const lead = validateTradeIn(request(106, 97, null));
   assert.equal(lead.model, 'iPhone 17 Pro');
   assert.equal(lead.estimate, null);
+  assert.equal(lead.batteryPercent, 97);
+  assert.equal(lead.assessmentReason, 'request');
   assert.throws(() => validateTradeIn(request(106, 97, 70000)), /Trade-In/);
 });

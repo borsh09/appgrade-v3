@@ -7,26 +7,31 @@ import { CommerceProvider } from '@/components/providers/commerce-provider';
 import { CityGate } from '@/components/shared/city-gate';
 import { PriceProvider } from '@/components/providers/price-provider';
 import { siteUrl, isPublicSite } from '@/config/site';
+import { homeTitle, homeDescription, siteStructuredData } from '@/lib/seo';
+import { JsonLd } from '@/components/seo/json-ld';
 import { Monitoring } from '@/components/providers/monitoring';
 
 export const metadata: Metadata = {
   robots: isPublicSite ? { index: true, follow: true } : { index: false, follow: false },
   metadataBase: new URL(siteUrl),
-  title: 'APPGRADE — техника в Магнитогорске, Белорецке, Троицке и Сибае',
-  description:
-    'Смартфоны, ноутбуки, часы, аудио и другая техника. Выгодный Trade-In. APPGRADE — Магнитогорск, Белорецк, Троицк и Сибай.',
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    yandex: process.env.YANDEX_SITE_VERIFICATION || undefined,
+  },
+  title: homeTitle,
+  description: homeDescription,
   openGraph: {
-    title: 'APPGRADE — пора обновиться',
-    description:
-      'APPGRADE — техника в Магнитогорске, Белорецке, Троицке и Сибае.',
+    title: homeTitle,
+    description: homeDescription,
     images: ['/og.png'],
     locale: 'ru_RU',
+    siteName: 'APPGRADE',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'APPGRADE — пора обновиться',
-    description: 'Техника для следующего шага.',
+    description: homeDescription,
     images: ['/og.png'],
   },
 };
@@ -39,6 +44,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className="antialiased">
+        <JsonLd data={siteStructuredData()} />
         <CityProvider>
           <PriceProvider>
           <CommerceProvider>

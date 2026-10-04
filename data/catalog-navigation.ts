@@ -38,7 +38,7 @@ export const catalogCategories: CatalogCategory[] = [
   {
     id: 'macbook',
     href: '/catalog/macbooks',
-    title: 'MacBook',
+    title: 'MacBook и компьютеры',
     image: '/images/category-laptops.webp',
     description: 'Компьютеры Apple',
   },
@@ -52,7 +52,7 @@ export const catalogCategories: CatalogCategory[] = [
   {
     id: 'audio',
     href: '/catalog/audio',
-    title: 'Наушники и аудио',
+    title: 'AirPods, наушники и колонки',
     image: '/images/king-category-headphones.webp',
     description: 'AirPods, Marshall, JBL',
   },
@@ -82,14 +82,14 @@ export const catalogCategories: CatalogCategory[] = [
     href: '/catalog/dyson',
     title: 'Dyson',
     image: '/images/king-category-dyson.webp',
-    description: 'Красота и здоровье',
+    description: 'Уход за волосами, пылесосы и очистители',
   },
   {
     id: 'cameras',
     href: '/catalog/cameras',
-    title: 'Фотоаппараты',
+    title: 'Камеры и фотоаппараты',
     image: '/images/products/cameras/evo-black.png',
-    description: 'Instax и моментальная печать',
+    description: 'Instax, GoPro, Insta360 и Canon',
   },
   {
     id: 'accessories',
@@ -102,12 +102,12 @@ export const catalogCategories: CatalogCategory[] = [
 
 const categoryGroups = [
   { title: 'Смартфоны', ids: ['iphone', 'samsung', 'xiaomi', 'google', 'smartphones'] },
-  { title: 'Компьютеры и планшеты', ids: ['macbook', 'ipad'] },
-  { title: 'Аудио и часы', ids: ['audio', 'watches'] },
-  { title: 'Игры, фото и аксессуары', ids: ['gaming', 'cameras', 'dyson', 'accessories'] },
+  { title: 'Для работы и учёбы', ids: ['macbook', 'ipad'] },
+  { title: 'Наушники, часы и аксессуары', ids: ['audio', 'watches', 'accessories'] },
+  { title: 'Для дома и увлечений', ids: ['dyson', 'gaming', 'cameras'] },
 ] as const;
 
 export const catalogCategoryGroups = categoryGroups.map(group => ({
   title: group.title,
-  categories: catalogCategories.filter(category => (group.ids as readonly string[]).includes(category.id)),
+  categories: group.ids.map(id => catalogCategories.find(category => category.id === id)!),
 }));

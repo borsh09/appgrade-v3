@@ -1,0 +1,74 @@
+[
+  {
+    "image": "/images/products/verified/e859aa44f5e46719214a7cd8.png",
+    "url": "https://images2.ray-ban.com//prod-onecp-record-files/pieyewear/f5679168-0b87-4a4b-ba74-b3a10041c328/0RW4012__601ST3__P21__shad__qt.png",
+    "variants": [
+      {
+        "id": "P-14322001",
+        "model": "Ray-Ban Wayfarer RW4012",
+        "color": "Matte Black",
+        "configuration": "Polar Gradient Graphite M",
+        "source": "https://www.ray-ban.com/usa/electronics/RW4012ray-ban%20%7C%20meta%20wayfarer%20-%20gen%202-black/8056262721414",
+        "ean": "8056262721414",
+        "modelCode": "RW4012 601ST3 50-22"
+      },
+      {
+        "id": "P-48267170",
+        "model": "Ray-Ban Wayfarer RW4012",
+        "color": "Matte Black",
+        "configuration": "Polar Gradient Graphite L",
+        "source": "https://www.ray-ban.com/usa/electronics/RW4012ray-ban%20meta%20wayfarer%20-%20gen%202-black/8056262721421",
+        "ean": "8056262721421",
+        "modelCode": "RW4012 601ST3 53-22"
+      }
+    ]
+  },
+  {
+    "image": "/images/products/verified/1a6731dab5ae31ca997b7bc9.png",
+    "url": "https://images2.ray-ban.com//prod-onecp-record-files/pieyewear/69728fdf-0938-483b-95dd-b3a10041cf5b/0RW4012__601_1M__P21__shad__qt.png",
+    "variants": [
+      {
+        "id": "P-44900249",
+        "model": "Ray-Ban Wayfarer RW4012",
+        "color": "Shiny Black",
+        "configuration": "Transitions Graphite Green M",
+        "source": "https://www.ray-ban.com/usa/electronics/RW4012ray-ban%20meta%20gen%202%20wayfarer-black/8056262721292",
+        "ean": "8056262721292",
+        "modelCode": "RW4012 601/1M 50-22"
+      },
+      {
+        "id": "P-95866495",
+        "model": "Ray-Ban Wayfarer RW4012",
+        "color": "Shiny Black",
+        "configuration": "Transitions Graphite Green L",
+        "source": "https://www.ray-ban.com/usa/electronics/RW4012ray-ban%2Bmeta%2Bgen%2B2%2Bwayfarer-black/8056262721308",
+        "ean": "8056262721308",
+        "modelCode": "RW4012 601/1M 53-22"
+      }
+    ]
+  },
+  {
+    "image": "/images/products/verified/b64ecd2b74d96bdadd310f19.png",
+    "url": "https://images2.ray-ban.com//prod-onecp-record-files/pieyewear/e79a56d4-52ec-4d9b-bb1b-b3a0002a78ab/0RW4012__6628MF__P21__shad__qt.png",
+    "variants": [
+      {
+        "id": "P-83854371",
+        "model": "Ray-Ban Wayfarer RW4012",
+        "color": "Shiny Cosmic Blue",
+        "configuration": "Transitions Sapphire M",
+        "source": "https://www.ray-ban.com/usa/electronics/RW4012ray-ban%20meta%20gen%202%20wayfarer-cosmic%20blue/8056262721438",
+        "ean": "8056262721438",
+        "modelCode": "RW4012 6628MF 50-22"
+      },
+      {
+        "id": "P-92527656",
+        "model": "Ray-Ban Wayfarer RW4012",
+        "color": "Shiny Cosmic Blue",
+        "configuration": "Transitions Sapphire L",
+        "source": "https://www.ray-ban.com/usa/electronics/RW4012ray-ban%20meta%20gen%202%20wayfarer-cosmic%20blue/8056262721445",
+        "ean": "8056262721445",
+        "modelCode": "RW4012 6628MF 53-22"
+      }
+    ]
+  }
+]

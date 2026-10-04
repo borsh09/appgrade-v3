@@ -17,7 +17,10 @@ void test('origin guard accepts equivalent local hosts but rejects external orig
 void test('multipart uploads are rejected before an oversized body is parsed', async () => {
   const form = new FormData();
   form.set('file', new File([new Uint8Array(4096)], 'prices.xlsx'));
-  const request = new Request('http://localhost:3000/api/admin/prices', { method: 'POST', body: form });
+  // Serialize FormData first: Node's synthetic multipart producer can enqueue
+  // after cancellation; real HTTP request bodies are network streams.
+  const multipart = new Request('http://localhost:3000/api/admin/prices', { method: 'POST', body: form });
+  const request = new Request(multipart.url, { method: 'POST', headers: multipart.headers, body: await multipart.arrayBuffer() });
   await assert.rejects(() => readFormData(request, 1024), { status: 413 });
 
   const small = new FormData();

@@ -1,4 +1,7 @@
 'use client';
+import { ProductSpecifications } from './product-specifications';
+import { DiscountPrice } from '@/components/shared/discount-price';
+import type { ProductDetailContent } from '@/lib/product-details';
 import { ProductVariants } from './product-variants';
 import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 
@@ -10,14 +13,15 @@ import type { MacbookCatalogSku } from '@/data/macbook-catalog';
 import { getMacbookDetails } from '@/data/macbook-details';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
 
-const money = new Intl.NumberFormat('ru-RU');
 
 export function MacbookProductPage({
+  specifications,
   model,
   modelSlug,
   variants: baseVariants,
   selected: baseSelected,
 }: {
+  specifications: ProductDetailContent;
   model: string;
   modelSlug: string;
   variants: MacbookCatalogSku[];
@@ -92,7 +96,7 @@ export function MacbookProductPage({
               автоматически.
             </p>
             <div className="product-price-line">
-              <strong>{money.format(selected.price)} ₽</strong>
+              <DiscountPrice price={selected.price} oldPrice={selected.oldPrice} />
               <span>
                 <Check size={14} /> В наличии
               </span>
@@ -142,45 +146,7 @@ export function MacbookProductPage({
             </div>
           ))}
         </section>
-        <section className="product-specifications" id="specs">
-          <div className="product-section-kicker">Характеристики</div>
-          <div className="product-spec-groups">
-            {details.groups.map((group) => (
-              <div className="product-spec-group" key={group.title}>
-                <h3>{group.title}</h3>
-                <dl>
-                  {group.rows.map(([term, value]) => (
-                    <div key={term}>
-                      <dt>{term}</dt>
-                      <dd>{value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            ))}
-            <div className="product-spec-group">
-              <h3>Выбранная конфигурация</h3>
-              <dl>
-                <div>
-                  <dt>Чип</dt>
-                  <dd>Apple {selected.chip}</dd>
-                </div>
-                <div>
-                  <dt>Память</dt>
-                  <dd>{selected.ram}</dd>
-                </div>
-                <div>
-                  <dt>SSD</dt>
-                  <dd>{selected.storage}</dd>
-                </div>
-                <div>
-                  <dt>Цвет</dt>
-                  <dd>{selected.color}</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </section>
+        <ProductSpecifications details={specifications} />
         <section className="product-delivery" id="delivery">
           <div className="product-section-kicker">Покупка</div>
           <div>

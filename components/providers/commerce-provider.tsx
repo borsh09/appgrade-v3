@@ -46,7 +46,8 @@ function restoreProducts(values: unknown[], catalog: SearchIndex | null): CartLi
       if (matches.length === 1) skuId = matches[0].id;
     }
     if (!skuId) return [];
-    return [{ ...item, id: skuId, quantity: Number.isInteger(item.quantity) ? Math.max(1, Math.min(99, item.quantity)) : 1 }];
+    const current = catalog?.find(product => product.id === skuId);
+    return [{ ...item, ...(current ? { name: current.model, configuration: current.detail, image: current.image, href: current.href } : {}), id: skuId, quantity: Number.isInteger(item.quantity) ? Math.max(1, Math.min(99, item.quantity)) : 1 }];
   }).filter((item, index, all) => all.findIndex(other => other.id === item.id) === index);
 }
 
@@ -61,8 +62,7 @@ export function CommerceProvider({ children }: { children: React.ReactNode }) {
       try {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}');
         const values = [...(Array.isArray(saved.cart) ? saved.cart : []), ...(Array.isArray(saved.favorites) ? saved.favorites : [])];
-        const legacy = values.some(value => typeof value?.id === 'string' && value.id.startsWith('/catalog/'));
-        const catalog = legacy ? (await import('@/data/search-index')).searchIndex : null;
+        const catalog = values.length ? (await import('@/data/search-index')).searchIndex : null;
         if (Array.isArray(saved.cart)) setCart(restoreProducts(saved.cart, catalog));
         if (Array.isArray(saved.favorites)) setFavorites(restoreProducts(saved.favorites, catalog));
       } catch {

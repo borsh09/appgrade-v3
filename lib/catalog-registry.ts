@@ -1,4 +1,7 @@
 import newPriceCatalog from '@/data/new-price-catalog.json';
+import { presentCatalogItem } from './catalog-presentation';
+import { groupCatalogModel } from './catalog-model-groups';
+import { applyCatalogMedia } from './catalog-media';
 
 export type CatalogItem = {
   id: string;
@@ -23,12 +26,17 @@ export type CatalogItem = {
   legacySlug?: string;
   photoApproximate?: boolean;
   sourceTitle?: string;
+  sourceCategory?: string;
+  originalModelSlug?: string;
+  manufacturerPart?: string;
+  photoMissing?: boolean;
 };
 const priceCatalog = newPriceCatalog as CatalogItem[];
 export const hiddenCatalogArticles = new Set(
   priceCatalog.filter(item => /\bActive\b/i.test(item.sourceTitle ?? '')).map(item => item.article),
 );
-export const catalogItems: CatalogItem[] = priceCatalog.filter(item => !hiddenCatalogArticles.has(item.article));
+export const catalogItems: CatalogItem[] = priceCatalog.filter(item => !hiddenCatalogArticles.has(item.article))
+  .map(presentCatalogItem).map(groupCatalogModel).map(applyCatalogMedia);
 export const parserUnavailableIds = new Set<string>(catalogItems.filter(item => item.price === null).map(item => item.id));
 export const catalogById = new Map(catalogItems.map((item) => [item.id, item]));
 export const basePrices = Object.fromEntries(

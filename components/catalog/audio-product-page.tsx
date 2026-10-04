@@ -1,4 +1,7 @@
 'use client';
+import { ProductSpecifications } from './product-specifications';
+import { DiscountPrice } from '@/components/shared/discount-price';
+import type { ProductDetailContent } from '@/lib/product-details';
 import { ProductVariants } from './product-variants';
 import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 import Image from '@/components/shared/product-photo';
@@ -8,14 +11,15 @@ import { ArrowLeft, Check } from 'lucide-react';
 import type { AudioCatalogSku } from '@/data/audio-catalog';
 import { getAudioDetails } from '@/data/audio-details';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
-const money = new Intl.NumberFormat('ru-RU');
 const unique = <T,>(items: T[]) => [...new Set(items)];
 export function AudioProductPage({
+  specifications,
   model,
   modelSlug,
   variants: baseVariants,
   selected: baseSelected,
 }: {
+  specifications: ProductDetailContent;
   model: string;
   modelSlug: string;
   variants: AudioCatalogSku[];
@@ -85,11 +89,7 @@ export function AudioProductPage({
               Выберите цвет — фотографии и конфигурация обновятся автоматически.
             </p>
             <div className="product-price-line">
-              <strong>
-                {selected.price
-                  ? `${money.format(selected.price)} ₽`
-                  : 'Цена по запросу'}
-              </strong>
+              <DiscountPrice price={selected.price} oldPrice={selected.oldPrice} />
               <span>
                 <Check size={14} />{isPreorder ? 'Предзаказ' : 'В наличии'}
               </span>
@@ -138,43 +138,7 @@ export function AudioProductPage({
             </div>
           ))}
         </section>
-        <section className="product-specifications" id="specs">
-          <div className="product-section-kicker">Характеристики</div>
-          <div className="product-spec-groups">
-            <div className="product-spec-group">
-              <h3>Основные параметры</h3>
-              <dl>
-                {details.specs.map(([t, v]) => (
-                  <div key={t}>
-                    <dt>{t}</dt>
-                    <dd>{v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-            <div className="product-spec-group">
-              <h3>Выбранная конфигурация</h3>
-              <dl>
-                <div>
-                  <dt>Модель</dt>
-                  <dd>{model}</dd>
-                </div>
-                <div>
-                  <dt>Бренд</dt>
-                  <dd>{selected.brand}</dd>
-                </div>
-                <div>
-                  <dt>Категория</dt>
-                  <dd>{selected.kind}</dd>
-                </div>
-                <div>
-                  <dt>Цвет</dt>
-                  <dd>{selected.color}</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </section>
+        <ProductSpecifications details={specifications} />
         <section className="product-delivery" id="delivery">
           <div className="product-section-kicker">Покупка</div>
           <div>

@@ -1,5 +1,5 @@
 import ExcelJS from 'exceljs';
-import { assertSafeWorkbookArchive } from './xlsx-guard';
+import { readPriceWorkbook } from './read-price-workbook';
 import {
   catalogItems,
   hiddenCatalogArticles,
@@ -23,6 +23,7 @@ export type ImportReport = {
   unmatchedRows?: number;
   unavailableRows?: number;
   hiddenRows?: number;
+  blankRows?: number;
   articleMappings?: Record<string, string>;
   warnings: string[];
   errors: string[];
@@ -121,11 +122,7 @@ export async function inspectPriceWorkbook(
 ): Promise<ImportReport> {
   if (buffer.length > 10 * 1024 * 1024)
     throw new Error('Файл должен быть не больше 10 МБ');
-  assertSafeWorkbookArchive(buffer);
-  const book = new ExcelJS.Workbook();
-  await book.xlsx.load(
-    buffer as unknown as Parameters<typeof book.xlsx.load>[0],
-  );
+  const book = await readPriceWorkbook(buffer);
   const report: ImportReport = {
     changes: [],
     matched: 0,
@@ -156,12 +153,33 @@ export async function inspectPriceWorkbook(
     string,
     { price: number; source: string; specificity: number }
   >();
-  const websiteSheet = book.worksheets.find((sheet) =>
+  const namedWebsiteSheet = book.worksheets.find(sheet => sheet.name.trim().toLowerCase().replace(/\s+/g, ' ') === 'сайт аппгрейд');
+  const headerlessWebsiteSheet = namedWebsiteSheet && /^P-\d+$/.test(namedWebsiteSheet.getRow(1).getCell(3).text.trim()) ? namedWebsiteSheet : undefined;
+  const articleSheet = (namedWebsiteSheet ? [namedWebsiteSheet] : book.worksheets).find(sheet => {
+    const headers = Array.from({ length: Math.min(sheet.columnCount, 100) }, (_, index) => sheet.getRow(1).getCell(index + 1).text.trim().toLowerCase());
+    return headers.includes('бренд') && headers.includes('название') && headers.includes('артикул') && headers.includes('цена');
+  });
+  const websiteSheet = headerlessWebsiteSheet ?? articleSheet ?? book.worksheets.find((sheet) =>
     sheet.name.trim().toLowerCase() === '\u0441\u0430\u0439\u0442 \u0430\u043f\u043f\u0433\u0440\u0435\u0439\u0434'
     && normalizeProductName(sheet.getRow(1).getCell(1).text) === '\u0430\u0440\u0442\u0438\u043a\u0443\u043b'
     && normalizeProductName(sheet.getRow(1).getCell(2).text) === '\u043d\u0430\u0437\u0432\u0430\u043d\u0438\u0435'
     && normalizeProductName(sheet.getRow(1).getCell(3).text) === '\u0446\u0435\u043d\u0430',
   );
+  if (namedWebsiteSheet && !websiteSheet) throw new Error('На листе «Сайт Аппгрейд» ожидаются колонки: Бренд, Название, Артикул, Цена (D). Можно загружать без строки заголовков.');
+  const strictArticleSheet = articleSheet ?? headerlessWebsiteSheet;
+  const headerColumn = (header: string) => headerlessWebsiteSheet
+    ? header === 'артикул' ? 3 : header === 'название' ? 2 : 4
+    : articleSheet
+    ? Array.from({ length: Math.min(articleSheet.columnCount, 100) }, (_, index) => index + 1)
+      .find(column => articleSheet.getRow(1).getCell(column).text.trim().toLowerCase() === header)!
+    : header === 'артикул' ? 1 : header === 'название' ? 2 : 3;
+  if (articleSheet) {
+    if (namedWebsiteSheet && headerColumn('цена') !== 4) throw new Error('На листе «Сайт Аппгрейд» цена должна быть в четвёртом столбце (D).');
+    for (const header of ['бренд', 'название', 'артикул', 'цена']) {
+      const count = Array.from({ length: Math.min(articleSheet.columnCount, 100) }, (_, index) => articleSheet.getRow(1).getCell(index + 1).text.trim().toLowerCase()).filter(value => value === header).length;
+      if (count !== 1) throw new Error(`Колонка «${header}» должна встречаться один раз.`);
+    }
+  }
   const articleMapColumn = websiteSheet
     ? Array.from({ length: Math.max(0, websiteSheet.columnCount - 3) }, (_, index) => index + 4)
         .find((column) => {
@@ -172,7 +190,7 @@ export async function inspectPriceWorkbook(
   const priceSheets = websiteSheet ? [websiteSheet] : book.worksheets;
   for (const sheet of priceSheets) {
     const isWebsiteSheet = sheet === websiteSheet;
-    const column = isWebsiteSheet ? 3 : sheets[sheet.name.trim().toLowerCase()];
+    const column = isWebsiteSheet ? headerColumn('цена') : sheets[sheet.name.trim().toLowerCase()];
     if (!column) {
       report.warnings.push(
         `Лист «${sheet.name}» пропущен: нет настроенного сопоставления.`,
@@ -182,12 +200,19 @@ export async function inspectPriceWorkbook(
     if (sheet.rowCount > 5000 || sheet.columnCount > 100)
       throw new Error('Слишком большой лист прайса');
     sheet.eachRow((row, rowNumber) => {
-      if (isWebsiteSheet && rowNumber === 1) return;
-      const article = isWebsiteSheet ? row.getCell(1).text.trim() : '';
-      const title = row.getCell(isWebsiteSheet ? 2 : 1).text.trim();
-      if (!title) return;
+      if (isWebsiteSheet && !headerlessWebsiteSheet && rowNumber === 1) return;
+      const article = isWebsiteSheet ? row.getCell(headerColumn('артикул')).text.trim() : '';
+      const title = row.getCell(isWebsiteSheet ? headerColumn('название') : 1).text.trim();
+      if (!title && !isWebsiteSheet) return;
       const cell = row.getCell(column);
-      if (isWebsiteSheet && (cell.value === null || (typeof cell.value === 'string' && !cell.value.trim()))) return;
+      if (isWebsiteSheet && (cell.value === null || (typeof cell.value === 'string' && !cell.value.trim()))) {
+        if (title || article) report.blankRows = (report.blankRows ?? 0) + 1;
+        return;
+      }
+      if (strictArticleSheet && !/^P-\d+$/.test(article)) {
+        report.errors.push(`${sheet.name}!${row.number}: укажите артикул вида P-12345678.`);
+        return;
+      }
       if (isWebsiteSheet && !article) {
         report.errors.push(`${sheet.name}!${row.number}: missing product article.`);
         return;
@@ -214,11 +239,16 @@ export async function inspectPriceWorkbook(
       const mappedSku = builtInSku || explicitSku || (isWebsiteSheet ? articleMap[article] : undefined);
       const rawMatches = mappedSku
         ? catalogItems.filter((item) => item.id === mappedSku)
-        : aliases.get(key);
+        : strictArticleSheet ? undefined : aliases.get(key);
       const matches = rawMatches
         ? [...new Map(rawMatches.map((item) => [item.id, item])).values()]
         : undefined;
       if (!matches?.length) {
+        if (strictArticleSheet) {
+          report.unmatchedRows = (report.unmatchedRows ?? 0) + 1;
+          report.errors.push(`${source}: артикул не найден в каталоге сайта.`);
+          return;
+        }
         if (isWebsiteSheet) {
           report.unmatchedRows = (report.unmatchedRows ?? 0) + 1;
           if (report.warnings.length < 20)
@@ -245,8 +275,14 @@ export async function inspectPriceWorkbook(
       }
       let price: number;
       try {
-        price = Math.round(numericCell(cell));
+        const textPrice = typeof cell.value === 'string' ? cell.value.trim().replace(/[\s\u00a0\u202f]/g, '').replace(',', '.') : '';
+        price = strictArticleSheet && textPrice && /^\d+(?:\.\d+)?$/.test(textPrice) ? Number(textPrice) : numericCell(cell);
+        if (!strictArticleSheet) price = Math.round(price);
       } catch {
+        if (strictArticleSheet) {
+          report.errors.push(`${source}: укажите числовую цену в рублях.`);
+          return;
+        }
         report.warnings.push(
           `${source}: «${title}» — нет корректной цены, старая сохранится.`,
         );
@@ -261,7 +297,7 @@ export async function inspectPriceWorkbook(
         return;
       }
       for (const item of matches) {
-        const specificity = key.endsWith(normalizeProductName(item.color))
+        const specificity = isWebsiteSheet ? 1 : key.endsWith(normalizeProductName(item.color))
           ? 1
           : 0;
         const previous = proposed.get(item.id);
@@ -308,6 +344,6 @@ export async function inspectPriceWorkbook(
   if (websiteSheet && (report.inputRows ?? 0) > 0 && (report.matchedRows ?? 0) / report.inputRows! < 0.8)
     report.errors.push(`Only ${report.matchedRows ?? 0} of ${report.inputRows} rows in Site Appgrade matched the catalog. Import is blocked until product articles are linked to catalog SKUs.`);
   if (!report.matched)
-    report.errors.push('Не найдено ни одной позиции с корректной ценой.');
+    report.errors.push(headerlessWebsiteSheet && report.blankRows ? 'На листе «Сайт Аппгрейд» не заполнены цены в четвёртом столбце (D). Заполните цены и загрузите файл снова.' : 'Не найдено ни одной позиции с корректной ценой.');
   return report;
 }

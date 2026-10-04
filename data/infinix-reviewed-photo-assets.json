@@ -1,0 +1,38 @@
+[
+  {
+    "model": "Infinix Note Edge",
+    "color": "Blue",
+    "source": "https://infinixmobiles.in/products/note-edge?variant=51945575219476",
+    "sourceTitle": "Note Edge &ndash; Infinix Mobiles",
+    "variantId": 51945575219476,
+    "variantTitle": "Stellar Blue / 8GB/128GB",
+    "url": "https://infinixmobiles.in/cdn/shop/files/front_n_back_d4e86dbf-14a8-4e2c-b5cf-7c14b66e323f.webp?v=1771399310",
+    "image": "/images/products/verified/1b403cdc6cfb69f5470b08e3.png",
+    "width": 2000,
+    "height": 2000
+  },
+  {
+    "model": "Infinix Note Edge",
+    "color": "Green",
+    "source": "https://infinixmobiles.in/products/note-edge?variant=51945575350548",
+    "sourceTitle": "Note Edge &ndash; Infinix Mobiles",
+    "variantId": 51945575350548,
+    "variantTitle": "Silk Green / 8GB/128GB",
+    "url": "https://infinixmobiles.in/cdn/shop/files/Front_n_back.webp?v=1771315427",
+    "image": "/images/products/verified/4d9135e274d108be153e489d.png",
+    "width": 2000,
+    "height": 2000
+  },
+  {
+    "model": "Infinix Note Edge",
+    "color": "Titanium",
+    "source": "https://infinixmobiles.in/products/note-edge?variant=51945575285012",
+    "sourceTitle": "Note Edge &ndash; Infinix Mobiles",
+    "variantId": 51945575285012,
+    "variantTitle": "Lunar Titanium / 8GB/128GB",
+    "url": "https://infinixmobiles.in/cdn/shop/files/frontnback.webp?v=1771399310",
+    "image": "/images/products/verified/3e560235806067e00375baa9.png",
+    "width": 2000,
+    "height": 2000
+  }
+]

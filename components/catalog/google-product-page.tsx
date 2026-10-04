@@ -1,4 +1,7 @@
-'use client';
+﻿'use client';
+import { ProductSpecifications } from './product-specifications';
+import { DiscountPrice } from '@/components/shared/discount-price';
+import type { ProductDetailContent } from '@/lib/product-details';
 import { ProductVariants } from './product-variants';
 import { usePriceResolver } from '@/components/providers/price-provider';
 import Image from '@/components/shared/product-photo';
@@ -7,37 +10,13 @@ import { useState } from 'react';
 import { ArrowLeft, Check } from 'lucide-react';
 import type { GoogleCatalogSku } from '@/data/google-catalog';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
-const money = new Intl.NumberFormat('ru-RU');
-const specs: Record<string, string[][]> = {
-  'Google Pixel 10 Pro XL': [
-    ['Экран', '6,8″ Super Actua LTPO OLED, 1–120 Гц'],
-    ['Процессор', 'Google Tensor G5'],
-    ['Камеры', '50 МП + 48 МП + 48 МП'],
-    ['Аккумулятор', '5200 мА·ч'],
-    ['Защита', 'IP68'],
-    ['Система', 'Android 16'],
-  ],
-  'Google Pixel 10': [
-    ['Экран', '6,3″ Actua OLED, 60–120 Гц'],
-    ['Процессор', 'Google Tensor G5'],
-    ['Камеры', '48 МП + 13 МП + 10,8 МП'],
-    ['Аккумулятор', '4970 мА·ч'],
-    ['Защита', 'IP68'],
-    ['Система', 'Android 16'],
-  ],
-  'Google Pixel 9 Pro XL': [
-    ['Экран', '6,8″ Super Actua LTPO OLED, 1–120 Гц'],
-    ['Процессор', 'Google Tensor G4'],
-    ['Камеры', '50 МП + 48 МП + 48 МП'],
-    ['Аккумулятор', '5060 мА·ч'],
-    ['Защита', 'IP68'],
-    ['Система', 'Android'],
-  ],
-};
+
 export function GoogleProductPage({
+  specifications,
   modelSlug,
   selected: baseSelected,
 }: {
+  specifications: ProductDetailContent;
   modelSlug: string;
   variants: GoogleCatalogSku[];
   selected: GoogleCatalogSku;
@@ -99,7 +78,7 @@ export function GoogleProductPage({
               поддержкой обновлений.
             </p>
             <div className="product-price-line">
-              <strong>{money.format(selected.price)} ₽</strong>
+              <DiscountPrice price={selected.price} oldPrice={selected.oldPrice} />
               <span>
                 <Check size={14} />В наличии
               </span>
@@ -134,7 +113,7 @@ export function GoogleProductPage({
           <div className="product-section-kicker">О товаре</div>
           <div>
             <p className="catalog-overline">PIXEL · GEMINI</p>
-            <h2>Создан Google. Усилен искусственным интеллектом.</h2>
+            <h2>Создан Google. Усилен искусственным интеллектом</h2>
             <p>
               Камера Pixel помогает получать качественные кадры в любых
               условиях, а Gemini упрощает поиск, общение и повседневные задачи.
@@ -154,43 +133,7 @@ export function GoogleProductPage({
             </div>
           ))}
         </section>
-        <section className="product-specifications" id="specs">
-          <div className="product-section-kicker">Характеристики</div>
-          <div className="product-spec-groups">
-            <div className="product-spec-group">
-              <h3>Основные параметры</h3>
-              <dl>
-                {specs[selected.model].map(([t, v]) => (
-                  <div key={t}>
-                    <dt>{t}</dt>
-                    <dd>{v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-            <div className="product-spec-group">
-              <h3>Выбранная конфигурация</h3>
-              <dl>
-                <div>
-                  <dt>Модель</dt>
-                  <dd>{selected.model}</dd>
-                </div>
-                <div>
-                  <dt>Память</dt>
-                  <dd>{selected.storage}</dd>
-                </div>
-                <div>
-                  <dt>Цвет</dt>
-                  <dd>{selected.color}</dd>
-                </div>
-                <div>
-                  <dt>Связь</dt>
-                  <dd>5G, Wi‑Fi, Bluetooth, NFC</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </section>
+        <ProductSpecifications details={specifications} />
         <section className="product-delivery" id="delivery">
           <div className="product-section-kicker">Покупка</div>
           <div>

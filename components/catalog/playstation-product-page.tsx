@@ -1,4 +1,7 @@
 'use client';
+import { ProductSpecifications } from './product-specifications';
+import { DiscountPrice } from '@/components/shared/discount-price';
+import type { ProductDetailContent } from '@/lib/product-details';
 import { ProductVariants } from './product-variants';
 import { usePriceResolver } from '@/components/providers/price-provider';
 import Image from '@/components/shared/product-photo';
@@ -8,17 +11,13 @@ import { ArrowLeft, Check } from 'lucide-react';
 import type { PlaystationCatalogSku } from '@/data/playstation-catalog';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
 
-const money = new Intl.NumberFormat('ru-RU');
-const consoleSpecs = [
-  ['Разрешение', 'До 4K, 120 Гц'],
-  ['Накопитель', 'Высокоскоростной SSD'],
-  ['Графика', 'Ray Tracing, HDR'],
-  ['Звук', 'Tempest 3D AudioTech'],
-];
+
 
 export function PlaystationProductPage({
+  specifications,
   selected: baseSelected,
 }: {
+  specifications: ProductDetailContent;
   selected: PlaystationCatalogSku;
   variants: PlaystationCatalogSku[];
 }) {
@@ -26,21 +25,7 @@ export function PlaystationProductPage({
   const selected = resolvePrice(baseSelected);
   const [photo, setPhoto] = useState(0);
   const isConsole = selected.kind === 'Консоли';
-  const specs = isConsole
-    ? consoleSpecs
-    : selected.model.includes('Charging')
-      ? [
-          ['Совместимость', 'DualSense для PS5'],
-          ['Зарядка', 'До двух контроллеров'],
-          ['Подключение', 'Док-станция'],
-          ['Цвет', selected.color],
-        ]
-      : [
-          ['Подключение', 'Bluetooth, USB-C'],
-          ['Функции', 'Haptic Feedback'],
-          ['Триггеры', 'Адаптивные L2/R2'],
-          ['Микрофон', 'Встроенный'],
-        ];
+  
   const href = `/catalog/${selected.modelSlug}?color=${encodeURIComponent(selected.color)}`;
   const product = {
     id: selected.id,
@@ -97,7 +82,7 @@ export function PlaystationProductPage({
               гарантией и проверкой перед выдачей.
             </p>
             <div className="product-price-line">
-              <strong>{money.format(selected.price)} ₽</strong>
+              <DiscountPrice price={selected.price} oldPrice={selected.oldPrice} />
               <span>
                 <Check size={14} />В наличии
               </span>
@@ -169,43 +154,7 @@ export function PlaystationProductPage({
             </div>
           ))}
         </section>
-        <section className="product-specifications" id="specs">
-          <div className="product-section-kicker">Характеристики</div>
-          <div className="product-spec-groups">
-            <div className="product-spec-group">
-              <h3>Основные параметры</h3>
-              <dl>
-                {specs.map(([term, value]) => (
-                  <div key={term}>
-                    <dt>{term}</dt>
-                    <dd>{value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-            <div className="product-spec-group">
-              <h3>Выбранная конфигурация</h3>
-              <dl>
-                <div>
-                  <dt>Модель</dt>
-                  <dd>{selected.model}</dd>
-                </div>
-                <div>
-                  <dt>Категория</dt>
-                  <dd>{selected.kind}</dd>
-                </div>
-                <div>
-                  <dt>Версия</dt>
-                  <dd>{selected.configuration}</dd>
-                </div>
-                <div>
-                  <dt>Цвет</dt>
-                  <dd>{selected.color}</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </section>
+        <ProductSpecifications details={specifications} />
         <section className="product-delivery" id="delivery">
           <div className="product-section-kicker">Покупка</div>
           <div>

@@ -1,9 +1,13 @@
 import { normalizeProductName, type CatalogItem } from './catalog-registry';
 
-export const variantFields = ['storage', 'ram', 'color', 'sim', 'size', 'connectivity', 'configuration'] as const;
+export const variantFields = ['chip', 'ram', 'storage', 'color', 'sim', 'size', 'connectivity', 'configuration'] as const;
 export type Selection = Partial<Record<(typeof variantFields)[number] | 'sku', string>>;
 export function productHref(item: CatalogItem) {
   return `/catalog/${item.modelSlug}?sku=${encodeURIComponent(item.id)}`;
+}
+export function modelVariants<T extends CatalogItem>(items: T[], slug: string) {
+  const legacy = items.find(item => (item.legacySlug === slug || item.originalModelSlug === slug) && item.modelSlug !== slug);
+  return { legacy, variants: items.filter(item => item.modelSlug === (legacy?.modelSlug ?? slug)) };
 }
 export function selectProduct<T extends CatalogItem>(variants: T[], query: Selection): T | undefined {
   return variants.find(item => (!query.sku || item.id === query.sku) && variantFields.every(key =>

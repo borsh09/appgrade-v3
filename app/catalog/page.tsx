@@ -1,10 +1,7 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { CatalogPage } from '@/components/catalog/catalog-page';
 
-export const metadata: Metadata = {
-  title: 'Каталог техники — APPGRADE',
-  description: 'Категории техники APPGRADE: iPhone, Samsung, MacBook, iPad, аудио, часы, игровые устройства, Dyson и аксессуары.',
-};
+export const metadata = pageMetadata('Каталог техники и аксессуаров', 'Смартфоны, компьютеры, планшеты, аудио, часы и другая техника в APPGRADE. Сравните модели и характеристики, выберите город и оформите заказ.', '/catalog');
 
 export default function CatalogRoute() {
   return <CatalogPage />;

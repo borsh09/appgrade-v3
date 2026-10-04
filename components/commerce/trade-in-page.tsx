@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { ArrowRight, BatteryMedium, Check, RotateCcw, Search, ShieldCheck, Sparkles } from 'lucide-react';
 import { useMemo, useState } from 'react';
@@ -81,7 +81,7 @@ export function TradeInPage({ returnToCart = false }: { returnToCart?: boolean }
   return <main className={styles.page}><div className="container">
     <header className={styles.hero}>
       <span className={styles.eyebrow}>TRADE-IN · APPGRADE</span>
-      <h1>Узнайте стоимость вашего iPhone.</h1>
+      <h1>Узнайте стоимость вашего iPhone</h1>
       <p>Выберите модель из таблицы Trade-In и расскажите о состоянии. Покажем предварительный диапазон или передадим заявку менеджеру.</p>
     </header>
     <div className={styles.layout}>

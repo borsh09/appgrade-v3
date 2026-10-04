@@ -2,6 +2,13 @@ import type { CatalogItem } from '@/lib/catalog-registry';
 import parserRows from '@/data/parser-catalog.json';
 import supplierDetails from '@/data/parser-details.json';
 import { parserCuratedDetails } from '@/data/parser-curated-details';
+import { presentCatalogItem } from './catalog-presentation';
+import matches from '@/data/new-price-matches.json';
+import currentDetails from '@/data/current-product-details.json';
+import { verifiedModelSpecifications } from '@/data/verified-model-specifications';
+import detailsReview from '@/data/parser-details-review.json';
+import officialModels from '@/data/official-model-specifications.json';
+import structuredModels from '@/data/structured-manufacturer-specifications.json';
 
 export type ProductDetailContent = {
   lead: string;
@@ -9,13 +16,32 @@ export type ProductDetailContent = {
   groups: { title: string; rows: [string, string][] }[];
   limitedSpecs: boolean;
 };
-type SourceDetail = { source: string; name: string; specs: [string, string][] };
+type SourceDetail = { source: string; name: string; specs: [string, string][]; scope?: 'model' };
 const sourceById = supplierDetails as unknown as Record<string, SourceDetail>;
+const disputedSources = new Set(detailsReview.review.map(entry => entry.source));
+const sourcePool = Object.values(sourceById);
+const compatibleSources = new Map<string, SourceDetail[]>();
 const parserById = new Map(parserRows.map(row => [row.id, row]));
-const sourceByModel = new Map<string, SourceDetail>();
+const modelKey = (model: string) => model.normalize('NFKC').toLocaleLowerCase('ru-RU').replace(/ё/g, 'е').replace(/\s+/g, ' ').trim();
+const sourceByModel = new Map<string, SourceDetail[]>();
+const curatedByModel = new Map<string, (typeof parserCuratedDetails)[string]>();
 for (const row of parserRows) {
+  const model = presentCatalogItem(row as CatalogItem).model;
   const detail = sourceById[row.id];
-  if (detail && !sourceByModel.has(row.modelSlug)) sourceByModel.set(row.modelSlug, detail);
+  if (detail) {
+    const key = modelKey(model), sources = sourceByModel.get(key) ?? [];
+    if (!sources.includes(detail)) sources.push(detail);
+    sourceByModel.set(key, sources);
+  }
+  const curated = parserCuratedDetails[row.id];
+  if (curated) curatedByModel.set(modelKey(model), curated);
+}
+for (const detail of Object.values(sourceById)) {
+  const model = detail.specs.find(([label]) => /^модель$/i.test(label))?.[1];
+  if (!model) continue;
+  const key = modelKey(model), sources = sourceByModel.get(key) ?? [];
+  if (!sources.includes(detail)) sources.push(detail);
+  sourceByModel.set(key, sources);
 }
 
 const categoryNames: Record<string, string> = {
@@ -40,6 +66,10 @@ const categoryTexts: Record<string, string> = {
   dyson: 'Предназначено для повседневного использования дома.',
   gadgets: 'Подробности выбранной версии указаны в характеристиках.',
 };
+function detailCategoryFor(item: CatalogItem): string {
+  return /^(?:iPad|Honor Pad|Poco Pad|Xiaomi Pad|Redmi Pad|OnePlus Pad|Galaxy Tab)$/.test(item.sourceCategory ?? '')
+    ? 'ipads' : item.category ?? '';
+}
 function purposeFor(item: CatalogItem): string {
   const name = item.priceAlias ?? item.model;
   if (/клавиатур/i.test(name)) return 'Для набора текста и управления совместимым устройством.';
@@ -55,7 +85,7 @@ function purposeFor(item: CatalogItem): string {
   if (/фигурка|labubu/i.test(name)) return 'Коллекционный товар; особенности серии указаны в названии.';
   if (/фитнес-трекер/i.test(name)) return 'Для отслеживания активности.';
   if (/apple tv|медиаплеер/i.test(name)) return 'Для просмотра контента на совместимом телевизоре.';
-  return categoryTexts[item.category ?? ''] ?? 'Характеристики выбранной версии приведены ниже.';
+  return categoryTexts[detailCategoryFor(item)] ?? 'Характеристики выбранной версии приведены ниже.';
 }
 function groupFor(label: string): string {
   if (/камер|фото|видео|объектив|сенсор/i.test(label)) return 'Камеры и съёмка';
@@ -67,10 +97,11 @@ function groupFor(label: string): string {
   return 'Общие характеристики';
 }
 function sourceIsCompatible(item: CatalogItem, detail: SourceDetail): boolean {
+  if (disputedSources.has(detail.source)) return false;
   if (item.model === 'Dyson V15 SV47' && detail.name.includes('Dyson V15 SV47')) return true;
   if (item.model === 'MacBook Pro 16 M5' && item.priceAlias?.includes('M5 Max') && detail.name.includes('M5 Max')) return true;
   if (item.id === 'parser-sheet1-1282' && detail.name.includes('MacBook Pro 14') && detail.name.includes('M5') && detail.name.includes('24 ГБ')) return true;
-  const normalize = (text: string) => text.toLocaleLowerCase('ru-RU').replace(/ё/g, 'е')
+  const normalize = (text: string) => text.toLocaleLowerCase('ru-RU').replace(/ё/g, 'е').replace(/bowers\s*&\s*wilkins|b&w/g, 'bowers wilkins')
     .replace(/\b(\d+)(?:nd|rd|st|th)\b/g, '$1').replace(/(\d+)-го\s+поколения/g, '$1')
     .replace(/(\d+)\s*(?:gb|гб)/g, '$1гб').replace(/[^\p{L}\p{N}]+/gu, ' ');
   const stop = new Set(['смартфон', 'смартфоны', 'планшет', 'ноутбук', 'наушники', 'беспроводные', 'беспроводной', 'умная', 'колонка', 'компактный', 'фотоаппарат', 'очки', 'виртуальной', 'реальности', 'система', 'медиаплеер', 'геймпад', 'стилус', 'для', 'с', 'алисой', 'на', 'поколения', 'серый', 'белый', 'черный', 'черная', 'серебристый']);
@@ -78,21 +109,30 @@ function sourceIsCompatible(item: CatalogItem, detail: SourceDetail): boolean {
   const model = tokens(item.model);
   const source = new Set(tokens(detail.name));
   if (!model.length) return false;
-  for (const qualifier of ['duo', 'complete', 'mini', 'pro', 'max', 'ultra', 'air']) {
+  if (item.category === 'dyson') {
+    const codes = item.model.match(/\b(?:HS|HD|SV|TP|PH|CY|WR|HJ)\d+[A-Z]?\b/gi) ?? [];
+    const vacuum = item.model.match(/\bV\d+S?\b/i)?.[0];
+    if (vacuum && !new RegExp(`\\b${vacuum}\\b`, 'i').test(detail.name)) return false;
+    if (/submarine/i.test(item.model) !== /submarine/i.test(detail.name)) return false;
+    if (codes.length && codes.every(code => new RegExp(`\\b${code}\\b`, 'i').test(detail.name))) return true;
+  }
+  for (const qualifier of ['duo', 'mini', 'pro', 'max', 'ultra', 'air', 'plus', 'fe', 'xl', 'lite', 'neo']) {
     if (model.includes(qualifier) !== source.has(qualifier)) return false;
   }
   if (source.has('mini') && !model.includes('mini')) return false;
-  const core = normalize(item.model).split(/\s+/).filter(token => token.length > 2 && !['смартфон', 'планшет', 'ноутбук', 'наушники', 'беспроводные', 'часы', 'apple', 'samsung'].includes(token));
-  if (core.length && core.slice(0, 3).every(token => normalize(detail.name).includes(token))) return true;
   const identifiers = model.filter(token => /\d/.test(token) && !/^\d+гб$/.test(token));
   if (identifiers.some(token => !source.has(token))) return false;
-  const overlap = model.filter(token => source.has(token)).length;
-  return overlap >= Math.min(2, model.length) && overlap / model.length >= 0.55;
+  const optional = new Set(['apple', 'samsung', 'fujifilm', 'complete', 'long', 'origin', 'body', 'adventure', 'standard', 'creator', 'combo', 'bundle', 'edition', 'essentials', 'essential', 'accessory', 'with', 'charging', 'case', 'device', 'only', 'as', 'is', 'pitch', 'neon']);
+  const required = model.filter(token => !optional.has(token));
+  return required.length > 0 && required.every(token => source.has(token));
 }
 function variantRows(item: CatalogItem): [string, string][] {
   const gigabytes = (value: string) => /^\d+$/.test(value) ? `${value} ГБ` : value.replace(/(\d+)\s*TB\b/i, '$1 ТБ');
   return [
     ['Модель', item.model],
+    ['Артикул', item.article ?? item.id],
+    ['Бренд', item.brand ?? ''],
+    ['Тип устройства', item.kind ?? ''],
     ['Оперативная память', item.ram ? gigabytes(item.ram) : ''],
     ['Встроенная память', item.storage ? gigabytes(item.storage) : ''],
     ['Размер корпуса', item.size ? (/мм|mm/i.test(item.size) ? item.size : `${item.size} мм`) : ''],
@@ -100,12 +140,16 @@ function variantRows(item: CatalogItem): [string, string][] {
     ['SIM', item.sim ?? ''],
     ['Подключение', item.connectivity ?? ''],
     ['Процессор', item.chip ?? ''],
+    ['Код производителя', item.manufacturerPart ?? ''],
     ['Конфигурация', item.configuration && item.configuration !== item.priceAlias ? item.configuration : ''],
   ].filter((row): row is [string, string] => Boolean(row[1] && row[1] !== '—'));
 }
 function isVariantSpecific(label: string, item: CatalogItem, shared = false): boolean {
   if (/^модель$|^тип$|^производитель$/i.test(label)) return true;
-  if (shared && /памят|накопител|цвет|размер|диагонал|экран|ремеш|корпус|sim|сим|сотов|lte|wi.?fi|подключен|комплектац/i.test(label)) return true;
+  if (shared && /памят|накопител|цвет|ремеш|sim|сим|сотов|lte|комплектац/i.test(label)) return true;
+  if (shared && item.category === 'macbooks' && /яд[рео]|gpu|cpu|графич|видеокарт/i.test(label)) return true;
+  if (shared && item.category === 'watches' && /размер|диагонал|экран|дисплей|корпус|габарит|вес|высота|ширина|толщина|ремеш/i.test(label)) return true;
+  if (shared && item.category === 'dyson' && /вес|габарит|размер|насадк|щетк|щётк|комплект/i.test(label)) return true;
   if (item.storage && /^(?:встроенная )?память$|накопитель|объ.м памяти/i.test(label)) return true;
   if (item.ram && /оперативная память|объ.м озу/i.test(label)) return true;
   if (item.color && /цвет|расцветк/i.test(label)) return true;
@@ -118,22 +162,36 @@ function isVariantSpecific(label: string, item: CatalogItem, shared = false): bo
 }
 
 export function getProductDetails(item: CatalogItem): ProductDetailContent {
-  const source = sourceById[item.id] ?? (parserById.has(item.id) ? sourceByModel.get(item.modelSlug) : undefined);
-  const verified = source && sourceIsCompatible(item, source) ? source : undefined;
-  const curated = parserCuratedDetails[item.id];
-  const shared = Boolean(verified && sourceById[item.id] !== verified);
-  const title = item.priceAlias ?? item.model;
-  const type = categoryNames[item.category ?? ''] ?? 'Товар';
+  const legacyId = (matches.exact as Record<string, string>)[item.article ?? item.id];
+  const current = (currentDetails as unknown as Record<string, SourceDetail>)[item.id];
+  const official = (officialModels as unknown as Record<string, SourceDetail>)[modelKey(item.model)]
+    ?? (structuredModels as unknown as Record<string, SourceDetail>)[modelKey(item.model)];
+  const compatibilityKey = `${item.category}|${item.model}|${item.id === 'parser-sheet1-1282' ? item.id : ''}|${item.priceAlias?.includes('M5 Max') ?? false}`;
+  let compatible = compatibleSources.get(compatibilityKey);
+  if (!compatible) {
+    compatible = sourcePool.filter(detail => sourceIsCompatible(item, detail));
+    compatibleSources.set(compatibilityKey, compatible);
+  }
+  const candidates = [official, current, sourceById[item.id], legacyId ? sourceById[legacyId] : undefined, ...(sourceByModel.get(modelKey(item.model)) ?? []), ...compatible]
+    .filter((detail): detail is SourceDetail => Boolean(detail));
+  const verified = candidates.find(detail => sourceIsCompatible(item, detail));
+  const legacyModel = legacyId && parserById.get(legacyId);
+  const manual = verifiedModelSpecifications[item.model];
+  const curated = manual ?? parserCuratedDetails[item.id]
+    ?? (legacyModel && modelKey(presentCatalogItem(legacyModel as CatalogItem).model) === modelKey(item.model) ? parserCuratedDetails[legacyId!] : undefined)
+    ?? curatedByModel.get(modelKey(item.model));
+  const shared = Boolean(verified && (verified.scope === 'model' || (sourceById[item.id] !== verified && (!legacyId || sourceById[legacyId] !== verified))));
+  const title = item.model;
+  const type = categoryNames[detailCategoryFor(item)] ?? 'Товар';
   const configuration = variantRows(item).filter(([label]) => label !== 'Модель').map(([, value]) => value);
   const lead = configuration.length ? configuration.join(' · ') : title;
-  const name = /^[\p{Script=Cyrillic}]/u.test(item.priceAlias ?? '')
-    ? item.priceAlias! : /^[\p{Script=Cyrillic}]/u.test(item.model) ? item.model : `${type} ${item.model}`;
-  const highlights = verified?.specs.filter(([label]) => !isVariantSpecific(label, item, shared) && /процессор|диагональ экрана|тип экрана|технология изготовления экрана|время работы|ёмкость батареи|емкость батареи|шумоподавлен|конфигурация камер/i.test(label)).slice(0, 3) ?? curated?.specs.slice(0, 2) ?? [];
+  const name = /^[\p{Script=Cyrillic}]/u.test(item.model) ? item.model : `${type} ${item.model}`;
+  const highlights = manual ? manual.specs.filter(([label]) => !(item.chip && label === 'Процессор')).slice(0, 3) : verified?.specs.filter(([label]) => !isVariantSpecific(label, item, shared) && /процессор|диагональ экрана|тип экрана|технология изготовления экрана|время работы|ёмкость батареи|емкость батареи|шумоподавлен|конфигурация камер/i.test(label)).slice(0, 3) ?? curated?.specs.slice(0, 2) ?? [];
   const facts = highlights.length ? `Ключевые параметры: ${highlights.map(([label, value]) => `${label.toLocaleLowerCase('ru-RU')} — ${value}`).join('; ')}.` : '';
   const description = `${name}. ${purposeFor(item)} ${configuration.length ? `Выбранная версия: ${configuration.join(', ')}.` : ''} ${facts}`.replace(/\s+/g, ' ').trim();
   const groups = new Map<string, [string, string][]>();
   groups.set('Выбранная комплектация', variantRows(item));
-  if (verified) {
+  if (verified && !manual) {
     for (const [label, value] of verified.specs) {
       if (isVariantSpecific(label, item, shared)) continue;
       const group = groupFor(label);
@@ -141,7 +199,7 @@ export function getProductDetails(item: CatalogItem): ProductDetailContent {
       groups.get(group)!.push([label, value]);
     }
   }
-  if (curated?.specs.length) groups.set('Особенности и возможности', curated.specs);
+  if (curated?.specs.length) groups.set(manual ? 'Технические характеристики' : 'Особенности и возможности', curated.specs.filter(([label]) => !(item.chip && label === 'Процессор')));
   const sourced = [...groups].some(([title, rows]) => title !== 'Выбранная комплектация' && title !== 'Особенности и возможности' && rows.length > 0);
   const result = {
     lead,

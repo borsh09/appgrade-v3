@@ -1,0 +1,63 @@
+[
+  {
+    "model": "Xiaomi 17 Pro Max",
+    "color": "Black",
+    "factoryColor": "黑色",
+    "angle": "Main",
+    "source": "https://www.mi.com/shop/buy/detail?product_id=21936",
+    "sourceTitle": "Xiaomi 17 Pro Max 12GB+512GB 黑色",
+    "sku": 69735,
+    "url": "https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202509222137_0f5648ca22c47fcd041c4026f11a927f.png",
+    "image": "/images/products/verified/046914056a11a84f6e73fcc4.png"
+  },
+  {
+    "model": "Xiaomi 17 Pro Max",
+    "color": "White",
+    "factoryColor": "白色",
+    "angle": "Main",
+    "source": "https://www.mi.com/shop/buy/detail?product_id=21936",
+    "sourceTitle": "Xiaomi 17 Pro Max 12GB+512GB 白色",
+    "sku": 69698,
+    "url": "https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202509222137_1322b3d0dbad8b18500779e41d7dfcd7.png",
+    "image": "/images/products/verified/98ca4d45ab2e4272e9fd3e45.png"
+  },
+  {
+    "model": "Xiaomi 17 Pro Max",
+    "color": "Green",
+    "factoryColor": "森野绿",
+    "angle": "Main",
+    "source": "https://www.mi.com/shop/buy/detail?product_id=21936",
+    "sourceTitle": "Xiaomi 17 Pro Max 12GB+512GB 森野绿",
+    "sku": 69734,
+    "url": "https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202509222138_f0f744ab0a861c15260ab96e7bee9a42.png",
+    "image": "/images/products/verified/42d55f9722603edf35c1eca9.png"
+  },
+  {
+    "model": "Xiaomi 17 Pro Max",
+    "color": "Purple",
+    "factoryColor": "冷烟紫",
+    "angle": "Main",
+    "source": "https://www.mi.com/shop/buy/detail?product_id=21936",
+    "sourceTitle": "Xiaomi 17 Pro Max 12GB+512GB 冷烟紫",
+    "sku": 69722,
+    "url": "https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202509222138_1404487bf238ce2e5e626237c118aac0.png",
+    "image": "/images/products/verified/1e4f64360ebfa6f6339997ec.png"
+  },
+  {
+    "ids": [
+      "P-61937761"
+    ],
+    "gallery": [
+      "/images/products/verified/8e280db8488e690a57e69c08.png",
+      "/images/products/verified/85c39f519f7534372d74ca8d.png",
+      "/images/products/verified/873905f7b64e34cca84b2c66.png"
+    ],
+    "source": "https://mgg.stores-apple.com/catalog/smartfon_poco_m8_8_512_gb_serebristyy/",
+    "sourceTitle": "Смартфон Poco M8 8/512 ГБ серебристый",
+    "sourceWorkbook": "Парсер.xlsx",
+    "sourceSheet": "mgg Каталог",
+    "sourceRow": 853,
+    "model": "Poco M8",
+    "color": "Silver"
+  }
+]

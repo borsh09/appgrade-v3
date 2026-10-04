@@ -1,6 +1,6 @@
 import { randomUUID, createHash } from 'node:crypto';
 import type { PoolClient } from 'pg';
-import { basePrices, catalogById, parserUnavailableIds } from '../catalog-registry';
+import { basePrices, catalogById } from '../catalog-registry';
 import { database, transaction } from './db';
 import type { ImportReport } from './price-import';
 import { OrderError } from './orders';
@@ -11,6 +11,7 @@ export type PriceSnapshot = {
   inventory?: Record<string,Record<string,number>>;
   cityPrices?: Record<string,Record<string,number>>;
   inventoryRevision?: string;
+  discounts?: Record<string, Record<string, number>>;
 };
 export type CityPriceValue = { sku: string; city: string; price: number | null };
 
@@ -37,27 +38,29 @@ async function restoreCityPrices(client: PoolClient, values: CityPriceValue[]) {
 export async function getPrices(): Promise<PriceSnapshot> {
   if (!process.env.DATABASE_URL)
     return { revision: 'initial', prices: basePrices };
-  const { rows } = await database().query(
-    'SELECT revision, prices FROM appgrade_prices WHERE singleton = true',
-  );
-  if (!rows[0]) throw new Error('Database migration is required');
-  const [stock,cityPriceRows]=await Promise.all([
+  const [priceState,stock,cityPriceRows,discountRows]=await Promise.all([
+    database().query('SELECT revision, prices FROM appgrade_prices WHERE singleton = true'),
     database().query('SELECT sku,city,quantity FROM appgrade_inventory ORDER BY sku,city'),
     database().query('SELECT sku,city,price FROM appgrade_city_prices ORDER BY sku,city'),
+    database().query('SELECT sku,city,price FROM appgrade_discounts ORDER BY sku,city'),
   ]);
+  const { rows } = priceState;
+  if (!rows[0]) throw new Error('Database migration is required');
   const inventory: Record<string,Record<string,number>>={};
   for(const row of stock.rows) if(catalogById.has(row.sku))(inventory[row.sku]??={})[row.city]=row.quantity;
   const cityPrices: Record<string,Record<string,number>>={};
-  for(const row of cityPriceRows.rows) if(catalogById.has(row.sku) && !parserUnavailableIds.has(row.sku))(cityPrices[row.sku]??={})[row.city]=row.price;
+  for(const row of cityPriceRows.rows) if(catalogById.has(row.sku))(cityPrices[row.sku]??={})[row.city]=row.price;
+  const discounts: Record<string,Record<string,number>>={};
+  for(const row of discountRows.rows) if(catalogById.has(row.sku))(discounts[row.sku]??={})[row.city]=row.price;
   return {
     revision: rows[0].revision,
     prices: {
       ...basePrices, ...Object.fromEntries(Object.entries(rows[0].prices as Record<string, number | null>).filter(([id]) => catalogById.has(id))),
-      ...Object.fromEntries([...parserUnavailableIds].map((id) => [id, null])),
     },
     inventory,
     cityPrices,
-    inventoryRevision:createHash('sha256').update(JSON.stringify({inventory,cityPrices})).digest('hex'),
+    discounts,
+    inventoryRevision:createHash('sha256').update(JSON.stringify({inventory,cityPrices,discounts})).digest('hex'),
   };
 }
 export async function applyImport(id: string, owner: string, chat: string) {
@@ -132,7 +135,7 @@ export async function applyImport(id: string, owner: string, chat: string) {
       "UPDATE appgrade_imports SET status = 'applied' WHERE id = $1",
       [id],
     );
-    return `Обновлено цен: ${report.changes.length}. Сайт получит их автоматически в течение минуты.`;
+    return `Обновлено цен: ${report.changes.length}. Сайт получит их автоматически в течение нескольких секунд.`;
   });
 }
 export async function rollbackPrices(expectedRevision: string, owner: string) {
@@ -161,6 +164,6 @@ export async function rollbackPrices(expectedRevision: string, owner: string) {
       'UPDATE appgrade_prices SET revision = $1, prices = $2, updated_at = now() WHERE singleton = true',
       [revision, JSON.stringify(history.rows[0].previous_prices)],
     );
-    return 'Предыдущие цены восстановлены. Сайт обновится в течение минуты.';
+    return 'Предыдущие цены восстановлены. Сайт обновится в течение нескольких секунд.';
   });
 }

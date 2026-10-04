@@ -6,55 +6,72 @@ import { OrderError } from './orders';
 export function assertOrigin(request: Request) {
   const origin = request.headers.get('origin');
   const expected = process.env.APP_ORIGIN || new URL(request.url).origin;
-  let allowed = !origin || origin === expected;
-  if (origin && !allowed) {
-    try {
-      const actual = new URL(origin), configured = new URL(expected);
+  const source = origin ?? request.headers.get('referer');
+  let allowed = false;
+  try {
+    if (source) {
+      const actual = new URL(source), configured = new URL(expected);
       const loopback = new Set(['localhost', '127.0.0.1', '[::1]']);
-      allowed = loopback.has(actual.hostname) && loopback.has(configured.hostname) && actual.protocol === configured.protocol && actual.port === configured.port;
-    } catch { allowed = false; }
-  }
+      allowed = actual.origin === configured.origin
+        || (loopback.has(actual.hostname) && loopback.has(configured.hostname) && actual.protocol === configured.protocol && actual.port === configured.port);
+    }
+  } catch { allowed = false; }
   if (!allowed || request.headers.get('sec-fetch-site') === 'cross-site') throw new OrderError('Недопустимый источник запроса.', 403);
 }
-export async function readJson(request: Request, maximum = 32768): Promise<unknown> {
+async function readBody(request: Request, maximum: number, timeoutMs: number): Promise<Buffer> {
   const reader = request.body?.getReader();
   if (!reader) throw new OrderError('Пустой запрос.');
   const chunks: Uint8Array[] = [];
   let size = 0;
-  for (;;) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    size += value.length;
-    if (size > maximum) { await reader.cancel(); throw new OrderError('Слишком большой запрос.', 413); }
-    chunks.push(value);
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const deadline = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => {
+      reject(new OrderError('Время отправки запроса истекло.', 408));
+      void reader.cancel().catch(() => {});
+    }, timeoutMs);
+  });
+  const read = async () => {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.length;
+      if (size > maximum) throw new OrderError('Слишком большой запрос.', 413);
+      chunks.push(value);
+    }
+    return Buffer.concat(chunks);
+  };
+  try {
+    return await Promise.race([read(), deadline]);
+  } catch (error) {
+    void reader.cancel().catch(() => {});
+    throw error;
+  } finally {
+    clearTimeout(timer);
+    reader.releaseLock();
   }
-  try { return JSON.parse(Buffer.concat(chunks).toString('utf8')); }
+}
+export async function readJson(request: Request, maximum = 32768, timeoutMs = 30_000): Promise<unknown> {
+  if (!/^application\/json(?:\s*;|$)/i.test(request.headers.get('content-type')?.trim() ?? ''))
+    throw new OrderError('Ожидается запрос в формате JSON.', 415);
+  const bytes = await readBody(request, maximum, timeoutMs);
+  try { return JSON.parse(bytes.toString('utf8')); }
   catch { throw new OrderError('Некорректный запрос.'); }
 }
-export async function readFormData(request: Request, maximum: number): Promise<FormData> {
+export async function readFormData(request: Request, maximum: number, timeoutMs = 30_000): Promise<FormData> {
   const contentType = request.headers.get('content-type') || '';
   if (!contentType.toLowerCase().startsWith('multipart/form-data;'))
     throw new OrderError('Ожидается форма с файлом.');
   const declaredLength = Number(request.headers.get('content-length'));
-  if (declaredLength > maximum) throw new OrderError('Слишком большой файл.', 413);
-  const reader = request.body?.getReader();
-  if (!reader) throw new OrderError('Пустая форма.');
-  const chunks: Uint8Array[] = [];
-  let size = 0;
-  for (;;) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    size += value.length;
-    if (size > maximum) {
-      throw new OrderError('Слишком большой файл.', 413);
-    }
-    chunks.push(value);
+  if (declaredLength > maximum) {
+    void request.body?.cancel().catch(() => {});
+    throw new OrderError('Слишком большой файл.', 413);
   }
+  const bytes = await readBody(request, maximum, timeoutMs);
   try {
     return await new Request(request.url, {
       method: 'POST',
       headers: { 'Content-Type': contentType },
-      body: Buffer.concat(chunks),
+      body: new Uint8Array(bytes),
     }).formData();
   } catch {
     throw new OrderError('Некорректная форма загрузки.');

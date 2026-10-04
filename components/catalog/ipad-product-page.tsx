@@ -1,4 +1,7 @@
 'use client';
+import { ProductSpecifications } from './product-specifications';
+import { DiscountPrice } from '@/components/shared/discount-price';
+import type { ProductDetailContent } from '@/lib/product-details';
 import { ProductVariants } from './product-variants';
 import { usePriceResolver } from '@/components/providers/price-provider';
 import Image from '@/components/shared/product-photo';
@@ -8,12 +11,13 @@ import { ArrowLeft, Check } from 'lucide-react';
 import type { IpadCatalogSku } from '@/data/ipad-catalog';
 import { getIpadDetails } from '@/data/ipad-details';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
-const money = new Intl.NumberFormat('ru-RU');
 export function IpadProductPage({
+  specifications,
   model,
   modelSlug,
   selected: baseSelected,
 }: {
+  specifications: ProductDetailContent;
   model: string;
   modelSlug: string;
   variants: IpadCatalogSku[];
@@ -85,7 +89,7 @@ export function IpadProductPage({
               автоматически.
             </p>
             <div className="product-price-line">
-              <strong>{money.format(selected.price)} ₽</strong>
+              <DiscountPrice price={selected.price} oldPrice={selected.oldPrice} />
               <span>
                 <Check size={14} />В наличии
               </span>
@@ -132,43 +136,7 @@ export function IpadProductPage({
             </div>
           ))}
         </section>
-        <section className="product-specifications" id="specs">
-          <div className="product-section-kicker">Характеристики</div>
-          <div className="product-spec-groups">
-            <div className="product-spec-group">
-              <h3>Основные параметры</h3>
-              <dl>
-                {details.specs.map(([t, v]) => (
-                  <div key={t}>
-                    <dt>{t}</dt>
-                    <dd>{v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-            <div className="product-spec-group">
-              <h3>Выбранная конфигурация</h3>
-              <dl>
-                <div>
-                  <dt>Модель</dt>
-                  <dd>{model}</dd>
-                </div>
-                <div>
-                  <dt>Память</dt>
-                  <dd>{selected.storage}</dd>
-                </div>
-                <div>
-                  <dt>Связь</dt>
-                  <dd>{selected.connectivity}</dd>
-                </div>
-                <div>
-                  <dt>Цвет</dt>
-                  <dd>{selected.color}</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </section>
+        <ProductSpecifications details={specifications} />
         <section className="product-delivery" id="delivery">
           <div className="product-section-kicker">Покупка</div>
           <div>

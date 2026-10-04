@@ -1,4 +1,7 @@
-'use client';
+﻿'use client';
+import { ProductSpecifications } from './product-specifications';
+import { DiscountPrice } from '@/components/shared/discount-price';
+import type { ProductDetailContent } from '@/lib/product-details';
 import { ProductVariants } from './product-variants';
 import { useState } from 'react';
 import { usePriceResolver } from '@/components/providers/price-provider';
@@ -7,10 +10,11 @@ import Link from '@/components/shared/safe-link';
 import { ArrowLeft, Check } from 'lucide-react';
 import type { CameraCatalogSku } from '@/data/camera-catalog';
 import { AddToCartButton } from '@/components/shared/commerce-buttons';
-const money = new Intl.NumberFormat('ru-RU');
 export function CameraProductPage({
+  specifications,
   selected: baseSelected,
 }: {
+  specifications: ProductDetailContent;
   selected: CameraCatalogSku;
   variants: CameraCatalogSku[];
 }) {
@@ -66,7 +70,7 @@ export function CameraProductPage({
               держать в руках.
             </p>
             <div className="product-price-line">
-              <strong>{money.format(selected.price)} ₽</strong>
+              <DiscountPrice price={selected.price} oldPrice={selected.oldPrice} />
               <span>
                 <Check size={14} />В наличии
               </span>
@@ -96,7 +100,7 @@ export function CameraProductPage({
           <div className="product-section-kicker">О товаре</div>
           <div>
             <p className="catalog-overline">CAPTURE · PRINT · SHARE</p>
-            <h2>Снимок превращается в воспоминание за несколько секунд.</h2>
+            <h2>Снимок превращается в воспоминание за несколько секунд</h2>
             <p>
               {selected.kind === 'Гибридная'
                 ? 'Предпросмотр на экране, творческие эффекты и выбор кадров перед печатью.'
@@ -104,6 +108,7 @@ export function CameraProductPage({
             </p>
           </div>
         </section>
+        <ProductSpecifications details={specifications} />
       </div>
     </main>
   );

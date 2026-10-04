@@ -2,6 +2,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   Activity,
+  AlertCircle,
+  CheckCircle2,
   ArrowDownToLine,
   BarChart3,
   Boxes,
@@ -23,6 +25,8 @@ import {
   Wrench,
 } from 'lucide-react';
 import { CITIES } from '@/config/cities';
+import { notifyPriceUpdate } from '@/lib/price-updates';
+import { orderStatuses, tradeInStatuses, nextEntryStatuses, statusActionLabels, closedOrderStatuses, completedOrderStatuses } from '@/lib/order-status';
 import type { CatalogItem } from '@/lib/catalog-registry';
 
 type Entry = {
@@ -35,6 +39,19 @@ type Entry = {
     customer: { name: string; phone: string };
     total?: number;
     model?: string;
+    rowId?: number;
+    storage?: string;
+    sim?: string | null;
+    batteryPercent?: number;
+    functionState?: string;
+    bodyState?: string;
+    condition?: string;
+    details?: string;
+    estimate?: number | null;
+    assessmentReason?: string;
+    priceLabel?: string;
+    batteryLabel?: string;
+    tradeIn?: { model: string; storage: string; sim: string | null; batteryPercent: number; functionState: string; bodyState: string; estimate: number; rowId: number };
     city?: { name?: string };
     fulfillment?: string;
     deliveryAddress?: string;
@@ -59,6 +76,7 @@ type Report = {
   unmatchedRows?: number;
   unavailableRows?: number;
   hiddenRows?: number;
+  blankRows?: number;
   articleMappings?: Record<string, string>;
   warnings: string[];
   errors: string[];
@@ -69,6 +87,7 @@ type State = {
   priceRevision: string;
   priceUpdatedAt: string;
   inventory: { sku: string; city: string; quantity: number }[];
+  discounts: { sku: string; city: string; price: number }[];
   cityPrices: {
     sku: string;
     city: string;
@@ -80,7 +99,6 @@ type State = {
   orderSummary: { total: number; new: number; active: number; revenue: string };
   tradeInSummary: { total: number; new: number };
   metrics: { day: string; event: string; count: number }[];
-  health: { role?: string; heartbeat_at: string }[];
   history: {
     id: string;
     source: string;
@@ -111,15 +129,6 @@ const date = (value: string) =>
     hour: '2-digit',
     minute: '2-digit',
   }).format(new Date(value));
-const statuses: Record<string, string> = {
-  new: 'Новый',
-  confirmed: 'Подтверждён',
-  contacted: 'Связались',
-  awaiting_payment: 'Ожидает оплаты',
-  completed: 'Завершён',
-  issued: 'Выдан',
-  cancelled: 'Отменён',
-};
 const categoryNames: Record<string, string> = {
   all: 'Все товары',
   iphones: 'iPhone',
@@ -141,6 +150,7 @@ export default function AdminPage() {
   const [state, setState] = useState<State | null>(null),
     [checking, setChecking] = useState(true),
     [error, setError] = useState(''),
+    [notice, setNotice] = useState(''),
     [busy, setBusy] = useState(false),
     [tab, setTab] = useState<Tab>('overview'),
     [query, setQuery] = useState(''),
@@ -151,8 +161,7 @@ export default function AdminPage() {
       targetCities?: string[];
     } | null>(null),
     [olderOrders, setOlderOrders] = useState<Entry[]>([]),
-    [olderTradeIns, setOlderTradeIns] = useState<Entry[]>([]),
-    [checkedAt, setCheckedAt] = useState(0);
+    [olderTradeIns, setOlderTradeIns] = useState<Entry[]>([]);
   async function api(url: string, options?: RequestInit) {
     const headers = new Headers(options?.headers);
     if (!(options?.body instanceof FormData))
@@ -165,7 +174,6 @@ export default function AdminPage() {
   async function load() {
     try {
       setState(await api('/api/admin'));
-      setCheckedAt(Date.now());
       setError('');
     } catch (e) {
       if ((e as Error).message.includes('вход')) setState(null);
@@ -210,18 +218,36 @@ export default function AdminPage() {
   async function mutate(body: unknown) {
     setBusy(true);
     setError('');
+    setNotice('');
     try {
       await api('/api/admin', { method: 'PATCH', body: JSON.stringify(body) });
-      const change = body as { action?: string; type?: string; id?: string; status?: string };
+      const change = body as { action?: string; type?: string; id?: string; status?: string; city?: string; price?: number | null; quantity?: number | null };
       if (change.id && change.status && change.action === 'order')
         setOlderOrders((items) => items.map((item) => item.id === change.id ? { ...item, status: change.status! } : item));
       if (change.id && change.status && change.action === 'trade-in')
         setOlderTradeIns((items) => items.map((item) => item.id === change.id ? { ...item, status: change.status! } : item));
-      if (change.id && change.action === 'resend-notification') {
-        const setter = change.type === 'order' ? setOlderOrders : setOlderTradeIns;
-        setter((items) => items.map((item) => item.id === change.id ? { ...item, notified_at: null } : item));
+      if (change.action === 'city-product' && change.id && change.city) {
+        const { id, city, price, quantity } = change;
+        setState((current) => current ? {
+          ...current,
+          cityPrices: [...current.cityPrices.filter((row) => row.sku !== id || row.city !== city),
+            ...(price == null ? [] : [{ sku: id, city, price, updated_at: new Date().toISOString() }])],
+          inventory: [...current.inventory.filter((row) => row.sku !== id || row.city !== city),
+            ...(quantity == null ? [] : [{ sku: id, city, quantity }])],
+        } : current);
+        notifyPriceUpdate();
+      } else if (change.action === 'product-discount' && change.id && change.city) {
+        const { id, city, price } = change;
+        setState(current => current ? { ...current, discounts: [
+          ...current.discounts.filter(row => row.sku !== id || row.city !== city),
+          ...(price == null ? [] : [{ sku: id, city, price }]),
+        ] } : current);
+        notifyPriceUpdate();
+      } else {
+        if (change.action === 'product' || change.action === 'inventory') notifyPriceUpdate();
+        await load();
       }
-      await load();
+      setNotice('Изменения сохранены.');
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -252,6 +278,8 @@ export default function AdminPage() {
     }
     setBusy(true);
     setError('');
+    setNotice('');
+    setDraft(null);
     try {
       setDraft(await api('/api/admin/prices', { method: 'POST', body: form }));
     } catch (e) {
@@ -263,14 +291,16 @@ export default function AdminPage() {
   async function priceAction(action: 'apply' | 'rollback', id: string) {
     setBusy(true);
     setError('');
+    setNotice('');
     try {
       const result = await api('/api/admin/prices', {
         method: 'PATCH',
         body: JSON.stringify({ action, id }),
       });
       setDraft(null);
+      notifyPriceUpdate();
       await load();
-      setError(result.message);
+      setNotice(result.message);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -329,9 +359,7 @@ export default function AdminPage() {
         </section>
       </main>
     );
-  const fresh = state.health.some(
-    (h) => h.role === 'orders' && checkedAt - new Date(h.heartbeat_at).getTime() < 30_000,
-  );
+  const fresh = !error;
   const nav: [Tab, string, React.ReactNode, number?][] = [
     ['overview', 'Обзор', <LayoutDashboard key="o" />],
     [
@@ -362,10 +390,13 @@ export default function AdminPage() {
             <button
               key={id}
               className={tab === id ? 'active' : ''}
-              onClick={() => setTab(id)}
+              aria-current={tab === id ? 'page' : undefined}
+              aria-label={label}
+              onClick={() => { setTab(id); setNotice(''); }}
             >
               {icon}
-              <span>{label}</span>
+              <span className="admin-nav-label">{label}</span>
+              <span className="admin-nav-mobile">{id === 'catalog' ? 'Каталог' : id === 'prices' ? 'Цены' : label}</span>
               {count ? <i>{count}</i> : null}
             </button>
           ))}
@@ -389,11 +420,12 @@ export default function AdminPage() {
           <div>
             <p className="admin-kicker">ПАНЕЛЬ УПРАВЛЕНИЯ</p>
             <h1>{nav.find((x) => x[0] === tab)?.[1]}</h1>
+            <p className="admin-header-description">{tab === 'prices' ? 'Проверка и обновление цен из Excel' : tab === 'catalog' ? 'Цены и наличие в каждом магазине' : tab === 'orders' ? 'Все заказы и их текущий статус' : tab === 'tradeIns' ? 'Заявки клиентов на обмен устройств' : 'Главные показатели вашего магазина'}</p>
           </div>
           <div className="admin-header-actions">
             <span className={fresh ? 'online' : 'offline'}>
               <i />
-              {fresh ? 'Система работает' : 'Проверьте бота'}
+              {fresh ? 'База подключена' : 'База недоступна'}
             </span>
             <button onClick={() => void load()} aria-label="Обновить">
               <RefreshCw size={18} />
@@ -401,11 +433,13 @@ export default function AdminPage() {
           </div>
         </header>
         {error && (
-          <div className="admin-toast">
-            {error}
-            <button onClick={() => setError('')}>×</button>
+          <div className="admin-toast admin-toast-error" role="alert">
+            <AlertCircle size={20} /><span>{error}</span>
+            <button aria-label="Закрыть ошибку" onClick={() => setError('')}>×</button>
           </div>
         )}
+        {notice && <output className="admin-toast admin-toast-success"><CheckCircle2 size={20} /><span>{notice}</span><button aria-label="Закрыть уведомление" onClick={() => setNotice('')}>×</button></output>}
+        <div className="admin-view" key={tab}>
         {tab === 'overview' && (
           <Overview state={state} fresh={fresh} setTab={setTab} />
         )}{' '}
@@ -451,6 +485,7 @@ export default function AdminPage() {
             mutate={mutate}
           />
         )}
+        </div>
       </section>
     </main>
   );
@@ -498,9 +533,9 @@ function Overview({
         />
         <Stat
           icon={<Activity />}
-          label="Бот заказов"
+          label="База заказов"
           value={fresh ? 'Онлайн' : 'Нет связи'}
-          note={fresh ? 'heartbeat актуален' : 'нужна проверка'}
+          note={fresh ? 'Данные загружены' : 'Обновите данные'}
         />
       </div>
       <div className="admin-grid-main">
@@ -610,10 +645,13 @@ function Entries({
   const [query, setQuery] = useState('');
   const [cityFilter, setCityFilter] = useState('all');
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const statuses = type === 'order' ? orderStatuses : tradeInStatuses;
   const shown = entries.filter((entry) => {
-    const matchesStatus = filter === 'all' || entry.status === filter;
+    const matchesStatus = filter === 'all' || entry.status === filter
+      || (filter === 'active' && entry.status !== 'new' && !closedOrderStatuses.includes(entry.status))
+      || (filter === 'done' && completedOrderStatuses.includes(entry.status));
     const matchesCity = cityFilter === 'all' || entry.payload.city?.name === CITIES[cityFilter as keyof typeof CITIES]?.name;
-    const haystack = `${entry.id} ${entry.payload.customer.name} ${entry.payload.customer.phone} ${entry.payload.city?.name || ''}`.toLowerCase();
+    const haystack = `${entry.id} ${entry.payload.customer.name} ${entry.payload.customer.phone} ${entry.payload.city?.name || ''} ${entry.payload.model || ''} ${entry.payload.items?.map((item) => item.name).join(' ') || ''}`.toLowerCase();
     return matchesStatus && matchesCity && haystack.includes(query.toLowerCase().trim());
   });
   return (
@@ -632,8 +670,8 @@ function Entries({
           {[
             ['all', 'Все'],
             ['new', 'Новые'],
-            ['confirmed', 'В работе'],
-            ['completed', 'Готово'],
+            ['active', 'В работе'],
+            ['done', 'Завершённые'],
           ].map(([id, label]) => (
             <button
               className={filter === id ? 'active' : ''}
@@ -645,14 +683,23 @@ function Entries({
           ))}
         </div>
       </div>
+      <div className="admin-entry-filters">
       <label className="admin-search admin-entry-search">
         <Search />
-        <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={'\u041f\u043e\u0438\u0441\u043a \u043f\u043e \u043a\u043b\u0438\u0435\u043d\u0442\u0443, \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0443 \u0438\u043b\u0438 ID'} />
+        <input aria-label="Поиск заказов" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Клиент, телефон, товар или номер заказа" />
       </label>
-      <select className="admin-entry-city-filter" value={cityFilter} onChange={(event) => setCityFilter(event.target.value)}>
+      <select aria-label="Город заказа" className="admin-entry-city-filter" value={cityFilter} onChange={(event) => setCityFilter(event.target.value)}>
         <option value="all">Все города</option>
         {Object.entries(CITIES).map(([id, city]) => <option key={id} value={id}>{city.name}</option>)}
       </select>
+      <select aria-label="Статус заказа" className="admin-entry-city-filter" value={filter} onChange={(event) => setFilter(event.target.value)}>
+        <option value="all">Все статусы</option>
+        <option value="active">В работе</option>
+        <option value="done">Завершённые</option>
+        {Object.entries(statuses).map(([id, label]) => <option key={id} value={id}>{label}</option>)}
+      </select>
+      </div>
+      <p className="admin-entry-result" aria-live="polite">Найдено: <strong>{shown.length}</strong> из {entries.length} загруженных</p>
       <section className="admin-table-card">
         <div className="admin-table admin-orders-table">
           <div className="admin-table-head">
@@ -663,23 +710,19 @@ function Entries({
             <span>Действия</span>
           </div>
           {shown.map((entry) => (
-            <div className="admin-order-group" key={entry.id}>
+            <div className={`admin-order-group${expandedId === entry.id ? ' is-expanded' : ''}`} key={entry.id}>
             <div className="admin-table-row">
               <span>
                 <strong>{entry.payload.customer.name}</strong>
-                <small>{entry.payload.customer.phone}</small>
+                <a className="admin-customer-phone" href={`tel:${entry.payload.customer.phone}`}>{entry.payload.customer.phone}</a>
                 <small>{entry.payload.city?.name || '\u0413\u043e\u0440\u043e\u0434 \u043d\u0435 \u0443\u043a\u0430\u0437\u0430\u043d'}</small>
-                <button className="admin-order-open" onClick={() => setExpandedId(expandedId === entry.id ? null : entry.id)}>
+                <button aria-expanded={expandedId === entry.id} aria-controls={`order-details-${entry.id}`} className="admin-order-open" onClick={() => setExpandedId(expandedId === entry.id ? null : entry.id)}>
                   {expandedId === entry.id ? '\u0441\u043a\u0440\u044b\u0442\u044c' : '\u043f\u043e\u0434\u0440\u043e\u0431\u043d\u0435\u0435'}
                 </button>
               </span>
               <span>
                 <strong>{date(entry.created_at)}</strong>
-                <small>
-                  {entry.notified_at
-                    ? 'Менеджер уведомлён'
-                    : 'Ожидает уведомления'}
-                </small>
+                <small>Сохранено в базе</small>
               </span>
               <span>
                 <strong>
@@ -692,6 +735,7 @@ function Entries({
                     ? `${entry.payload.items.length} позиций`
                     : entry.id.slice(0, 8)}
                 </small>
+                {type === 'order' && <small>{entry.payload.fulfillment === 'delivery' ? 'Доставка' : 'Самовывоз'}</small>}
               </span>
               <span>
                 <i className={`status status-${entry.status}`}>
@@ -699,65 +743,22 @@ function Entries({
                 </i>
               </span>
               <span className="admin-actions">
-                {entry.status === 'new' && (
-                  <>
-                    <button
-                      disabled={busy}
-                      onClick={() =>
-                        void mutate({
-                          action: type,
-                          id: entry.id,
-                          status: 'confirmed',
-                        })
-                      }
-                    >
-                      Принять
-                    </button>
-                    <button
-                      className="ghost"
-                      disabled={busy}
-                      onClick={() =>
-                        void mutate({
-                          action: type,
-                          id: entry.id,
-                          status: 'cancelled',
-                        })
-                      }
-                    >
-                      Отменить
-                    </button>
-                  </>
-                )}
-                {entry.status === 'confirmed' && (
-                  <button
-                    disabled={busy}
-                    onClick={() =>
-                      void mutate({
-                        action: type,
-                        id: entry.id,
-                        status: 'completed',
-                      })
-                    }
-                  >
-                    Завершить
+                {nextEntryStatuses(type, entry.status, entry.payload.fulfillment).map((status) => (
+                  <button key={status} className={status === 'cancelled' ? 'ghost' : undefined} disabled={busy}
+                    onClick={() => {
+                      if (status === 'cancelled' && !window.confirm('Отменить эту заявку? Для заказа зарезервированные товары вернутся в остатки.')) return;
+                      void mutate({ action: type, id: entry.id, status });
+                    }}>
+                    {statusActionLabels[status]}
                   </button>
-                )}
-                {entry.status === 'confirmed' && (
-                  <button className="ghost" disabled={busy} onClick={() => void mutate({ action: type, id: entry.id, status: 'contacted' })}>Связались</button>
-                )}
-                {entry.status === 'contacted' && (
-                  <button disabled={busy} onClick={() => void mutate({ action: type, id: entry.id, status: 'awaiting_payment' })}>Ожидает оплаты</button>
-                )}
-                {entry.status === 'awaiting_payment' && (
-                  <button disabled={busy} onClick={() => void mutate({ action: type, id: entry.id, status: 'issued' })}>Выдать заказ</button>
-                )}
+                ))}
               </span>
             </div>
             {expandedId === entry.id && (
-              <div className="admin-order-details">
+              <div id={`order-details-${entry.id}`} className="admin-order-details">
                 <div className="admin-order-details-head">
                   <strong>Заказ № {entry.id.slice(0, 8)}</strong>
-                  <span>{date(entry.created_at)} <button className="admin-detail-action" disabled={busy} onClick={() => void mutate({ action: 'resend-notification', type, id: entry.id })}>Отправить уведомление</button></span>
+                  <span>{date(entry.created_at)}</span>
                 </div>
                 <div className="admin-order-details-grid">
                   <div><small>Клиент</small><strong>{entry.payload.customer.name}</strong><a href={`tel:${entry.payload.customer.phone}`}>{entry.payload.customer.phone}</a></div>
@@ -765,6 +766,7 @@ function Entries({
                   <div><small>Получение</small><strong>{entry.payload.fulfillment === 'delivery' ? 'Доставка' : 'Самовывоз'}</strong><span>{entry.payload.deliveryAddress || entry.payload.city?.name || 'Адрес не указан'}</span></div>
                 </div>
                 <div className="admin-order-items">
+                  {(type === 'trade-in' || entry.payload.tradeIn) && <TradeInDetails payload={entry.payload} />}
                   <small>Состав заказа</small>
                   {entry.payload.items?.map((item, index) => <div key={`${item.name}-${index}`}><span>{item.name}{item.configuration ? ` · ${item.configuration}` : ''} × {item.quantity}</span><b>{item.price ? `${money.format(item.price * item.quantity)} ₽` : ''}</b></div>)}
                   {entry.payload.services?.map((service) => <div key={service.title}><span>Услуга: {service.title}</span><b>{money.format(service.price)} ₽</b></div>)}
@@ -786,6 +788,29 @@ function Entries({
       )}
     </div>
   );
+}
+
+function TradeInDetails({ payload }: { payload: Entry['payload'] }) {
+  const device = payload.tradeIn ?? payload;
+  const functions: Record<string, string> = { working: 'Работает исправно', issues: 'Есть неисправности', broken: 'Не работает' };
+  const bodies: Record<string, string> = { clean: 'Без следов использования', worn: 'Есть следы использования', damaged: 'Есть повреждения' };
+  const reasons: Record<string, string> = { priced: 'Рассчитана по таблице', request: 'Оценка по запросу', battery: 'Аккумулятор вне диапазона таблицы', condition: 'Требуется диагностика состояния' };
+  const fields = [
+    ['Модель', device.model], ['Память', device.storage], ['SIM', device.sim],
+    ['Аккумулятор', device.batteryPercent == null ? undefined : `${device.batteryPercent}%`],
+    ['Работоспособность', device.functionState ? functions[device.functionState] ?? device.functionState : undefined],
+    ['Состояние корпуса', device.bodyState ? bodies[device.bodyState] ?? device.bodyState : undefined],
+    ['Предварительная оценка', device.estimate == null ? 'После диагностики' : `${money.format(device.estimate)} ₽`],
+    ['Причина оценки', payload.assessmentReason ? reasons[payload.assessmentReason] ?? payload.assessmentReason : undefined],
+    ['Диапазон аккумулятора по таблице', payload.batteryLabel], ['Цена по таблице', payload.priceLabel],
+    ['Состояние', payload.condition], ['Дополнительные сведения', payload.details],
+  ];
+  const city = payload.city as unknown;
+  const cityName = typeof city === 'string' ? CITIES[city as keyof typeof CITIES]?.name ?? city : payload.city?.name;
+  return <section aria-label="Параметры Trade-In"><h3>Trade-In — параметры устройства</h3>
+    {cityName && <div><span>Город</span><b>{cityName}</b></div>}
+    {fields.filter(([, value]) => value != null && value !== '').map(([label, value]) => <div key={label}><span>{label}</span><b>{value}</b></div>)}
+  </section>;
 }
 
 function Prices({
@@ -819,6 +844,8 @@ function Prices({
             Загрузите прайс до 4 МБ. Сначала система покажет все изменения и
             ошибки — цены применятся только после подтверждения.
           </p>
+          <p><a href="/api/admin/prices" download="appgrade-prices.xlsx"><ArrowDownToLine size={16} /> Скачать шаблон с артикулами сайта</a></p>
+          <p>В файле «Парсер» читается только лист «Сайт Аппгрейд»: A — бренд, B — название, C — артикул, D — цена в рублях. Строка заголовков не обязательна. Пустые цены сохраняют текущие значения; цена 1 пропускается.</p>
           <form onSubmit={upload}>
             <fieldset className="admin-city-picker">
               <legend>Применить прайс для городов</legend>
@@ -830,12 +857,12 @@ function Prices({
               <FileSpreadsheet />
               <span>
                 <strong>Выберите файл .xlsx</strong>
-                <small>Цены берутся с листа «Сайт Аппгрейд»: Артикул, Название, Цена. Артикулы из каталога сопоставляются автоматически. Лист «Товары сайта» служит для сверки.</small>
+                <small>Лист «Сайт Аппгрейд», цены в четвёртом столбце (D). Подходит файл «Парсер.xlsx».</small>
               </span>
               <input type="file" name="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={(event) => setSelectedFile(event.currentTarget.files?.[0] ?? null)} />
               <em className="admin-file-name">{selectedFile ? selectedFile.name : 'Файл ещё не выбран'}</em>
             </label>
-            <button type="submit" disabled={busy}>
+            <button type="submit" disabled={busy || !selectedFile}>
               <ArrowDownToLine /> {busy ? 'Проверяем файл…' : 'Проверить прайс'}
             </button>
           </form>
@@ -894,6 +921,8 @@ function Prices({
             {(draft.report.hiddenRows ?? 0) > 0 && (
               <span><strong>{draft.report.hiddenRows}</strong> скрыто по пометке Active</span>
             )}
+            {(draft.report.blankRows ?? 0) > 0 && <span><strong>{draft.report.blankRows}</strong> с пустой ценой — пропущено</span>}
+            <span><strong>{draft.report.unchanged}</strong> цен без изменений</span>
             <span>
               <strong>{draft.report.matched}</strong> сопоставлено
             </span>
@@ -920,11 +949,9 @@ function Prices({
               </span>
             </div>
           ))}
-          {[...draft.report.errors, ...draft.report.warnings].map((x, i) => (
-            <p className="report-warning" key={i}>
-              {x}
-            </p>
-          ))}
+          {draft.report.changes.length > 50 && <p>Показаны первые 50 изменений из {draft.report.changes.length}. При подтверждении применятся все изменения.</p>}
+          {draft.report.errors.map((text, index) => <p className="report-message report-error" key={`error-${index}`}><AlertCircle size={18} /><span>{text}</span></p>)}
+          {draft.report.warnings.map((text, index) => <p className="report-message report-warning" key={`warning-${index}`}><AlertCircle size={18} /><span>{text}</span></p>)}
           {(draft.report.changes.length > 0 || Object.keys(draft.report.articleMappings ?? {}).length > 0) && draft.report.errors.length === 0 && (
             <button
               className="admin-primary"
@@ -932,7 +959,7 @@ function Prices({
               onClick={() => void priceAction('apply', draft.id)}
             >
               <Check /> {draft.report.changes.length > 0
-                ? `Применить ${draft.report.changes.length} изменений цен и связи артикулов`
+                ? `Применить ${draft.report.changes.length} изменений цен`
                 : `Сохранить связи ${Object.keys(draft.report.articleMappings ?? {}).length} артикулов`}
             </button>
           )}
@@ -1016,7 +1043,7 @@ function Catalog({
     (item) =>
       (category === 'all' || (item.category || 'gadgets') === category) &&
       (model === 'all' || item.model === model) &&
-      `${item.model} ${item.storage || ''} ${item.ram || ''} ${item.color} ${item.sim || ''} ${item.configuration || ''}`
+      `${item.article || ''} ${item.model} ${item.storage || ''} ${item.ram || ''} ${item.color} ${item.sim || ''} ${item.configuration || ''}`
         .toLowerCase()
         .includes(query.toLowerCase()),
   );
@@ -1101,7 +1128,7 @@ function Catalog({
                     setQuery(e.target.value);
                     setPage(1);
                   }}
-                  placeholder="Память, цвет, SIM…"
+                  placeholder="Артикул, модель, цвет…"
                 />
               </label>
             </div>
@@ -1111,7 +1138,7 @@ function Catalog({
               <div className="admin-table-head">
                 <span>Товар</span>
                 <span>Базовая цена</span>
-                <span>Цена в городе</span>
+                <span>Цена в городе / скидка</span>
                 <span>Остаток</span>
                 <span>Сохранить</span>
               </div>
@@ -1124,12 +1151,14 @@ function Catalog({
                   state.inventory.find(
                     (x) => x.sku === item.id && x.city === city,
                   )?.quantity ?? null;
+                const discount = state.discounts.find(row => row.sku === item.id && row.city === city)?.price ?? null;
                 return (
                   <CityProductRow
-                    key={`${item.id}-${city}-${cityPrice}-${stock}`}
+                    key={`${item.id}-${city}-${cityPrice}-${stock}-${discount}`}
                     item={item}
                     basePrice={state.prices[item.id]}
                     cityPrice={cityPrice}
+                    discount={discount}
                     stock={stock}
                     city={city}
                     busy={busy}
@@ -1175,6 +1204,7 @@ function CityProductRow({
   item,
   basePrice,
   cityPrice,
+  discount,
   stock,
   city,
   busy,
@@ -1183,6 +1213,7 @@ function CityProductRow({
   item: CatalogItem;
   basePrice: number | null | undefined;
   cityPrice: number | null;
+  discount: number | null;
   stock: number | null;
   city: string;
   busy: boolean;
@@ -1192,13 +1223,16 @@ function CityProductRow({
       cityPrice == null ? '' : String(cityPrice),
     ),
     [quantity, setQuantity] = useState(stock == null ? '' : String(stock));
+  const [salePrice, setSalePrice] = useState(discount == null ? '' : String(discount));
+  const regularPrice = cityPrice ?? basePrice;
+  const validSale = Number.isSafeInteger(Number(salePrice)) && Number(salePrice) > 0 && typeof regularPrice === 'number' && Number(salePrice) < regularPrice;
   const changed =
     price !== String(cityPrice ?? '') || quantity !== String(stock ?? '');
   return (
     <div className="admin-table-row">
       <span>
         <strong>{item.model}</strong>
-        <small>{[item.storage, item.color].filter(Boolean).join(' · ')}</small>
+        <small>{[item.article, item.ram, item.storage, item.color, item.sim].filter(Boolean).join(' · ')}</small>
       </span>
       <span>
         <strong>
@@ -1208,6 +1242,7 @@ function CityProductRow({
         </strong>
         <small>общая цена</small>
       </span>
+      <div className="admin-price-discount">
       <label className="admin-number">
         <input
           aria-label={`Цена ${item.model}`}
@@ -1220,6 +1255,17 @@ function CityProductRow({
         />
         <i>₽</i>
       </label>
+      <label className="admin-number">
+        <input aria-label={`Цена со скидкой ${item.model}`} type="number" min="1" max={regularPrice == null ? undefined : regularPrice - 1}
+          value={salePrice} placeholder="Цена со скидкой" disabled={busy} onChange={event => setSalePrice(event.target.value)} />
+        <i>₽</i>
+      </label>
+      {discount !== null && <small>{typeof regularPrice === 'number' && discount < regularPrice ? <><del>{money.format(regularPrice)} ₽</del> → {money.format(discount)} ₽</> : 'Скидка не действует: обычная цена ниже или не задана.'}</small>}
+      <div className="admin-discount-actions">
+        <button disabled={busy || !validSale || Number(salePrice) === discount} onClick={() => void mutate({ action: 'product-discount', id: item.id, city, price: Number(salePrice) })}>Применить скидку</button>
+        {discount !== null && <button className="ghost" disabled={busy} onClick={() => void mutate({ action: 'product-discount', id: item.id, city, price: null })}>Убрать скидку</button>}
+      </div>
+      </div>
       <label className="admin-number">
         <input
           aria-label={`Остаток ${item.model}`}

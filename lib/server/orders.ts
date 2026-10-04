@@ -153,28 +153,3 @@ export function validateOrder(
   };
 }
 export type ValidOrder = ReturnType<typeof validateOrder>;
-export function orderMessages(id: string, order: ValidOrder): string[] {
-  const money = (n: number) => `${new Intl.NumberFormat('ru-RU').format(n)} ₽`;
-  const blocks = [
-    `НОВЫЙ ЗАКАЗ APPGRADE\n№ ${id}\n\nКлиент: ${order.customer.name}\nТелефон: ${order.customer.phone}\nСвязаться: ${order.customer.contactMethod === 'telegram' ? '@' + order.customer.telegramUsername.replace(/^@/, '') : 'по телефону'}\nГород: ${order.city.name}\nПолучение: ${order.fulfillment === 'pickup' ? 'Самовывоз — ' + order.city.address : 'Доставка — ' + order.deliveryAddress}`,
-    ...order.items.map(
-      (item) =>
-        `${item.name}\n${item.configuration}\n${item.quantity} шт. × ${money(item.price)} = ${money(item.quantity * item.price)}`,
-    ),
-    `Услуги: ${order.services.length ? order.services.map((s) => `${s.title} — ${money(s.price)}`).join('; ') : 'не выбраны'}\nТовары: ${money(order.productsTotal)}\nУслуги: ${money(order.servicesTotal)}${order.tradeIn ? `\nTrade-In: ${order.tradeIn.model}, ${order.tradeIn.storage}${order.tradeIn.sim ? ` · ${order.tradeIn.sim}` : ''}, АКБ ${order.tradeIn.batteryPercent}%; предварительно до ${money(order.tradeIn.estimate)}\nСкидка до диагностики: −${money(order.estimatedDiscount)}` : ''}\nИТОГО ПРЕДВАРИТЕЛЬНО: ${money(order.total)}${order.tradeIn ? '\nТочную сумму Trade-In подтвердить после диагностики.' : ''}`,
-    ...(order.customer.comment
-      ? [`Комментарий: ${order.customer.comment}`]
-      : []),
-  ];
-  const messages: string[] = [];
-  let current = '';
-  for (const block of blocks) {
-    if (current.length + block.length + 2 > 3800) {
-      messages.push(current);
-      current = `Заказ № ${id} (продолжение)`;
-    }
-    current += `${current ? '\n\n' : ''}${block}`;
-  }
-  if (current) messages.push(current);
-  return messages;
-}

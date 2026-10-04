@@ -28,7 +28,6 @@ export function CatalogPage() {
                   <Link className={`catalog-category-card catalog-category-card-${category.id}`} href={category.href} key={category.id}>
                     <div className="catalog-category-copy">
                       <h3>{category.title}</h3>
-                      <p>{category.description}</p>
                     </div>
                     <Image src={category.image} alt="" fill unoptimized sizes="(max-width: 700px) 50vw, (max-width: 1100px) 50vw, 33vw" />
                     <ArrowRight className="catalog-category-arrow" size={18} />

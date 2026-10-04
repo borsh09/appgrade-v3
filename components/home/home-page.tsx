@@ -2,8 +2,6 @@ import { HeroSection } from './hero-section';
 import { BrandMarquee } from './brand-marquee';
 import { CategoryShowcaseNew } from './category-showcase-new';
 import { PopularProducts } from './popular-products';
-import { Apple2027 } from './apple-2027';
-import { apple2027Products } from '@/data/apple-2027';
 import { TradeInBanner } from './trade-in-banner';
 import { PromoBento } from './promo-bento';
 import { ServiceStrip } from './service-strip';
@@ -15,7 +13,7 @@ import { MobileHomeSearch } from './mobile-home-search';
 export function HomePage() {
   return (
     <main>
-      <h1 className="sr-only">APPGRADE — магазин техники и аксессуаров</h1>
+      <h1 className="sr-only">APPGRADE — магазин техники в Магнитогорске, Белорецке, Троицке и Сибае</h1>
       <RevealEffects />
 
       <HeroSection />
@@ -23,8 +21,6 @@ export function HomePage() {
       <BrandMarquee />
 
       <CategoryShowcaseNew />
-
-      <Apple2027 products={apple2027Products} />
 
       <PopularProducts />
 

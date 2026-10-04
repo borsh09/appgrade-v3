@@ -1,4 +1,5 @@
 import { OrderError } from './orders';
+import { inflateRawSync } from 'node:zlib';
 
 const MAX_ENTRIES = 1000;
 const MAX_EXPANDED_BYTES = 50 * 1024 * 1024;
@@ -27,13 +28,30 @@ export function assertSafeWorkbookArchive(buffer: Buffer) {
     if (cursor + 46 > end || buffer.readUInt32LE(cursor) !== 0x02014b50) throw invalid();
     const flags = buffer.readUInt16LE(cursor + 8);
     const compression = buffer.readUInt16LE(cursor + 10);
+    const compressedSize = buffer.readUInt32LE(cursor + 20);
     const expandedSize = buffer.readUInt32LE(cursor + 24);
     const nameLength = buffer.readUInt16LE(cursor + 28);
     const extraLength = buffer.readUInt16LE(cursor + 30);
     const commentLength = buffer.readUInt16LE(cursor + 32);
-    if ((flags & 1) !== 0 || ![0, 8].includes(compression) || expandedSize === 0xffffffff) throw invalid();
+    const localOffset = buffer.readUInt32LE(cursor + 42);
+    if ((flags & 1) !== 0 || ![0, 8].includes(compression) || expandedSize === 0xffffffff || compressedSize === 0xffffffff) throw invalid();
     expanded += expandedSize;
     if (expanded > MAX_EXPANDED_BYTES) throw invalid();
+    // ZIP directory sizes are untrusted. Check the actual data before JSZip or
+    // ExcelJS can allocate an unbounded decompressed buffer.
+    if (localOffset + 30 > directoryOffset || buffer.readUInt32LE(localOffset) !== 0x04034b50
+      || buffer.readUInt16LE(localOffset + 6) !== flags || buffer.readUInt16LE(localOffset + 8) !== compression) throw invalid();
+    const localNameLength = buffer.readUInt16LE(localOffset + 26);
+    const localExtraLength = buffer.readUInt16LE(localOffset + 28);
+    const start = localOffset + 30 + localNameLength + localExtraLength;
+    if (start + compressedSize > directoryOffset || localNameLength !== nameLength
+      || !buffer.subarray(localOffset + 30, localOffset + 30 + localNameLength).equals(buffer.subarray(cursor + 46, cursor + 46 + nameLength))) throw invalid();
+    const compressed = buffer.subarray(start, start + compressedSize);
+    try {
+      const actualSize = compression === 0 ? compressed.length
+        : inflateRawSync(compressed, { maxOutputLength: Math.max(1, expandedSize) }).length;
+      if (actualSize !== expandedSize) throw invalid();
+    } catch { throw invalid(); }
     cursor += 46 + nameLength + extraLength + commentLength;
   }
   if (cursor !== directoryOffset + directorySize) throw invalid();

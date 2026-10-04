@@ -1,0 +1,22 @@
+{
+  "pro-14-2026-silver": {
+    "image": "/images/products/macbooks/pro-14-2026-silver.jpg",
+    "source": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/mac-macbook-pro-specs-select-202601-14inch-silver?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1767814014293",
+    "page": "https://www.apple.com/shop/product/MGDQ4LL/A"
+  },
+  "pro-14-2026-spaceblack": {
+    "image": "/images/products/macbooks/pro-14-2026-spaceblack.jpg",
+    "source": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/mac-macbook-pro-specs-select-202601-14inch-spaceblack?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1767814358598",
+    "page": "https://www.apple.com/shop/product/MGDR4LL/A"
+  },
+  "pro-16-2026-silver": {
+    "image": "/images/products/macbooks/pro-16-2026-silver.jpg",
+    "source": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/mac-macbook-pro-specs-select-202601-16inch-silver?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1767814377279",
+    "page": "https://www.apple.com/shop/product/MGE94LL/A"
+  },
+  "pro-16-2026-spaceblack": {
+    "image": "/images/products/macbooks/pro-16-2026-spaceblack.jpg",
+    "source": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/mac-macbook-pro-specs-select-202601-16inch-spaceblack?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1767814440242",
+    "page": "https://www.apple.com/shop/product/MGED4LL/A"
+  }
+}

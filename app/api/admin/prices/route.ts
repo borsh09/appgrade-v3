@@ -6,10 +6,22 @@ import { database } from '@/lib/server/db';
 import { getPrices, applyImport, rollbackPrices } from '@/lib/server/prices';
 import { inspectPriceWorkbook } from '@/lib/server/price-import';
 import { CITIES } from '@/config/cities';
+import { createPriceTemplate } from '@/lib/server/price-template';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 const reply = (data: unknown, status = 200) => Response.json(data, { status, headers: { 'Cache-Control': 'no-store' } });
 const fail = (error: unknown) => reply({ error: error instanceof OrderError ? error.message : 'Не удалось обработать прайс. Попробуйте ещё раз.' }, error instanceof OrderError ? error.status : 503);
+export async function GET(request: Request) {
+  try {
+    assertAdmin(request);
+    const buffer = await createPriceTemplate();
+    return new Response(new Uint8Array(buffer), { headers: {
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': 'attachment; filename="appgrade-prices.xlsx"',
+      'Cache-Control': 'no-store',
+    } });
+  } catch (error) { return fail(error); }
+}
 export async function POST(request: Request) {
   try {
     assertAdmin(request); assertOrigin(request);
@@ -33,9 +45,11 @@ export async function POST(request: Request) {
     const snapshot = await getPrices();
     const articleLinks = await database().query('SELECT article,sku FROM appgrade_product_articles');
     const articleMap = Object.fromEntries(articleLinks.rows.map((row) => [row.article as string, row.sku as string]));
-    const report = await inspectPriceWorkbook(buffer, snapshot.prices, targetCities.length
+    let report;
+    try { report = await inspectPriceWorkbook(buffer, snapshot.prices, targetCities.length
       ? { cities: targetCities, cityPrices: snapshot.cityPrices ?? {} }
-      : undefined, articleMap);
+      : undefined, articleMap); }
+    catch (error) { throw new OrderError(error instanceof Error ? error.message : 'Не удалось прочитать Excel-файл.'); }
     const id = randomUUID();
     // Persist the parsed report in PostgreSQL. applyImport does not need the
     // source file, so the flow works on hosts with an ephemeral filesystem.

@@ -1,4 +1,7 @@
 'use client';
+import { ProductSpecifications } from './product-specifications';
+import { DiscountPrice } from '@/components/shared/discount-price';
+import type { ProductDetailContent } from '@/lib/product-details';
 import { ProductVariants } from './product-variants';
 import { usePriceResolver, usePricedCatalog } from '@/components/providers/price-provider';
 
@@ -14,9 +17,9 @@ import {
   FavoriteButton,
 } from '@/components/shared/commerce-buttons';
 
-const money = new Intl.NumberFormat('ru-RU');
 
 type SamsungProductPageProps = {
+  specifications: ProductDetailContent;
   model: string;
   modelSlug: string;
   variants: SamsungCatalogSku[];
@@ -24,6 +27,7 @@ type SamsungProductPageProps = {
 };
 
 export function SamsungProductPage({
+  specifications,
   model,
   modelSlug,
   variants: baseVariants,
@@ -104,7 +108,7 @@ export function SamsungProductPage({
               обновятся автоматически.
             </p>
             <div className="product-price-line">
-              <strong>{money.format(selected.price)} ₽</strong>
+              <DiscountPrice price={selected.price} oldPrice={selected.oldPrice} />
               <span>
                 <Check size={14} /> В наличии
               </span>
@@ -156,45 +160,7 @@ export function SamsungProductPage({
             </div>
           ))}
         </section>
-        <section className="product-specifications" id="specs">
-          <div className="product-section-kicker">Характеристики</div>
-          <div className="product-spec-groups">
-            {details.groups.map((group) => (
-              <div className="product-spec-group" key={group.title}>
-                <h3>{group.title}</h3>
-                <dl>
-                  {group.rows.map(([term, value]) => (
-                    <div key={term}>
-                      <dt>{term}</dt>
-                      <dd>{value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            ))}
-            <div className="product-spec-group">
-              <h3>Выбранная конфигурация</h3>
-              <dl>
-                <div>
-                  <dt>Оперативная память</dt>
-                  <dd>{selected.ram}</dd>
-                </div>
-                <div>
-                  <dt>Накопитель</dt>
-                  <dd>{selected.storage}</dd>
-                </div>
-                <div>
-                  <dt>Цвет</dt>
-                  <dd>{selected.color}</dd>
-                </div>
-                <div>
-                  <dt>SIM</dt>
-                  <dd>{selected.sim}</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </section>
+        <ProductSpecifications details={specifications} />
         <section className="product-delivery" id="delivery">
           <div className="product-section-kicker">Покупка</div>
           <div>

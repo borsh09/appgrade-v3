@@ -1,0 +1,1204 @@
+[
+  {
+    "ids": [
+      "P-42229688",
+      "P-71156458"
+    ],
+    "model": "Samsung Galaxy S25",
+    "color": "Navy",
+    "sku": "SM-S931BDBGEUB",
+    "hashes": [
+      "f58c17b1ef417d45f6c2a29c",
+      "456c02244cb8be3c8a0afbd1"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-60501475"
+    ],
+    "model": "Samsung Galaxy Buds 4",
+    "color": "White",
+    "sku": "SM-R540NZWAEUB",
+    "hashes": [
+      "e42632f4c2d8b755973e166f",
+      "c18021f1652f5e0c40ff1564"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-88253924"
+    ],
+    "model": "Samsung Galaxy Buds 4",
+    "color": "Black",
+    "sku": "SM-R540NZKAEUB",
+    "hashes": [
+      "a48edd3a837658281a4ff2e3",
+      "011d299a3766ea63ea25cab9"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-76024156"
+    ],
+    "model": "Samsung Galaxy Buds 4 Pro",
+    "color": "Pinkgold",
+    "sku": "SM-R640NZDADBT",
+    "hashes": [
+      "9a51d08e3e1872814cc59b90",
+      "3683e328345d7bcb38f6937f"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-13503350"
+    ],
+    "titlePattern": "Size 5",
+    "model": "Samsung Galaxy Ring",
+    "color": "Gold",
+    "sku": "SM-Q505NZDAASA",
+    "hashes": [
+      "51e493ef68b4f96cc293790e",
+      "9a06d8ded656c2fa331acf95"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-92254214"
+    ],
+    "titlePattern": "Size 10",
+    "model": "Samsung Galaxy Ring",
+    "color": "Gold",
+    "sku": "SM-Q500NZDAASA",
+    "hashes": [
+      "fcf21b8363218529952161ae",
+      "a82a49a8eb9acc911a9db089"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-89623121"
+    ],
+    "titlePattern": "Size 13",
+    "model": "Samsung Galaxy Ring",
+    "color": "Gold",
+    "sku": "SM-Q503NZDAASA",
+    "hashes": [
+      "04689f1918e27b71eadb643c",
+      "a647a70c5fdd1376603935b9"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-45137968"
+    ],
+    "titlePattern": "Size 6",
+    "model": "Samsung Galaxy Ring",
+    "color": "Black",
+    "sku": "SM-Q506NZKAASA",
+    "hashes": [
+      "0f8c8830d5d4615c77644d25",
+      "a00c10a9bc5b25ea07de4acc"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-13501670",
+      "P-68116692"
+    ],
+    "titlePattern": "Wi-Fi",
+    "model": "Samsung Galaxy Tab A11",
+    "color": "Gray",
+    "sku": "SM-X130NZAAEUB",
+    "hashes": [
+      "49c9604933630d56b15f018b",
+      "fd769974dcab2c14c919adda"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-51036117"
+    ],
+    "titlePattern": "Wi-Fi",
+    "model": "Samsung Galaxy Tab A11",
+    "color": "Silver",
+    "sku": "SM-X130NZSAEUB",
+    "hashes": [
+      "a2b9df606e7f0ef3931694bd",
+      "925d5b27617072d7b9e01b93"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-42088046"
+    ],
+    "titlePattern": "Wi-Fi",
+    "model": "Samsung Galaxy Tab S10 Lite",
+    "color": "Coralred",
+    "sku": "SM-X400NZRDGTO",
+    "hashes": [
+      "2ec8560e512f387efd82ae26",
+      "aac5077ad29988d50d6d72d7"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-20670362"
+    ],
+    "titlePattern": "Wi-Fi",
+    "model": "Samsung Galaxy Tab S10 Lite",
+    "color": "Gray",
+    "sku": "SM-X400NZAHGTO",
+    "hashes": [
+      "a75864e65e257b3ba72718f6",
+      "299c61eb046ed703379f195e"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-31250656"
+    ],
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Tab S10 FE",
+    "color": "Blue",
+    "sku": "SM-X526BLBREUB",
+    "hashes": [
+      "535999eab71cba460d1cc53c",
+      "710a868c095cf7c3b39a7e6a"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-53649253"
+    ],
+    "size": "40 мм",
+    "titlePattern": "^(?!.*LTE)",
+    "model": "Samsung Galaxy Watch 8",
+    "color": "Graphite",
+    "sku": "SM-L320NDAAEUA",
+    "hashes": [
+      "2e5441af1cc379ad12d1a93b",
+      "6bdf2349b03da629bee326f4"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-50325894"
+    ],
+    "size": "40 мм",
+    "titlePattern": "^(?!.*LTE)",
+    "model": "Samsung Galaxy Watch 8",
+    "color": "Silver",
+    "sku": "SM-L320NZSAEUA",
+    "hashes": [
+      "9d1372ea6048716a6f6fc2be",
+      "48376037c2a139f21676f957"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-67203390"
+    ],
+    "size": "44 мм",
+    "titlePattern": "^(?!.*LTE)",
+    "model": "Samsung Galaxy Watch 8",
+    "color": "Graphite",
+    "sku": "SM-L330NDAAEUE",
+    "hashes": [
+      "9f1cad99e10cf33cd049c096",
+      "cecb3622a7d651f971c3c491"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-63987881"
+    ],
+    "size": "44 мм",
+    "titlePattern": "^(?!.*LTE)",
+    "model": "Samsung Galaxy Watch 8",
+    "color": "Silver",
+    "sku": "SM-L330NZSAEUE",
+    "hashes": [
+      "6d72417b22665fb8fe0b2b98",
+      "36f9b02b70dfcb8bfd8dd746"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-46961364"
+    ],
+    "size": "40 мм",
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Watch 8",
+    "color": "Graphite",
+    "sku": "SM-L325FDAAEUE",
+    "hashes": [
+      "8867cc8f80084805b14573b1",
+      "023525e648ebc695c9ef0af1"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-26582608"
+    ],
+    "size": "44 мм",
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Watch 8",
+    "color": "Graphite",
+    "sku": "SM-L335FDAAEUB",
+    "hashes": [
+      "cb77f7f0852d07292c775d5f",
+      "1863572b3c14c6b7d7a40b4e"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-56672684"
+    ],
+    "size": "44 мм",
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Watch 8",
+    "color": "Silver",
+    "sku": "SM-L335FZSAEUB",
+    "hashes": [
+      "7fcab33dd1a97e2cafb26a0f",
+      "8c05025719ef32b4b4bd2619"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-40318824"
+    ],
+    "size": "40 мм",
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Watch 9",
+    "color": "Graphite",
+    "sku": "SM-L345FZKAEUB",
+    "hashes": [
+      "7c906642bc497e7969c6badd",
+      "4da937a4ca400081736d0978"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-43517818"
+    ],
+    "size": "40 мм",
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Watch 9",
+    "color": "Cream",
+    "sku": "SM-L345FZEAEUB",
+    "hashes": [
+      "eb3b440f0844cca9082dc657",
+      "ff4c8f563aca628ade163415"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-41386257"
+    ],
+    "size": "40 мм",
+    "titlePattern": "^(?!.*LTE)",
+    "model": "Samsung Galaxy Watch 9",
+    "color": "Graphite",
+    "sku": "SM-L340NZKAXAA",
+    "hashes": [
+      "f18e2fdc6a17816154a56234",
+      "1bf12132e0e963ff01dc6324"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        800,
+        600
+      ],
+      [
+        800,
+        600
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-32989866"
+    ],
+    "size": "40 мм",
+    "titlePattern": "^(?!.*LTE)",
+    "model": "Samsung Galaxy Watch 9",
+    "color": "Cream",
+    "sku": "SM-L340NZEAXAA",
+    "hashes": [
+      "17809d2042e0424c969464bb",
+      "fe02febae87a06e3a954c13b"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        800,
+        600
+      ],
+      [
+        800,
+        600
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-45268392"
+    ],
+    "size": "44 мм",
+    "titlePattern": "^(?!.*LTE)",
+    "model": "Samsung Galaxy Watch 9",
+    "color": "Graphite",
+    "sku": "SM-L350NZKAXAA",
+    "hashes": [
+      "52a3124806a09b3c6c1aaf30",
+      "637ca1c1367637fdb36cbc41"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        800,
+        600
+      ],
+      [
+        800,
+        600
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-93863685"
+    ],
+    "size": "44 мм",
+    "titlePattern": "^(?!.*LTE)",
+    "model": "Samsung Galaxy Watch 9",
+    "color": "Silver",
+    "sku": "SM-L350NZSAXAA",
+    "hashes": [
+      "4391aa869863d12533b67ad6",
+      "bfa58bf7aabda063412e5d32"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        800,
+        600
+      ],
+      [
+        800,
+        600
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-84566329"
+    ],
+    "size": "44 мм",
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Watch 9",
+    "color": "Graphite",
+    "sku": "SM-L355FZKAGTO",
+    "hashes": [
+      "f2d1e453dc331475a8c5266e",
+      "f69adf514ad046efca850eba"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-95398661"
+    ],
+    "size": "44 мм",
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Watch 9",
+    "color": "Silver",
+    "sku": "SM-L355FZSAGTO",
+    "hashes": [
+      "15c8ec0c6cc8824d46eb0368",
+      "d0bd75143015e824d38c4e79"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-29421381"
+    ],
+    "model": "Samsung Galaxy Buds 3 Pro",
+    "color": "Silver",
+    "sku": "SM-R630NZAATUR",
+    "hashes": [
+      "4a5eae91fe36996067f52acb",
+      "895928f6d63626adc97dc5f2"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-43069673"
+    ],
+    "model": "Samsung Galaxy Fit3",
+    "color": "Pink Gold",
+    "sku": "SM-R390NIDAEUB",
+    "hashes": [
+      "ab9d1550ea1c173759a8b6bf",
+      "066a21a6c8e1ff45fa69b0a6"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-38114823"
+    ],
+    "model": "Samsung Galaxy Z Fold 7",
+    "color": "Silver",
+    "sku": "SM-F966BZSBEUE",
+    "hashes": [
+      "7b938944edc6b3f8ec5c4780",
+      "66ba249d34ec09d4ac9a6d89"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-35802833"
+    ],
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Tab S10 Lite",
+    "color": "Gray",
+    "sku": "SM-X406BZAPEUB",
+    "hashes": [
+      "c32149934c29df30419263c0",
+      "4aab868583bada2784ba0e6a"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-45422635"
+    ],
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Tab S10 Lite",
+    "color": "Silver",
+    "sku": "SM-X406BZSPEUB",
+    "hashes": [
+      "09df4c544c17d70376d91d1b",
+      "626c47c78f8189be99dce3c2"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-99303473"
+    ],
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Tab S10 Lite",
+    "color": "Coralred",
+    "sku": "SM-X406BZRPEUB",
+    "hashes": [
+      "f4b2928a1965c33eee8e3a4d",
+      "b2010953acf275728c951cf9"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-35989690"
+    ],
+    "titlePattern": "Wi-Fi",
+    "model": "Samsung Galaxy Tab S10 FE",
+    "color": "Gray",
+    "sku": "SM-X520NZAAXAR",
+    "hashes": [
+      "e49796575e798146a09b2d73",
+      "467919eef4be215df73d90a7"
+    ],
+    "extensions": [
+      "jpg",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1600,
+        1200
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-88251267"
+    ],
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Tab S10 FE",
+    "color": "Silver",
+    "sku": "SM-X526BZSREUB",
+    "hashes": [
+      "70de0a6bbe463350cf17ec8d",
+      "4d61592a07e721500a406fc0"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-38264580"
+    ],
+    "titlePattern": "Wi-Fi",
+    "model": "Samsung Galaxy Tab S10 Plus",
+    "color": "Silver",
+    "sku": "SM-X820NZSAXAR",
+    "hashes": [
+      "866677492d4c6968e4aacb31",
+      "e1cbda441cc4c71bf435529b"
+    ],
+    "extensions": [
+      "jpg",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1600,
+        1200
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-54563346"
+    ],
+    "size": "47 мм",
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Watch Ultra 2",
+    "color": "Silver",
+    "sku": "SM-L715FZSAGTO",
+    "hashes": [
+      "13fc56f4455e7f16967f8fe9",
+      "b18ba168eae18805b01a661e"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-42823863"
+    ],
+    "size": "47 мм",
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Watch Ultra 2",
+    "color": "Gray",
+    "sku": "SM-L715FZKAGTO",
+    "hashes": [
+      "45622617770dd4f0ad10c345",
+      "47bcf121c586f2dcdd7665e1"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-66016108"
+    ],
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Tab S10 Plus",
+    "color": "Gray",
+    "sku": "SM-X826BZAREUB",
+    "hashes": [
+      "c69420be2c500e967342edf5",
+      "6654aa0b2efefaaafbf389b8"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-47313902"
+    ],
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Tab S10 Plus",
+    "color": "Silver",
+    "sku": "SM-X826BZSREUB",
+    "hashes": [
+      "204b12c1d401b3cab1fb4198",
+      "65567ed54d346ecf52975550"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-70663387"
+    ],
+    "size": "44 мм",
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Watch 7",
+    "color": "Green",
+    "sku": "SM-L315FZGAEUE",
+    "hashes": [
+      "5752090ad0777f853058c52b",
+      "5eab0c0b618538ea212fcb44"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "parser-sheet1-330"
+    ],
+    "catalogColor": "серебристый",
+    "model": "Samsung Galaxy S26",
+    "color": "Silver",
+    "sku": "SM-S942BZSGEUB",
+    "hashes": [
+      "2225ef747a6a1bfef8302a9a",
+      "1dde4ab7fee4e51f630a4ba6"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  },
+  {
+    "ids": [
+      "P-15212489"
+    ],
+    "size": "44 мм",
+    "titlePattern": "LTE",
+    "model": "Samsung Galaxy Watch 7",
+    "color": "Silver",
+    "sku": "SM-L315FZSAZTO",
+    "hashes": [
+      "266b9e4c5168e5986dc8c15b",
+      "31e908e66294680b53b9180b"
+    ],
+    "extensions": [
+      "png",
+      "png"
+    ],
+    "dimensions": [
+      [
+        1920,
+        1280
+      ],
+      [
+        1920,
+        1280
+      ]
+    ]
+  }
+]
