@@ -1,5 +1,34 @@
 import type { CatalogItem } from './catalog-registry';
 
+const cyrillic = ['a', 'b', 'v', 'g', 'd', 'e', 'zh', 'z', 'i', 'y', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'f', 'h', 'ts', 'ch', 'sh', 'sch', '', 'y', '', 'e', 'yu', 'ya'];
+function familySlug(value: string) {
+  return value.toLowerCase().replace(/ё/g, 'e').replace(/[а-я]/g, letter => cyrillic[letter.charCodeAt(0) - 1072])
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+/** Group display routes only. Supplier IDs, articles and price aliases stay intact. */
+export function groupCatalogModels(items: CatalogItem[]): CatalogItem[] {
+  const prepared = items.map(groupCatalogModel);
+  const families = new Map<string, CatalogItem[]>();
+  const key = (item: CatalogItem) => `${item.category}:${item.sourceCategory === 'Macbook' ? item.modelSlug : item.model.normalize('NFKC').toLowerCase().replace(/ё/g, 'е')}`;
+  for (const item of prepared) {
+    const family = families.get(key(item)) ?? [];
+    family.push(item);
+    families.set(key(item), family);
+  }
+  const slugs = new Map<string, string>();
+  for (const [identity, family] of families) {
+    // Retain established model URLs when available; article/parser URLs become aliases.
+    const established = family.find(item => !/^(?:p-\d+|parser-)/i.test(item.modelSlug));
+    slugs.set(identity, established?.modelSlug ?? `${family[0].category ?? 'product'}-${familySlug(family[0].model) || family[0].modelSlug}`);
+  }
+  return prepared.map(item => ({
+    ...item,
+    modelSlug: slugs.get(key(item))!,
+    originalModelSlug: item.originalModelSlug ?? item.modelSlug,
+  }));
+}
+
 /** MacBook variants share a product page; the SKU still selects the exact article. */
 export function groupCatalogModel(item: CatalogItem): CatalogItem {
   if (item.sourceCategory !== 'Macbook' || !/^MacBook (Air|Pro|Neo)\b/.test(item.model)) return item;

@@ -857,7 +857,7 @@ function Prices({
               <FileSpreadsheet />
               <span>
                 <strong>Выберите файл .xlsx</strong>
-                <small>Лист «Сайт Аппгрейд», цены в четвёртом столбце (D). Подходит файл «Парсер.xlsx».</small>
+                <small>Лист «Сайт Аппгрейд», цены в четвёртом столбце (D). Подходит файл «Парсер.xlsx». Перед загрузкой пересчитайте и сохраните книгу в Excel, чтобы обновить результаты формул ВПР.</small>
               </span>
               <input type="file" name="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={(event) => setSelectedFile(event.currentTarget.files?.[0] ?? null)} />
               <em className="admin-file-name">{selectedFile ? selectedFile.name : 'Файл ещё не выбран'}</em>

@@ -1,7 +1,7 @@
 import type { CatalogItem } from './catalog-registry';
 
 export const preorderModels = new Set([
-  'iPhone 18 Pro Max', 'iPhone Duo', 'iPhone 18 Pro', 'Apple Watch Series 12',
+  'Apple Watch Series 12',
   'Apple Watch Ultra 4', 'AirPods 5 with Wireless Charging Case',
 ]);
 export const promotedModels = new Set(['iPhone 18 Pro Max', 'iPhone 18 Pro']);

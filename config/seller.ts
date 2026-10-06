@@ -1,7 +1,7 @@
 export const seller={
   name:process.env.SELLER_NAME?.trim()||'Индивидуальный предприниматель Байрамгулов Вадим Дамирович',
   inn:process.env.SELLER_INN?.trim()||'744602863119',
-  address:process.env.SELLER_ADDRESS?.trim()||'',
+  address:process.env.SELLER_ADDRESS?.trim()||'455023, г. Магнитогорск, пр-т Ленина, д. 69',
   privacyEmail:process.env.SELLER_PRIVACY_EMAIL?.trim()||'Bayramgulov2609@mail.ru',
 };
 export const sellerOgrnip=process.env.SELLER_OGRNIP?.trim()||'323745600032098';

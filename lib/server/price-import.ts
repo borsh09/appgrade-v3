@@ -188,6 +188,7 @@ export async function inspectPriceWorkbook(
         })
     : undefined;
   const priceSheets = websiteSheet ? [websiteSheet] : book.worksheets;
+  let savedLookupResults = false;
   for (const sheet of priceSheets) {
     const isWebsiteSheet = sheet === websiteSheet;
     const column = isWebsiteSheet ? headerColumn('цена') : sheets[sheet.name.trim().toLowerCase()];
@@ -205,6 +206,17 @@ export async function inspectPriceWorkbook(
       const title = row.getCell(isWebsiteSheet ? headerColumn('название') : 1).text.trim();
       if (!title && !isWebsiteSheet) return;
       const cell = row.getCell(column);
+      // The parser saves Excel-calculated VLOOKUP results in column D. Only
+      // accept its known local lookup shape; arbitrary/external formulas still
+      // go through numericCell and are rejected when unsupported.
+      const parserLookup = isWebsiteSheet && Boolean(namedWebsiteSheet)
+        && new RegExp(`^IFERROR\\(VLOOKUP\\(\\$?C\\$?${rowNumber},'Новый прайс'!\\$?A:\\$?N,14,0\\),""\\)$`, 'i').test(cell.formula ?? '')
+        && Boolean(book.getWorksheet('Новый прайс'));
+      if (parserLookup) savedLookupResults = true;
+      if (parserLookup && (cell.result === undefined || cell.result === '')) {
+        report.blankRows = (report.blankRows ?? 0) + 1;
+        return;
+      }
       if (isWebsiteSheet && (cell.value === null || (typeof cell.value === 'string' && !cell.value.trim()))) {
         if (title || article) report.blankRows = (report.blankRows ?? 0) + 1;
         return;
@@ -276,7 +288,9 @@ export async function inspectPriceWorkbook(
       let price: number;
       try {
         const textPrice = typeof cell.value === 'string' ? cell.value.trim().replace(/[\s\u00a0\u202f]/g, '').replace(',', '.') : '';
-        price = strictArticleSheet && textPrice && /^\d+(?:\.\d+)?$/.test(textPrice) ? Number(textPrice) : numericCell(cell);
+        price = parserLookup && typeof cell.result === 'number' && Number.isFinite(cell.result)
+          ? cell.result
+          : strictArticleSheet && textPrice && /^\d+(?:\.\d+)?$/.test(textPrice) ? Number(textPrice) : numericCell(cell);
         if (!strictArticleSheet) price = Math.round(price);
       } catch {
         if (strictArticleSheet) {
@@ -316,6 +330,7 @@ export async function inspectPriceWorkbook(
     });
   }
   if (websiteSheet) {
+    if (savedLookupResults) report.warnings.push('Цены формул ВПР взяты из сохранённых результатов Excel. Перед загрузкой пересчитайте и сохраните книгу в Excel. Строки без цены пропускаются, их прежние цены сохраняются.');
     if ((report.unmatchedRows ?? 0) > 20)
       report.warnings.push(`Additional unmatched rows: ${(report.unmatchedRows ?? 0) - 20}.`);
   }

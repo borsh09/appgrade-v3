@@ -75,7 +75,7 @@ async function ProductModelRoute({
   const { legacy, variants: candidates } = modelVariants(catalogItems, params.model);
   const target = selectProduct(candidates, legacy ? { ...searchParams, sku: searchParams.sku ?? legacy.id } : searchParams);
   if (!target) notFound();
-  if (target.priceAlias || parserUnavailableIds.has(target.id)) return <AdditionalProductPage key={target.id} selected={target} details={getProductDetails(target)} />;
+  if (target.priceAlias || parserUnavailableIds.has(target.id) || target.originalModelSlug !== target.modelSlug) return <AdditionalProductPage key={target.id} selected={target} details={getProductDetails(target)} />;
   const xiaomiVariants = withCatalogMedia(xiaomiCatalog.filter(
     (sku) => sku.modelSlug === params.model && activeIds.has(sku.id),
   ));

@@ -19,8 +19,8 @@ export function Apple2027({ products }: { products: FeaturedProduct[] }) {
       <div className="container">
         <div className="appgrade-popular-heading">
           <div>
-            <span>ПРЕДЗАКАЗ APPLE</span>
-            <h2 id="apple-2027-title">Новинки по предзаказу</h2>
+            <span>НОВИНКИ APPLE</span>
+            <h2 id="apple-2027-title">Новинки в наличии</h2>
           </div>
           <div className="appgrade-popular-heading-actions">
             <div className="appgrade-popular-arrows">
@@ -40,7 +40,7 @@ export function Apple2027({ products }: { products: FeaturedProduct[] }) {
         <div ref={scrollRef} className="appgrade-popular-track">
           {products.map((product, index) => (
             <div key={product.sku.id} className="appgrade-popular-item">
-              <ProductCard product={product} index={index} status="Предзаказ" />
+              <ProductCard product={product} index={index} status="В наличии" />
             </div>
           ))}
         </div>

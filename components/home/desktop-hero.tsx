@@ -120,11 +120,11 @@ export function DesktopHero() {
         >
           <div className={styles.visual}>
             {slide.theme === 'iphone' ? (
-              <Image src={slide.image} alt={slide.alt} fill fetchPriority="high" loading="eager" sizes="100vw" className={styles.coverImage} />
+              <Image src={slide.image} alt={slide.alt} fill fetchPriority="high" loading="eager" sizes="(max-width: 768px) calc(100vw - 48px), 60vw" className={styles.coverImage} />
             ) : <>
               {slide.theme === 'price' && <span className={styles.priceOrbit} aria-hidden="true">₽</span>}
               {slide.theme === 'cashback' && <span className={styles.aliceOrbit} aria-hidden="true" />}
-              <Image src={slide.image} alt={slide.alt} fill loading="lazy" sizes={slide.theme === 'warranty' || slide.theme === 'trade' ? '100vw' : '(max-width: 768px) 100vw, 65vw'} className={slide.theme === 'warranty' || slide.theme === 'trade' ? styles.coverImage : styles.containImage} />
+              <Image src={slide.image} alt={slide.alt} fill loading={index === active ? 'eager' : 'lazy'} sizes={slide.theme === 'warranty' || slide.theme === 'trade' ? '(max-width: 768px) calc(100vw - 48px), 100vw' : '(max-width: 768px) calc(100vw - 48px), 50vw'} className={slide.theme === 'warranty' || slide.theme === 'trade' ? styles.coverImage : styles.containImage} />
             </>}
           </div>
           <div className={styles.copy}>

@@ -92,6 +92,24 @@ void test('named Site Appgrade cannot fall back to a different sheet when its la
   book.addWorksheet('Прайс').addRows([['Бренд', 'Название', 'Артикул', 'Цена'], ['Apple', catalogItems[0].model, catalogItems[0].article, 60008]]);
   await assert.rejects(inspectPriceWorkbook(Buffer.from(await book.xlsx.writeBuffer()), basePrices), /Сайт Аппгрейд/);
 });
+void test('parser VLOOKUP imports saved prices and skips empty results without reading other sheets', async () => {
+  const book = new ExcelJS.Workbook();
+  const sheet = book.addWorksheet('Сайт Аппгрейд');
+  book.addWorksheet('Новый прайс').addRow(['irrelevant', 99999]);
+  sheet.addRow(['Apple', 'edited name', catalogItems[0].article, { formula: `IFERROR(VLOOKUP(C1,'Новый прайс'!A:N,14,0),"")`, result: 60009 }]);
+  sheet.addRow(['Apple', 'no price', catalogItems[1].article, { formula: `IFERROR(VLOOKUP(C2,'Новый прайс'!A:N,14,0),"")`, result: '' }]);
+  const report = await inspectPriceWorkbook(Buffer.from(await book.xlsx.writeBuffer()), basePrices);
+  assert.deepEqual(report.errors, []);
+  assert.equal(report.changes.length, 1);
+  assert.equal(report.changes[0].id, catalogItems[0].id);
+  assert.equal(report.changes[0].after, 60009);
+  assert.equal(report.blankRows, 1);
+  assert.match(report.warnings[0], /сохранённых результатов Excel/);
+  sheet.getCell('D1').value = { formula: `IFERROR(VLOOKUP(C1,'[remote.xlsx]Новый прайс'!A:N,14,0),"")`, result: 60009 };
+  const external = await inspectPriceWorkbook(Buffer.from(await book.xlsx.writeBuffer()), basePrices);
+  assert.ok(external.errors.length);
+  assert.equal(external.changes.length, 0);
+});
 void test('price import rejects archives with excessive expanded size', async () => {
   const book = new ExcelJS.Workbook();
   book.addWorksheet('iPhone').addRow(['iPhone']);

@@ -37,7 +37,6 @@ export function IphoneProductPage({
   const [activePhoto, setActivePhoto] = useState(0);
   const currentPhoto = gallery[activePhoto] ?? gallery[0];
   const details = getIphoneDetails(model);
-  const isPreorder = model.includes('18 Pro') || model.includes('Duo');
   const wideCanvas = /iphone-(13|14|15|16)-(?!pro)/.test(
     currentPhoto.src,
   );
@@ -113,14 +112,12 @@ export function IphoneProductPage({
             <p className="catalog-overline">APPLE · IPHONE</p>
             <h1>{model}</h1>
             <p className="product-lead">
-              {isPreorder
-                ? 'Оформите предзаказ — менеджер подтвердит сроки поставки и комплектацию.'
-                : 'Выберите конфигурацию — цена обновится автоматически. Товар в наличии.'}
+              Выберите конфигурацию — цена обновится автоматически. Товар в наличии.
             </p>
             <div className="product-price-line">
               <DiscountPrice price={selected.price} oldPrice={selected.oldPrice} />
               <span>
-                <Check size={14} /> {isPreorder ? 'Предзаказ' : 'В наличии'}
+                <Check size={14} /> В наличии
               </span>
             </div>
             <ProductVariants selectedId={selected.id} />
